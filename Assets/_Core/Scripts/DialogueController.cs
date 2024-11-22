@@ -12,25 +12,33 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private Image _imageNPC;
     [SerializeField] private float letterDelay = .05f;
 
-    
+    private bool _textIsWritten = false;
+    private bool _skipText = false;
+    private int _index;
     private int dialogueIndex = 0;
 
-    public void NextDialogue()
+    private void NextDialogue()
     {
+        if(_textIsWritten == true)
+        {
+            _skipText = true;
+            return;
+        }
+
         if(dialogueIndex != dialogueScriptable.dialogueSection.Length)
         {
             if(dialogueScriptable.dialogueSection[dialogueIndex].isPlayer)
             {
-                WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textPlayer);
                 _imagePlayer.sprite = dialogueScriptable.dialogueSection[dialogueIndex].sprite;
                 _imagePlayer.preserveAspect = true;
+                WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textPlayer);
                 dialogueIndex++;
             }
             else
             {
-                WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textNPC);
                 _imageNPC.sprite = dialogueScriptable.dialogueSection[dialogueIndex].sprite;
                 _imageNPC.preserveAspect = true;
+                WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textNPC);
                 dialogueIndex++;
             }
         }
@@ -40,19 +48,27 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public void WriteText(string text, TMP_Text textBox)
+    private void WriteText(string text, TMP_Text textBox)
     {
         textBox.maxVisibleCharacters = 0; //Resets whenever this is re-used.
         textBox.text = text;
+        _textIsWritten = true;
         StartCoroutine(TypeText(textBox));
     }
 
-    IEnumerator TypeText(TMP_Text textBox)
+    private IEnumerator TypeText(TMP_Text textBox)
     {
-        for (int i = 0; i < textBox.text.Length; i++)
+        for (_index = 0; _index < textBox.text.Length; _index++)
         {
             textBox.maxVisibleCharacters++;
             yield return new WaitForSeconds(letterDelay);
+            if(_skipText == true)
+            {
+                textBox.maxVisibleCharacters = textBox.text.Length;
+                _skipText = false;
+                break;
+            }
         }
+        _textIsWritten = false;
     }
 }
