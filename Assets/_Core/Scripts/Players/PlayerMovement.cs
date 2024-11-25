@@ -14,9 +14,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _movement;
     private Vector2 _targetMovement;
     
-    private const float _gravityValue = -9.81f;
     private float _currentSpeed;
     private float _currentStamina;
+    
     private bool _isGrounded;
 
     private void Awake()
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             _velocity.y = 0;
         }
         
-        _velocity.y += _gravityValue * deltaTime;
+        _velocity.y += Physics.gravity.y * deltaTime;
         _characterController.Move(_velocity * deltaTime);
     }
 
