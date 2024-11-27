@@ -231,6 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 809880261}
   - component: {fileID: 809880260}
+  - component: {fileID: 809880262}
   m_Layer: 0
   m_Name: QTE
   m_TagString: Untagged
@@ -261,9 +262,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9582d0b419f3a164fab165dcd3e6b421, type: 3}
   - {fileID: 21300000, guid: d4a6e3c44a8e389488360e7fe3d746a1, type: 3}
   - {fileID: 21300000, guid: 1fe21bc8a1565224a836404e2f10a84b, type: 3}
+  _customQTEButtons: 02000000060000000000000001000000
   _qteDuration: 5
   _successDisplayDuration: 2
-  _requiredPressCount: 5
+  _requiredPressCount: 10
   _turnsRequired: 5
   _totalQTECount: 6
   _onQTESuccess:
@@ -311,6 +313,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &809880262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809880259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 32b51f39bacd2454d81f1fe70108c5a6, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7d546b24-65e1-479f-bc22-33fb6b5ed8f2
+    m_ActionName: 'QTE/QTE Action[/XInputControllerWindows1/buttonEast,/XInputControllerWindows1/buttonNorth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows1/buttonWest,/XInputControllerWindows1/leftShoulder,/XInputControllerWindows1/rightShoulder,/XInputControllerWindows1/leftTrigger,/XInputControllerWindows1/rightTrigger]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Gamepad
+  m_DefaultActionMap: QTE
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &892171914
 GameObject:
   m_ObjectHideFlags: 0
