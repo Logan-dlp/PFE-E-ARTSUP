@@ -33,7 +33,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""id"": ""7d546b24-65e1-479f-bc22-33fb6b5ed8f2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""MultiTap(tapCount=3)"",
                     ""initialStateCheck"": true
                 }
             ],
@@ -42,9 +42,9 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""aa1102ae-979f-492a-a1ec-f34181b74f58"",
                     ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
+                    ""interactions"": ""MultiTap"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -55,7 +55,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -66,7 +66,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -77,7 +77,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -88,7 +88,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -99,7 +99,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -110,7 +110,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -121,7 +121,7 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""QTE Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -129,7 +129,19 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // QTE
         m_QTE = asset.FindActionMap("QTE", throwIfNotFound: true);
@@ -242,6 +254,15 @@ public partial class @InputsActions: IInputActionCollection2, IDisposable
         }
     }
     public QTEActions @QTE => new QTEActions(this);
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
     public interface IQTEActions
     {
         void OnQTEAction(InputAction.CallbackContext context);

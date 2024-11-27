@@ -1,10 +1,11 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using System.Collections;
+using UnityEngine.InputSystem.LowLevel;
 
-public class QuickTimeEvent : MonoBehaviour
+public class QuickTimeEventWithInputSystem : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private Image qteSlot;
@@ -13,7 +14,7 @@ public class QuickTimeEvent : MonoBehaviour
     [SerializeField] private Sprite[] _buttonSprites;
 
     [Header("Customizable QTE Buttons")]
-    [SerializeField] private string[] _customQTEButtons;
+    [SerializeField] private GamepadButton[] _customQTEButtons;
 
     [Header("QTE Configuration")]
     [SerializeField] private float _qteDuration = 5f;
@@ -30,6 +31,7 @@ public class QuickTimeEvent : MonoBehaviour
     [SerializeField] private UnityEvent _onQTESuccess;
     [SerializeField] private UnityEvent _onQTEFailure;
 
+    private InputAction _qteAction;
     private int _currentIndex;
     private float _timer;
     private int _currentPressCount = 0;
@@ -41,6 +43,39 @@ public class QuickTimeEvent : MonoBehaviour
     private float _angleThreshold = 10f;
     private int _turnCount = 0;
     private int _completedQTECount = 0;
+
+    private enum GamepadButton
+    {
+        A,
+        B,
+        X,
+        Y,
+        LT,
+        RT,
+        RB,
+        LB,
+        R_Stick
+    }
+
+    private void Awake()
+    {
+        var playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null)
+        {
+            Debug.LogError("PlayerInput component missing.");
+            return;
+        }
+
+       _qteAction = playerInput.actions.FindAction("QTE Action");
+
+        if (_qteAction == null)
+        {
+            Debug.LogError("QTE Action not found in Input Action Asset.");
+            return;
+        }
+
+        _qteAction.Enable();
+    }
 
     private void Start()
     {
@@ -96,13 +131,13 @@ public class QuickTimeEvent : MonoBehaviour
         if (_completedQTECount < _totalQTECount - 1)
         {
             _currentIndex = _completedQTECount;
-            qteSlot.sprite = _buttonSprites[_currentIndex];
+            qteSlot.sprite = _buttonSprites[(int)_customQTEButtons[_currentIndex]];
             qteSlot.color = Color.white;
         }
         else
         {
             _currentIndex = _customQTEButtons.Length - 1;
-            qteSlot.sprite = _buttonSprites[_currentIndex];
+            qteSlot.sprite = _buttonSprites[(int)_customQTEButtons[_currentIndex]];
             qteSlot.color = Color.white;
         }
     }
@@ -120,35 +155,37 @@ public class QuickTimeEvent : MonoBehaviour
 
     private bool CheckButtonPress()
     {
-        if (_customQTEButtons[_currentIndex] == "TURN") return false;
+        if (_customQTEButtons[_currentIndex] == GamepadButton.R_Stick) return false;
 
         bool buttonPressed = false;
+        bool _qte;
+        _qteAction
 
         switch (_customQTEButtons[_currentIndex])
         {
-            case "A":
-                buttonPressed = Gamepad.current.buttonSouth.wasPressedThisFrame;
+            case GamepadButton.A:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Bouton A
                 break;
-            case "B":
-                buttonPressed = Gamepad.current.buttonEast.wasPressedThisFrame;
+            case GamepadButton.B:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Bouton B
                 break;
-            case "X":
-                buttonPressed = Gamepad.current.buttonWest.wasPressedThisFrame;
+            case GamepadButton.X:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Bouton X
                 break;
-            case "Y":
-                buttonPressed = Gamepad.current.buttonNorth.wasPressedThisFrame;
+            case GamepadButton.Y:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Bouton Y
                 break;
-            case "LT":
-                buttonPressed = Gamepad.current.leftTrigger.wasPressedThisFrame;
+            case GamepadButton.LT:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Left Trigger
                 break;
-            case "RT":
-                buttonPressed = Gamepad.current.rightTrigger.wasPressedThisFrame;
+            case GamepadButton.RT:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Right Trigger
                 break;
-            case "RB":
-                buttonPressed = Gamepad.current.rightShoulder.wasPressedThisFrame;
+            case GamepadButton.RB:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Right Bumper
                 break;
-            case "LB":
-                buttonPressed = Gamepad.current.leftShoulder.wasPressedThisFrame;
+            case GamepadButton.LB:
+                buttonPressed = _qteAction.ReadValue<float>() > 0.5f;  // Left Bumper
                 break;
         }
 
@@ -163,7 +200,7 @@ public class QuickTimeEvent : MonoBehaviour
 
     private bool CheckStickRotation()
     {
-        if (_customQTEButtons[_currentIndex] != "TURN") return false;
+        if (_customQTEButtons[_currentIndex] == GamepadButton.R_Stick) return false;
 
         Vector2 rightStick = Gamepad.current.rightStick.ReadValue();
         float angle = Mathf.Atan2(rightStick.y, rightStick.x) * Mathf.Rad2Deg;
