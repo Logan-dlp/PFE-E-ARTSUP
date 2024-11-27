@@ -13,19 +13,20 @@ namespace MoonlitMixes.Player
         private CharacterController _characterController;
         
         private Vector3 _velocity;
+        
         private Vector2 _movement;
         private Vector2 _targetMovement;
         
         private float _currentSpeed;
         private float _currentStamina;
-        
-        private bool _isGrounded;
+        private float _meshScale;
         
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
+            _meshScale = GetComponentInChildren<MeshRenderer>().transform.localScale.y;
         }
         
         private void FixedUpdate()
@@ -49,14 +50,17 @@ namespace MoonlitMixes.Player
         
         private void UpdateGravity(float deltaTime)
         {
-            _isGrounded = _characterController.isGrounded;
-            if (_isGrounded && _characterController.velocity.y < 0)
+            Debug.DrawRay(transform.position, Vector3.down * 0.76f, Color.red);
+
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _meshScale + .5f))
             {
                 _velocity.y = 0;
             }
-            
-            _velocity.y += Physics.gravity.y * deltaTime;
-            _characterController.Move(_velocity * deltaTime);
+            else
+            {
+                _velocity.y += Physics.gravity.y * deltaTime;
+                _characterController.Move(_velocity * deltaTime);
+            }
         }
         
         private void UpdateStamina(float deltaTime)
