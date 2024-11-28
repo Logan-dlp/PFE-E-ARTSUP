@@ -9,7 +9,8 @@ public class Item : ScriptableObject
     public ItemUsage itemUsage;
     public Sprite sprite;
     public Item itemToTransform;
-
+    public string description;
+    
     public Item TransformToOtherItem()
     {
         return itemToTransform;
