@@ -6,101 +6,148 @@
             "id": "1a1c6466-7d57-4619-93dd-2c18cfccd7fd",
             "actions": [
                 {
-                    "name": "QTE Action",
+                    "name": "ButtonNorth",
                     "type": "Button",
-                    "id": "7d546b24-65e1-479f-bc22-33fb6b5ed8f2",
+                    "id": "915df8cb-4c50-4a55-84f0-b5369b44fa82",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "MultiTap(tapCount=3)",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonSouth",
+                    "type": "Button",
+                    "id": "9068b628-098e-4fd6-a8e0-e3aaf3ad8911",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonEast",
+                    "type": "Button",
+                    "id": "bb48bc42-12e9-4a75-b74e-c6cf483b34d5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonWest",
+                    "type": "Button",
+                    "id": "cca0bdf1-73eb-4592-967c-56fdcbb295f7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightStick",
+                    "type": "Value",
+                    "id": "9c3c050e-f820-47cd-8a55-9ca2cc6f7e71",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "aa1102ae-979f-492a-a1ec-f34181b74f58",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "MultiTap",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "QTE Action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8e232fb5-527e-471c-804e-242bb54e27b0",
+                    "id": "4d943259-b509-4606-9dd9-e6aeca59dfe5",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "QTE Action",
+                    "action": "ButtonNorth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "7316f7c9-860b-4078-8317-4c1ecf63432b",
+                    "id": "321ed85e-c90c-4457-acef-c0cc2557b5ce",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keybord",
+                    "action": "ButtonNorth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e5611f8-4c90-4b88-b29b-c95324e97516",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keybord",
+                    "action": "ButtonSouth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ce43554-2977-4063-af06-cb2db0ed8c34",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "QTE Action",
+                    "action": "ButtonSouth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "60a05e1d-702d-4cc2-97fd-95554cf934c9",
+                    "id": "7c8f095f-53c8-414b-b114-efd59674542a",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keybord",
+                    "action": "ButtonEast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c407599-4457-4dec-aa28-0de4c893246d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ButtonEast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f132a16-215d-43ed-b989-3020e4e537da",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "QTE Action",
+                    "action": "ButtonWest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "57f26ca7-1643-43d2-b587-6c0f74cc908f",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "5187ad67-53e0-407c-8cdb-5a84b88c93b4",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "QTE Action",
+                    "groups": ";Keybord",
+                    "action": "ButtonWest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "c6a626b1-cd4a-4875-99d6-169fa75a06d2",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "90772487-c43d-448b-ae7a-a979df46bf79",
+                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "QTE Action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f11e79c8-5528-4684-a94c-934914f1ad62",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "QTE Action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "475670e0-9be3-4289-b242-bf1f6b9af5ab",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "QTE Action",
+                    "groups": "",
+                    "action": "RightStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -114,6 +161,17 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Keybord",
+            "bindingGroup": "Keybord",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
                 }

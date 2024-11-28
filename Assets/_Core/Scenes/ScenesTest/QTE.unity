@@ -262,10 +262,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9582d0b419f3a164fab165dcd3e6b421, type: 3}
   - {fileID: 21300000, guid: d4a6e3c44a8e389488360e7fe3d746a1, type: 3}
   - {fileID: 21300000, guid: 1fe21bc8a1565224a836404e2f10a84b, type: 3}
-  _customQTEButtons: 02000000060000000000000001000000
-  _qteDuration: 5
+  _customQTEButtons: 020000000400000000000000
+  _qteDuration: 100000
   _successDisplayDuration: 2
-  _requiredPressCount: 10
+  _requiredPressCount: 3
   _turnsRequired: 5
   _totalQTECount: 6
   _onQTESuccess:
@@ -336,12 +336,84 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 809880260}
+        m_TargetAssemblyTypeName: QuickTimeEventWithInputSystem, Assembly-CSharp
+        m_MethodName: ChangeController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7d546b24-65e1-479f-bc22-33fb6b5ed8f2
-    m_ActionName: 'QTE/QTE Action[/XInputControllerWindows1/buttonEast,/XInputControllerWindows1/buttonNorth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows1/buttonWest,/XInputControllerWindows1/leftShoulder,/XInputControllerWindows1/rightShoulder,/XInputControllerWindows1/leftTrigger,/XInputControllerWindows1/rightTrigger]'
+      m_Calls:
+      - m_Target: {fileID: 809880260}
+        m_TargetAssemblyTypeName: QuickTimeEventWithInputSystem, Assembly-CSharp
+        m_MethodName: GetInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 915df8cb-4c50-4a55-84f0-b5369b44fa82
+    m_ActionName: 'QTE/ButtonNorth[/Keyboard/upArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 809880260}
+        m_TargetAssemblyTypeName: QuickTimeEventWithInputSystem, Assembly-CSharp
+        m_MethodName: GetInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9068b628-098e-4fd6-a8e0-e3aaf3ad8911
+    m_ActionName: 'QTE/ButtonSouth[/Keyboard/downArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 809880260}
+        m_TargetAssemblyTypeName: QuickTimeEventWithInputSystem, Assembly-CSharp
+        m_MethodName: GetInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bb48bc42-12e9-4a75-b74e-c6cf483b34d5
+    m_ActionName: 'QTE/ButtonEast[/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 809880260}
+        m_TargetAssemblyTypeName: QuickTimeEventWithInputSystem, Assembly-CSharp
+        m_MethodName: GetInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cca0bdf1-73eb-4592-967c-56fdcbb295f7
+    m_ActionName: 'QTE/ButtonWest[/Keyboard/leftArrow]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: QTE
