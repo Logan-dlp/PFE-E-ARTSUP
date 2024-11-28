@@ -1,14 +1,14 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
-public class Item : ScriptableObject
+public class ItemData : ScriptableObject
 {
     [SerializeField] private string obejctName;
     [SerializeField] private ElementType elementType;
     [SerializeField, Range(1,4)] private int rarity;
     [SerializeField] private ItemUsage itemUsage;
     [SerializeField] private Sprite sprite;
-    [SerializeField] private Item itemToTransform;
+    [SerializeField] private ItemData itemToTransform;
     [SerializeField] private string description;
     
     public string ObjectName
