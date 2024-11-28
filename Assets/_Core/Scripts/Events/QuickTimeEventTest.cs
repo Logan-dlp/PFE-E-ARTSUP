@@ -3,20 +3,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class QuickTimeEventTest : MonoBehaviour, InputsActions.IQTEActions
+public class QuickTimeEventTest : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private Image _qteSlot;
-    [SerializeField] private List<Sprite> _buttonIcons;  // Liste flexible d'icônes
-    [SerializeField] private Dictionary<string, Sprite> _iconMapping;  // Dictionnaire dynamique pour les boutons et icônes
+    [SerializeField] private List<Sprite> _buttonIcons;  // Liste flexible d'icï¿½nes
+    [SerializeField] private Dictionary<string, Sprite> _iconMapping;  // Dictionnaire dynamique pour les boutons et icï¿½nes
 
-    [SerializeField] private InputsActions _inputsActions;
+    [SerializeField] private InputAction _inputAction;
 
     private void Awake()
     {
         // Initialize the InputsActions and bind to this script
-        _inputsActions = new InputsActions();
-        _inputsActions.QTE.SetCallbacks(this);
+        _inputAction = new InputAction(); 
 
         // Initialize the mapping of inputs to icons dynamically
         InitializeButtonIconMapping();
@@ -42,12 +41,12 @@ public class QuickTimeEventTest : MonoBehaviour, InputsActions.IQTEActions
 
     private void OnEnable()
     {
-        _inputsActions.Enable();
+        _inputAction.Enable();
     }
 
     private void OnDisable()
     {
-        _inputsActions.Disable();
+        _inputAction.Disable();
     }
 
     // Callback pour l'action QTE
@@ -55,21 +54,21 @@ public class QuickTimeEventTest : MonoBehaviour, InputsActions.IQTEActions
     {
         if (context.started)
         {
-            string pressedKey = context.control.name;  // Le nom du bouton ou de l'action pressée
+            string pressedKey = context.control.name;  // Le nom du bouton ou de l'action pressï¿½e
 
-            // Vérifie si l'action pressée a une icône associée
+            // Vï¿½rifie si l'action pressï¿½e a une icï¿½ne associï¿½e
             if (_iconMapping.ContainsKey(pressedKey))
             {
                 Sprite icon = _iconMapping[pressedKey];
                 if (icon != null)
                 {
-                    _qteSlot.sprite = icon;  // Affiche l'icône correspondante
+                    _qteSlot.sprite = icon;  // Affiche l'icï¿½ne correspondante
                     _qteSlot.enabled = true;
                 }
                 else
                 {
                     Debug.LogWarning($"No icon mapped for input: {pressedKey}");
-                    _qteSlot.enabled = false;  // Masque le slot si pas d'icône
+                    _qteSlot.enabled = false;  // Masque le slot si pas d'icï¿½ne
                 }
             }
         }
