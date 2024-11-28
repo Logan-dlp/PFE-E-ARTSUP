@@ -3,14 +3,49 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
 public class Item : ScriptableObject
 {
-    public string obejctName;
-    public ElementType elementType;
-    [Range(1,4)] public int rarity;
-    public ItemUsage itemUsage;
-    public Sprite sprite;
-    public Item itemToTransform;
-    public string description;
+    [SerializeField] private string obejctName;
+    [SerializeField] private ElementType elementType;
+    [SerializeField, Range(1,4)] private int rarity;
+    [SerializeField] private ItemUsage itemUsage;
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private Item itemToTransform;
+    [SerializeField] private string description;
     
+    public string ObjectName
+    {
+        get => obejctName;
+    }
+
+    public ElementType Type
+    {
+        get => elementType;
+    }
+
+    public int Rarity
+    {
+        get => rarity;
+    }
+
+    public ItemUsage Usage
+    {
+        get => itemUsage;
+    }
+
+    public Sprite ItemSprite
+    {
+        get => sprite;
+    }
+    
+    public Item ItemToTransform
+    {
+        get => itemToTransform;
+    } 
+
+    private string Description
+    {
+        get => description;
+    }
+
     public Item TransformToOtherItem()
     {
         return itemToTransform;
