@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static InventoryData;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -16,22 +15,52 @@ public class InventoryUI : MonoBehaviour
 
     public void RefreshUI()
     {
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
+        int itemCount = _inventory.Items.Count;
+        int slotCount = transform.childCount;
 
-        foreach (ItemData item in _inventory.Items)
+        for (int i = 0; i < slotCount; i++)
         {
-            GameObject slot = Instantiate(_inventorySlotPrefab, transform);
-            Image icon = slot.GetComponentInChildren<Image>();
-            icon.sprite = item.ItemSprite;
+            Transform slot = transform.GetChild(i);
+
+            if (i < itemCount)
+            {
+                ItemData item = _inventory.Items[i];
+
+                Transform itemTransform = slot.Find("Item");
+
+                if (itemTransform == null)
+                {
+                    GameObject itemObj = new GameObject("Item");
+                    itemObj.transform.SetParent(slot);
+                    itemObj.transform.localPosition = Vector3.zero;
+
+                    Image itemImage = itemObj.AddComponent<Image>();
+                    itemImage.sprite = item.ItemSprite;
+                    itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
+                }
+                else
+                {
+                    Image itemImage = itemTransform.GetComponent<Image>();
+                    if (itemImage != null)
+                    {
+                        itemImage.sprite = item.ItemSprite;
+                    }
+                }
+            }
+            else
+            {
+                Transform itemTransform = slot.Find("Item");
+                if (itemTransform != null)
+                {
+                    Destroy(itemTransform.gameObject);
+                }
+            }
         }
     }
 
     public bool CanAddItem()
     {
-        if (_inventory.Mode == InventoryMode.InventoryPlayer)
+        if (_inventory.Mode == InventoryData.InventoryMode.InventoryPlayer)
         {
             return _inventory.Items.Count < _inventory.MaxSlots;
         }
@@ -54,7 +83,6 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-
     public bool AddItem(ItemData item)
     {
         if (!CanAddItem())
@@ -76,7 +104,7 @@ public class InventoryUI : MonoBehaviour
         if (_inventory.Items.Contains(item))
         {
             _inventory.Items.Remove(item);
-            RefreshUI();
+            RefreshUI(); // Met à jour l'interface après la suppression
             return true;
         }
         Debug.LogWarning("L'objet n'existe pas dans l'inventaire !");
