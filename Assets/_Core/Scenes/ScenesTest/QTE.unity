@@ -258,12 +258,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c9068340e374dc547b3e0580f46d8505, type: 3}
   - {fileID: 21300000, guid: 6820867ca5af2984e914c58e23061534, type: 3}
   - {fileID: 21300000, guid: 1fe21bc8a1565224a836404e2f10a84b, type: 3}
-  _customQTEButtons: 0100000004000000040000000400000004000000
-  _qteDuration: 100000
+  _customQTEButtonArray:
+  - inputCommand: 0
+    requiredInput: 5
+    qTEDuration: 10
+  - inputCommand: 2
+    requiredInput: 2
+    qTEDuration: 7
+  - inputCommand: 4
+    requiredInput: 2
+    qTEDuration: 3
   _successDisplayDuration: 2
-  _requiredPressCount: 3
-  _turnsRequired: 5
-  _totalQTECount: 5
   _onQTESuccess:
     m_PersistentCalls:
       m_Calls:
