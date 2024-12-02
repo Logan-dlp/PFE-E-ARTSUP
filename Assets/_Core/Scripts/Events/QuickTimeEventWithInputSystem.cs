@@ -7,7 +7,8 @@ using System.Collections;
 public class QuickTimeEventWithInputSystem : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private Image qteSlot;
+    [SerializeField] private Image _qteSlot;
+    [SerializeField] private Image _progressBarUI;
 
     [Header("Button Sprites")]
     [SerializeField] private Sprite[] _buttonSprites;
@@ -19,9 +20,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     [SerializeField] private float _successDisplayDuration = 2f;
     
     [Header("Unity Events")]
-    [SerializeField] private UnityEvent _onQTESuccess;
-    [SerializeField] private UnityEvent _onQTEFailure;
-
+    
     private int _currentIndex;
     private float _timer;
     private int _currentPressCount = 0;
@@ -31,8 +30,11 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     private bool _isClockwise = false;
     private int _turnCount = 0;
     private int _completedQTECount = 0;
-    private bool isController;
-    private InputAction rightStick;
+    private bool _isController;
+    private InputAction _rightStick;
+    private float _progressBarValue;
+    private bool _progressBarComplete;
+    private bool _isLose;
     
     private enum InputCommand
     {
@@ -49,13 +51,14 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         public InputCommand inputCommand;
         public int requiredInput;
         public float qTEDuration;
+        public bool isProgressBar;
     }
 
     private void Awake()
     {
         if (TryGetComponent<PlayerInput>(out PlayerInput playerInput))
         {
-            rightStick = playerInput.currentActionMap["RightStick"];
+            _rightStick = playerInput.currentActionMap["RightStick"];
             return;
         }
     }
@@ -74,17 +77,28 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     {   
         if (_isQTEActive)
         {
-            _timer -= Time.deltaTime;
-            if (_timer < 0)
+            if(_timer > 0)
             {
-                Debug.Log("lose");
+                _timer -= Time.deltaTime;
+            }
+            if (_timer <= 0 && !_isLose)
+            {
+                EndQTE();
+            }
+            if(!_progressBarComplete)
+            {
+                if(_customQTEButtonArray[_currentIndex].isProgressBar && _progressBarValue > 0)
+                {
+                    _progressBarValue -= Time.deltaTime;
+                    _progressBarUI.fillAmount = _progressBarValue / _customQTEButtonArray[_currentIndex].requiredInput;
+                }
             }
         }
     }
 
     public void GetInput(InputAction.CallbackContext context)
     {
-        if(context.started)
+        if(context.started && _isQTEActive)
         {
             switch(context.action.name)
             {
@@ -111,17 +125,15 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     {
         if (!_qteSuccess)
         {
-            if (inputCommand == InputCommand.R_Stick)
-            {
-                return;
-            }
-
             if (CheckButtonPress(inputCommand))
             {
-                if (_currentPressCount >= _customQTEButtonArray[_currentIndex].requiredInput)
+                if (_currentPressCount >= _customQTEButtonArray[_currentIndex].requiredInput ||
+                _progressBarValue >= _customQTEButtonArray[_currentIndex].requiredInput)
                 {
+                    _progressBarComplete = true;
+                    _progressBarUI.gameObject.SetActive(false);
                     _qteSuccess = true;
-                    qteSlot.color = Color.green;
+                    _qteSlot.color = Color.green;
                     StartCoroutine(DisplaySuccessForDuration());
                 }
             }
@@ -132,11 +144,11 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     {
         if(playerInput.currentControlScheme == "Gamepad")
         {
-            isController = true;
+            _isController = true;
         }
         else
         {
-            isController = false;
+            _isController = false;
         }
     }
 
@@ -155,30 +167,38 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         if (_completedQTECount < _customQTEButtonArray.Length - 1)
         {
             _currentIndex = _completedQTECount;
-            qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
-            qteSlot.color = Color.white;
+            _qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
+            _qteSlot.color = Color.white;
             
             if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.R_Stick)
             {
-                rightStick.performed += CheckStickRotation;
+                _rightStick.performed += CheckStickRotation;
             }
         }
         else
         {
             _currentIndex = _customQTEButtonArray.Length - 1;
-            qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
-            qteSlot.color = Color.white;
+            _qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
+            _qteSlot.color = Color.white;
+        }
+
+        if(_customQTEButtonArray[_currentIndex].isProgressBar)
+        {
+            Debug.Log("test");
+            _progressBarUI.gameObject.SetActive(true);
+            _progressBarValue = 0;
+            _progressBarComplete = false;
         }
     }
 
     public void EndQTE()
     {
+        _isLose = true;
         _isQTEActive = false;
 
         if (!_qteSuccess)
         {
-            qteSlot.color = Color.red;
-            _onQTEFailure.Invoke();
+            _qteSlot.color = Color.red;
         }
     }
 
@@ -187,43 +207,83 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         switch (inputCommand)
         {
             case InputCommand.A:
-                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.A)
+                if(_customQTEButtonArray[_currentIndex].isProgressBar)
                 {
-                    _currentPressCount++;
-                }
-                else 
-                {
-                    _currentPressCount = 0;
-                }
-                break;
-            case InputCommand.B:
-                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.B)
-                {
-                    _currentPressCount++;
-                }
-                else 
-                {
-                    _currentPressCount = 0;
-                }
-                break;
-            case InputCommand.X:
-                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.X)
-                {
-                    _currentPressCount++;
-                }
-                else 
-                {
-                    _currentPressCount = 0;
-                }
-                break;
-            case InputCommand.Y:
-                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.Y)
-                {
-                    _currentPressCount++;
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.A)
+                    {
+                        _progressBarValue++;
+                    }
                 }
                 else
                 {
-                    _currentPressCount = 0;
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.A)
+                    {
+                        _currentPressCount++;
+                    }
+                    else 
+                    {
+                        _currentPressCount = 0;
+                    }  
+                }
+                break;
+            case InputCommand.B:
+                if(_customQTEButtonArray[_currentIndex].isProgressBar)
+                {
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.B)
+                    {
+                        _progressBarValue++;
+                    }
+                }
+                else
+                {
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.B)
+                    {
+                        _currentPressCount++;
+                    }
+                    else 
+                    {
+                        _currentPressCount = 0;
+                    }  
+                }
+                break;
+            case InputCommand.X:
+                if(_customQTEButtonArray[_currentIndex].isProgressBar)
+                {
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.X)
+                    {
+                        _progressBarValue++;
+                    }
+                }
+                else
+                {
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.X)
+                    {
+                        _currentPressCount++;
+                    }
+                    else 
+                    {
+                        _currentPressCount = 0;
+                    }  
+                }
+                break;
+            case InputCommand.Y:
+                if(_customQTEButtonArray[_currentIndex].isProgressBar)
+                {
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.Y)
+                    {
+                        _progressBarValue++;
+                    }
+                }
+                else
+                {
+                    if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.Y)
+                    {
+                        _currentPressCount++;
+                    }
+                    else 
+                    {
+                        _currentPressCount = 0;
+                    }  
                 }
                 break;
         }
@@ -259,8 +319,8 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         {
             _turnCount = 0;
             _qteSuccess = true;
-            qteSlot.color = Color.green;
-            rightStick.performed -= CheckStickRotation;
+            _qteSlot.color = Color.green;
+            _rightStick.performed -= CheckStickRotation;
             StartCoroutine(DisplaySuccessForDuration());
         }
     }
@@ -285,8 +345,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     private IEnumerator DisplaySuccessForDuration()
     {
         yield return new WaitForSeconds(_successDisplayDuration);
-        qteSlot.color = Color.white;
-        _onQTESuccess.Invoke();
+        _qteSlot.color = Color.white;
 
         _completedQTECount++;
         
@@ -296,7 +355,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         }
         else
         {
-            qteSlot.sprite = null;
+            _qteSlot.sprite = null;
         }
     }
 }
