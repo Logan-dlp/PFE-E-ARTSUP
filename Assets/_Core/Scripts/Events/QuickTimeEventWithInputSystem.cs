@@ -13,19 +13,11 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     [SerializeField] private Sprite[] _buttonSprites;
 
     [Header("Customizable QTE Buttons")]
-    [SerializeField] private InputCommand[] _customQTEButtons;
+    [SerializeField] private _customQTEButton[] _customQTEButtonArray;
 
     [Header("QTE Configuration")]
-    [SerializeField] private float _qteDuration = 5f;
     [SerializeField] private float _successDisplayDuration = 2f;
-    [SerializeField] private int _requiredPressCount = 10;
-
-    [Header("Rotation Configuration")]
-    [SerializeField] private int _turnsRequired = 5;
-
-    [Header("QTE Sequence Settings")]
-    [SerializeField] private int _totalQTECount = 5;
-
+    
     [Header("Unity Events")]
     [SerializeField] private UnityEvent _onQTESuccess;
     [SerializeField] private UnityEvent _onQTEFailure;
@@ -49,6 +41,14 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         X,
         Y,
         R_Stick
+    }
+
+    [System.Serializable]
+    private struct _customQTEButton
+    {
+        public InputCommand inputCommand;
+        public int requiredInput;
+        public float qTEDuration;
     }
 
     private void Awake()
@@ -118,7 +118,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
 
             if (CheckButtonPress(inputCommand))
             {
-                if (_currentPressCount >= _requiredPressCount)
+                if (_currentPressCount >= _customQTEButtonArray[_currentIndex].requiredInput)
                 {
                     _qteSuccess = true;
                     qteSlot.color = Color.green;
@@ -142,31 +142,31 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
 
     public void StartQTE()
     {
-        if (_completedQTECount >= _totalQTECount)
+        if (_completedQTECount >= _customQTEButtonArray.Length)
         {
             return;
         }
 
         _isQTEActive = true;
-        _timer = _qteDuration;
+        _timer = _customQTEButtonArray[_currentIndex].qTEDuration;
         _currentPressCount = 0;
         _qteSuccess = false;
 
-        if (_completedQTECount < _totalQTECount - 1)
+        if (_completedQTECount < _customQTEButtonArray.Length - 1)
         {
             _currentIndex = _completedQTECount;
-            qteSlot.sprite = _buttonSprites[(int)_customQTEButtons[_currentIndex]];
+            qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
             qteSlot.color = Color.white;
             
-            if(_customQTEButtons[_currentIndex] == InputCommand.R_Stick)
+            if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.R_Stick)
             {
                 rightStick.performed += CheckStickRotation;
             }
         }
         else
         {
-            _currentIndex = _customQTEButtons.Length - 1;
-            qteSlot.sprite = _buttonSprites[(int)_customQTEButtons[_currentIndex]];
+            _currentIndex = _customQTEButtonArray.Length - 1;
+            qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
             qteSlot.color = Color.white;
         }
     }
@@ -187,7 +187,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         switch (inputCommand)
         {
             case InputCommand.A:
-                if(_customQTEButtons[_currentIndex] == InputCommand.A)
+                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.A)
                 {
                     _currentPressCount++;
                 }
@@ -197,7 +197,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 }
                 break;
             case InputCommand.B:
-                if(_customQTEButtons[_currentIndex] == InputCommand.B)
+                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.B)
                 {
                     _currentPressCount++;
                 }
@@ -207,7 +207,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 }
                 break;
             case InputCommand.X:
-                if(_customQTEButtons[_currentIndex] == InputCommand.X)
+                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.X)
                 {
                     _currentPressCount++;
                 }
@@ -217,7 +217,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 }
                 break;
             case InputCommand.Y:
-                if(_customQTEButtons[_currentIndex] == InputCommand.Y)
+                if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.Y)
                 {
                     _currentPressCount++;
                 }
@@ -255,13 +255,30 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
             }
             _previousAngle = angle;
         }
-        if (_turnCount >= _turnsRequired)
+        if (_turnCount >= _customQTEButtonArray[_currentIndex].requiredInput)
         {
             _turnCount = 0;
             _qteSuccess = true;
             qteSlot.color = Color.green;
             rightStick.performed -= CheckStickRotation;
             StartCoroutine(DisplaySuccessForDuration());
+        }
+    }
+
+    private Sprite GetSprite(_customQTEButton _QTEButton)
+    {
+        switch (_QTEButton.inputCommand)
+        {
+            case InputCommand.A:
+                return _buttonSprites[0];
+            case InputCommand.B:
+                return _buttonSprites[1];
+            case InputCommand.Y:
+                return _buttonSprites[2];
+            case InputCommand.X:
+                return _buttonSprites[3];
+            default:
+                return _buttonSprites[4];
         }
     }
 
@@ -273,7 +290,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
 
         _completedQTECount++;
         
-        if (_completedQTECount < _totalQTECount)
+        if (_completedQTECount < _customQTEButtonArray.Length)
         {
             StartQTE();
         }
