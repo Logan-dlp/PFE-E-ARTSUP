@@ -5,11 +5,16 @@ public class TransferItemsToCellar : MonoBehaviour
     [SerializeField] private InventoryData _inventoryPlayer;
     [SerializeField] private InventoryData _inventoryCellar;
 
-    private InventoryUI _inventoryUI;
+    private InventoryUI _inventoryUIPlayer;
 
     private void Awake()
     {
-        _inventoryUI = GetComponent<InventoryUI>();
+        _inventoryUIPlayer = GetComponent<InventoryUI>();
+
+        if (_inventoryUIPlayer == null)
+        {
+            Debug.Log("Il manque le script Inventory UI");
+        }
     }
 
     public void SendItems()
@@ -29,6 +34,6 @@ public class TransferItemsToCellar : MonoBehaviour
             Debug.Log("Ajout des items dans l'inventaire de Cellar !");
         }
 
-        _inventoryUI.RefreshUI();
+        _inventoryUIPlayer.RefreshUI();
     }
 }
