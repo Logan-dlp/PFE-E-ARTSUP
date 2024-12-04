@@ -50,9 +50,9 @@ namespace MoonlitMixes.Player
         
         private void UpdateGravity(float deltaTime)
         {
-            Debug.DrawRay(transform.position, Vector3.down * 0.76f, Color.red);
+            Debug.DrawRay(transform.position, -transform.up * (_meshScale + .5f), Color.red);
 
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _meshScale + .5f))
+            if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, _meshScale) && hit.transform == transform)
             {
                 _velocity.y = 0;
             }
