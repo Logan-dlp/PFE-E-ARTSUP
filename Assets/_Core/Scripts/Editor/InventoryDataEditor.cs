@@ -4,42 +4,30 @@ using UnityEngine;
 [CustomEditor(typeof(InventoryData))]
 public class InventoryDataEditor : Editor
 {
+    SerializedProperty inventoryModeProperty;
+    SerializedProperty maxSlotsProperty;
+    SerializedProperty itemsProperty;
+
     private void OnEnable()
     {
-        EditorApplication.update += UpdateInspector;
-    }
-
-    private void OnDisable()
-    {
-        EditorApplication.update -= UpdateInspector;
-    }
-
-    private void UpdateInspector()
-    {
-        serializedObject.Update();
-        serializedObject.ApplyModifiedProperties();
-        EditorUtility.SetDirty(target);
+        inventoryModeProperty = serializedObject.FindProperty("_inventoryMode");
+        maxSlotsProperty = serializedObject.FindProperty("_maxSlots");
+        itemsProperty = serializedObject.FindProperty("_items");
     }
 
     public override void OnInspectorGUI()
     {
-        InventoryData inventoryData = (InventoryData)target;
+        serializedObject.Update();
 
-        inventoryData.Mode = (InventoryData.InventoryMode)EditorGUILayout.EnumPopup("Inventory mode", inventoryData.Mode);
+        EditorGUILayout.PropertyField(inventoryModeProperty);
 
-        if (inventoryData.Mode == InventoryData.InventoryMode.InventoryPlayer)
+        if (inventoryModeProperty.enumValueIndex == (int)InventoryData.InventoryMode.InventoryPlayer)
         {
-            inventoryData.MaxSlots = EditorGUILayout.IntField("Maximum number of slots", inventoryData.MaxSlots);
+            EditorGUILayout.PropertyField(maxSlotsProperty, new GUIContent("Maximum number of slots"));
         }
 
-        SerializedProperty itemsProperty = serializedObject.FindProperty("_items");
         EditorGUILayout.PropertyField(itemsProperty, new GUIContent("Items"), true);
 
         serializedObject.ApplyModifiedProperties();
-
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(target);
-        }
     }
 }
