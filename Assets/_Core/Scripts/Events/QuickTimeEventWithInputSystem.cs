@@ -91,6 +91,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 {
                     _progressBarValue -= Time.deltaTime;
                     _progressBarUI.fillAmount = _progressBarValue / _customQTEButtonArray[_currentIndex].requiredInput;
+                    Debug.Log(_progressBarValue);
                 }
             }
         }
@@ -130,8 +131,8 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 if (_currentPressCount >= _customQTEButtonArray[_currentIndex].requiredInput ||
                 _progressBarValue >= _customQTEButtonArray[_currentIndex].requiredInput)
                 {
+                    _progressBarUI.fillAmount = 1;
                     _progressBarComplete = true;
-                    _progressBarUI.gameObject.SetActive(false);
                     _qteSuccess = true;
                     _qteSlot.color = Color.green;
                     StartCoroutine(DisplaySuccessForDuration());
@@ -166,28 +167,24 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
 
         if (_completedQTECount < _customQTEButtonArray.Length - 1)
         {
-            _currentIndex = _completedQTECount;
-            _qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
-            _qteSlot.color = Color.white;
-            
-            if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.R_Stick)
-            {
-                _rightStick.performed += CheckStickRotation;
-            }
+            _currentIndex = _completedQTECount;         
         }
         else
         {
             _currentIndex = _customQTEButtonArray.Length - 1;
-            _qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
-            _qteSlot.color = Color.white;
         }
 
-        if(_customQTEButtonArray[_currentIndex].isProgressBar)
+        _qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
+        _qteSlot.color = Color.white;
+        
+        if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.R_Stick)
         {
-            Debug.Log("test");
+            _rightStick.performed += CheckStickRotation;
+        }
+        
+        if(_customQTEButtonArray[_currentIndex].isProgressBar == true)
+        {
             _progressBarUI.gameObject.SetActive(true);
-            _progressBarValue = 0;
-            _progressBarComplete = false;
         }
     }
 
@@ -310,17 +307,24 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         if (angleDifference < 0 && angleDifference > -180)
         {
             if (_previousAngle < 60 && angle > 300)
-            {
-                _turnCount++;
+            {  
+                if(_customQTEButtonArray[_currentIndex].isProgressBar)
+                {
+                    _progressBarValue++;
+                }
+                else _turnCount++;
             }
             _previousAngle = angle;
         }
-        if (_turnCount >= _customQTEButtonArray[_currentIndex].requiredInput)
+
+        if (_turnCount >= _customQTEButtonArray[_currentIndex].requiredInput || _progressBarValue >= _customQTEButtonArray[_currentIndex].requiredInput)
         {
             _turnCount = 0;
             _qteSuccess = true;
             _qteSlot.color = Color.green;
             _rightStick.performed -= CheckStickRotation;
+            _progressBarComplete = true;
+            _progressBarUI.fillAmount = 1;
             StartCoroutine(DisplaySuccessForDuration());
         }
     }
@@ -348,6 +352,10 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         _qteSlot.color = Color.white;
 
         _completedQTECount++;
+        _progressBarComplete = false;
+        _progressBarValue = 0;
+        _progressBarUI.fillAmount = 0;
+        _progressBarUI.gameObject.SetActive(false);
         
         if (_completedQTECount < _customQTEButtonArray.Length)
         {
