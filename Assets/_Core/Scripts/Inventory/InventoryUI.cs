@@ -129,8 +129,12 @@ public class InventoryUI : MonoBehaviour
 
     private void SortInventory()
     {
-        _inventory.Items = _inventory.Items.OrderBy(item => item.Rarity).ToList();
+        _inventory.Items = _inventory.Items
+            .OrderBy(item => item.Type)
+            .ThenBy(item => item.Rarity)
+            .ToList();
     }
+
 
     public IReadOnlyList<ItemData> Items => _inventory.Items.AsReadOnly();
 
