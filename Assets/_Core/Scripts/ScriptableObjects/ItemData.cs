@@ -14,43 +14,36 @@ public class ItemData : ScriptableObject
     public string ObjectName
     {
         get => _objectName;
-        set => _objectName = value;
     }
 
     public ElementType Type
     {
         get => _elementType;
-        set => _elementType = value;
     }
 
     public int Rarity
     {
         get => _rarity;
-        set => _rarity = value;
     }
 
     public ItemUsage Usage
     {
         get => _itemUsage;
-        set => _itemUsage = value;
     }
 
     public Sprite ItemSprite
     {
         get => _sprite;
-        set => _sprite = value;
     }
 
     public ItemData ItemToTransform
     {
         get => _itemToTransform;
-        set => _itemToTransform = value;
     }
 
     public string Description
     {
         get => _description;
-        set => _description = value;
     }
 
     public ItemData TransformToOtherItem()
