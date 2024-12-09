@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private InventoryData _inventory;
+    [SerializeField] private InventoryData _inventoryReceives;
     [SerializeField] private GameObject _slotPrefab;
 
     private int _initialSlotsPerRow = 5;
@@ -74,57 +75,44 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public bool CanAddItem()
+    public void AddItem(ItemData item)
     {
-        if (_inventory.Mode == InventoryData.InventoryMode.InventoryPlayer)
+        if (item == null)
         {
-            return _inventory.Items.Count < _inventory.MaxSlots;
+            Debug.LogWarning("L'item à ajouter est nul !");
+            return;
         }
-        return true;
-    }
 
-    public void OnAddItemButtonClicked(ItemData item)
-    {
-        if (AddItem(item))
-        {
-            Debug.Log("Item ajouté avec succès !");
-        }
-    }
-
-    public void OnRemovedItemButtonClicked(ItemData item)
-    {
-        if (RemoveItem(item))
-        {
-            Debug.Log("Item détruit avec succès !");
-        }
-    }
-
-    public bool AddItem(ItemData item)
-    {
-        if (!CanAddItem())
+        if (_inventory.Mode == InventoryData.InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
         {
             Debug.LogWarning("L'inventaire est plein !");
-            return false;
+            return;
         }
-        else
-        {
-            _inventory.Items.Add(item);
-            SortInventory();
-            RefreshUI();
-            return true;
-        }
+
+        _inventory.Items.Add(item);
+        SortInventory();
+        RefreshUI();
+        Debug.Log($"{item.name} ajouté avec succès !");
     }
 
-    public bool RemoveItem(ItemData item)
+    public void RemoveItem(ItemData item)
     {
+        if (item == null)
+        {
+            Debug.LogWarning("L'item à supprimer est nul !");
+            return;
+        }
+
         if (_inventory.Items.Contains(item))
         {
             _inventory.Items.Remove(item);
             RefreshUI();
-            return true;
+            Debug.Log($"{item.name} détruit avec succès !");
         }
-        Debug.LogWarning("L'objet n'existe pas dans l'inventaire !");
-        return false;
+        else
+        {
+            Debug.LogWarning("L'objet n'existe pas dans l'inventaire !");
+        }
     }
 
     private void SortInventory()
@@ -135,11 +123,39 @@ public class InventoryUI : MonoBehaviour
             .ToList();
     }
 
-
     public IReadOnlyList<ItemData> Items => _inventory.Items.AsReadOnly();
 
     public bool ContainsItem(ItemData item)
     {
         return _inventory.Items.Contains(item);
+    }
+
+    public void SendItems(InventoryData inventoryData)
+    {
+        try
+        {
+            for (int i = _inventory.Items.Count - 1; i >= 0; i--)
+            {
+                ItemData item = _inventory.Items[i];
+
+                if (_inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
+                {
+                    _inventoryReceives.Items.Add(item);
+                    _inventory.Items.RemoveAt(i);
+                    Debug.Log("Envoie des items dans l'inventaire destiné");
+                }
+                else
+                {
+                    Debug.LogWarning("L'inventaire destiné est plein");
+                    break;
+                }
+            }
+        }
+        catch (System.Exception error)
+        {
+            Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
+        }
+
+        RefreshUI();
     }
 }
