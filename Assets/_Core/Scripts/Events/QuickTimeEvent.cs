@@ -406,7 +406,8 @@ public class QuickTimeEvent : MonoBehaviour
         }
         else
         {
-            float timer = Random.Range(_minTimer, _maxTimer)/_customQTEButtonArray.Length;
+            //Partage le timer entre tous les inputs
+            float timer = _maxTimer/_customQTEButtonArray.Length;
             
             for(int i = 0; i < _customQTEButtonArray.Length; i++)
             {
@@ -443,7 +444,8 @@ public class QuickTimeEvent : MonoBehaviour
     
     private void RandomiseTimer()
     {
-        int randTimer = Random.Range(_minTimer, _maxTimer + 1);
+        //Partage le timer entre tous les inputs
+        float randTimer = Random.Range(_minTimer, _maxTimer + 1)/_customQTEButtonArray.Length;
         for(int i = 0; i < _customQTEButtonArray.Length; i++)
         {
             _customQTEButtonArray[i].qTEDuration = randTimer;
