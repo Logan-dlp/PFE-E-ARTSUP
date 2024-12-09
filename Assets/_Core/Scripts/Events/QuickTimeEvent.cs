@@ -2,11 +2,11 @@
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections;
-using System.ComponentModel;
-using Unity.VisualScripting;
-using UnityEditor;
+using System;
+using NaughtyAttributes;
+using Random = UnityEngine.Random;
 
-public class QuickTimeEventWithInputSystem : MonoBehaviour
+public class QuickTimeEvent : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private Image _qteSlot;
@@ -15,34 +15,42 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     [Header("Button Sprites")]
     [SerializeField] private Sprite[] _buttonSprites;
 
-    [Header("Customizable QTE Buttons")]
-    [SerializeField] private _customQTEButton[] _customQTEButtonArray = new _customQTEButton[4];
-
     [Header("QTE Configuration")]
     [SerializeField] private float _successDisplayDuration = 2f;
-    [SerializeField] private bool _isTimerRandom;
-    [SerializeField] private int _minInput;
-    [SerializeField] private int _maxExcludedInput;
     [SerializeField] private QTEInputType _qTEInputType;
-    [SerializeField] private float _stirDuration = 10;
-    [SerializeField] private int _stirRequiredInput = 5;
     
-    [Header("Unity Events")]
+    [Header("Timer Parameters")]
+    [SerializeField] private bool _isTimerRandom;
+    [SerializeField, MinValue(1), MaxValue(10)] private int _minTimer = 3;
+    [SerializeField, MinValue(1), MaxValue(10)] private int _maxTimer = 5;
+
+    [Header("Input Parameters")]
+    [SerializeField, MinValue(1), MaxValue(10)] private int _minInput = 2;
+    [SerializeField, MinValue(3), MaxValue(10)] private int _maxInput = 5;
+    [SerializeField, MinValue(3), MaxValue(10)] private int _minRequiredInput = 4;
+    [SerializeField, MinValue(3), MaxValue(20)] private int _maxRequiredInput = 4;
+    [SerializeField] private int _defaultRequiredInputValue = 4;
     
+    [Header("Stir Parameters")]
+    [SerializeField, MinValue(3), MaxValue(10)] private int _stirRequiredInput = 5;
+    [SerializeField, MinValue(3), MaxValue(10)] private float _stirDuration = 10;
+    [SerializeField] private bool isStirProgressBar;
+    
+    [Header("Customizable QTE Buttons")]
+    [SerializeField] private _customQTEButton[] _customQTEButtonArray;
+
     private int _currentIndex;
-    private float _timer;
     private int _currentPressCount = 0;
-    private bool _qteSuccess = false;
-    private bool _isQTEActive = false;
-    private float _previousAngle = 0f;
-    private bool _isClockwise = false;
     private int _turnCount = 0;
     private int _completedQTECount = 0;
-    private bool _isController;
-    private InputAction _rightStick;
+    private float _timer;
     private float _progressBarValue;
+    private float _previousAngle = 0f;
+    private bool _qteSuccess = false;
+    private bool _isQTEActive = false;
     private bool _progressBarComplete;
     private bool _isLose;
+    private InputAction _rightStick;
 
     private enum InputCommand
     {
@@ -50,7 +58,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         B,
         X,
         Y,
-        R_Stick
+        R_Stick,
     }
 
     private enum QTEInputType
@@ -61,28 +69,32 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         Stir,
     }
 
-    [System.Serializable]
+    [Serializable]
     private class _customQTEButton
     {
         public InputCommand inputCommand;
-        public int requiredInput;
-        public float qTEDuration;
+        [Min(1)] public int requiredInput;
+        [Min(1)] public float qTEDuration;
         public bool isProgressBar;
     }
     private void Awake()
     {
+        //Permet de récuper les inputs du joystick de telle façon à que le faire tourner fonctionne
+        //ce qui n'es pas possible avec juste les unity event
         if (TryGetComponent<PlayerInput>(out PlayerInput playerInput))
         {
             _rightStick = playerInput.currentActionMap["RightStick"];
-            return;
         }
     }
 
     private void Start()
     {
+        //Les inputs au claviers ont pas étés fait étant donné qu'on a pas encore réfléchi à comment
+        //adapter le QTE du joystick au clavier
         if (Gamepad.current == null)
         {
             Debug.LogWarning("No gamepad detected.");
+            return;
         }
         
         switch (_qTEInputType)
@@ -91,7 +103,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 RandomiseAllInput();
                 break;
             case QTEInputType.OneInputRandom:
-                RandomiseInput();
+                RandomiseOneInput();
                 break;
             case QTEInputType.Fixed:
                 break;
@@ -99,6 +111,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 StirInput();
                 break;
         }
+        
         StartQTE();
     }
 
@@ -114,6 +127,8 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
             {
                 EndQTE();
             }
+
+            //Permet d'update la progress bar
             if(!_progressBarComplete)
             {
                 if(_customQTEButtonArray[_currentIndex].isProgressBar && _progressBarValue > 0)
@@ -129,6 +144,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
     {
         if(context.started && _isQTEActive)
         {
+            //J'ai pas trouvé d'autre façons que passer par des strings pour vérifier l'input
             switch(context.action.name)
             {
                 case "ButtonNorth" :
@@ -169,21 +185,9 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         }
     }
 
-    public void ChangeController(PlayerInput playerInput)
-    {
-        if(playerInput.currentControlScheme == "Gamepad")
-        {
-            _isController = true;
-        }
-        else
-        {
-            _isController = false;
-        }
-    }
-
     public void StartQTE()
     {
-        Debug.Log("StartQTE");
+        //Evite de relancer un QTE
         if (_completedQTECount >= _customQTEButtonArray.Length)
         {
             return;
@@ -206,6 +210,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
         _qteSlot.sprite = GetSprite(_customQTEButtonArray[_currentIndex]);
         _qteSlot.color = Color.white;
         
+        //Ecoute les inputs du joystick
         if(_customQTEButtonArray[_currentIndex].inputCommand == InputCommand.R_Stick)
         {
             _rightStick.performed += CheckStickRotation;
@@ -267,6 +272,7 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                     else
                     {
                         _currentPressCount++;
+                        Debug.Log("B");
                     }
                 }
                 else
@@ -321,6 +327,9 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
 
     private void CheckStickRotation(InputAction.CallbackContext context)
     {
+        /*Recupere la position du stick la soustrait a celle precedente pour verifier que le 
+        joystick tourne bien dans le bon sens et de si le joueur ne s'est pas arrete; si le 
+        joystick atteint un certain angle s'est reset, augment le compteur de tous*/
         Vector2 rightStickVector = context.ReadValue<Vector2>();
         float angle = Mathf.Atan2(rightStickVector.y, rightStickVector.x) * Mathf.Rad2Deg;
 
@@ -344,7 +353,10 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
                 {
                     _progressBarValue++;
                 }
-                else _turnCount++;
+                else
+                {
+                    _turnCount++;
+                }
             }
             _previousAngle = angle;
         }
@@ -380,43 +392,87 @@ public class QuickTimeEventWithInputSystem : MonoBehaviour
 
     private void RandomiseAllInput()
     {
+        //Place tous les parametres necessaires pour les inputs du Cut
+        RandomiseInputNumber();
+
         for(int i = 0; i < _customQTEButtonArray.Length; i++)
         {
-            _customQTEButtonArray[i].inputCommand = (InputCommand)Random.Range(0,4);
+            _customQTEButtonArray[i].inputCommand = (InputCommand)Random.Range(0,Enum.GetNames(typeof(InputCommand)).Length - 1);
         }
-    }
-
-    private void RandomiseInput()
-    {
-        int randInput = Random.Range(0,4);
-        for(int i = 0; i < _customQTEButtonArray.Length; i++)
+        
+        if(_isTimerRandom) 
         {
-            _customQTEButtonArray[i].inputCommand = (InputCommand)randInput;
+            RandomiseTimer();
         }
-    }
-
-    private void RandomiseRequiredInput()
-    {
-
-    }
-
-    [ContextMenu("Put required Input at 4 ")]
-    private void PutAllRequiredInput()
-    {
-        if(_qTEInputType == QTEInputType.OneInputRandom)
+        else
         {
-            for (int i = 0; i < _customQTEButtonArray.Length; i++)
+            float timer = Random.Range(_minTimer, _maxTimer)/_customQTEButtonArray.Length;
+            
+            for(int i = 0; i < _customQTEButtonArray.Length; i++)
             {
-                _customQTEButtonArray[i].requiredInput = 4;
+                _customQTEButtonArray[i].qTEDuration = timer;
             }
         }
+        
+        PutAllRequiredInput();
     }
+
+    private void RandomiseInputNumber()
+    {
+        _customQTEButtonArray = new _customQTEButton[Random.Range(_minInput,_maxInput + 1)];
+        for(int i = 0; i < _customQTEButtonArray.Length; i++)
+        {
+            _customQTEButtonArray[i] = new _customQTEButton();
+        }
+    }
+    private void RandomiseOneInput()
+    {
+        //Place tous les parametres necessaires pour les inputs du Crush
+        _customQTEButtonArray = new _customQTEButton[1];
+        _customQTEButtonArray[0] = new _customQTEButton();
+        _customQTEButtonArray[0].inputCommand = (InputCommand)Random.Range(0,Enum.GetNames(typeof(InputCommand)).Length);
+        _customQTEButtonArray[0].qTEDuration = _maxTimer;
+        _customQTEButtonArray[0].isProgressBar = true;
+        _customQTEButtonArray[0].requiredInput = RandomiseRequiredInput();
+    }
+
+    private int RandomiseRequiredInput()
+    {
+        return Random.Range(_minRequiredInput,_maxRequiredInput + 1);
+    }
+    
+    private void RandomiseTimer()
+    {
+        int randTimer = Random.Range(_minTimer, _maxTimer + 1);
+        for(int i = 0; i < _customQTEButtonArray.Length; i++)
+        {
+            _customQTEButtonArray[i].qTEDuration = randTimer;
+        }
+    }
+
+    //Context Menu pour si on veut tout mettre à la valeur par défaut si on fait une serie d'input custom
+    [ContextMenu("Put required Input at the default value")]
+    private void PutAllRequiredInput()
+    {
+        for (int i = 0; i < _customQTEButtonArray.Length; i++)
+        {
+            _customQTEButtonArray[i].requiredInput = _defaultRequiredInputValue;
+        }
+    }
+
     private void StirInput()
     {
+        //Place tous les parametres necessaires pour les inputs du Stir
         _customQTEButtonArray = new _customQTEButton[1];
+        _customQTEButtonArray[0] = new _customQTEButton();
         _customQTEButtonArray[0].requiredInput = _stirRequiredInput;
         _customQTEButtonArray[0].inputCommand = InputCommand.R_Stick;
         _customQTEButtonArray[0].qTEDuration = _stirDuration;
+        
+        if(isStirProgressBar)
+        {
+            _customQTEButtonArray[0].isProgressBar = true;
+        }
     }
 
     private IEnumerator DisplaySuccessForDuration()
