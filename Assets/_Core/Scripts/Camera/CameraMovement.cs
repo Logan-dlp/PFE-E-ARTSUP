@@ -17,11 +17,11 @@ namespace MoonlitMixes.Camera
         {
             if (_inOutside)
             {
-                SetCameraDistance(_further.position, _closer.position, _target.transform.position, _target.transform.position, _positionCamera);
+                SetCameraDistance(_further.localPosition + _target.transform.position, _closer.position + _target.transform.position, _target.transform.position, _target.transform.position, _positionCamera);
             }
             else
             {
-                SetCameraDistance(_caldron.position, _closer.position,transform.position - _target.transform.right, _target.transform.position, _positionCamera);
+                SetCameraDistance(_caldron.localPosition + _target.transform.position, _closer.position + _target.transform.position,transform.position - _target.transform.right, _target.transform.position, _positionCamera);
             }
         }
 

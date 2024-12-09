@@ -8,7 +8,7 @@ public class ItemData : ScriptableObject
     [SerializeField, Range(1,4)] private int rarity;
     [SerializeField] private ItemUsage itemUsage;
     [SerializeField] private Sprite sprite;
-    [SerializeField] private ItemData itemToTransform;
+    [SerializeField] private ItemData itemToConvert;
     [SerializeField] private string description;
     
     public string ObjectName
@@ -36,18 +36,13 @@ public class ItemData : ScriptableObject
         get => sprite;
     }
     
-    public ItemData ItemToTransform
+    public ItemData ItemToConvert
     {
-        get => itemToTransform;
+        get => itemToConvert;
     } 
 
     private string Description
     {
         get => description;
-    }
-
-    public ItemData TransformToOtherItem()
-    {
-        return itemToTransform;
     }
 }
