@@ -48,14 +48,11 @@ namespace MoonlitMixes.Player
 
         public void Interact(InputAction.CallbackContext ctx)
         {
-            if (ctx.started)
+            if (ctx.started && _itemDataInHand != null && _currentCookingMachine is CauldronMixing cauldron)
             {
-                _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+                cauldron.AddIngredient(_itemDataInHand);
 
-                if (_currentCookingMachine != null && _currentCookingMachine is CauldronMixing cauldronMixing)
-                {
-                    cauldronMixing.StartInteraction();
-                }
+                _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
             }
         }
     }

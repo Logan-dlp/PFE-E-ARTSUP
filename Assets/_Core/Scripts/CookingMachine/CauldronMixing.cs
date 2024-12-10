@@ -1,59 +1,97 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MoonlitMixes.CookingMachine
 {
     public class CauldronMixing : ACookingMachine
     {
-        [SerializeField] private GameObject InteractUI;
-        [SerializeField] private GameObject ProgressUI;
-        [SerializeField] private float InteractionDuration = 2f;
-
-        private Slider ProgressSlider;
-        private bool _isInteracting = false;
-
-        private void Awake()
-        {
-            ProgressSlider = GetComponentInChildren<Slider>(true);
-        }
+        [SerializeField] private GameObject _interactUI;
+        [SerializeField] private List<Recipe> _allRecipes;
+        [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>(); // Ingrédients ajoutés
+        private bool _isActive = false;
 
         public override void TogleShowInteractivity()
         {
-            if (_isInteracting) return;
-
-            InteractUI.SetActive(true);
+            _isActive = !_isActive;
+            _interactUI.SetActive(_isActive);
         }
 
-        public void StartInteraction()
+        public void AddIngredient(ItemData ingredient)
         {
-            if (_isInteracting) return;
+            _currentIngredients.Add(ingredient);
 
-            _isInteracting = true;
-            ProgressUI.SetActive(true);
-            ProgressSlider.value = 0f;
+            bool isValid = ValidateIngredient(ingredient);
 
-            StartCoroutine(HandleInteraction());
-        }
-
-        private IEnumerator HandleInteraction()
-        {
-            ProgressUI.SetActive(true);
-            InteractUI.SetActive(false);
-            ProgressSlider.value = 0f;
-
-            float elapsedTime = 0f;
-
-            while (elapsedTime < InteractionDuration)
+            if (!isValid)
             {
-                elapsedTime += Time.deltaTime;
-                ProgressSlider.value = Mathf.Clamp01(elapsedTime / InteractionDuration);
-                yield return null;
+                HandleFailedPotion();
+                return;
             }
 
-            ProgressSlider.value = 1f;
-            ProgressUI.SetActive(false);
-            _isInteracting = false;
+            CheckRecipeCompletion();
+        }
+
+        private bool ValidateIngredient(ItemData ingredient)
+        {
+            foreach (Recipe recipe in _allRecipes)
+            {
+                foreach (var requirement in recipe.RequiredIngredients)
+                {
+                    if (requirement.ElementType == ingredient.Type)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private void CheckRecipeCompletion()
+        {
+            foreach (Recipe recipe in _allRecipes)
+            {
+                if (IsRecipeComplete(recipe))
+                {
+                    HandleSuccessfulPotion(recipe);
+                    return;
+                }
+            }
+        }
+
+        private bool IsRecipeComplete(Recipe recipe)
+        {
+            Dictionary<ElementType, int> ingredientCount = new Dictionary<ElementType, int>();
+            foreach (var ingredient in _currentIngredients)
+            {
+                if (!ingredientCount.ContainsKey(ingredient.Type))
+                {
+                    ingredientCount[ingredient.Type] = 0;
+                }
+                ingredientCount[ingredient.Type]++;
+            }
+
+            foreach (var requirement in recipe.RequiredIngredients)
+            {
+                if (!ingredientCount.TryGetValue(requirement.ElementType, out int count) || count < requirement.Quantity)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void HandleSuccessfulPotion(Recipe recipe)
+        {
+            Debug.Log($"Recette réussie : {recipe.RecipeName} !");
+            _currentIngredients.Clear();
+        }
+
+        private void HandleFailedPotion()
+        {
+            Debug.Log("Potion ratée !");
+            _currentIngredients.Clear();
         }
     }
 }
