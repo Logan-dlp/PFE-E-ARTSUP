@@ -3,46 +3,51 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
 public class ItemData : ScriptableObject
 {
-    [SerializeField] private string obejctName;
-    [SerializeField] private ElementType elementType;
-    [SerializeField, Range(1,4)] private int rarity;
-    [SerializeField] private ItemUsage itemUsage;
-    [SerializeField] private Sprite sprite;
-    [SerializeField] private ItemData itemToConvert;
-    [SerializeField] private string description;
+    [SerializeField] private string _obejctName;
+    [SerializeField] private ElementType _elementType;
+    [SerializeField, Range(1,4)] private int _rarity;
+    [SerializeField] private ItemUsage _itemUsage;
+    [SerializeField] private Sprite _sprite;
+    [SerializeField] private ItemData _itemToConvert;
+    [SerializeField] private string _description;
+    [SerializeField] private GameObject _itemPrefab;
     
     public string ObjectName
     {
-        get => obejctName;
+        get => _obejctName;
     }
 
     public ElementType Type
     {
-        get => elementType;
+        get => _elementType;
     }
 
     public int Rarity
     {
-        get => rarity;
+        get => _rarity;
     }
 
     public ItemUsage Usage
     {
-        get => itemUsage;
+        get => _itemUsage;
     }
 
     public Sprite ItemSprite
     {
-        get => sprite;
+        get => _sprite;
     }
     
     public ItemData ItemToConvert
     {
-        get => itemToConvert;
+        get => _itemToConvert;
     } 
 
     private string Description
     {
-        get => description;
+        get => _description;
+    }
+    private GameObject ItemPrefab
+    {
+        get => _itemPrefab;
     }
 }
