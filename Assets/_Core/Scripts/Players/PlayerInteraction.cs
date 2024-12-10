@@ -50,9 +50,11 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
-                if (_currentCookingMachine != null)
+                _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+
+                if (_currentCookingMachine != null && _currentCookingMachine is CauldronMixing cauldronMixing)
                 {
-                    _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+                    cauldronMixing.StartInteraction();
                 }
             }
         }
