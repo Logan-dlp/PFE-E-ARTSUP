@@ -5,7 +5,6 @@ using System.Collections;
 using System;
 using NaughtyAttributes;
 using Random = UnityEngine.Random;
-using UnityEngine.Serialization;
 
 namespace MoonlitMixes.QTE
 {
