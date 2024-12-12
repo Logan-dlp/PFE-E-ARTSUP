@@ -9,15 +9,18 @@ namespace MoonlitMixes.Player
         [SerializeField] private ItemData _itemDataInHand;
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
-        
+        [SerializeField] private string _actionMapPlayer;
+        [SerializeField] private string _actionMapWaitingTable;
+
+
         private PlayerHoldItem _playerHoldItem;
         private ACookingMachine _currentCookingMachine;
-        
-        
+        private PlayerInput _playerInput;
 
         private void Awake()
         {
             _playerHoldItem = GetComponent<PlayerHoldItem>();
+            _playerInput = GetComponent<PlayerInput>();
         }
         private void Update()
         {
@@ -65,7 +68,6 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        Debug.Log("2");
                         if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
                             waitingTable.PlaceItem(_playerHoldItem.Item, _playerHoldItem.ItemHold);
@@ -83,7 +85,7 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        if(hit.transform.TryGetComponent<ProtoItemGiver>(out ProtoItemGiver itemGiver))
+                        if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
                         {
                             _itemDataInHand = itemGiver.GiveItem();
                             _playerHoldItem.DisplayItemHold(_itemDataInHand);
@@ -91,6 +93,23 @@ namespace MoonlitMixes.Player
                     }
                 }
                 
+            }
+        }
+
+        public void InteractSecondary(InputAction.CallbackContext ctx)
+        {
+            if(!ctx.started) return;
+
+            if(_itemDataInHand != null) return;
+
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+            {
+                if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                {
+                    _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
+                    _playerInput.actions.FindActionMap(_actionMapWaitingTable).Enable();
+                    waitingTable.StartHighlight();
+                }
             }
         }
     }
