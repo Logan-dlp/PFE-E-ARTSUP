@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class ProtoItemGiver : MonoBehaviour
 {
-    [SerializeField] private ItemData itemData;
-    public ItemData GiveItem()
+    [SerializeField] private GameObject _item;
+    public GameObject GiveItem()
     {
-        return itemData;
+        return _item;
     }
 }

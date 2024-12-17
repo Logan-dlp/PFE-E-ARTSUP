@@ -385,6 +385,7 @@ MonoBehaviour:
   _scriptableMovementEvent: {fileID: 11400000, guid: 6f2a0305bf388f24b88918983618ccdb, type: 2}
   _scriptableSelectEvent: {fileID: 11400000, guid: 85c12f6b9e4495042baad4b1e2fdbd40, type: 2}
   _scriptableCancelEvent: {fileID: 11400000, guid: a8ad0271d4c134d4a905483b3ab902a2, type: 2}
+  _scriptableItemEvent: {fileID: 11400000, guid: 24a5da4c4d5399945ac3f1b3974c6941, type: 2}
 --- !u!1 &682153345
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,6 +2114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemHoldPivot: {fileID: 2057586432}
+  _scriptableItemEvent: {fileID: 11400000, guid: 24a5da4c4d5399945ac3f1b3974c6941, type: 2}
 --- !u!114 &1998141794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2125,7 +2127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac77821526ba273418f72b5659686b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemDataInHand: {fileID: 0}
+  _itemInHand: {fileID: 0}
   _interactionDistance: 1
   _layerHitable:
     serializedVersion: 2
@@ -2200,7 +2202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98793954ef938604eb5f0291bc8c7f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: e08e6b812fc04a94fa6251d4269a4780, type: 2}
+  _item: {fileID: 6281367554845149181, guid: bf2a91696c1ce9347a8a1f1b4e93886b, type: 3}
 --- !u!65 &2146800640
 BoxCollider:
   m_ObjectHideFlags: 0

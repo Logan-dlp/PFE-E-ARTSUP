@@ -7,7 +7,8 @@ public class WaitingTable : MonoBehaviour
     [SerializeField] private ScriptableAxisEvent _scriptableMovementEvent;
     [SerializeField] private ScriptableButtonEvent _scriptableSelectEvent;
     [SerializeField] private ScriptableButtonEvent _scriptableCancelEvent;
-    private ItemData[] _itemDataArray = new ItemData[10];
+    [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+    private GameObject[] _itemGameObjectArray = new GameObject[10];
     private Light[] _lightArray = new Light[10];
     private bool _isActive = false; 
     private int _indexSelectedItem = 0;
@@ -34,13 +35,13 @@ public class WaitingTable : MonoBehaviour
         }
     }
 
-    public void PlaceItem(ItemData itemToAdd, GameObject itemGameObject)
+    public void PlaceItem(GameObject itemGameObject)
     {
-        for (int i = 0; i < _itemDataArray.Length; i++)
+        for (int i = 0; i < _itemGameObjectArray.Length; i++)
         {
-            if(_itemDataArray[i] == null)
+            if(_itemGameObjectArray[i] == null)
             {
-                _itemDataArray[i] = itemToAdd;
+                _itemGameObjectArray[i] = itemGameObject;
                 itemGameObject.transform.SetParent(_pivotWaitingItemsArray[i].transform);
                 itemGameObject.transform.localPosition = new Vector3(0, 0, 0);
                 break;
@@ -50,7 +51,7 @@ public class WaitingTable : MonoBehaviour
 
     public bool CheckAvailablePlace()
     {
-        foreach(ItemData item in _itemDataArray)
+        foreach(GameObject item in _itemGameObjectArray)
         {
             if(item == null)
             {
@@ -63,35 +64,54 @@ public class WaitingTable : MonoBehaviour
     private void Select(InputAction.CallbackContext context)
     {
         if(!context.started) return;
+
+        if(_itemGameObjectArray[_indexSelectedItem] == null) return;
+
+        _scriptableItemEvent.SendObject(_itemGameObjectArray[_indexSelectedItem]);
+        Destroy(_itemGameObjectArray[_indexSelectedItem]);
+        QuitWaitingTable();
     }
 
     private void Cancel(InputAction.CallbackContext context)
     {
         if(!context.started) return;
+        QuitWaitingTable();
+    }
 
+    private void QuitWaitingTable()
+    {
         PlayerInput playerInput = FindFirstObjectByType<PlayerInput>(); 
         playerInput.actions.FindActionMap("WaitingTable").Disable();
         playerInput.actions.FindActionMap("Player").Enable();
         _isActive = false;
+        UpdateHighlight();
     }
 
     private void Movement(InputAction.CallbackContext context)
     {
         if(!context.started) return;
-
         Vector2 vec = context.ReadValue<Vector2>();
-        Debug.Log(vec);
         switch((vec.x, vec.y))
         {
             case (-1,0):
-                if(_indexSelectedItem == 4 || _indexSelectedItem == 9) return;
-                else ++_indexSelectedItem;
-                Debug.Log("-1,0");
+                if(_indexSelectedItem == 4 || _indexSelectedItem == 9) 
+                {
+                    return;
+                }
+                else
+                {
+                    ++_indexSelectedItem;
+                }
                 break;
             case (1,0):
-                if(_indexSelectedItem == 0 || _indexSelectedItem == 5) return;
-                else --_indexSelectedItem;
-                Debug.Log("1,0");
+                if(_indexSelectedItem == 0 || _indexSelectedItem == 5)
+                {
+                    return;
+                }
+                else
+                {
+                    --_indexSelectedItem;
+                }
                 break;
             case (0,-1):
                 if(_indexSelectedItem < 5)
@@ -102,7 +122,6 @@ public class WaitingTable : MonoBehaviour
                 {
                     _indexSelectedItem -= 5;
                 }
-                Debug.Log("0,-1");
                 break;
             case (0,1):
                 if(_indexSelectedItem >= 5)
@@ -113,7 +132,6 @@ public class WaitingTable : MonoBehaviour
                 {
                     _indexSelectedItem += 5;
                 }
-                Debug.Log("0,1");
                 break;
         }
         UpdateHighlight();
@@ -134,6 +152,10 @@ public class WaitingTable : MonoBehaviour
                 _lightArray[i].intensity = 0;
             }
             _lightArray[_indexSelectedItem].intensity = 1;
+        }
+        else
+        {
+            _lightArray[_indexSelectedItem].intensity = 0;
         }
     }
 }

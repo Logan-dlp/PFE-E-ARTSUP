@@ -6,13 +6,17 @@ namespace MoonlitMixes.Player
 {
     public class PlayerInteraction : MonoBehaviour
     {
-        [SerializeField] private ItemData _itemDataInHand;
+        [SerializeField] private GameObject _itemInHand;
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private string _actionMapPlayer;
         [SerializeField] private string _actionMapWaitingTable;
 
-
+        public GameObject ItemInHand
+        {
+            get => _itemInHand;
+            set => _itemInHand = value;
+        }
         private PlayerHoldItem _playerHoldItem;
         private ACookingMachine _currentCookingMachine;
         private PlayerInput _playerInput;
@@ -27,9 +31,9 @@ namespace MoonlitMixes.Player
             Debug.DrawRay(transform.position, transform.forward * _interactionDistance, Color.red);
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance))
             {
-                if(_itemDataInHand != null)
+                if(_itemInHand != null)
                 {
-                    if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == _itemDataInHand.Usage)
+                    if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == _itemInHand.GetComponent<ItemDataHolder>().ItemData.Usage)
                     {
                         if (_currentCookingMachine != cookingMachine)
                         {
@@ -64,21 +68,21 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
-                if(_itemDataInHand != null)
+                if(_itemInHand != null)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
                         if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
-                            waitingTable.PlaceItem(_playerHoldItem.Item, _playerHoldItem.ItemHold);
+                            waitingTable.PlaceItem(_playerHoldItem.ItemHold);
                             _playerHoldItem.Item = null;
                             _playerHoldItem.ItemHold = null;
-                            _itemDataInHand = null;
+                            _itemInHand = null;
                         }
                     }
                     if (_currentCookingMachine != null)
                     {
-                        _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+                        _itemInHand = _currentCookingMachine.ConvertItem(_itemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab;
                     }
                 }
                 else
@@ -87,8 +91,8 @@ namespace MoonlitMixes.Player
                     {
                         if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
                         {
-                            _itemDataInHand = itemGiver.GiveItem();
-                            _playerHoldItem.DisplayItemHold(_itemDataInHand);
+                            _itemInHand = itemGiver.GiveItem();
+                            _playerHoldItem.GetItemData(_itemInHand);
                         }
                     }
                 }
@@ -100,7 +104,7 @@ namespace MoonlitMixes.Player
         {
             if(!ctx.started) return;
 
-            if(_itemDataInHand != null) return;
+            if(_itemInHand != null) return;
 
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
             {
