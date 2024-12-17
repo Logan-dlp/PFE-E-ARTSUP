@@ -42,11 +42,11 @@ public class ItemData : ScriptableObject
         get => _itemToConvert;
     } 
 
-    private string Description
+    public string Description
     {
         get => _description;
     }
-    private GameObject ItemPrefab
+    public GameObject ItemPrefab
     {
         get => _itemPrefab;
     }
