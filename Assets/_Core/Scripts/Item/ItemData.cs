@@ -46,6 +46,7 @@ public class ItemData : ScriptableObject
     {
         get => _description;
     }
+    
     public GameObject ItemPrefab
     {
         get => _itemPrefab;

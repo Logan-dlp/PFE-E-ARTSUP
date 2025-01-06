@@ -12,11 +12,8 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapPlayer;
         [SerializeField] private string _actionMapWaitingTable;
 
-        public GameObject ItemInHand
-        {
-            get => _itemInHand;
-            set => _itemInHand = value;
-        }
+        public GameObject ItemInHand { get; set; }
+        
         private PlayerHoldItem _playerHoldItem;
         private ACookingMachine _currentCookingMachine;
         private PlayerInput _playerInput;
@@ -26,6 +23,7 @@ namespace MoonlitMixes.Player
             _playerHoldItem = GetComponent<PlayerHoldItem>();
             _playerInput = GetComponent<PlayerInput>();
         }
+
         private void Update()
         {
             Debug.DrawRay(transform.position, transform.forward * _interactionDistance, Color.red);

@@ -5,19 +5,12 @@ public class PlayerHoldItem : MonoBehaviour
 {
     [SerializeField] private GameObject _itemHoldPivot;
     [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+    
     private ItemData _item;
     private GameObject _itemHold;
 
-    public ItemData Item
-    {
-        get => _item;
-        set => _item = value;
-    } 
-    public GameObject ItemHold
-    {
-        get => _itemHold;
-        set => _itemHold = value;
-    }
+    public ItemData Item { get; set; }
+    public GameObject ItemHold { get; set; }
 
     private void OnEnable()
     {

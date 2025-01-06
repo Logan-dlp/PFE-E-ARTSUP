@@ -8,6 +8,7 @@ public class WaitingTable : MonoBehaviour
     [SerializeField] private ScriptableButtonEvent _scriptableSelectEvent;
     [SerializeField] private ScriptableButtonEvent _scriptableCancelEvent;
     [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+    
     private GameObject[] _itemGameObjectArray = new GameObject[10];
     private Light[] _lightArray = new Light[10];
     private bool _isActive = false; 
