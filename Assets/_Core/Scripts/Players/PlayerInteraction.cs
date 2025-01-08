@@ -8,9 +8,16 @@ namespace MoonlitMixes.Player
     {
         [SerializeField] private ItemData _itemDataInHand;
         [SerializeField] private float _interactionDistance;
+        [SerializeField] private GameObject _bubbleVFX;
+        private CauldronTimer _caudronTimer;
 
         private ACookingMachine _currentCookingMachine;
         private CauldronRecipeChecker _currentCauldron;
+
+        private void Awake()
+        {
+            _caudronTimer = GetComponent<CauldronTimer>();
+        }
 
         private void Update()
         {
@@ -43,6 +50,19 @@ namespace MoonlitMixes.Player
                 {
                     ResetInteractionTargets();
                 }
+
+                //Affichage du VFX de bulle si l'on peut ajouter un item
+                if(_bubbleVFX != null)
+                {
+                    if (_caudronTimer.CanAddItem())
+                    {
+                        _bubbleVFX.SetActive(true); 
+                    }
+                    else
+                    {
+                        _bubbleVFX.SetActive(false);
+                    }
+                }
             }
             else
             {
@@ -69,7 +89,7 @@ namespace MoonlitMixes.Player
             }
             newCookingMachine.TogleShowInteractivity();
             _currentCookingMachine = newCookingMachine;
-            _currentCauldron = null; 
+            _currentCauldron = null;
         }
 
         private void ResetInteractionTargets()
@@ -93,14 +113,22 @@ namespace MoonlitMixes.Player
             {
                 if (_itemDataInHand != null)
                 {
-                    if (_currentCauldron != null)
+                        //if (_caudronTimer.CanAddItem())
+                    //{
+                        if (_currentCauldron != null)
+                        {
+                            _currentCauldron.AddIngredient(_itemDataInHand);
+                            _itemDataInHand = null;
+                            //_caudronTimer.ResetCooldown();
+                        }
+                        else if (_currentCookingMachine != null)
+                        {
+                            _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+                        }
+                    //}
+                    else
                     {
-                        _currentCauldron.AddIngredient(_itemDataInHand);
-                        _itemDataInHand = null;
-                    }
-                    else if (_currentCookingMachine != null)
-                    {
-                        _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+                        Debug.Log("Il faut attendre avant d'ajouter un autre ingrédient !");
                     }
                 }
                 else
