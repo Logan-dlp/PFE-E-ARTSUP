@@ -9,7 +9,7 @@ public class Recipe : ScriptableObject
     {
         public ElementType ElementType; 
         public int Quantity; 
-        public ItemUsage Usage;
+        public ItemUsage State;
     }
 
     [SerializeField] private string _recipeName;

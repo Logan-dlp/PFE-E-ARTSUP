@@ -7,6 +7,7 @@ public class ItemData : ScriptableObject
     [SerializeField] private ElementType elementType;
     [SerializeField, Range(1,4)] private int rarity;
     [SerializeField] private ItemUsage itemUsage;
+    [SerializeField] private ItemUsage state;
     [SerializeField] private Sprite sprite;
     [SerializeField] private ItemData itemToConvert;
     [SerializeField] private string description;
@@ -29,6 +30,11 @@ public class ItemData : ScriptableObject
     public ItemUsage Usage
     {
         get => itemUsage;
+    }
+
+    public ItemUsage State
+    {
+        get => state;
     }
 
     public Sprite ItemSprite

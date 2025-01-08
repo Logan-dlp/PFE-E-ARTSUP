@@ -10,30 +10,55 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _interactionDistance;
 
         private ACookingMachine _currentCookingMachine;
+        private RecipeMixer _currentCauldron;
 
         private void Update()
         {
             Debug.DrawRay(transform.position, transform.forward * _interactionDistance, Color.red);
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance) && _itemDataInHand != null)
+
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance))
             {
-                if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == _itemDataInHand.Usage)
+                if (_itemDataInHand != null)
                 {
-                    if (_currentCookingMachine != cookingMachine)
+                    if (hit.transform.TryGetComponent<RecipeMixer>(out RecipeMixer cauldron))
                     {
-                        SetNewCookingMachine(cookingMachine);
+                        if (_currentCauldron != cauldron)
+                        {
+                            SetNewCauldron(cauldron);
+                        }
+                    }
+                    else if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine))
+                    {
+                        if (_currentCookingMachine != cookingMachine)
+                        {
+                            SetNewCookingMachine(cookingMachine);
+                        }
+                    }
+                    else
+                    {
+                        ResetInteractionTargets();
                     }
                 }
-                else if (_currentCookingMachine != null)
+                else
                 {
-                    _currentCookingMachine.TogleShowInteractivity();
-                    _currentCookingMachine = null;
+                    ResetInteractionTargets();
                 }
             }
-            else if (_currentCookingMachine != null)
+            else
             {
-                _currentCookingMachine.TogleShowInteractivity();
-                _currentCookingMachine = null;
+                ResetInteractionTargets();
             }
+        }
+
+        private void SetNewCauldron(RecipeMixer newCauldron)
+        {
+            if (_currentCauldron != null)
+            {
+                _currentCauldron.TogleShowInteractivity();
+            }
+            newCauldron.TogleShowInteractivity();
+            _currentCauldron = newCauldron;
+            _currentCookingMachine = null;
         }
 
         private void SetNewCookingMachine(ACookingMachine newCookingMachine)
@@ -44,23 +69,43 @@ namespace MoonlitMixes.Player
             }
             newCookingMachine.TogleShowInteractivity();
             _currentCookingMachine = newCookingMachine;
+            _currentCauldron = null; 
+        }
+
+        private void ResetInteractionTargets()
+        {
+            if (_currentCauldron != null)
+            {
+                _currentCauldron.TogleShowInteractivity();
+                _currentCauldron = null;
+            }
+
+            if (_currentCookingMachine != null)
+            {
+                _currentCookingMachine.TogleShowInteractivity();
+                _currentCookingMachine = null;
+            }
         }
 
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
-                if (_currentCookingMachine != null)
+                if (_itemDataInHand != null)
                 {
-                    if (_itemDataInHand != null)
+                    if (_currentCauldron != null)
                     {
-                        if (_currentCookingMachine is CauldronMixing cauldron)
-                        {
-                            cauldron.AddIngredient(_itemDataInHand);
-                        }
-
+                        _currentCauldron.AddIngredient(_itemDataInHand);
+                        _itemDataInHand = null;
+                    }
+                    else if (_currentCookingMachine != null)
+                    {
                         _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
                     }
+                }
+                else
+                {
+                    Debug.Log("Vous n'avez aucun objet dans les mains !");
                 }
             }
         }
