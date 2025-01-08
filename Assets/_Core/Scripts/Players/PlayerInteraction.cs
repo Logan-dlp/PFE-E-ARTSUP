@@ -10,7 +10,7 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _interactionDistance;
 
         private ACookingMachine _currentCookingMachine;
-        private RecipeMixer _currentCauldron;
+        private CauldronRecipeChecker _currentCauldron;
 
         private void Update()
         {
@@ -20,7 +20,7 @@ namespace MoonlitMixes.Player
             {
                 if (_itemDataInHand != null)
                 {
-                    if (hit.transform.TryGetComponent<RecipeMixer>(out RecipeMixer cauldron))
+                    if (hit.transform.TryGetComponent<CauldronRecipeChecker>(out CauldronRecipeChecker cauldron))
                     {
                         if (_currentCauldron != cauldron)
                         {
@@ -50,7 +50,7 @@ namespace MoonlitMixes.Player
             }
         }
 
-        private void SetNewCauldron(RecipeMixer newCauldron)
+        private void SetNewCauldron(CauldronRecipeChecker newCauldron)
         {
             if (_currentCauldron != null)
             {

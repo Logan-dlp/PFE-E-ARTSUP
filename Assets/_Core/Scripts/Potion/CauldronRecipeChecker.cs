@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine
 {
-    public class RecipeMixer : MonoBehaviour
+    public class CauldronRecipeChecker : MonoBehaviour
     {
         [SerializeField] private GameObject _interactUI;
         [SerializeField] private List<Recipe> _allRecipes;
