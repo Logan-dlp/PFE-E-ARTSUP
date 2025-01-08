@@ -67,7 +67,7 @@ public class WaitingTable : MonoBehaviour
         if(!context.started) return;
 
         if(_itemGameObjectArray[_indexSelectedItem] == null) return;
-
+        
         _scriptableItemEvent.SendObject(_itemGameObjectArray[_indexSelectedItem]);
         Destroy(_itemGameObjectArray[_indexSelectedItem]);
         QuitWaitingTable();

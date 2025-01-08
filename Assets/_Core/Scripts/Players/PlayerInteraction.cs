@@ -6,7 +6,6 @@ namespace MoonlitMixes.Player
 {
     public class PlayerInteraction : MonoBehaviour
     {
-        [SerializeField] private GameObject _itemInHand;
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private string _actionMapPlayer;
@@ -29,9 +28,9 @@ namespace MoonlitMixes.Player
             Debug.DrawRay(transform.position, transform.forward * _interactionDistance, Color.red);
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance))
             {
-                if(_itemInHand != null)
+                if(ItemInHand != null)
                 {
-                    if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == _itemInHand.GetComponent<ItemDataHolder>().ItemData.Usage)
+                    if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == ItemInHand.GetComponent<ItemDataHolder>().ItemData.Usage)
                     {
                         if (_currentCookingMachine != cookingMachine)
                         {
@@ -66,7 +65,7 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
-                if(_itemInHand != null)
+                if(ItemInHand != null)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
@@ -75,12 +74,12 @@ namespace MoonlitMixes.Player
                             waitingTable.PlaceItem(_playerHoldItem.ItemHold);
                             _playerHoldItem.Item = null;
                             _playerHoldItem.ItemHold = null;
-                            _itemInHand = null;
+                            ItemInHand = null;
                         }
                     }
                     if (_currentCookingMachine != null)
                     {
-                        _itemInHand = _currentCookingMachine.ConvertItem(_itemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab;
+                        ItemInHand = _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab;
                     }
                 }
                 else
@@ -89,8 +88,8 @@ namespace MoonlitMixes.Player
                     {
                         if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
                         {
-                            _itemInHand = itemGiver.GiveItem();
-                            _playerHoldItem.GetItemData(_itemInHand);
+                            ItemInHand = itemGiver.GiveItem();
+                            _playerHoldItem.GetItemData(ItemInHand);
                         }
                     }
                 }
@@ -102,7 +101,7 @@ namespace MoonlitMixes.Player
         {
             if(!ctx.started) return;
 
-            if(_itemInHand != null) return;
+            if(ItemInHand != null) return;
 
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
             {
