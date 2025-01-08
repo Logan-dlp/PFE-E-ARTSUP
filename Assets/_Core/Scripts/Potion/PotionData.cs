@@ -8,13 +8,14 @@ public class Recipe : ScriptableObject
     public struct IngredientRequirement
     {
         public ElementType ElementType; 
-        public int Quantity;           
+        public int Quantity; 
+        public ItemUsage Usage;
     }
 
     [SerializeField] private string _recipeName;
     [SerializeField] private List<IngredientRequirement> _requiredIngredients;
     [SerializeField] private Sprite _potionSprite;
-    [SerializeField] private string _description;
+    [SerializeField, TextArea] private string _description;
 
     public string RecipeName
     {

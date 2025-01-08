@@ -7,7 +7,7 @@ namespace MoonlitMixes.CookingMachine
     {
         [SerializeField] private GameObject _interactUI;
         [SerializeField] private List<Recipe> _allRecipes;
-        [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>(); // Ingrédients ajoutés
+        [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
         private bool _isActive = false;
 
         public override void TogleShowInteractivity()
@@ -18,6 +18,14 @@ namespace MoonlitMixes.CookingMachine
 
         public void AddIngredient(ItemData ingredient)
         {
+            if (ingredient == null)
+            {
+                Debug.LogWarning("L'ingrédient ajouté est null !");
+                return;
+            }
+
+            Debug.Log($"Ingrédient ajouté : {ingredient.ObjectName}");
+
             _currentIngredients.Add(ingredient);
 
             bool isValid = ValidateIngredient(ingredient);
@@ -31,21 +39,42 @@ namespace MoonlitMixes.CookingMachine
             CheckRecipeCompletion();
         }
 
+
         private bool ValidateIngredient(ItemData ingredient)
         {
+            Dictionary<ElementType, int> currentCounts = new Dictionary<ElementType, int>();
+            foreach (var ing in _currentIngredients)
+            {
+                if (!currentCounts.ContainsKey(ing.Type))
+                {
+                    currentCounts[ing.Type] = 0;
+                }
+                currentCounts[ing.Type]++;
+            }
+
             foreach (Recipe recipe in _allRecipes)
             {
                 foreach (var requirement in recipe.RequiredIngredients)
                 {
                     if (requirement.ElementType == ingredient.Type)
                     {
+                        currentCounts.TryGetValue(ingredient.Type, out int currentCount);
+
+                        if (currentCount > requirement.Quantity)
+                        {
+                            Debug.LogWarning($"Trop d'ingrédients du type {ingredient.Type} ajoutés !");
+                            return false;
+                        }
+
                         return true;
                     }
                 }
             }
 
+            Debug.LogWarning($"L'ingrédient {ingredient.ObjectName} ne correspond à aucune recette !");
             return false;
         }
+
 
         private void CheckRecipeCompletion()
         {
