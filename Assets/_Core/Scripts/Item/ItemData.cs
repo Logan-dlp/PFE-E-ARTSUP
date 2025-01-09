@@ -1,53 +1,57 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
-public class ItemData : ScriptableObject
+namespace MoonlitMixes.Item
 {
-    [SerializeField] private string _obejctName;
-    [SerializeField] private ElementType _elementType;
-    [SerializeField, Range(1,4)] private int _rarity;
-    [SerializeField] private ItemUsage _itemUsage;
-    [SerializeField] private Sprite _sprite;
-    [SerializeField] private ItemData _itemToConvert;
-    [SerializeField] private string _description;
-    [SerializeField] private GameObject _itemPrefab;
-    
-    public string ObjectName
+    [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
+    public class ItemData : ScriptableObject
     {
-        get => _obejctName;
-    }
+        [SerializeField] private string _obejctName;
+        [SerializeField] private ElementType _elementType;
+        [SerializeField, Range(1,4)] private int _rarity;
+        [SerializeField] private ItemUsage _itemUsage;
+        [SerializeField] private Sprite _sprite;
+        [SerializeField] private ItemData _itemToConvert;
+        [SerializeField] private string _description;
+        [SerializeField] private GameObject _itemPrefab;
 
-    public ElementType Type
-    {
-        get => _elementType;
-    }
+        public string ObjectName
+        {
+            get => _obejctName;
+        }
 
-    public int Rarity
-    {
-        get => _rarity;
-    }
+        public ElementType Type
+        {
+            get => _elementType;
+        }
 
-    public ItemUsage Usage
-    {
-        get => _itemUsage;
-    }
+        public int Rarity
+        {
+            get => _rarity;
+        }
 
-    public Sprite ItemSprite
-    {
-        get => _sprite;
-    }
-    
-    public ItemData ItemToConvert
-    {
-        get => _itemToConvert;
-    } 
+        public ItemUsage Usage
+        {
+            get => _itemUsage;
+        }
 
-    private string Description
-    {
-        get => _description;
-    }
-    private GameObject ItemPrefab
-    {
-        get => _itemPrefab;
+        public Sprite ItemSprite
+        {
+            get => _sprite;
+        }
+
+        public ItemData ItemToConvert
+        {
+            get => _itemToConvert;
+        } 
+
+        public string Description
+        {
+            get => _description;
+        }
+
+        public GameObject ItemPrefab
+        {
+            get => _itemPrefab;
+        }
     }
 }
