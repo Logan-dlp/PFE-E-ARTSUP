@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public class ItemDataHolder : MonoBehaviour
+namespace MoonlitMixes.Item
 {
-    [SerializeField] private ItemData _itemData;
+    public class ItemDataHolder : MonoBehaviour
+    {
+        [SerializeField] private ItemData _itemData;
 
-    public ItemData ItemData { get; set; }
+        public ItemData ItemData { get; set; }
+    }
 }

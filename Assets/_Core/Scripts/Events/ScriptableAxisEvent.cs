@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AxisEvent", menuName = "Scriptable Objects/AxisEvent")]
-public class ScriptableAxisEvent : AScriptableInputEvent
+namespace MoonlitMixes.Events
 {
+    [CreateAssetMenu(fileName = "AxisEvent", menuName = "Scriptable Objects/AxisEvent")]
+    public class ScriptableAxisEvent : AScriptableInputEvent
+    {
     
+    }
 }

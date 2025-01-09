@@ -1,35 +1,40 @@
-using MoonlitMixes.Player;
+using MoonlitMixes.Events;
+using MoonlitMixes.Item;
 using UnityEngine;
 
-public class PlayerHoldItem : MonoBehaviour
+namespace MoonlitMixes.Player
 {
-    [SerializeField] private GameObject _itemHoldPivot;
-    [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
-
-    public ItemData Item { get; set; }
-    public GameObject ItemHold { get; set; }
-
-    private void OnEnable()
+    public class PlayerHoldItem : MonoBehaviour
     {
-        _scriptableItemEvent.ItemDataAction += GetItemData;
-    }
-
-    private void OnDisable()
-    {
-        _scriptableItemEvent.ItemDataAction -= GetItemData;
-    }
-
-    private void DisplayItemHold()
-    {
-        ItemHold.transform.localPosition = Vector3.zero;
-        ItemHold.transform.localScale = Vector3.one;
-    }
+        [SerializeField] private GameObject _itemHoldPivot;
+        [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
     
-    public void GetItemData(GameObject item)
-    {
-        ItemHold = Instantiate(item, _itemHoldPivot.transform);
-        Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
-        DisplayItemHold();
-        GetComponent<PlayerInteraction>().ItemInHand = ItemHold;
+        public ItemData Item { get; set; }
+        public GameObject ItemHold { get; set; }
+    
+        private void OnEnable()
+        {
+            _scriptableItemEvent.ItemDataAction += GetItemData;
+        }
+    
+        private void OnDisable()
+        {
+            _scriptableItemEvent.ItemDataAction -= GetItemData;
+        }
+    
+        private void DisplayItemHold()
+        {
+            ItemHold.transform.localPosition = Vector3.zero;
+            ItemHold.transform.localScale = Vector3.one;
+        }
+        
+        
+        public void GetItemData(GameObject item)
+        {
+            ItemHold = Instantiate(item, _itemHoldPivot.transform);
+            Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
+            DisplayItemHold();
+            GetComponent<PlayerInteraction>().ItemInHand = ItemHold;
+        }
     }
 }

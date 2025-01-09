@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class ProtoItemGiver : MonoBehaviour
+namespace MoonlitMixes.Item
 {
-    [SerializeField] private GameObject _item;
-    public GameObject GiveItem()
+    public class ProtoItemGiver : MonoBehaviour
     {
-        return _item;
+        [SerializeField] private GameObject _item;
+        public GameObject GiveItem()
+        {
+            return _item;
+        }
     }
 }

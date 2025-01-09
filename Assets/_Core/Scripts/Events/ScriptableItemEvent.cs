@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemEvent", menuName = "Scriptable Objects/ItemEvent")]
-public class ScriptableItemEvent : ScriptableObject
+namespace MoonlitMixes.Events
 {
-    public event Action<GameObject> ItemDataAction;
-    public void SendObject(GameObject item)
+    [CreateAssetMenu(fileName = "ItemEvent", menuName = "Scriptable Objects/ItemEvent")]
+    public class ScriptableItemEvent : ScriptableObject
     {
-        ItemDataAction?.Invoke(item);
+        public event Action<GameObject> ItemDataAction;
+        public void SendObject(GameObject item)
+        {
+            ItemDataAction?.Invoke(item);
+        }
     }
 }

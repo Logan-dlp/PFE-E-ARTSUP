@@ -2,12 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class AScriptableInputEvent : ScriptableObject
+namespace MoonlitMixes.Events
 {
-    public event Action<InputAction.CallbackContext> OnInput;
-
-    public virtual void SendInput(InputAction.CallbackContext context)
+    public abstract class AScriptableInputEvent : ScriptableObject
     {
-        OnInput?.Invoke(context);
+        public event Action<InputAction.CallbackContext> OnInput;
+
+        public virtual void SendInput(InputAction.CallbackContext context)
+        {
+            OnInput?.Invoke(context);
+        }
     }
 }
