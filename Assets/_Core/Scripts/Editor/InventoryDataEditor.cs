@@ -1,33 +1,37 @@
+using MoonlitMixes.Datas;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(InventoryData))]
-public class InventoryDataEditor : Editor
+namespace MoonlitMixes.Editor
 {
-    SerializedProperty inventoryModeProperty;
-    SerializedProperty maxSlotsProperty;
-    SerializedProperty itemsProperty;
-
-    private void OnEnable()
+    [CustomEditor(typeof(InventoryData))]
+    public class InventoryDataEditor : UnityEditor.Editor
     {
-        inventoryModeProperty = serializedObject.FindProperty("_inventoryMode");
-        maxSlotsProperty = serializedObject.FindProperty("_maxSlots");
-        itemsProperty = serializedObject.FindProperty("_items");
-    }
+        SerializedProperty inventoryModeProperty;
+        SerializedProperty maxSlotsProperty;
+        SerializedProperty itemsProperty;
 
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-
-        EditorGUILayout.PropertyField(inventoryModeProperty);
-
-        if (inventoryModeProperty.enumValueIndex == (int)InventoryData.InventoryMode.InventoryPlayer)
+        private void OnEnable()
         {
-            EditorGUILayout.PropertyField(maxSlotsProperty, new GUIContent("Maximum number of slots"));
+            inventoryModeProperty = serializedObject.FindProperty("_inventoryMode");
+            maxSlotsProperty = serializedObject.FindProperty("_maxSlots");
+            itemsProperty = serializedObject.FindProperty("_items");
         }
 
-        EditorGUILayout.PropertyField(itemsProperty, new GUIContent("Items"), true);
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
 
-        serializedObject.ApplyModifiedProperties();
+            EditorGUILayout.PropertyField(inventoryModeProperty);
+
+            if (inventoryModeProperty.enumValueIndex == (int)InventoryData.InventoryMode.InventoryPlayer)
+            {
+                EditorGUILayout.PropertyField(maxSlotsProperty, new GUIContent("Maximum number of slots"));
+            }
+
+            EditorGUILayout.PropertyField(itemsProperty, new GUIContent("Items"), true);
+
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }
