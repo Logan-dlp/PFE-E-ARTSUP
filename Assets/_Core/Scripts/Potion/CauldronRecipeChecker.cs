@@ -6,9 +6,21 @@ namespace MoonlitMixes.CookingMachine
     public class CauldronRecipeChecker : MonoBehaviour
     {
         [SerializeField] private GameObject _interactUI;
+        [SerializeField] private GameObject _bubbleVFX;
         [SerializeField] private List<Recipe> _allRecipes;
         [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
+
+        private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
+
+        private void Awake()
+        {
+            _cauldronTimer = GetComponent<CauldronTimer>();
+            if (_cauldronTimer == null)
+            {
+                Debug.LogError("CauldronTimer n'est pas attaché au chaudron !");
+            }
+        }
 
         public void TogleShowInteractivity()
         {
@@ -24,9 +36,17 @@ namespace MoonlitMixes.CookingMachine
                 return;
             }
 
+            if (!_cauldronTimer.CanAddItem())
+            {
+                Debug.Log("Il faut attendre avant d'ajouter un autre ingrédient !");
+                return;
+            }
+
             Debug.Log($"Ingrédient ajouté : {ingredient.ObjectName}");
 
             _currentIngredients.Add(ingredient);
+            _cauldronTimer.ResetCooldown();
+            TriggerBubbleVFX();
 
             bool isValid = ValidateIngredient(ingredient);
 
@@ -38,7 +58,6 @@ namespace MoonlitMixes.CookingMachine
 
             CheckRecipeCompletion();
         }
-
 
         private bool ValidateIngredient(ItemData ingredient)
         {
@@ -58,12 +77,6 @@ namespace MoonlitMixes.CookingMachine
                 {
                     if (requirement.ElementType == ingredient.Type)
                     {
-                        if (requirement.State != ingredient.State)
-                        {
-                            Debug.LogWarning($"L'état de l'ingrédient {ingredient.ObjectName} ne correspond pas à l'état requis pour la recette !");
-                            return false;
-                        }
-
                         currentCounts.TryGetValue(ingredient.Type, out int currentCount);
 
                         if (currentCount > requirement.Quantity)
@@ -80,8 +93,6 @@ namespace MoonlitMixes.CookingMachine
             Debug.LogWarning($"L'ingrédient {ingredient.ObjectName} ne correspond à aucune recette !");
             return false;
         }
-
-
 
         private void CheckRecipeCompletion()
         {
@@ -128,6 +139,23 @@ namespace MoonlitMixes.CookingMachine
         {
             Debug.Log("Potion ratée !");
             _currentIngredients.Clear();
+        }
+
+        private void TriggerBubbleVFX()
+        {
+            if (_bubbleVFX != null)
+            {
+                _bubbleVFX.SetActive(true);
+                Invoke(nameof(DisableBubbleVFX), _cauldronTimer.GetTimeRemaining());
+            }
+        }
+
+        private void DisableBubbleVFX()
+        {
+            if (_bubbleVFX != null)
+            {
+                _bubbleVFX.SetActive(false);
+            }
         }
     }
 }

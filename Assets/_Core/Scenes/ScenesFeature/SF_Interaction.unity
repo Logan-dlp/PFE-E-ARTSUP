@@ -1528,6 +1528,7 @@ GameObject:
   - component: {fileID: 874895292}
   - component: {fileID: 874895297}
   - component: {fileID: 874895296}
+  - component: {fileID: 874895298}
   m_Layer: 0
   m_Name: Cauldron
   m_TagString: Untagged
@@ -1638,6 +1639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactUI: {fileID: 136812570}
+  _bubbleVFX: {fileID: 0}
   _allRecipes:
   - {fileID: 11400000, guid: cfe7f54ca4945d248a2097247982b373, type: 2}
   _currentIngredients: []
@@ -1655,6 +1657,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transformType: 2
   InteractUI: {fileID: 136812570}
+--- !u!114 &874895298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874895290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87726f91c06a67748880d080581798ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemCooldown: 60
 --- !u!1 &1374935433
 GameObject:
   m_ObjectHideFlags: 0
