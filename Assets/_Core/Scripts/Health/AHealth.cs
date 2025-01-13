@@ -2,10 +2,14 @@ using UnityEngine;
 
 namespace MoonlitMixes.Health
 {
-    public class AHealth : MonoBehaviour
+    public abstract class AHealth : MonoBehaviour
     {
         [SerializeField] internal float _maxHealth;
+        [SerializeField] protected HealthBarScriptableInt healthBarScriptableInt;
         internal float _currentHealth;
+
+        abstract protected void CheckHealth();
+        abstract public void TakeDamage(float damage);
 
         private void Start()
         {
@@ -14,11 +18,8 @@ namespace MoonlitMixes.Health
 
         virtual protected void RemoveHealth(float damage)
         {
-            if (_currentHealth < damage)
-            {
-                Debug.Log(gameObject.name + "is dead");
-            }
-            Mathf.Max(0, _currentHealth - damage);
+            _currentHealth = Mathf.Max(0, _currentHealth - damage);
+            CheckHealth();
         }
     }
 }

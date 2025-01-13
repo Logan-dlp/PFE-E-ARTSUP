@@ -339,15 +339,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1957917862}
+        m_TargetAssemblyTypeName: MoonlitMixes.Health.PlayerHealth, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -713,15 +713,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1969053799}
+        m_TargetAssemblyTypeName: MoonlitMixes.Health.EnemyHealth, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -1110,6 +1110,8 @@ GameObject:
   - component: {fileID: 1957917859}
   - component: {fileID: 1957917861}
   - component: {fileID: 1957917860}
+  - component: {fileID: 1957917862}
+  - component: {fileID: 1957917863}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1174,6 +1176,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957917858}
   m_CullTransparentMesh: 1
+--- !u!114 &1957917862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957917858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec8c50fa8294c14e95dcc6a9c08447e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  healthBarScriptableInt: {fileID: 11400000, guid: 5c3881731ba56f145bacba2d4e9b0a81, type: 2}
+  _timeBeforeGettingOutOfFight: 3
+  _healthRegenetion: 1
+--- !u!114 &1957917863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957917858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1bd992f5acf5147b5642f9b4e06094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBarScriptableInt: {fileID: 11400000, guid: 5c3881731ba56f145bacba2d4e9b0a81, type: 2}
+  _healthBar: {fileID: 1957917860}
 --- !u!1 &1969053794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,6 +1217,8 @@ GameObject:
   - component: {fileID: 1969053795}
   - component: {fileID: 1969053797}
   - component: {fileID: 1969053796}
+  - component: {fileID: 1969053799}
+  - component: {fileID: 1969053798}
   m_Layer: 5
   m_Name: Image_001
   m_TagString: Untagged
@@ -1249,6 +1283,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969053794}
   m_CullTransparentMesh: 1
+--- !u!114 &1969053798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969053794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1bd992f5acf5147b5642f9b4e06094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBarScriptableInt: {fileID: 11400000, guid: 38177138b79a1194f99da6c69f9113bd, type: 2}
+  _healthBar: {fileID: 1969053796}
+--- !u!114 &1969053799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969053794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9bc857dddd13d4cb6eb53c93731d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  healthBarScriptableInt: {fileID: 11400000, guid: 38177138b79a1194f99da6c69f9113bd, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
