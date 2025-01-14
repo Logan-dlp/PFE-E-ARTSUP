@@ -18,11 +18,11 @@ public class ToolData : ScriptableObject
         get => _sprite;
     }
 
-    private string Description
+    public string Description
     {
         get => _description;
     }
-    private GameObject ToolPrefab
+    public GameObject ToolPrefab
     {
         get => _toolPrefab;
     }
