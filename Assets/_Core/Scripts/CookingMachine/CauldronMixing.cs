@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine
 {
-    public class KitchenMortar : ACookingMachine
+    public class CauldronMixing : ACookingMachine
     {
-        [SerializeField] private GameObject InteractUI;
+        [SerializeField] private GameObject _interactUI;
         private bool _isActive = false;
-        
+
         public override void TogleShowInteractivity()
         {
             _isActive = !_isActive;
-            InteractUI.SetActive(_isActive);
+            _interactUI.SetActive(_isActive);
         }
     }
 }
