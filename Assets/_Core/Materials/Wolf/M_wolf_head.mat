@@ -41,6 +41,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 03c40a4ca96ace2409b0bfe1a6fa1053, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 2800000, guid: 6890cc8ebd960e4458bf6b9765692789, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask_non_cell:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal_map:
         m_Texture: {fileID: 2800000, guid: cf293668cedf2ab468bb914057dcc13d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -59,14 +67,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Emissive_strenght: 0.537
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Shadow_Size: 0.277
-    - _reflet_size: 0.061
-    - _reflet_transparency: 0.022
+    - _Shadow_Size: 0.45
+    - _reflet_size: 0.044
+    - _reflet_transparency: 0.089
     m_Colors:
+    - _Emissive_color: {r: 1, g: 0, b: 0, a: 0}
     - _Shadow_color: {r: 0.33712137, g: 0.33090067, b: 0.49056602, a: 0}
-    - _reflet_color: {r: 0.740566, g: 0.740566, b: 1, a: 0}
+    - _reflet_color: {r: 0.5606978, g: 0.5606978, b: 0.6792453, a: 0}
     - _v2_light: {r: 2.12, g: 5, b: 2.51, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
