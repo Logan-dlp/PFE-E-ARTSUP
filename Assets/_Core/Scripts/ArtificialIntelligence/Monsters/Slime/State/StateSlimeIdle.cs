@@ -33,9 +33,24 @@ namespace MoonlitMixes.AI.StateMachine.States
                 else
                 {
                     slimeData.NavMeshAgent.SetDestination(GenerateRandomPoint(slimeData.InitialPosition, .1f, 5));
-                    _timer = Random.Range(.1f, 5);
+                    _timer = Random.Range(3, 5);
                 }
+            }
+
+            if (slimeData.NavMeshAgent.hasPath)
+            {
+                Vector3 dir = (slimeData.NavMeshAgent.steeringTarget - slimeData.SlimeGameObject.transform.position).normalized;
+                Vector3 animDir = slimeData.SlimeGameObject.transform.InverseTransformDirection(dir);
                 
+                slimeData.Animator.SetFloat("Horizontal", animDir.x, .5f, Time.deltaTime);
+                slimeData.Animator.SetFloat("Vertical", animDir.z, .5f, Time.deltaTime);
+                
+                slimeData.SlimeGameObject.transform.rotation = Quaternion.RotateTowards(slimeData.SlimeGameObject.transform.rotation, Quaternion.LookRotation(dir), 180 * Time.deltaTime);
+            }
+            else
+            {
+                slimeData.Animator.SetFloat("Horizontal", 0, .25f, Time.deltaTime);
+                slimeData.Animator.SetFloat("Vertical", 0, .25f, Time.deltaTime);
             }
             
             if (slimeData.InAttack)

@@ -13,6 +13,7 @@ namespace MoonlitMixes.AI
             base._data = new SlimeData()
             {
                 SlimeGameObject = gameObject,
+                Animator = GetComponent<Animator>(),
                 NavMeshAgent = GetComponent<NavMeshAgent>(),
                 InAttack = false,
                 InitialPosition = transform.position,
@@ -21,5 +22,7 @@ namespace MoonlitMixes.AI
             
             TransitionTo(new StateSlimeIdle());
         }
+        
+        
     }
 }

@@ -6,6 +6,7 @@ namespace MoonlitMixes.AI.StateMachine
     public class SlimeData : AStateMachineData
     {
         public GameObject SlimeGameObject { get; set; }
+        public Animator Animator { get; set; }
         public NavMeshAgent NavMeshAgent { get; set; }
         public bool InAttack { get; set; }
         public Vector3 InitialPosition { get; set; }
