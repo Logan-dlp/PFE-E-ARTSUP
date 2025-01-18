@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace MoonlitMixes.Health
@@ -8,6 +9,9 @@ namespace MoonlitMixes.Health
         [SerializeField] private float _healthRegenetion;
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
+
+        public event Action OnPlayerDeath;
+
 
         private void FixedUpdate()
         {
@@ -29,7 +33,7 @@ namespace MoonlitMixes.Health
 
         public override void TakeDamage(float damage)
         {
-            Debug.Log("");
+            Debug.Log("TakeDamage");
             RemoveHealth(damage);
             _isInFight = true;
             _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
@@ -40,9 +44,16 @@ namespace MoonlitMixes.Health
             if(_currentHealth <= 0)
             {
                 Debug.Log("PlayerDeath");
+                OnPlayerDeath?.Invoke();
             }
             
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
+        }
+
+        public void ResetHealth()
+        {
+            _currentHealth = _maxHealth;
+            CheckHealth();
         }
     }
 }
