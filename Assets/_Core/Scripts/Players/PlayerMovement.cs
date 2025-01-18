@@ -96,5 +96,15 @@ namespace MoonlitMixes.Player
                 _currentSpeed = _walkSpeed;
             }
         }
+
+        public float GetCurrentStamina()
+        {
+            return _currentStamina;
+        }
+
+        public float GetMaxStamina()
+        {
+            return _maxStamina;
+        }
     }
 }
