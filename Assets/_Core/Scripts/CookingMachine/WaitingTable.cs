@@ -97,7 +97,7 @@ namespace MoonlitMixes.CookingMachine
             Vector2 vec = context.ReadValue<Vector2>();
             switch((vec.x, vec.y))
             {
-                case (-1,0):
+                case (1,0):
                     if(_indexSelectedItem == 4 || _indexSelectedItem == 9) 
                     {
                         return;
@@ -107,7 +107,7 @@ namespace MoonlitMixes.CookingMachine
                         ++_indexSelectedItem;
                     }
                     break;
-                case (1,0):
+                case (-1,0):
                     if(_indexSelectedItem == 0 || _indexSelectedItem == 5)
                     {
                         return;

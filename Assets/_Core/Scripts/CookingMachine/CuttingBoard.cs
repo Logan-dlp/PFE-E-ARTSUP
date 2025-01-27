@@ -10,7 +10,7 @@ namespace MoonlitMixes.CookingMachine
         public override void TogleShowInteractivity()
         {
             _isActive = !_isActive;
-            InteractUI.SetActive(_isActive);
+            //InteractUI.SetActive(_isActive);
         }
     }
 }

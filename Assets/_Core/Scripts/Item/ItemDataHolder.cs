@@ -6,6 +6,10 @@ namespace MoonlitMixes.Item
     {
         [SerializeField] private ItemData _itemData;
 
-        public ItemData ItemData { get; set; }
+        public ItemData ItemData
+        { 
+            get => _itemData;
+            set => _itemData = value;
+        }
     }
 }

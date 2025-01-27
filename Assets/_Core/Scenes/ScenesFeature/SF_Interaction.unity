@@ -1656,7 +1656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transformType: 2
-  InteractUI: {fileID: 136812570}
+  _interactUI: {fileID: 0}
 --- !u!114 &874895298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2388,6 +2388,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4740dbaf-b023-4d55-998d-565fec3660fe
     m_ActionName: 'Player/Interact[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 88083a86-c620-495e-9b14-a21cd7d6e878
+    m_ActionName: 'Player/SecondaryInteract[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 36a8c9b0-cd09-4f25-a6ee-5f686ae75fff
+    m_ActionName: 'WaitingTable/MovementHighlightObject[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41313a80-ada3-4f94-a6a5-5a94a978f878
+    m_ActionName: 'WaitingTable/Select[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ebde777-92c2-4c1b-9aa2-02275f88fcb1
+    m_ActionName: 'WaitingTable/Cancel[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2439,6 +2455,7 @@ MonoBehaviour:
   _walkSpeed: 2
   _sprintSpeed: 4
   _maxStamina: 5
+  _canSprint: 0
 --- !u!114 &6515520755283025346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2451,8 +2468,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac77821526ba273418f72b5659686b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemDataInHand: {fileID: 11400000, guid: 29bc592f05a73614098f8c837626a3dc, type: 2}
   _interactionDistance: 1
+  _layerHitable:
+    serializedVersion: 2
+    m_Bits: 0
+  _actionMapPlayer: 
+  _actionMapWaitingTable: 
 --- !u!23 &9108990550456468400
 MeshRenderer:
   m_ObjectHideFlags: 0

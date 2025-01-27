@@ -15,7 +15,7 @@ public class CauldronTimer : MonoBehaviour
         }
         else
         {
-            Debug.Log("Le cooldown est terminé. Vous pouvez ajouter un nouvel élément !");
+            //Debug.Log("Le cooldown est terminï¿½. Vous pouvez ajouter un nouvel ï¿½lï¿½ment !");
         }
     }
 
