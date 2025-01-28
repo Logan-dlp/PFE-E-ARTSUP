@@ -9,7 +9,7 @@ namespace MoonlitMixes.AI
     {
         protected IState _currentState;
         protected AStateMachineData _data;
-
+        
         private void Update()
         {
             IState nextState = _currentState?.Update(_data);

@@ -22,7 +22,5 @@ namespace MoonlitMixes.AI
             
             TransitionTo(new StateSlimeIdle());
         }
-        
-        
     }
 }
