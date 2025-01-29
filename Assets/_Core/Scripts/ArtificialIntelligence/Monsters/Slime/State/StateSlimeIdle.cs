@@ -31,7 +31,6 @@ namespace MoonlitMixes.AI.StateMachine.States
             }
             else
             {
-                slimeData.NavMeshAgent.SetDestination(GenerateRandomPoint(slimeData.InitialPosition, .1f, 5));
                 return new StateSlimeWalking();
             }
             
@@ -41,13 +40,6 @@ namespace MoonlitMixes.AI.StateMachine.States
         public void Exit(AStateMachineData data)
         {
             
-        }
-        
-        private Vector3 GenerateRandomPoint(Vector3 origin, float rayMin, float rayMax)
-        {
-            Vector2 randomCircle = Random.insideUnitCircle * Random.Range(rayMin, rayMax);
-            Vector3 randomPoint = origin + new Vector3(randomCircle.x, 0, randomCircle.y);
-            return randomPoint;
         }
     }
 }

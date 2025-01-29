@@ -10,7 +10,6 @@ namespace MoonlitMixes.AI.StateMachine
         public NavMeshAgent NavMeshAgent { get; set; }
         public bool InAttack { get; set; }
         public Vector3 InitialPosition { get; set; }
-        public Vector3 TargetPosition { get; set; }
         public float AttackRadius { get; set; }
     }
 }

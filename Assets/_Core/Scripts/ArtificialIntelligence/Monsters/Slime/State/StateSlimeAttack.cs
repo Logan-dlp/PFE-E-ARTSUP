@@ -14,11 +14,8 @@ namespace MoonlitMixes.AI.StateMachine.States
             Debug.Log($"Update in {this.GetType().Name}");
             SlimeData slimeData = data as SlimeData;
             
-            
-            
             if (!slimeData.InAttack)
             {
-                
                 return new StateSlimeIdle();
             }
             
