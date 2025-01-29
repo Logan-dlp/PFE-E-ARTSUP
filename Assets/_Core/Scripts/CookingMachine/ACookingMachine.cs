@@ -1,3 +1,4 @@
+using MoonlitMixes.Item;
 using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine

@@ -1,161 +1,166 @@
 using System.Collections.Generic;
 using System.Linq;
+using MoonlitMixes.Datas;
+using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+namespace MoonlitMixes.Inventory
 {
-    [SerializeField] private InventoryData _inventory;
-    [SerializeField] private InventoryData _inventoryReceives;
-    [SerializeField] private GameObject _slotPrefab;
-
-    private int _initialSlotsPerRow = 5;
-
-    private void OnEnable()
+    public class InventoryUI : MonoBehaviour
     {
-        RefreshUI();
-    }
+        [SerializeField] private InventoryData _inventory;
+        [SerializeField] private InventoryData _inventoryReceives;
+        [SerializeField] private GameObject _slotPrefab;
 
-    public void RefreshUI()
-    {
-        int itemCount = _inventory.Items.Count;
-        int slotCount = transform.childCount;
+        private int _initialSlotsPerRow = 5;
 
-        while (slotCount < itemCount)
+        private void OnEnable()
         {
-            AddNewRowOfSlots();
-            slotCount = transform.childCount;
+            RefreshUI();
         }
 
-        for (int i = 0; i < slotCount; i++)
+        public void RefreshUI()
         {
-            Transform slot = transform.GetChild(i);
+            int itemCount = _inventory.Items.Count;
+            int slotCount = transform.childCount;
 
-            if (i < itemCount)
+            while (slotCount < itemCount)
             {
-                ItemData item = _inventory.Items[i];
-                Transform itemTransform = slot.Find("Item");
+                AddNewRowOfSlots();
+                slotCount = transform.childCount;
+            }
 
-                if (itemTransform == null)
+            for (int i = 0; i < slotCount; i++)
+            {
+                Transform slot = transform.GetChild(i);
+
+                if (i < itemCount)
                 {
-                    GameObject itemObj = new GameObject("Item");
-                    itemObj.transform.SetParent(slot);
-                    itemObj.transform.localPosition = Vector3.zero;
+                    ItemData item = _inventory.Items[i];
+                    Transform itemTransform = slot.Find("Item");
 
-                    Image itemImage = itemObj.AddComponent<Image>();
-                    itemImage.sprite = item.ItemSprite;
-                    itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
+                    if (itemTransform == null)
+                    {
+                        GameObject itemObj = new GameObject("Item");
+                        itemObj.transform.SetParent(slot);
+                        itemObj.transform.localPosition = Vector3.zero;
+
+                        Image itemImage = itemObj.AddComponent<Image>();
+                        itemImage.sprite = item.ItemSprite;
+                        itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
+                    }
+                    else
+                    {
+                        Image itemImage = itemTransform.GetComponent<Image>();
+                        if (itemImage != null)
+                        {
+                            itemImage.sprite = item.ItemSprite;
+                        }
+                    }
                 }
                 else
                 {
-                    Image itemImage = itemTransform.GetComponent<Image>();
-                    if (itemImage != null)
+                    Transform itemTransform = slot.Find("Item");
+                    if (itemTransform != null)
                     {
-                        itemImage.sprite = item.ItemSprite;
+                        Destroy(itemTransform.gameObject);
                     }
                 }
             }
+        }
+
+        private void AddNewRowOfSlots()
+        {
+            for (int i = 0; i < _initialSlotsPerRow; i++)
+            {
+                GameObject newSlot = Instantiate(_slotPrefab, transform);
+                newSlot.name = "Slot_" + (transform.childCount + 1);
+            }
+        }
+
+        public void AddItem(ItemData item)
+        {
+            if (item == null)
+            {
+                Debug.LogWarning("L'item ï¿½ ajouter est nul !");
+                return;
+            }
+
+            if (_inventory.Mode == InventoryData.InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
+            {
+                Debug.LogWarning("L'inventaire est plein !");
+                return;
+            }
+
+            _inventory.Items.Add(item);
+            SortInventory();
+            RefreshUI();
+            Debug.Log($"{item.name} ajoutï¿½ avec succï¿½s !");
+        }
+
+        public void RemoveItem(ItemData item)
+        {
+            if (item == null)
+            {
+                Debug.LogWarning("L'item ï¿½ supprimer est nul !");
+                return;
+            }
+
+            if (_inventory.Items.Contains(item))
+            {
+                _inventory.Items.Remove(item);
+                RefreshUI();
+                Debug.Log($"{item.name} dï¿½truit avec succï¿½s !");
+            }
             else
             {
-                Transform itemTransform = slot.Find("Item");
-                if (itemTransform != null)
-                {
-                    Destroy(itemTransform.gameObject);
-                }
+                Debug.LogWarning("L'objet n'existe pas dans l'inventaire !");
             }
         }
-    }
 
-    private void AddNewRowOfSlots()
-    {
-        for (int i = 0; i < _initialSlotsPerRow; i++)
+        private void SortInventory()
         {
-            GameObject newSlot = Instantiate(_slotPrefab, transform);
-            newSlot.name = "Slot_" + (transform.childCount + 1);
-        }
-    }
-
-    public void AddItem(ItemData item)
-    {
-        if (item == null)
-        {
-            Debug.LogWarning("L'item à ajouter est nul !");
-            return;
+            _inventory.Items = _inventory.Items
+                .OrderBy(item => item.Type)
+                .ThenBy(item => item.Rarity)
+                .ToList();
         }
 
-        if (_inventory.Mode == InventoryData.InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
+        public IReadOnlyList<ItemData> Items => _inventory.Items.AsReadOnly();
+
+        public bool ContainsItem(ItemData item)
         {
-            Debug.LogWarning("L'inventaire est plein !");
-            return;
+            return _inventory.Items.Contains(item);
         }
 
-        _inventory.Items.Add(item);
-        SortInventory();
-        RefreshUI();
-        Debug.Log($"{item.name} ajouté avec succès !");
-    }
-
-    public void RemoveItem(ItemData item)
-    {
-        if (item == null)
+        public void SendItems(InventoryData inventoryData)
         {
-            Debug.LogWarning("L'item à supprimer est nul !");
-            return;
-        }
-
-        if (_inventory.Items.Contains(item))
-        {
-            _inventory.Items.Remove(item);
-            RefreshUI();
-            Debug.Log($"{item.name} détruit avec succès !");
-        }
-        else
-        {
-            Debug.LogWarning("L'objet n'existe pas dans l'inventaire !");
-        }
-    }
-
-    private void SortInventory()
-    {
-        _inventory.Items = _inventory.Items
-            .OrderBy(item => item.Type)
-            .ThenBy(item => item.Rarity)
-            .ToList();
-    }
-
-    public IReadOnlyList<ItemData> Items => _inventory.Items.AsReadOnly();
-
-    public bool ContainsItem(ItemData item)
-    {
-        return _inventory.Items.Contains(item);
-    }
-
-    public void SendItems(InventoryData inventoryData)
-    {
-        try
-        {
-            for (int i = _inventory.Items.Count - 1; i >= 0; i--)
+            try
             {
-                ItemData item = _inventory.Items[i];
+                for (int i = _inventory.Items.Count - 1; i >= 0; i--)
+                {
+                    ItemData item = _inventory.Items[i];
 
-                if (_inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
-                {
-                    _inventoryReceives.Items.Add(item);
-                    _inventory.Items.RemoveAt(i);
-                    Debug.Log("Envoie des items dans l'inventaire destiné");
-                }
-                else
-                {
-                    Debug.LogWarning("L'inventaire destiné est plein");
-                    break;
+                    if (_inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
+                    {
+                        _inventoryReceives.Items.Add(item);
+                        _inventory.Items.RemoveAt(i);
+                        Debug.Log("Envoie des items dans l'inventaire destinï¿½");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("L'inventaire destinï¿½ est plein");
+                        break;
+                    }
                 }
             }
-        }
-        catch (System.Exception error)
-        {
-            Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
-        }
+            catch (System.Exception error)
+            {
+                Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
+            }
 
-        RefreshUI();
+            RefreshUI();
+        }
     }
 }
