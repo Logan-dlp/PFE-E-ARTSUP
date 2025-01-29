@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 23857386}
   - component: {fileID: 23857390}
   m_Layer: 0
-  m_Name: Respawn
+  m_Name: Dead Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -400,8 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d1bd992f5acf5147b5642f9b4e06094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBarScriptableInt: {fileID: 11400000, guid: 5c3881731ba56f145bacba2d4e9b0a81, type: 2}
-  _healthBar: {fileID: 334896207}
 --- !u!114 &334896206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,8 +1500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f19a54b80cbd54ba94b7a109cf6c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnPoint: {fileID: 918363502}
-  characterController: {fileID: 0}
+  _respawnPoint: {fileID: 918363502}
 --- !u!23 &9108990550456468400
 MeshRenderer:
   m_ObjectHideFlags: 0

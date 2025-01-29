@@ -6,25 +6,25 @@ namespace MoonlitMixes.Respawn
 {
     public class PlayerRespawn : MonoBehaviour
     {
-        [SerializeField] private Transform respawnPoint;
+        [SerializeField] private Transform _respawnPoint;
         
-        private CharacterController characterController;
-        private PlayerHealth playerHealth;
+        private CharacterController _characterController;
+        private PlayerHealth _playerHealth;
 
         private void Awake()
         {
-            playerHealth = GetComponent<PlayerHealth>();
-            characterController = GetComponent<CharacterController>();
+            _playerHealth = GetComponent<PlayerHealth>();
+            _characterController = GetComponent<CharacterController>();
         }
 
         private void OnEnable()
         {
-            playerHealth.OnPlayerDeath += HandlePlayerDeath;
+            _playerHealth.OnPlayerDeath += HandlePlayerDeath;
         }
 
         private void OnDisable()
         {
-            playerHealth.OnPlayerDeath -= HandlePlayerDeath;
+            _playerHealth.OnPlayerDeath -= HandlePlayerDeath;
         }
 
         private void HandlePlayerDeath()
@@ -34,13 +34,13 @@ namespace MoonlitMixes.Respawn
 
         private void RespawnPlayer()
         {
-            transform.position = respawnPoint.position;
-            playerHealth.ResetHealth();
+            transform.position = _respawnPoint.position;
+            _playerHealth.ResetHealth();
 
-            if (characterController != null)
+            if (_characterController != null)
             {
-                characterController.enabled = false;
-                characterController.enabled = true;
+                _characterController.enabled = false;
+                _characterController.enabled = true;
             }
 
             StartCoroutine(EnableMovementAfterDelay(1f));
