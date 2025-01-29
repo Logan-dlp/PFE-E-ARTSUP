@@ -6,26 +6,26 @@ namespace MoonlitMixes.Stamina
 {
     public class StaminaBar : MonoBehaviour
     {
-        [SerializeField] private PlayerMovement playerMovement; 
-        [SerializeField] private Image staminaBarImage;
+        [SerializeField] private PlayerMovement _playerMovement; 
+        [SerializeField] private Image _staminaBarImage;
         private void Start()
         {
-            if (playerMovement == null)
+            if (_playerMovement == null)
             {
-                playerMovement = GetComponentInParent<PlayerMovement>();
+                _playerMovement = GetComponentInParent<PlayerMovement>();
             }
-            if (staminaBarImage == null)
+            if (_staminaBarImage == null)
             {
-                staminaBarImage = GetComponent<Image>();
+                _staminaBarImage = GetComponent<Image>();
             }
         }
 
         private void Update()
         {
-            if (playerMovement != null && staminaBarImage != null)
+            if (_playerMovement != null && _staminaBarImage != null)
             {
-                float staminaPercentage = playerMovement.GetCurrentStamina() / playerMovement.GetMaxStamina();
-                staminaBarImage.fillAmount = staminaPercentage;
+                float staminaPercentage = _playerMovement.GetCurrentStamina() / _playerMovement.GetMaxStamina();
+                _staminaBarImage.fillAmount = staminaPercentage;
             }
         }
     }
