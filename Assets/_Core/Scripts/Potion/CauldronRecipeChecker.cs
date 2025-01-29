@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MoonlitMixes.Item;
+using MoonlitMixes.Potion;
 using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine
@@ -13,10 +14,11 @@ namespace MoonlitMixes.CookingMachine
 
         private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
-
+        private PotionInventory _potionInventory;
         private void Awake()
         {
             _cauldronTimer = GetComponent<CauldronTimer>();
+            _potionInventory = FindFirstObjectByType<PotionInventory>();
             if (_cauldronTimer == null)
             {
                 Debug.LogError("CauldronTimer n'est pas attach� au chaudron !");
@@ -26,7 +28,7 @@ namespace MoonlitMixes.CookingMachine
         public void TogleShowInteractivity()
         {
             _isActive = !_isActive;
-            _interactUI.SetActive(_isActive);
+            //_interactUI.SetActive(_isActive);
         }
 
         public void AddIngredient(ItemData ingredient)
@@ -132,6 +134,7 @@ namespace MoonlitMixes.CookingMachine
 
         private void HandleSuccessfulPotion(Recipe recipe)
         {
+            _potionInventory.PotionList.Add(recipe.Potion);
             Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
         }

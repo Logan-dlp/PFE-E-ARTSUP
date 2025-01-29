@@ -1,3 +1,4 @@
+using System;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using UnityEngine;
@@ -31,10 +32,43 @@ namespace MoonlitMixes.Player
         
         public void GetItemData(GameObject item)
         {
+            try
+            {
+                foreach (Transform child in _itemHoldPivot.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            catch
+            {
+                Debug.Log("No childs");
+                throw;
+            }
+
             ItemHold = Instantiate(item, _itemHoldPivot.transform);
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
             GetComponent<PlayerInteraction>().ItemInHand = ItemHold;
+        }
+
+        public void RemoveItem()
+        {
+            try
+            {
+                foreach (Transform child in _itemHoldPivot.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            catch
+            {
+                Debug.Log("No childs");
+                throw;
+            }
+
+            ItemHold = null;
+            Item = null;
+            GetComponent<PlayerInteraction>().ItemInHand = null;
         }
     }
 }

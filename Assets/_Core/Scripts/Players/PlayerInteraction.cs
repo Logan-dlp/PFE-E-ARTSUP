@@ -111,22 +111,20 @@ namespace MoonlitMixes.Player
                         if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
                             waitingTable.PlaceItem(_playerHoldItem.ItemHold);
-                            _playerHoldItem.Item = null;
-                            _playerHoldItem.ItemHold = null;
+                            _playerHoldItem.RemoveItem();
                             ItemInHand = null;
                         }
                     }
 
                     if (_currentCookingMachine != null)
                     {
-                        ItemInHand = _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab;
-                    
+                        _playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
                     }
                     
                     else if (_currentCauldron != null)
                     {
                         _currentCauldron.AddIngredient(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
-                        ItemInHand = null;
+                        _playerHoldItem.RemoveItem();
                     }
     
                     else
@@ -140,8 +138,7 @@ namespace MoonlitMixes.Player
                     {
                         if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
                         {
-                            ItemInHand = itemGiver.GiveItem();
-                            _playerHoldItem.GetItemData(ItemInHand);
+                            _playerHoldItem.GetItemData(itemGiver.GiveItem());
                         }
                     }
                     else
