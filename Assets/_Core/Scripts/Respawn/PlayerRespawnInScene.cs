@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace MoonlitMixes.Respawn
 {
-    public class PlayerRespawn : MonoBehaviour
+    public class PlayerRespawnInScene : MonoBehaviour
     {
         [SerializeField] private Transform _respawnPoint;
         
@@ -19,18 +19,14 @@ namespace MoonlitMixes.Respawn
 
         private void OnEnable()
         {
-            _playerHealth.OnPlayerDeath += HandlePlayerDeath;
+            _playerHealth.OnPlayerRespawnInScene += RespawnPlayer;
         }
 
         private void OnDisable()
         {
-            _playerHealth.OnPlayerDeath -= HandlePlayerDeath;
+            _playerHealth.OnPlayerRespawnInScene -= RespawnPlayer;
         }
 
-        private void HandlePlayerDeath()
-        {
-            RespawnPlayer();
-        }
 
         private void RespawnPlayer()
         {

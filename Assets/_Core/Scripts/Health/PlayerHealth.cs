@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using MoonlitMixes.Respawn;
 
 namespace MoonlitMixes.Health
 {
@@ -7,10 +9,12 @@ namespace MoonlitMixes.Health
     {
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegenetion;
+        [SerializeField] private RespawnPointData respawnData;
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
 
-        public event Action OnPlayerDeath;
+        public event Action OnPlayerRespawnInScene;
+        public event Action OnPlayerRespawnInOtherScene;
 
 
         private void FixedUpdate()
@@ -43,8 +47,15 @@ namespace MoonlitMixes.Health
         {
             if(_currentHealth <= 0)
             {
-                Debug.Log("PlayerDeath");
-                OnPlayerDeath?.Invoke();
+                if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
+                {
+                    OnPlayerRespawnInScene?.Invoke();
+                }
+                else
+                {
+                    OnPlayerRespawnInOtherScene?.Invoke();
+                    Debug.Log("Other Scene");
+                }
             }
             
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
