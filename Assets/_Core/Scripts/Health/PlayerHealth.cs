@@ -37,7 +37,6 @@ namespace MoonlitMixes.Health
 
         public override void TakeDamage(float damage)
         {
-            Debug.Log("TakeDamage");
             RemoveHealth(damage);
             _isInFight = true;
             _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
@@ -54,7 +53,6 @@ namespace MoonlitMixes.Health
                 else
                 {
                     OnPlayerRespawnInOtherScene?.Invoke();
-                    Debug.Log("Other Scene");
                 }
             }
             
