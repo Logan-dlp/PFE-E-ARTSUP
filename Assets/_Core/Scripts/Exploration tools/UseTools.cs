@@ -51,7 +51,7 @@ public class UseTools : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
         {
-            if (hit.collider.CompareTag("Enemy"))
+            if (hit.collider.CompareTag("Enemy")) // a changé avec le script quand IA monsters sera merge
             {
                 Debug.Log("🔥 Le player a touché un ennemi !");
                 Destroy(hit.collider.gameObject);
