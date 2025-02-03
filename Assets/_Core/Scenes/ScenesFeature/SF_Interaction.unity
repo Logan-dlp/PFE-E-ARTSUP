@@ -279,6 +279,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7518218867822755369, guid: e367ede69a1f8cc4da44ee461d48504e, type: 3}
   m_PrefabInstance: {fileID: 1696274181}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &177462438
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177462430}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d1d9314877248924cbb947cdd7ee9f9f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &243660598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,7 +1986,7 @@ GameObject:
   - component: {fileID: 1695021350}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2072,6 +2094,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Septer
       objectReference: {fileID: 0}
+    - target: {fileID: 6872774765229210521, guid: e367ede69a1f8cc4da44ee461d48504e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7518218867822755369, guid: e367ede69a1f8cc4da44ee461d48504e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -2115,7 +2141,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6872774765229210521, guid: e367ede69a1f8cc4da44ee461d48504e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 177462438}
   m_SourcePrefab: {fileID: 100100000, guid: e367ede69a1f8cc4da44ee461d48504e, type: 3}
 --- !u!1 &1787135779
 GameObject:
