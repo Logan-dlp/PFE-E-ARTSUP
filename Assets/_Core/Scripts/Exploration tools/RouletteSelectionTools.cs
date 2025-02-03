@@ -7,27 +7,33 @@ public class RouletteSelectionTools : MonoBehaviour
 {
     [SerializeField] private ToolListData _toolListData;
     [SerializeField] private Image[] _toolSlots;
-    [SerializeField] private List<GameObject> _toolGameObjects; 
+    [SerializeField] private List<GameObject> _toolGameObjects;
 
     private int _currentToolIndex = 0;
-    private List<ToolData> _tools; 
+    private ToolType _currentToolType;
+    private List<ToolData> _tools;
+    private List<ToolType> _toolTypes;
 
     private void Start()
     {
         _tools = _toolListData != null ? _toolListData.ToolList : new List<ToolData>();
+        _toolTypes = new List<ToolType> { ToolType.Pickaxe, ToolType.Machete, ToolType.Septer };
 
         if (_tools.Count == 0 || _toolGameObjects.Count == 0 || _tools.Count != _toolGameObjects.Count)
         {
-            Debug.LogError("Mismatch between ToolData and GameObjects! Ensure both lists have the same number of items.");
+            Debug.LogError("Mismatch entre ToolData et GameObjects !");
             return;
         }
 
+        _currentToolType = _toolTypes[_currentToolIndex];
         UpdateToolSlots();
         UpdateActiveTool();
     }
 
     public void ChangeTool(InputAction.CallbackContext ctx)
     {
+        if (!ctx.performed) return;
+
         if (_tools.Count == 0 || _toolGameObjects.Count == 0) return;
 
         float input = ctx.ReadValue<float>();
@@ -41,8 +47,15 @@ public class RouletteSelectionTools : MonoBehaviour
             _currentToolIndex = (_currentToolIndex - 1 + _tools.Count) % _tools.Count;
         }
 
+        _currentToolType = _toolTypes[_currentToolIndex];
+
         UpdateToolSlots();
         UpdateActiveTool();
+    }
+
+    public ToolType GetCurrentToolType()
+    {
+        return _currentToolType;
     }
 
     private void UpdateToolSlots()
@@ -52,7 +65,6 @@ public class RouletteSelectionTools : MonoBehaviour
             if (i < _tools.Count)
             {
                 int toolIndex = (_currentToolIndex + i) % _tools.Count;
-
                 _toolSlots[i].sprite = _tools[toolIndex].ItemSprite;
                 _toolSlots[i].gameObject.SetActive(true);
             }
