@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,6 +9,7 @@ namespace MoonlitMixes.AI
     
     public class Slime : AMonsters
     {
+        [SerializeField] private TargetTest _playerTargetTest;
         private SlimeData _slimeData;
         
         private void Start()
@@ -19,7 +19,6 @@ namespace MoonlitMixes.AI
                 SlimeGameObject = gameObject,
                 Animator = GetComponent<Animator>(),
                 NavMeshAgent = GetComponent<NavMeshAgent>(),
-                InAttack = false,
                 InitialPosition = transform.position,
                 AttackRadius = 5,
             };
@@ -35,7 +34,16 @@ namespace MoonlitMixes.AI
             {
                 Gizmos.color = new Color(255, 255, 255, .5f);
                 Gizmos.DrawSphere(_slimeData.InitialPosition, _slimeData.AttackRadius);
+                
+                Gizmos.color = new Color(255, 0, 0, .5f);
+                Gizmos.DrawSphere(_slimeData.InitialPosition, _slimeData.AttackRadius * 1.5f);
             }
+        }
+
+        [ContextMenu("Player Hit Monster")]
+        public void PlayerHitMonster()
+        {
+            _slimeData.PlayerGameObject = _playerTargetTest;
         }
     }
 }

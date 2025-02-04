@@ -10,6 +10,8 @@ namespace MoonlitMixes.AI.StateMachine.States
         
         public void Enter(AStateMachineData data)
         {
+            Debug.Log("Enter Idle");
+            
             _timer = Random.Range(.5f, 3f);
         }
 
@@ -20,9 +22,9 @@ namespace MoonlitMixes.AI.StateMachine.States
             slimeData.Animator.SetFloat("Horizontal", 0, .25f, Time.deltaTime);
             slimeData.Animator.SetFloat("Vertical", 0, .25f, Time.deltaTime);
             
-            if (slimeData.InAttack)
+            if (slimeData.PlayerGameObject != null)
             {
-                return new StateSlimeAttack();
+                return new StateSlimeFollowPlayer();
             }
             
             if (_timer > 0)
@@ -39,7 +41,7 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void Exit(AStateMachineData data)
         {
-            
+            Debug.Log("Exit Idle");
         }
     }
 }

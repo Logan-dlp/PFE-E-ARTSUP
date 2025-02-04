@@ -6,15 +6,14 @@ namespace MoonlitMixes.AI.StateMachine.States
     {
         public void Enter(AStateMachineData data)
         {
-            Debug.Log($"Enter in {this.GetType().Name}");
+            
         }
 
         public IState Update(AStateMachineData data)
         {
-            Debug.Log($"Update in {this.GetType().Name}");
             SlimeData slimeData = data as SlimeData;
             
-            if (!slimeData.InAttack)
+            if (slimeData.PlayerGameObject == null)
             {
                 return new StateSlimeIdle();
             }
@@ -24,7 +23,7 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void Exit(AStateMachineData data)
         {
-            Debug.Log($"Exit in {this.GetType().Name}");
+            
         }
     }
 }

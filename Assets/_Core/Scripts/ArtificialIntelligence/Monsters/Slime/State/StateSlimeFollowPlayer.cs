@@ -2,20 +2,33 @@ using UnityEngine;
 
 namespace MoonlitMixes.AI.StateMachine.States
 {
-    public class StateSlimeWalking : IState
+    public class StateSlimeFollowPlayer : IState
     {
         public void Enter(AStateMachineData data)
         {
-            Debug.Log("Enter walking");
+            Debug.Log("Enter Follow Player");
             
             SlimeData slimeData = data as SlimeData;
             
-            slimeData.NavMeshAgent.SetDestination(GenerateRandomPoint(slimeData.InitialPosition, .1f, 5));
+            if (slimeData.PlayerGameObject != null)
+            {
+                slimeData.NavMeshAgent.SetDestination(slimeData.PlayerGameObject.transform.position);
+            }
         }
 
         public IState Update(AStateMachineData data)
         {
             SlimeData slimeData = data as SlimeData;
+
+            if (slimeData.PlayerGameObject == null)
+            {
+                return new StateSlimeIdle();
+            }
+            
+            if (Vector3.Distance(slimeData.PlayerGameObject.transform.position, slimeData.InitialPosition) > slimeData.AttackRadius * 1.5f)
+            {
+                slimeData.PlayerGameObject = null;
+            }
             
             if (slimeData.NavMeshAgent.hasPath)
             {
@@ -30,17 +43,8 @@ namespace MoonlitMixes.AI.StateMachine.States
 
                 if (Vector3.Distance(slimeData.SlimeGameObject.transform.position, slimeData.NavMeshAgent.destination) < slimeData.NavMeshAgent.radius)
                 {
-                    slimeData.NavMeshAgent.ResetPath();
+                    Debug.Log("Attack");
                 }
-            }
-            else
-            {
-                return new StateSlimeIdle();
-            }
-            
-            if (slimeData.PlayerGameObject != null)
-            {
-                return new StateSlimeFollowPlayer();
             }
             
             return null;
@@ -48,14 +52,11 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void Exit(AStateMachineData data)
         {
-            Debug.Log("Exit walking");
-        }
-        
-        private Vector3 GenerateRandomPoint(Vector3 origin, float rayMin, float rayMax)
-        {
-            Vector2 randomCircle = Random.insideUnitCircle * Random.Range(rayMin, rayMax);
-            Vector3 randomPoint = origin + new Vector3(randomCircle.x, 0, randomCircle.y);
-            return randomPoint;
+            SlimeData slimeData = data as SlimeData;
+            
+            slimeData.NavMeshAgent.ResetPath();
+            
+            Debug.Log("Exit Follow Player");
         }
     }
 }
