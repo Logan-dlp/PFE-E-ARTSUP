@@ -13,16 +13,16 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapQTE;
         [SerializeField] private string _actionMapWaitingTable;
 
-        public GameObject ItemInHand { get; set; }
-        
-        private PlayerHoldItem _playerHoldItem;
         private ACookingMachine _currentCookingMachine;
         private PlayerInput _playerInput;
         private CauldronRecipeChecker _currentCauldron;
+        
+        public GameObject ItemInHand { get; set; }
+        public PlayerHoldItem PlayerHoldItem { get; private set;}
 
         private void Awake()
         {
-            _playerHoldItem = GetComponent<PlayerHoldItem>();
+            PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _playerInput = GetComponent<PlayerInput>();
         }
 
@@ -104,15 +104,14 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
-
                 if(ItemInHand != null)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
                         if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
-                            waitingTable.PlaceItem(_playerHoldItem.ItemHold);
-                            _playerHoldItem.RemoveItem();
+                            waitingTable.PlaceItem(PlayerHoldItem.ItemHold);
+                            PlayerHoldItem.RemoveItem();
                             ItemInHand = null;
                         }
                     }
@@ -121,14 +120,15 @@ namespace MoonlitMixes.Player
                     {
                         _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
                         _playerInput.actions.FindActionMap("QTE").Enable();
-                        _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
+                        _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData, this);
+
                         //_playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
                     }
                     
                     else if (_currentCauldron != null)
                     {
                         _currentCauldron.AddIngredient(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
-                        _playerHoldItem.RemoveItem();
+                        PlayerHoldItem.RemoveItem();
                     }
     
                     else
@@ -142,7 +142,14 @@ namespace MoonlitMixes.Player
                     {
                         if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
                         {
-                            _playerHoldItem.GetItemData(itemGiver.GiveItem());
+                            PlayerHoldItem.ChangeItemData(itemGiver.GiveItem());
+                        }
+
+                        if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                        {
+                            _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
+                            _playerInput.actions.FindActionMap(_actionMapWaitingTable).Enable();
+                            waitingTable.StartHighlight();
                         }
                     }
                     else
@@ -151,23 +158,6 @@ namespace MoonlitMixes.Player
                     }
                 }
                 
-            }
-        }
-
-        public void InteractSecondary(InputAction.CallbackContext ctx)
-        {
-            if(!ctx.started) return;
-
-            if(ItemInHand != null) return;
-
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
-            {
-                if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
-                {
-                    _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
-                    _playerInput.actions.FindActionMap(_actionMapWaitingTable).Enable();
-                    waitingTable.StartHighlight();
-                }
             }
         }
 

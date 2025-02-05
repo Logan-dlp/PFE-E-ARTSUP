@@ -94,6 +94,7 @@ namespace MoonlitMixes.CookingMachine
         {
             if(!context.started) return;
             Vector2 vec = context.ReadValue<Vector2>();
+            Debug.Log(vec);
             switch((vec.x, vec.y))
             {
                 case (1,0):

@@ -91,16 +91,6 @@ namespace MoonlitMixes.Datas
             get => _maxTimer;
         }
         
-        /*public Image QteSlot
-        {
-            get => _qteSlot;
-        }
-        
-        public Image ProgressBarUI
-        {
-            get => _progressBarUI;
-        }*/
-        
         public float SuccessDisplayDuration
         {
             get => _successDisplayDuration;

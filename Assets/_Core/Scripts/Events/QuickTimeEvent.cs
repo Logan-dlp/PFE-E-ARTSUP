@@ -92,25 +92,32 @@ namespace MoonlitMixes.QTE
         {   
             if (_isQTEActive)
             {
-                if(_timer > 0)
+                if(!_qteSuccess)
                 {
-                    _timer -= Time.deltaTime;
-                }
-                if (_timer <= 0 && !_isLose)
-                {
-                    Debug.Log("");
-                    EndQTE();
-                }
-
-                //Permet d'update la progress bar
-                if(!_progressBarComplete)
-                {
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar && _progressBarValue > 0)
+                    if(_timer > 0)
                     {
-                        _progressBarValue -= Time.deltaTime;
-                        _progressBarUI.fillAmount = _progressBarValue / _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput;
+                        _timer -= Time.deltaTime;
+                    }
+                    if (_timer <= 0 && !_isLose)
+                    {
+                        Debug.Log("");
+                        QTEFailure();
+                    }
+
+                    //Permet d'update la progress bar
+                    if(!_progressBarComplete)
+                    {
+                        if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar && _progressBarValue > 0)
+                        {
+                            _progressBarValue -= Time.deltaTime;
+                            _progressBarUI.fillAmount = _progressBarValue / _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput;
+                        }
                     }
                 }
+            }
+            else
+            {
+                _qteSlot.enabled = false;
             }
         }
 
@@ -168,6 +175,9 @@ namespace MoonlitMixes.QTE
                 return;
             }
 
+
+            _qteSlot.enabled = true;
+
             _isQTEActive = true;
             _timer = _qTEConfig.CustomQTEButtonArray[_currentIndex].qTEDuration;
             _currentPressCount = 0;
@@ -191,9 +201,15 @@ namespace MoonlitMixes.QTE
                 _rightStick.performed += CheckStickRotation;
             }
 
-            if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar == true)
+            if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
             {
-                _progressBarUI.gameObject.SetActive(true);
+                Debug.Log("uiTrue");
+                _progressBarUI.enabled = true;
+            }
+            else
+            {
+                Debug.Log("uiFalse");
+                _progressBarUI.enabled = false;
             }
         }
 
@@ -203,7 +219,7 @@ namespace MoonlitMixes.QTE
             _isQTEActive = false;
             //_scriptableBoolEvent.SendBool(false);
             //FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
-            
+            Debug.Log("End");
             if (!_qteSuccess)
             {
                 _qteSlot.color = Color.red;
@@ -387,11 +403,16 @@ namespace MoonlitMixes.QTE
             }
             else
             {
-                //Partage le timer entre tous les inputs
                 float timer = _qTEConfig.MaxTimer/_qTEConfig.CustomQTEButtonArray.Length;
+                //Partage le timer entre tous les inputs
+                if(timer < 2)
+                {
+                    timer = 3;
+                }
 
                 for(int i = 0; i < _qTEConfig.CustomQTEButtonArray.Length; i++)
                 {
+                    Debug.Log(timer);
                     _qTEConfig.CustomQTEButtonArray[i].qTEDuration = timer;
                 }
             }
@@ -467,7 +488,7 @@ namespace MoonlitMixes.QTE
             _progressBarComplete = false;
             _progressBarValue = 0;
             _progressBarUI.fillAmount = 0;
-            _progressBarUI.gameObject.SetActive(false);
+            _progressBarUI.enabled = false;
 
             if (_completedQTECount < _qTEConfig.CustomQTEButtonArray.Length)
             {
@@ -475,6 +496,8 @@ namespace MoonlitMixes.QTE
             }
             else
             {
+                Debug.Log("Win");
+                _isQTEActive = false;
                 FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
                 _scriptableBoolEvent.SendBool(true);
             }
