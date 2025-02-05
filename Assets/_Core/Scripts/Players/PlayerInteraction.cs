@@ -10,6 +10,7 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private string _actionMapPlayer;
+        [SerializeField] private string _actionMapQTE;
         [SerializeField] private string _actionMapWaitingTable;
 
         public GameObject ItemInHand { get; set; }
@@ -118,7 +119,10 @@ namespace MoonlitMixes.Player
 
                     if (_currentCookingMachine != null)
                     {
-                        _playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
+                        _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
+                        _playerInput.actions.FindActionMap("QTE").Enable();
+                        _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
+                        //_playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
                     }
                     
                     else if (_currentCauldron != null)
@@ -165,6 +169,13 @@ namespace MoonlitMixes.Player
                     waitingTable.StartHighlight();
                 }
             }
+        }
+
+        public void QuitInteraction()
+        {
+            _playerInput.actions.FindActionMap(_actionMapWaitingTable).Disable();
+            _playerInput.actions.FindActionMap(_actionMapQTE).Disable();
+            _playerInput.actions.FindActionMap(_actionMapPlayer).Enable();
         }
     }
 }
