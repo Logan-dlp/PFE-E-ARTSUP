@@ -15,12 +15,12 @@ namespace MoonlitMixes.Player
     
         private void OnEnable()
         {
-            _scriptableItemEvent.ItemDataAction += GetItemData;
+            _scriptableItemEvent.ItemDataAction += ChangeItemData;
         }
     
         private void OnDisable()
         {
-            _scriptableItemEvent.ItemDataAction -= GetItemData;
+            _scriptableItemEvent.ItemDataAction -= ChangeItemData;
         }
     
         private void DisplayItemHold()
@@ -30,7 +30,7 @@ namespace MoonlitMixes.Player
         }
         
         
-        public void GetItemData(GameObject item)
+        public void ChangeItemData(GameObject item)
         {
             try
             {

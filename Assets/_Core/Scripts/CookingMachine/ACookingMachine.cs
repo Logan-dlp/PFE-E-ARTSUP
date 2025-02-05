@@ -1,6 +1,7 @@
 using MoonlitMixes.Datas;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
+using MoonlitMixes.Player;
 using MoonlitMixes.QTE;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] protected QuickTimeEvent _qTE;
         [SerializeField] protected ScriptableQTEEvent _scriptableQTEEvent;
         [SerializeField] protected ScriptableBoolEvent _scriptableBoolEvent;
-        private ItemData itemData;
+        private ItemData _itemData;
+        private PlayerInteraction _playerInteraction;
 
         public ItemUsage TransformType => _transformType;
         public abstract void TogleShowInteractivity();
@@ -40,18 +42,18 @@ namespace MoonlitMixes.CookingMachine
             }
         }
 
-        public virtual void ConvertItem(ItemData item)
+        public virtual void ConvertItem(ItemData item, PlayerInteraction player)
         {
-            
             Activate();
-            itemData = item;
+            _itemData = item;
             _scriptableQTEEvent.SendObject(_scriptableQTEConfig);
+            _playerInteraction = player;
         }
 
-        public virtual ItemData SuccesItem()
+        public virtual void SuccesItem()
         {
             Desactivate();
-            return itemData.ItemToConvert;
+            _playerInteraction.PlayerHoldItem.ChangeItemData(_itemData.ItemToConvert.ItemPrefab);
         }
 
         public virtual void FailedItem()
