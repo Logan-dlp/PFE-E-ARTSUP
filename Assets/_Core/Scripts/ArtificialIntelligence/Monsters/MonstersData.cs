@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace MoonlitMixes.AI.StateMachine
 {
-    public class SlimeData : AStateMachineData
+    public class MonstersData
     {
         public GameObject SlimeGameObject { get; set; }
         public Animator Animator { get; set; }
@@ -11,5 +11,7 @@ namespace MoonlitMixes.AI.StateMachine
         public TargetTest PlayerGameObject { get; set; }
         public Vector3 InitialPosition { get; set; }
         public float AttackRadius { get; set; }
+        
+        public bool Attacking { get; set; }
     }
 }
