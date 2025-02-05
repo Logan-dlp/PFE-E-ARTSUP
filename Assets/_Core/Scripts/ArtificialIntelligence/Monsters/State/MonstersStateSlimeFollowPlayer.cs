@@ -26,16 +26,16 @@ namespace MoonlitMixes.AI.StateMachine.States
             
             if (data.NavMeshAgent.hasPath)
             {
-                Vector3 dir = (data.NavMeshAgent.steeringTarget - data.SlimeGameObject.transform.position).normalized;
-                Vector3 animDir = data.SlimeGameObject.transform.InverseTransformDirection(dir);
-                bool isFacingMoveDirection = Vector3.Dot(dir, data.SlimeGameObject.transform.forward) > .5f;
+                Vector3 dir = (data.NavMeshAgent.steeringTarget - data.MonsterGameObject.transform.position).normalized;
+                Vector3 animDir = data.MonsterGameObject.transform.InverseTransformDirection(dir);
+                bool isFacingMoveDirection = Vector3.Dot(dir, data.MonsterGameObject.transform.forward) > .5f;
                 
                 data.Animator.SetFloat("Horizontal", isFacingMoveDirection ? animDir.x : 0, .5f, Time.deltaTime);
                 data.Animator.SetFloat("Vertical", isFacingMoveDirection ? animDir.z : 0, .5f, Time.deltaTime);
                 
-                data.SlimeGameObject.transform.rotation = Quaternion.RotateTowards(data.SlimeGameObject.transform.rotation, Quaternion.LookRotation(dir), 180 * Time.deltaTime);
+                data.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(data.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), 180 * Time.deltaTime);
 
-                if (Vector3.Distance(data.SlimeGameObject.transform.position, data.NavMeshAgent.destination) < data.NavMeshAgent.radius)
+                if (Vector3.Distance(data.MonsterGameObject.transform.position, data.NavMeshAgent.destination) < data.NavMeshAgent.radius)
                 {
                     data.NavMeshAgent.ResetPath();
                     return new MonstersStateSlimeAttack();

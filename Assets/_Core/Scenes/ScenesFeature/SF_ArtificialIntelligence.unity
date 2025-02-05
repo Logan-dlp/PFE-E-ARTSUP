@@ -503,7 +503,7 @@ Transform:
   m_GameObject: {fileID: 1175091820}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5914335, y: 0.74, z: -3.0886288}
+  m_LocalPosition: {x: -0.65, y: 0.74, z: -10.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caaf451049dc97e41a93b95cad4ae893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _monsters: {fileID: 6727029527192626270}
 --- !u!1 &1852898671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,7 +2231,7 @@ GameObject:
   - component: {fileID: 6727029527192626269}
   - component: {fileID: 6727029527192626270}
   m_Layer: 0
-  m_Name: Slime test
+  m_Name: Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2444,6 +2445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8c9513d4c8c094cb775c68ee65e5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerReference: {fileID: 1175091825}
+  _comportement: 0
 --- !u!4 &6734489893784761045
 Transform:
   m_ObjectHideFlags: 0

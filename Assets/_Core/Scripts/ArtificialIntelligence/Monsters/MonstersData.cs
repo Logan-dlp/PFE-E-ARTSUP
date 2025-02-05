@@ -5,7 +5,7 @@ namespace MoonlitMixes.AI.StateMachine
 {
     public class MonstersData
     {
-        public GameObject SlimeGameObject { get; set; }
+        public GameObject MonsterGameObject { get; set; }
         public Animator Animator { get; set; }
         public NavMeshAgent NavMeshAgent { get; set; }
         public TargetTest PlayerGameObject { get; set; }

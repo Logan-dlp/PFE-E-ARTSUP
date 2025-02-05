@@ -6,9 +6,18 @@ namespace MoonlitMixes.AI
 {
     using StateMachine;
     using StateMachine.States;
+
+    public enum MonstersComportement
+    {
+        Passive,
+        Aggressive,
+    }
     
     public class Monsters : MonoBehaviour
     {
+        [SerializeField] private TargetTest _playerReference;
+        [SerializeField] private MonstersComportement _comportement;
+        
         private IMonstersState _currentMonstersState;
         private MonstersData _monstersData;
 
@@ -16,7 +25,7 @@ namespace MoonlitMixes.AI
         {
             _monstersData = new MonstersData()
             {
-                SlimeGameObject = gameObject,
+                MonsterGameObject = gameObject,
                 Animator = GetComponent<Animator>(),
                 NavMeshAgent = GetComponent<NavMeshAgent>(),
                 InitialPosition = transform.position,
@@ -29,6 +38,14 @@ namespace MoonlitMixes.AI
 
         private void Update()
         {
+            if (_comportement == MonstersComportement.Aggressive)
+            {
+                if (Vector3.Distance(_playerReference.transform.position, _monstersData.InitialPosition) < _monstersData.AttackRadius)
+                {
+                    _monstersData.PlayerGameObject = _playerReference;
+                }
+            }
+            
             IMonstersState nextMonstersState = _currentMonstersState?.Update(_monstersData);
             if (nextMonstersState != null)
             {
@@ -58,6 +75,14 @@ namespace MoonlitMixes.AI
         public void FinishPunch()
         {
             _monstersData.Attacking = true;
+        }
+
+        public void Attacked(TargetTest target)
+        {
+            if (_comportement == MonstersComportement.Passive)
+            {
+                _monstersData.PlayerGameObject = target;
+            }
         }
     }
 }
