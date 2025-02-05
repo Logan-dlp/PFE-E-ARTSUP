@@ -1,4 +1,5 @@
 using MoonlitMixes.Events;
+using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -84,9 +85,7 @@ namespace MoonlitMixes.CookingMachine
 
         private void QuitWaitingTable()
         {
-            PlayerInput playerInput = FindFirstObjectByType<PlayerInput>(); 
-            playerInput.actions.FindActionMap("WaitingTable").Disable();
-            playerInput.actions.FindActionMap("Player").Enable();
+            FindFirstObjectByType<PlayerInteraction>().QuitInteraction(); 
             _isActive = false;
             UpdateHighlight();
         }
