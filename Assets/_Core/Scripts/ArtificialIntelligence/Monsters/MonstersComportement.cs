@@ -1,5 +1,8 @@
-public enum MonstersComportement
+namespace MoonlitMixes.AI
 {
-    Passive,
-    Aggressive,
+    public enum MonstersComportement
+    {
+        Passive,
+        Aggressive,
+    }
 }

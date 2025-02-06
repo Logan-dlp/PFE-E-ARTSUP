@@ -4,7 +4,8 @@ namespace MoonlitMixes.AI.StateMachine.States
 {
     public class MonstersStateSlimeFollowPlayer : IMonstersState
     {
-        private const float DAMP_TIME = 0.5f;
+        private const float ATTACK_REMOTENESS = 4.5f;
+        private const float DAMP_TIME = 0.25f;
         private const float MAX_DEGREES_DELTA = 180;
         
         private const string HORIZONTAL_ANIMATOR_VARIABLE = "Horizontal";
@@ -41,7 +42,7 @@ namespace MoonlitMixes.AI.StateMachine.States
                 
                 data.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(data.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
 
-                if (Vector3.Distance(data.MonsterGameObject.transform.position, data.NavMeshAgent.destination) < data.NavMeshAgent.radius * 4)
+                if (Vector3.Distance(data.MonsterGameObject.transform.position, data.NavMeshAgent.destination) < data.NavMeshAgent.radius * ATTACK_REMOTENESS)
                 {
                     data.NavMeshAgent.ResetPath();
                     return new MonstersStateSlimeAttack();
