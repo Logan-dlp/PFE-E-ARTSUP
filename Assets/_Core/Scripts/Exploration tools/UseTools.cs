@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using MoonlitMixes.Inventory;
+using MoonlitMixes.Item;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class UseTools : MonoBehaviour
 {
-    private ToolType _currentTool;
+    [SerializeField] private InventoryUI _inventory;
     private RouletteSelectionTools _rouletteSelection;
+    private ToolType _currentTool;
 
-    private void Start()
+    private void Awake()
     {
         _rouletteSelection = FindObjectOfType<RouletteSelectionTools>();
         if (_rouletteSelection == null)
@@ -38,12 +41,52 @@ public class UseTools : MonoBehaviour
 
     private void UseMachete()
     {
-        Debug.Log("🗡️ Coup de machette !");
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+
+            if (itemList != null && itemList.ToolType == ToolType.Machete)
+            {
+                Debug.Log("🗡️ Coup de machette !");
+
+                if (itemList.Items.Count > 0)
+                {
+                    ItemData itemToAdd = itemList.Items[0];
+
+                    if (_inventory != null)
+                    {
+                        _inventory.AddItem(itemToAdd);
+                        Debug.Log($"{itemToAdd.ObjectName} ajouté à l'inventaire !");
+                    }
+                }
+            }
+        }
     }
 
     private void UsePickaxe()
     {
-        Debug.Log("⛏️ Coup de pioche !");
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+
+            if (itemList != null && itemList.ToolType == ToolType.Pickaxe)
+            {
+                Debug.Log("⛏️ Coup de pioche !");
+
+                if (itemList.Items.Count > 0)
+                {
+                    ItemData itemToAdd = itemList.Items[0];
+
+                    if (_inventory != null)
+                    {
+                        _inventory.AddItem(itemToAdd);
+                        Debug.Log($"{itemToAdd.ObjectName} ajouté à l'inventaire !");
+                    }
+                }
+            }
+        }
     }
 
     private void UseSepter()
@@ -51,9 +94,22 @@ public class UseTools : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
         {
-            if (hit.collider.CompareTag("Enemy")) // a changé avec le script quand IA monsters sera merge
+            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+
+            if (itemList != null && itemList.ToolType == ToolType.Septer)
             {
                 Debug.Log("🔥 Le player a touché un ennemi !");
+
+                if (itemList.Items.Count > 0)
+                {
+                    ItemData itemToAdd = itemList.Items[0];
+
+                    if (_inventory != null)
+                    {
+                        _inventory.AddItem(itemToAdd);
+                        Debug.Log($"{itemToAdd.ObjectName} ajouté à l'inventaire !");
+                    }
+                }
                 Destroy(hit.collider.gameObject);
             }
         }
