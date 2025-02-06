@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,30 +5,32 @@ namespace MoonlitMixes.AI
 {
     using StateMachine;
     using StateMachine.States;
-
-    public enum MonstersComportement
-    {
-        Passive,
-        Aggressive,
-    }
     
     public class Monsters : MonoBehaviour
     {
-        [SerializeField] private TargetTest _playerReference;
         [SerializeField] private MonstersComportement _comportement;
-        
+        [SerializeField] private float _attackRadius;
+        [SerializeField] private float _detectionStop;
+
+        private TargetTest _playerReference;
         private IMonstersState _currentMonstersState;
         private MonstersData _monstersData;
 
         private void Start()
         {
+            _playerReference = FindFirstObjectByType<TargetTest>();
+            
             _monstersData = new MonstersData()
             {
                 MonsterGameObject = gameObject,
                 Animator = GetComponent<Animator>(),
                 NavMeshAgent = GetComponent<NavMeshAgent>(),
+                PlayerReference = null,
                 InitialPosition = transform.position,
-                AttackRadius = 5,
+                
+                AttackRadius = _attackRadius,
+                DetectionStop = _detectionStop,
+                
                 Attacking = false,
             };
             
@@ -42,7 +43,7 @@ namespace MoonlitMixes.AI
             {
                 if (Vector3.Distance(_playerReference.transform.position, _monstersData.InitialPosition) < _monstersData.AttackRadius)
                 {
-                    _monstersData.PlayerGameObject = _playerReference;
+                    _monstersData.PlayerReference = _playerReference;
                 }
             }
             
@@ -53,7 +54,7 @@ namespace MoonlitMixes.AI
             }
         }
 
-        protected void TransitionTo(IMonstersState nextMonstersState)
+        private void TransitionTo(IMonstersState nextMonstersState)
         {
             _currentMonstersState?.Exit(_monstersData);
             _currentMonstersState = nextMonstersState;
@@ -64,11 +65,25 @@ namespace MoonlitMixes.AI
         {
             if (_monstersData != null)
             {
-                Gizmos.color = new Color(255, 255, 255, .5f);
-                Gizmos.DrawSphere(_monstersData.InitialPosition, _monstersData.AttackRadius);
-                
                 Gizmos.color = new Color(255, 0, 0, .5f);
-                Gizmos.DrawSphere(_monstersData.InitialPosition, _monstersData.AttackRadius * 1.5f);
+                Gizmos.DrawSphere(_monstersData.InitialPosition, _detectionStop);
+                
+                if (_comportement == MonstersComportement.Aggressive)
+                {
+                    Gizmos.color = new Color(0, 0, 255, .5f);
+                    Gizmos.DrawSphere(_monstersData.InitialPosition, _attackRadius);
+                }
+            }
+            else
+            {
+                Gizmos.color = new Color(255, 0, 0, .5f);
+                Gizmos.DrawSphere(transform.position, _detectionStop);
+
+                if (_comportement == MonstersComportement.Aggressive)
+                {
+                    Gizmos.color = new Color(0, 0, 255, .5f);
+                    Gizmos.DrawSphere(transform.position, _attackRadius);
+                }
             }
         }
         
@@ -81,7 +96,7 @@ namespace MoonlitMixes.AI
         {
             if (_comportement == MonstersComportement.Passive)
             {
-                _monstersData.PlayerGameObject = target;
+                _monstersData.PlayerReference = target;
             }
         }
     }

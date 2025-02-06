@@ -18,7 +18,7 @@ namespace MoonlitMixes.AI.StateMachine.States
             data.Animator.SetFloat("Horizontal", 0, .25f, Time.deltaTime);
             data.Animator.SetFloat("Vertical", 0, .25f, Time.deltaTime);
             
-            if (data.PlayerGameObject != null)
+            if (data.PlayerReference != null)
             {
                 return new MonstersStateSlimeFollowPlayer();
             }

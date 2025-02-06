@@ -4,21 +4,23 @@ namespace MoonlitMixes.AI.StateMachine.States
 {
     public class MonstersStateSlimeAttack : IMonstersState
     {
+        private const string ATTACK_ANIMATOR_VARIABLE = "Attack";
+        
         public void Enter(MonstersData data)
         {
-            data.Animator.SetTrigger("Attack");
+            data.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
         }
 
         public IMonstersState Update(MonstersData data)
         {
-            if (data.PlayerGameObject == null)
+            if (data.PlayerReference == null)
             {
                 return new MonstersStateSlimeIdle();
             }
             
             if (data.Attacking)
             {
-                data.Animator.SetTrigger("Attack");
+                data.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
                 return new MonstersStateSlimeFollowPlayer();
             }
             
