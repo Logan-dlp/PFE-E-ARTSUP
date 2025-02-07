@@ -9,6 +9,7 @@ namespace MoonlitMixes.AI
     public class Monsters : MonoBehaviour
     {
         [SerializeField] private MonstersComportement _comportement;
+        [SerializeField] private float _stopDistanceToAttack;
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
 
@@ -30,6 +31,7 @@ namespace MoonlitMixes.AI
                 PlayerReference = null,
                 InitialPosition = transform.position,
                 
+                StopDistanceToAttack = _stopDistanceToAttack,
                 AttackRadius = _attackRadius,
                 DetectionStop = _detectionStop,
                 

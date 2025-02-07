@@ -11,6 +11,7 @@ namespace MoonlitMixes.AI.StateMachine
         public TargetTest PlayerReference { get; set; }
         public Vector3 InitialPosition { get; set; }
         
+        public float StopDistanceToAttack { get; set; }
         public float AttackRadius { get; set; }
         public float DetectionStop { get; set; }
         
