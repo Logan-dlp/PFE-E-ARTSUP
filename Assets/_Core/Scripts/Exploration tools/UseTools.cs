@@ -24,6 +24,12 @@ public class UseTools : MonoBehaviour
     {
         if (ctx.performed)
         {
+            if (CanUseHand())
+            {
+                UseHand();
+                return;
+            }
+
             _currentTool = _rouletteSelection.GetCurrentToolType();
 
             switch (_currentTool)
@@ -50,8 +56,6 @@ public class UseTools : MonoBehaviour
 
             if (itemList != null && itemList.ToolType == ToolType.Machete)
             {
-                Debug.Log("🗡️ Coup de machette !");
-
                 if (itemList.Items.Count > 0)
                 {
                     ItemData itemToAdd = itemList.Items[0];
@@ -59,7 +63,6 @@ public class UseTools : MonoBehaviour
                     if (_inventory != null)
                     {
                         _inventory.AddItem(itemToAdd);
-                        Debug.Log($"{itemToAdd.ObjectName} ajouté à l'inventaire !");
                     }
                 }
             }
@@ -76,36 +79,31 @@ public class UseTools : MonoBehaviour
 
             if (itemList != null && itemList.ToolType == ToolType.Pickaxe)
             {
-                Debug.Log("⛏️ Coup de pioche !");
-                
-
-                if (itemList.Items.Count >= 2)
+                RockHealth rockHealth = hit.collider.GetComponent<RockHealth>();
+                if (rockHealth != null && rockHealth.TakeDamage())
                 {
-                    float chance = GetPreciousStoneChance(_rochetsCasses);
-
-                    ItemData itemToAdd;
-                    float randomValue = Random.value;
-
-                    if (randomValue < chance)
+                    if (itemList.Items.Count >= 2)
                     {
-                        itemToAdd = itemList.Items[1];
-                    }
-                    else
-                    {
-                        itemToAdd = itemList.Items[0];
-                    }
+                        float chance = GetPreciousStoneChance(_rochetsCasses);
+                        ItemData itemToAdd;
+                        float randomValue = Random.value;
 
-                    if (_inventory != null)
-                    {
-                        _inventory.AddItem(itemToAdd);
-                        Debug.Log($"{itemToAdd.ObjectName} ajouté à l'inventaire !");
-                    }
+                        if (randomValue < chance)
+                        {
+                            itemToAdd = itemList.Items[1];
+                        }
+                        else
+                        {
+                            itemToAdd = itemList.Items[0];
+                        }
 
-                    _rochetsCasses++;
+                        _inventory?.AddItem(itemToAdd);
 
-                    if (_rochetsCasses >= 3)
-                    {
-                        _rochetsCasses = 0;
+                        _rochetsCasses++;
+                        if (_rochetsCasses >= 3)
+                        {
+                            _rochetsCasses = 0;
+                        }
                     }
                 }
             }
@@ -132,8 +130,6 @@ public class UseTools : MonoBehaviour
 
             if (itemList != null && itemList.ToolType == ToolType.Septer)
             {
-                Debug.Log("🔥 Le player a touché un ennemi !");
-
                 if (itemList.Items.Count > 0)
                 {
                     ItemData itemToAdd = itemList.Items[0];
@@ -141,7 +137,40 @@ public class UseTools : MonoBehaviour
                     if (_inventory != null)
                     {
                         _inventory.AddItem(itemToAdd);
-                        Debug.Log($"{itemToAdd.ObjectName} ajouté à l'inventaire !");
+                    }
+                }
+                Destroy(hit.collider.gameObject);
+            }
+        }
+    }
+
+    private bool CanUseHand()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+            return itemList != null && itemList.ToolType == ToolType.Hand;
+        }
+        return false;
+    }
+
+    private void UseHand()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        {
+            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+
+            if (itemList != null && itemList.ToolType == ToolType.Hand)
+            {
+                if (itemList.Items.Count > 0)
+                {
+                    ItemData itemToAdd = itemList.Items[0];
+
+                    if (_inventory != null)
+                    {
+                        _inventory.AddItem(itemToAdd);
                     }
                 }
                 Destroy(hit.collider.gameObject);
