@@ -9,7 +9,7 @@ namespace MoonlitMixes.Events
         public event Action<bool> BoolAction;
         public void SendBool(bool boolValue)
         {
-           BoolAction?.Invoke(boolValue);
+            BoolAction?.Invoke(boolValue);
         }
     }
 }

@@ -1,36 +1,71 @@
+using MoonlitMixes.CookingMachine;
 using UnityEngine;
 
 public class CauldronTimer : MonoBehaviour
 {
     [SerializeField] private float _itemCooldown = 60f;
-    private float _lastItemTime = -60f;
-
-    private void Update()
+    
+    private CauldronRecipeChecker _cauldronRecipeChecker;
+    private bool _timerFinished;
+    private bool _timerIsActive;
+    private bool _canAction = true;
+    private float _remainingTime;
+    
+    public bool TimerIsActive
     {
-        float timeRemaining = GetTimeRemaining();
+        get => _timerIsActive;
+        set => _timerIsActive = value;
+    }
+    
+    public float RemainingTime
+    {
+        get => _remainingTime;
+    }
 
-        if (timeRemaining > 0)
+    private void Awake()
+    {
+        _cauldronRecipeChecker = GetComponent<CauldronRecipeChecker>();
+    }
+
+    public void Start()
+    {
+        ResetCooldown();
+    }
+
+    private void FixedUpdate()
+    {        
+        if(!_timerIsActive) return;
+        
+        if (_remainingTime >= _itemCooldown/2)
         {
-            Debug.Log($"Cooldown restant: {timeRemaining:F2} secondes");
+            _remainingTime -= Time.fixedDeltaTime;
+            //Debug.Log($"Cooldown restant: {_remainingTime:F2} secondes");
         }
-        else
+        else if (_remainingTime >= 0)
+        {   
+            _cauldronRecipeChecker.CanMix = true;
+            _canAction = true;
+            _remainingTime -= Time.fixedDeltaTime;
+            //Debug.Log($"Cooldown restant avant cramé: {_remainingTime:F2} secondes");
+        }
+        else if(!_timerFinished)
         {
+            _cauldronRecipeChecker.CanMix = false;
+            _canAction = false;
+            _timerIsActive = false;
+            _timerFinished = true;
+            _cauldronRecipeChecker.CanMix = true;
             //Debug.Log("Le cooldown est termin�. Vous pouvez ajouter un nouvel �l�ment !");
         }
     }
 
-    public bool CanAddItem()
+    public bool CanAction()
     {
-        return Time.time >= _lastItemTime + _itemCooldown;
+        return _remainingTime > 0 && _timerIsActive && _canAction;
     }
 
     public void ResetCooldown()
     {
-        _lastItemTime = Time.time;
-    }
-
-    public float GetTimeRemaining()
-    {
-        return Mathf.Max(0, _lastItemTime + _itemCooldown - Time.time);
-    }
+        _remainingTime = _itemCooldown;
+    }  
 }

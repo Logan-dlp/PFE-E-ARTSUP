@@ -4,6 +4,7 @@ using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.QTE;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -14,18 +15,22 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] protected QuickTimeEvent _qTE;
         [SerializeField] protected ScriptableQTEEvent _scriptableQTEEvent;
         [SerializeField] protected ScriptableBoolEvent _scriptableBoolEvent;
+        [SerializeField] protected Image _imageQTE;
+        [SerializeField] protected Image _imageProgressBar;
+
+        protected PlayerInteraction _playerInteraction;
+        
         private ItemData _itemData;
-        private PlayerInteraction _playerInteraction;
 
         public ItemUsage TransformType => _transformType;
         public abstract void TogleShowInteractivity();
 
-        private void Activate()
+        protected void Activate()
         {
             _scriptableBoolEvent.BoolAction += CheckItem;
         }
 
-        private void Desactivate()
+        protected void Desactivate()
         {
             _scriptableBoolEvent.BoolAction -= CheckItem;
         }
@@ -46,6 +51,9 @@ namespace MoonlitMixes.CookingMachine
         {
             Activate();
             _itemData = item;
+            _scriptableQTEConfig.ScriptableBoolEvent = _scriptableBoolEvent;
+            _scriptableQTEConfig.QteSlot = _imageQTE;
+            _scriptableQTEConfig.ProgressBarUI = _imageProgressBar;
             _scriptableQTEEvent.SendObject(_scriptableQTEConfig);
             _playerInteraction = player;
         }
@@ -59,6 +67,7 @@ namespace MoonlitMixes.CookingMachine
         public virtual void FailedItem()
         {
             Desactivate();
+            _playerInteraction.PlayerHoldItem.RemoveItem();
         }
     }
 }
