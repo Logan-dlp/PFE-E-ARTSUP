@@ -47,13 +47,6 @@ namespace MoonlitMixes.QTE
             _qTEEvent.ScriptableQTEConfigAction -= QTE;
         }
 
-        private void Awake()
-        {
-            //Permet de récuper les inputs du joystick de telle façon à que le faire tourner fonctionne
-            //ce qui n'es pas possible avec juste les unity event
-            
-        }
-
         private void Start()
         {
             //Les inputs au claviers ont pas étés fait étant donné qu'on a pas encore réfléchi à comment
@@ -67,8 +60,11 @@ namespace MoonlitMixes.QTE
 
         public void QTE(ScriptableQTEConfig scriptableQTEConfig)
         {
-            _failureCount = 0;
+            ResetValues();
+            _scriptableBoolEvent = scriptableQTEConfig.ScriptableBoolEvent;
             _qTEConfig = scriptableQTEConfig;
+            _qteSlot = _qTEConfig.QteSlot;
+            _progressBarUI = _qTEConfig.ProgressBarUI;
 
             switch (_qTEConfig.qTEInputType)
             {
@@ -81,11 +77,26 @@ namespace MoonlitMixes.QTE
                 case ScriptableQTEConfig.QTEInputType.Fixed:
                     break;
                 case ScriptableQTEConfig.QTEInputType.Stir:
+                    _rightStick = FindFirstObjectByType<PlayerInput>().currentActionMap.FindAction("RightStick");
                     StirInput();
                     break;
             }
 
             StartQTE();
+        }
+
+        private void ResetValues()
+        {
+            _completedQTECount = 0;
+            _currentPressCount = 0;
+            _currentIndex = 0;
+            _failureCount = 0;
+            _timer = 0;
+            _qteSuccess = false;
+            _isQTEActive = false;
+            _progressBarValue = 0;
+            _isLose = false;
+            _progressBarComplete = false;
         }
 
         private void Update()
@@ -100,17 +111,16 @@ namespace MoonlitMixes.QTE
                     }
                     if (_timer <= 0 && !_isLose)
                     {
-                        Debug.Log("");
                         QTEFailure();
                     }
 
                     //Permet d'update la progress bar
                     if(!_progressBarComplete)
                     {
-                        if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar && _progressBarValue > 0)
+                        if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar && _progressBarValue > 0)
                         {
                             _progressBarValue -= Time.deltaTime;
-                            _progressBarUI.fillAmount = _progressBarValue / _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput;
+                            _progressBarUI.fillAmount = _progressBarValue / _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput;
                         }
                     }
                 }
@@ -153,8 +163,8 @@ namespace MoonlitMixes.QTE
             {
                 if (CheckButtonPress(inputCommand))
                 {
-                    if (_currentPressCount >= _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput ||
-                    _progressBarValue >= _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput)
+                    if (_currentPressCount >= _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput ||
+                    _progressBarValue >= _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput)
                     {
                         _progressBarUI.fillAmount = 1;
                         _progressBarComplete = true;
@@ -168,10 +178,10 @@ namespace MoonlitMixes.QTE
 
         public void StartQTE()
         {
-            //_rightStick = FindFirstObjectByType<PlayerInput>().currentActionMap["RightStick"];
             //Evite de relancer un QTE
-            if (_completedQTECount >= _qTEConfig.CustomQTEButtonArray.Length)
+            if (_completedQTECount >= _qTEConfig.CustomQTEButtonList.Count)
             {
+                Debug.Log("");
                 return;
             }
 
@@ -179,36 +189,34 @@ namespace MoonlitMixes.QTE
             _qteSlot.enabled = true;
 
             _isQTEActive = true;
-            _timer = _qTEConfig.CustomQTEButtonArray[_currentIndex].qTEDuration;
+            _timer = _qTEConfig.CustomQTEButtonList[_currentIndex].qTEDuration;
             _currentPressCount = 0;
             _qteSuccess = false;
 
-            if (_completedQTECount < _qTEConfig.CustomQTEButtonArray.Length - 1)
+            if (_completedQTECount < _qTEConfig.CustomQTEButtonList.Count - 1)
             {
                 _currentIndex = _completedQTECount;         
             }
             else
             {
-                _currentIndex = _qTEConfig.CustomQTEButtonArray.Length - 1;
+                _currentIndex = _qTEConfig.CustomQTEButtonList.Count - 1;
             }
 
-            _qteSlot.sprite = GetSprite(_qTEConfig.CustomQTEButtonArray[_currentIndex]);
+            _qteSlot.sprite = GetSprite(_qTEConfig.CustomQTEButtonList[_currentIndex]);
             _qteSlot.color = Color.white;
 
             //Ecoute les inputs du joystick
-            if(_qTEConfig.CustomQTEButtonArray[_currentIndex].inputCommand == ScriptableQTEConfig.InputCommand.R_Stick)
+            if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand == ScriptableQTEConfig.InputCommand.R_Stick)
             {
                 _rightStick.performed += CheckStickRotation;
             }
 
-            if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
+            if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
             {
-                Debug.Log("uiTrue");
                 _progressBarUI.enabled = true;
             }
             else
             {
-                Debug.Log("uiFalse");
                 _progressBarUI.enabled = false;
             }
         }
@@ -217,9 +225,8 @@ namespace MoonlitMixes.QTE
         {
             _isLose = true;
             _isQTEActive = false;
-            //_scriptableBoolEvent.SendBool(false);
-            //FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
-            Debug.Log("End");
+            _scriptableBoolEvent.SendBool(false);
+            FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
             if (!_qteSuccess)
             {
                 _qteSlot.color = Color.red;
@@ -245,13 +252,13 @@ namespace MoonlitMixes.QTE
             switch (inputCommand)
             {
                 case ScriptableQTEConfig.InputCommand.A:
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.A) 
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.A) 
                     {
                         ResetPressCount();
                         return false;
                     }
 
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
                     {
                         _progressBarValue++;
                     }
@@ -262,13 +269,13 @@ namespace MoonlitMixes.QTE
                     break;
 
                 case ScriptableQTEConfig.InputCommand.B:
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.B)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.B)
                     {
                         ResetPressCount();
                         return false;
                     }
 
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
                     {
                         _progressBarValue++;
                     }
@@ -279,13 +286,13 @@ namespace MoonlitMixes.QTE
                     break;
 
                 case ScriptableQTEConfig.InputCommand.X:
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.X)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.X)
                     {
                         ResetPressCount();
                         return false;
                     }
                     
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
                     {
                         _progressBarValue++;
                     }
@@ -297,13 +304,13 @@ namespace MoonlitMixes.QTE
 
                 case ScriptableQTEConfig.InputCommand.Y:
 
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.Y)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.Y)
                     {
                         ResetPressCount();
                         return false;
                     }
                     
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
                     {
                         _progressBarValue++;
                     }
@@ -346,7 +353,7 @@ namespace MoonlitMixes.QTE
             {
                 if (_previousAngle < 60 && angle > 300)
                 {  
-                    if(_qTEConfig.CustomQTEButtonArray[_currentIndex].isProgressBar)
+                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
                     {
                         _progressBarValue++;
                     }
@@ -358,7 +365,7 @@ namespace MoonlitMixes.QTE
                 _previousAngle = angle;
             }
 
-            if (_turnCount >= _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput || _progressBarValue >= _qTEConfig.CustomQTEButtonArray[_currentIndex].requiredInput)
+            if (_turnCount >= _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput || _progressBarValue >= _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput)
             {
                 _turnCount = 0;
                 _qteSuccess = true;
@@ -392,9 +399,9 @@ namespace MoonlitMixes.QTE
             //Place tous les parametres necessaires pour les inputs du Cut
             RandomiseInputNumber();
 
-            for(int i = 0; i < _qTEConfig.CustomQTEButtonArray.Length; i++)
+            for(int i = 0; i < _qTEConfig.CustomQTEButtonList.Count; i++)
             {
-                _qTEConfig.CustomQTEButtonArray[i].inputCommand = (ScriptableQTEConfig.InputCommand)Random.Range(0,Enum.GetNames(typeof(ScriptableQTEConfig.InputCommand)).Length - 1);
+                _qTEConfig.CustomQTEButtonList[i].inputCommand = (ScriptableQTEConfig.InputCommand)Random.Range(0,Enum.GetNames(typeof(ScriptableQTEConfig.InputCommand)).Length - 1);
             }
 
             if(_qTEConfig.IsTimerRandom) 
@@ -403,17 +410,16 @@ namespace MoonlitMixes.QTE
             }
             else
             {
-                float timer = _qTEConfig.MaxTimer/_qTEConfig.CustomQTEButtonArray.Length;
+                float timer = _qTEConfig.MaxTimer/_qTEConfig.CustomQTEButtonList.Count;
                 //Partage le timer entre tous les inputs
                 if(timer < 2)
                 {
                     timer = 3;
                 }
 
-                for(int i = 0; i < _qTEConfig.CustomQTEButtonArray.Length; i++)
+                for(int i = 0; i < _qTEConfig.CustomQTEButtonList.Count; i++)
                 {
-                    Debug.Log(timer);
-                    _qTEConfig.CustomQTEButtonArray[i].qTEDuration = timer;
+                    _qTEConfig.CustomQTEButtonList[i].qTEDuration = timer;
                 }
             }
 
@@ -422,21 +428,22 @@ namespace MoonlitMixes.QTE
 
         private void RandomiseInputNumber()
         {
-            _qTEConfig.CustomQTEButtonArray = new ScriptableQTEConfig.CustomQTEButton[Random.Range(_qTEConfig.MinInput,_qTEConfig.MaxInput + 1)];
-            for(int i = 0; i < _qTEConfig.CustomQTEButtonArray.Length; i++)
+            int randRange = Random.Range(_qTEConfig.MinInput, _qTEConfig.MaxInput + 1);
+            _qTEConfig.CustomQTEButtonList.Clear();
+            for(int i = 0; i < randRange; i++)
             {
-                _qTEConfig.CustomQTEButtonArray[i] = new ScriptableQTEConfig.CustomQTEButton();
+                _qTEConfig.CustomQTEButtonList.Add(new ScriptableQTEConfig.CustomQTEButton());
             }
         }
         private void RandomiseOneInput()
         {
             //Place tous les parametres necessaires pour les inputs du Crush
-            _qTEConfig.CustomQTEButtonArray = new ScriptableQTEConfig.CustomQTEButton[1];
-            _qTEConfig.CustomQTEButtonArray[0] = new ScriptableQTEConfig.CustomQTEButton();
-            _qTEConfig.CustomQTEButtonArray[0].inputCommand = (ScriptableQTEConfig.InputCommand)Random.Range(0,Enum.GetNames(typeof(ScriptableQTEConfig.InputCommand)).Length);
-            _qTEConfig.CustomQTEButtonArray[0].qTEDuration = _qTEConfig.MaxTimer;
-            _qTEConfig.CustomQTEButtonArray[0].isProgressBar = true;
-            _qTEConfig.CustomQTEButtonArray[0].requiredInput = RandomiseRequiredInput();
+            _qTEConfig.CustomQTEButtonList.Clear();
+            _qTEConfig.CustomQTEButtonList.Add(new ScriptableQTEConfig.CustomQTEButton());
+            _qTEConfig.CustomQTEButtonList[0].inputCommand = (ScriptableQTEConfig.InputCommand)Random.Range(0,Enum.GetNames(typeof(ScriptableQTEConfig.InputCommand)).Length -1);
+            _qTEConfig.CustomQTEButtonList[0].qTEDuration = _qTEConfig.MaxTimer;
+            _qTEConfig.CustomQTEButtonList[0].isProgressBar = true;
+            _qTEConfig.CustomQTEButtonList[0].requiredInput = RandomiseRequiredInput();
         }
 
         private int RandomiseRequiredInput()
@@ -447,10 +454,10 @@ namespace MoonlitMixes.QTE
         private void RandomiseTimer()
         {
             //Partage le timer entre tous les inputs
-            float randTimer = Random.Range(_qTEConfig.MinTimer, _qTEConfig.MaxTimer + 1)/_qTEConfig.CustomQTEButtonArray.Length;
-            for(int i = 0; i < _qTEConfig.CustomQTEButtonArray.Length; i++)
+            float randTimer = Random.Range(_qTEConfig.MinTimer, _qTEConfig.MaxTimer + 1)/_qTEConfig.CustomQTEButtonList.Count;
+            for(int i = 0; i < _qTEConfig.CustomQTEButtonList.Count; i++)
             {
-                _qTEConfig.CustomQTEButtonArray[i].qTEDuration = randTimer;
+                _qTEConfig.CustomQTEButtonList[i].qTEDuration = randTimer;
             }
         }
 
@@ -458,24 +465,24 @@ namespace MoonlitMixes.QTE
         [ContextMenu("Put required Input at the default value")]
         private void PutAllRequiredInput()
         {
-            for (int i = 0; i < _qTEConfig.CustomQTEButtonArray.Length; i++)
+            for (int i = 0; i < _qTEConfig.CustomQTEButtonList.Count; i++)
             {
-                _qTEConfig.CustomQTEButtonArray[i].requiredInput = _qTEConfig.DefaultRequiredInputValue;
+                _qTEConfig.CustomQTEButtonList[i].requiredInput = _qTEConfig.DefaultRequiredInputValue;
             }
         }
 
         private void StirInput()
         {
             //Place tous les parametres necessaires pour les inputs du Stir
-            _qTEConfig.CustomQTEButtonArray = new ScriptableQTEConfig.CustomQTEButton[1];
-            _qTEConfig.CustomQTEButtonArray[0] = new ScriptableQTEConfig.CustomQTEButton();
-            _qTEConfig.CustomQTEButtonArray[0].requiredInput = _qTEConfig.StirRequiredInput;
-            _qTEConfig.CustomQTEButtonArray[0].inputCommand = ScriptableQTEConfig.InputCommand.R_Stick;
-            _qTEConfig.CustomQTEButtonArray[0].qTEDuration = _qTEConfig.StirDuration;
+            _qTEConfig.CustomQTEButtonList.Clear();
+            _qTEConfig.CustomQTEButtonList.Add(new ScriptableQTEConfig.CustomQTEButton());
+            _qTEConfig.CustomQTEButtonList[0].requiredInput = _qTEConfig.StirRequiredInput;
+            _qTEConfig.CustomQTEButtonList[0].inputCommand = ScriptableQTEConfig.InputCommand.R_Stick;
+            _qTEConfig.CustomQTEButtonList[0].qTEDuration = _qTEConfig.StirDuration;
 
             if(_qTEConfig.IsStirProgressBar)
             {
-                _qTEConfig.CustomQTEButtonArray[0].isProgressBar = true;
+                _qTEConfig.CustomQTEButtonList[0].isProgressBar = true;
             }
         }
 
@@ -490,13 +497,12 @@ namespace MoonlitMixes.QTE
             _progressBarUI.fillAmount = 0;
             _progressBarUI.enabled = false;
 
-            if (_completedQTECount < _qTEConfig.CustomQTEButtonArray.Length)
+            if (_completedQTECount < _qTEConfig.CustomQTEButtonList.Count)
             {
                 StartQTE();
             }
             else
             {
-                Debug.Log("Win");
                 _isQTEActive = false;
                 FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
                 _scriptableBoolEvent.SendBool(true);

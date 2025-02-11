@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using MoonlitMixes.Item;
+using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
@@ -15,10 +17,23 @@ namespace MoonlitMixes.CookingMachine
         private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
         private PotionInventory _potionInventory;
+        private CauldronMixing _cauldronMixing;
+        private bool _qteSuccess;
+        private ItemData _lastAddedItem;
+        private bool _canMix;
+
+        public bool CanMix
+        {
+            get => _canMix;
+            set => _canMix = value;
+        }
+
         private void Awake()
         {
+            _cauldronMixing = GetComponent<CauldronMixing>();
             _cauldronTimer = GetComponent<CauldronTimer>();
             _potionInventory = FindFirstObjectByType<PotionInventory>();
+
             if (_cauldronTimer == null)
             {
                 Debug.LogError("CauldronTimer n'est pas attach� au chaudron !");
@@ -33,37 +48,37 @@ namespace MoonlitMixes.CookingMachine
 
         public void AddIngredient(ItemData ingredient)
         {
+            if(!_currentIngredients.Any()) _cauldronTimer.TimerIsActive = true;
+
             if (ingredient == null)
             {
                 Debug.LogWarning("L'ingr�dient ajout� est null !");
                 return;
             }
 
-            if (!_cauldronTimer.CanAddItem())
+            
+            if (!_cauldronTimer.CanAction())
             {
                 Debug.Log("Il faut attendre avant d'ajouter un autre ingr�dient !");
                 return;
             }
 
+            Debug.Log("Add + " + ingredient);
             Debug.Log($"Ingr�dient ajout� : {ingredient.ObjectName}");
-
             _currentIngredients.Add(ingredient);
+            _lastAddedItem = ingredient;
             _cauldronTimer.ResetCooldown();
             TriggerBubbleVFX();
+        }
 
-            bool isValid = ValidateIngredient(ingredient);
-
-            if (!isValid)
+        private void ValidateIngredient(ItemData ingredient)
+        {
+            if (!_qteSuccess)
             {
                 HandleFailedPotion();
                 return;
             }
 
-            CheckRecipeCompletion();
-        }
-
-        private bool ValidateIngredient(ItemData ingredient)
-        {
             Dictionary<ElementType, int> currentCounts = new Dictionary<ElementType, int>();
             foreach (var ing in _currentIngredients)
             {
@@ -85,16 +100,17 @@ namespace MoonlitMixes.CookingMachine
                         if (currentCount > requirement.Quantity)
                         {
                             Debug.LogWarning($"Trop d'ingr�dients du type {ingredient.Type} ajout�s !");
-                            return false;
+                            return;
                         }
-
-                        return true;
+                        _cauldronTimer.ResetCooldown();
+                        CheckRecipeCompletion();
+                    }
+                    else
+                    {
+                        Debug.Log("PotionFoiré");
                     }
                 }
             }
-
-            Debug.LogWarning($"L'ingr�dient {ingredient.ObjectName} ne correspond � aucune recette !");
-            return false;
         }
 
         private void CheckRecipeCompletion()
@@ -150,7 +166,7 @@ namespace MoonlitMixes.CookingMachine
             if (_bubbleVFX != null)
             {
                 _bubbleVFX.SetActive(true);
-                Invoke(nameof(DisableBubbleVFX), _cauldronTimer.GetTimeRemaining());
+                Invoke(nameof(DisableBubbleVFX), _cauldronTimer.RemainingTime);
             }
         }
 
@@ -160,6 +176,17 @@ namespace MoonlitMixes.CookingMachine
             {
                 _bubbleVFX.SetActive(false);
             }
+        }
+
+        public void CheckQTE(bool state)
+        {
+            _qteSuccess = state;
+            ValidateIngredient(_lastAddedItem);
+        }
+
+        public void Mix(PlayerInteraction playerInteraction)
+        {
+            _cauldronMixing.ConvertItem(playerInteraction);
         }
     }
 }

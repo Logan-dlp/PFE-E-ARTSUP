@@ -1,4 +1,3 @@
-using System;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using UnityEngine;

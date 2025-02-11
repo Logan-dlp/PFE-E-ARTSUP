@@ -2,16 +2,14 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using NaughtyAttributes;
+using MoonlitMixes.Events;
+using System.Collections.Generic;
 
 namespace MoonlitMixes.Datas
 {
     [CreateAssetMenu(fileName = "ScriptableQTEConfig", menuName = "Scriptable Objects/ScriptableQTEConfig")]
     public class ScriptableQTEConfig : ScriptableObject
     {
-        [Header("UI Elements")]
-        //[SerializeField] private Image _qteSlot;
-        //[SerializeField] private Image _progressBarUI;
-
         [Header("QTE Configuration")]
         [SerializeField] private float _successDisplayDuration = 2f;
         [SerializeField] private QTEInputType _qTEInputType;
@@ -34,11 +32,22 @@ namespace MoonlitMixes.Datas
         [SerializeField] private bool _isStirProgressBar;
 
         [Header("Customizable QTE Buttons")]
-        [SerializeField] private CustomQTEButton[] _customQTEButtonArray;
-        public CustomQTEButton[] CustomQTEButtonArray
+        [SerializeField] private List<CustomQTEButton> _customQTEButtonList;
+
+        private Image _qteSlot;
+        private Image _progressBarUI;
+        private ScriptableBoolEvent _scriptableBoolEvent;
+        
+        public ScriptableBoolEvent ScriptableBoolEvent
         {
-            get => _customQTEButtonArray;
-            set => _customQTEButtonArray = value;
+            get => _scriptableBoolEvent;
+            set => _scriptableBoolEvent = value;
+        }
+        
+        public List<CustomQTEButton> CustomQTEButtonList
+        {
+            get => _customQTEButtonList;
+            set => _customQTEButtonList = value;
         }
         
         public bool IsStirProgressBar
@@ -104,6 +113,18 @@ namespace MoonlitMixes.Datas
         public bool IsTimerRandom
         {
             get => _isTimerRandom;
+        }
+
+        public Image ProgressBarUI
+        {
+            get => _progressBarUI;
+            set => _progressBarUI = value;
+        }
+
+        public Image QteSlot
+        {
+            get => _qteSlot;
+            set => _qteSlot = value;
         }
 
         public enum QTEInputType

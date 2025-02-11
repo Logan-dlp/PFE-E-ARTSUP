@@ -118,8 +118,7 @@ namespace MoonlitMixes.Player
 
                     if (_currentCookingMachine != null)
                     {
-                        _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
-                        _playerInput.actions.FindActionMap("QTE").Enable();
+                        _playerInput.SwitchCurrentActionMap(_actionMapQTE);
                         _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData, this);
 
                         //_playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
@@ -145,11 +144,16 @@ namespace MoonlitMixes.Player
                             PlayerHoldItem.ChangeItemData(itemGiver.GiveItem());
                         }
 
-                        if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                        else if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
-                            _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
-                            _playerInput.actions.FindActionMap(_actionMapWaitingTable).Enable();
+                            _playerInput.SwitchCurrentActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
+                        }
+                        else if(hit.transform.TryGetComponent<CauldronRecipeChecker>(out CauldronRecipeChecker cauldron))
+                        {
+                            if(!cauldron.CanMix) return;
+                            _playerInput.SwitchCurrentActionMap(_actionMapQTE);
+                            cauldron.Mix(this);
                         }
                     }
                     else
@@ -163,9 +167,7 @@ namespace MoonlitMixes.Player
 
         public void QuitInteraction()
         {
-            _playerInput.actions.FindActionMap(_actionMapWaitingTable).Disable();
-            _playerInput.actions.FindActionMap(_actionMapQTE).Disable();
-            _playerInput.actions.FindActionMap(_actionMapPlayer).Enable();
+            _playerInput.SwitchCurrentActionMap(_actionMapPlayer);
         }
     }
 }
