@@ -9,8 +9,8 @@ public class RouletteSelectionTools : MonoBehaviour
     [SerializeField] private Image[] _toolSlots;
     [SerializeField] private List<GameObject> _toolGameObjects;
 
-    private int _currentToolIndex = 0;
-    private ToolType _currentToolType;
+    private static int _currentToolIndex = 0;
+    private static ToolType _currentToolType;
     private List<ToolData> _tools;
     private List<ToolType> _toolTypes;
 
