@@ -5,10 +5,20 @@ namespace MoonlitMixes.Potion
 {
     public class PotionInventory : MonoBehaviour
     {
-        [SerializeField] public List<Potion> _potionList;
+        public List<Potion> _potionList;
+        [SerializeField] private GameObject _canvas;
+        
         public List<Potion> PotionList 
         {
             get => _potionList;
+        }
+
+        private void Update()
+        {
+            if(PotionList.Count > 0)
+            {
+                _canvas.SetActive(true);
+            }
         }
     }
 }

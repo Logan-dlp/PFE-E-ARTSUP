@@ -12,6 +12,7 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _inventory;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
+        public List<GameObject> _slots = new List<GameObject>();
 
         private int _initialSlotsPerRow = 5;
 
@@ -45,10 +46,15 @@ namespace MoonlitMixes.Inventory
                         GameObject itemObj = new GameObject("Item");
                         itemObj.transform.SetParent(slot);
                         itemObj.transform.localPosition = Vector3.zero;
+                        itemObj.transform.localScale = Vector3.one;
+                        itemObj.transform.localRotation = Quaternion.identity;
 
                         Image itemImage = itemObj.AddComponent<Image>();
                         itemImage.sprite = item.ItemSprite;
                         itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
+
+                        ItemDataHolder itemDataHolder = itemObj.AddComponent<ItemDataHolder>();
+                        itemDataHolder.ItemData = item;
                     }
                     else
                     {
@@ -76,6 +82,7 @@ namespace MoonlitMixes.Inventory
             {
                 GameObject newSlot = Instantiate(_slotPrefab, transform);
                 newSlot.name = "Slot_" + (transform.childCount + 1);
+                _slots.Add(newSlot);
             }
         }
 

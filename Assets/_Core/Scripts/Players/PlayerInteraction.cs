@@ -12,12 +12,13 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapPlayer;
         [SerializeField] private string _actionMapQTE;
         [SerializeField] private string _actionMapWaitingTable;
+        [SerializeField] private string _actionMapUI;
 
         private ACookingMachine _currentCookingMachine;
         private PlayerInput _playerInput;
         private CauldronRecipeChecker _currentCauldron;
         
-        public GameObject ItemInHand { get; set; }
+        public ItemData ItemInHand { get; set; }
         public PlayerHoldItem PlayerHoldItem { get; private set;}
 
         private void Awake()
@@ -33,7 +34,7 @@ namespace MoonlitMixes.Player
             {
                 if(ItemInHand != null)
                 {
-                    if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == ItemInHand.GetComponent<ItemDataHolder>().ItemData.Usage)
+                    if (hit.transform.TryGetComponent(out ACookingMachine cookingMachine) && cookingMachine.TransformType == ItemInHand.Usage)
                     {
                         if (_currentCookingMachine != cookingMachine)
                         {
@@ -41,7 +42,7 @@ namespace MoonlitMixes.Player
                         }
                     }
 
-                    else if(hit.transform.TryGetComponent<CauldronRecipeChecker>(out CauldronRecipeChecker cauldron))
+                    else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron))
                     {
                         if (_currentCauldron != cauldron)
                         {
@@ -108,7 +109,7 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                        if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
                             waitingTable.PlaceItem(PlayerHoldItem.ItemHold);
                             PlayerHoldItem.RemoveItem();
@@ -119,15 +120,16 @@ namespace MoonlitMixes.Player
                     if (_currentCookingMachine != null)
                     {
                         _playerInput.SwitchCurrentActionMap(_actionMapQTE);
-                        _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData, this);
-
-                        //_playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
+                        _currentCookingMachine.ConvertItem(ItemInHand, this);
                     }
                     
                     else if (_currentCauldron != null)
                     {
-                        _currentCauldron.AddIngredient(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
-                        PlayerHoldItem.RemoveItem();
+                        if(ItemInHand.Usage == ItemUsage.Whole)
+                        {
+                            _currentCauldron.AddIngredient(ItemInHand);
+                            PlayerHoldItem.RemoveItem();
+                        }
                     }
     
                     else
@@ -139,9 +141,10 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
+                        if(hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
-                            PlayerHoldItem.ChangeItemData(itemGiver.GiveItem());
+                            inventory.OpenInventory();
+                            _playerInput.SwitchCurrentActionMap(_actionMapUI);
                         }
 
                         else if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
@@ -149,7 +152,7 @@ namespace MoonlitMixes.Player
                             _playerInput.SwitchCurrentActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
                         }
-                        else if(hit.transform.TryGetComponent<CauldronRecipeChecker>(out CauldronRecipeChecker cauldron))
+                        else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron))
                         {
                             if(!cauldron.CanMix) return;
                             _playerInput.SwitchCurrentActionMap(_actionMapQTE);
