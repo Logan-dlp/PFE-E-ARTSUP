@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MoonlitMixes.AI.StateMachine.States
 {
-    public class MonstersStateSlimeWalking : IMonstersState
+    public class MonsterStateWalking : IMonsterState
     {
         private const float DAMP_TIME = 0.5f;
         private const float MAX_DEGREES_DELTA = 180;
@@ -10,12 +10,12 @@ namespace MoonlitMixes.AI.StateMachine.States
         private const string HORIZONTAL_ANIMATOR_VARIABLE = "Horizontal";
         private const string VERTICAL_ANIMATOR_VARIABLE = "Vertical";
         
-        public void Enter(MonstersData data)
+        public void Enter(MonsterData data)
         {
             data.NavMeshAgent.SetDestination(GenerateRandomPoint(data.InitialPosition, 0, data.AttackRadius));
         }
 
-        public IMonstersState Update(MonstersData data)
+        public IMonsterState Update(MonsterData data)
         {
             if (data.NavMeshAgent.hasPath)
             {
@@ -35,18 +35,18 @@ namespace MoonlitMixes.AI.StateMachine.States
             }
             else
             {
-                return new MonstersStateSlimeIdle();
+                return new MonsterStateIdle();
             }
             
             if (data.PlayerReference != null)
             {
-                return new MonstersStateSlimeFollowPlayer();
+                return new MonsterStateFollowPlayer();
             }
             
             return null;
         }
 
-        public void Exit(MonstersData data)
+        public void Exit(MonsterData data)
         {
             
         }

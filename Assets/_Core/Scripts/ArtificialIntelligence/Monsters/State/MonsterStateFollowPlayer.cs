@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MoonlitMixes.AI.StateMachine.States
 {
-    public class MonstersStateSlimeFollowPlayer : IMonstersState
+    public class MonsterStateFollowPlayer : IMonsterState
     {
         private const float DAMP_TIME = 0.25f;
         private const float MAX_DEGREES_DELTA = 180;
@@ -10,7 +10,7 @@ namespace MoonlitMixes.AI.StateMachine.States
         private const string HORIZONTAL_ANIMATOR_VARIABLE = "Horizontal";
         private const string VERTICAL_ANIMATOR_VARIABLE = "Vertical";
         
-        public void Enter(MonstersData data)
+        public void Enter(MonsterData data)
         {
             if (data.PlayerReference != null)
             {
@@ -18,11 +18,11 @@ namespace MoonlitMixes.AI.StateMachine.States
             }
         }
 
-        public IMonstersState Update(MonstersData data)
+        public IMonsterState Update(MonsterData data)
         {
             if (data.PlayerReference == null)
             {
-                return new MonstersStateSlimeIdle();
+                return new MonsterStateIdle();
             }
             
             if (Vector3.Distance(data.PlayerReference.transform.position, data.InitialPosition) > data.DetectionStop)
@@ -44,7 +44,7 @@ namespace MoonlitMixes.AI.StateMachine.States
                 if (Vector3.Distance(data.MonsterGameObject.transform.position, data.NavMeshAgent.destination) < data.StopDistanceToAttack)
                 {
                     data.NavMeshAgent.ResetPath();
-                    return new MonstersStateSlimeAttack();
+                    return new MonsterStateAttack();
                 }
             }
             
@@ -56,8 +56,11 @@ namespace MoonlitMixes.AI.StateMachine.States
             return null;
         }
 
-        public void Exit(MonstersData data)
+        public void Exit(MonsterData data)
         {
+            data.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0);
+            data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0);
+
             data.NavMeshAgent.ResetPath();
         }
     }

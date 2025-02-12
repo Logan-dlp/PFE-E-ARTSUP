@@ -1,12 +1,11 @@
 #if UNITY_EDITOR
 
-using System;
 using UnityEditor;
 
 namespace MoonlitMixes.AI.Editor
 {
-    [CustomEditor(typeof(Monsters))]
-    public class MonstersEditor : UnityEditor.Editor
+    [CustomEditor(typeof(Monster))]
+    public class MonsterEditor : UnityEditor.Editor
     {
         private const float MIN_DETECTION = 0;
         private const float MAX_DETECTION = 10;
@@ -18,7 +17,7 @@ namespace MoonlitMixes.AI.Editor
         
         private void OnEnable()
         {
-            Monsters monsters = (Monsters)target;
+            Monster monster = (Monster)target;
             serializedObject.Update();
             
             _comportementProperty = serializedObject.FindProperty("_comportement");
@@ -33,7 +32,7 @@ namespace MoonlitMixes.AI.Editor
 
             _stopDistanceToAttackProperty.floatValue = EditorGUILayout.FloatField("Stop Distance To Attack", _stopDistanceToAttackProperty.floatValue);
             
-            if (_comportementProperty.enumValueIndex == (int)MonstersComportement.Aggressive)
+            if (_comportementProperty.enumValueIndex == (int)MonsterComportement.Aggressive)
             {
                 _attackRadiusProperty.floatValue = EditorGUILayout.Slider("Atack Radius", _attackRadiusProperty.floatValue, MIN_DETECTION, MAX_DETECTION);
                 _detectionStopProperty.floatValue = EditorGUILayout.Slider("Detection Stop", _detectionStopProperty.floatValue, _attackRadiusProperty.floatValue, MAX_DETECTION + _attackRadiusProperty.floatValue);

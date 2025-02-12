@@ -2,32 +2,32 @@ using UnityEngine;
 
 namespace MoonlitMixes.AI.StateMachine.States
 {
-    public class MonstersStateSlimeAttack : IMonstersState
+    public class MonsterStateAttack : IMonsterState
     {
         private const string ATTACK_ANIMATOR_VARIABLE = "Attack";
         
-        public void Enter(MonstersData data)
+        public void Enter(MonsterData data)
         {
             data.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
         }
 
-        public IMonstersState Update(MonstersData data)
+        public IMonsterState Update(MonsterData data)
         {
             if (data.PlayerReference == null)
             {
-                return new MonstersStateSlimeIdle();
+                return new MonsterStateIdle();
             }
             
             if (data.Attacking)
             {
                 data.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
-                return new MonstersStateSlimeFollowPlayer();
+                return new MonsterStateFollowPlayer();
             }
             
             return null;
         }
 
-        public void Exit(MonstersData data)
+        public void Exit(MonsterData data)
         {
             data.Attacking = false;
         }

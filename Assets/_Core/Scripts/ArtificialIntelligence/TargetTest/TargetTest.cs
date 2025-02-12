@@ -4,12 +4,12 @@ namespace MoonlitMixes.AI
 {
     public class TargetTest : MonoBehaviour
     {
-        [SerializeField] private Monsters _monsters;
+        [SerializeField] private Monster monster;
 
         [ContextMenu("Attack Monster")]
         public void AttackMonsters()
         {
-            _monsters.Attacked(this);
+            monster.Attacked(this);
         }
     }
 }

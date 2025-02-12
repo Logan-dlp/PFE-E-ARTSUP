@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace MoonlitMixes.AI.StateMachine
 {
-    public class MonstersData
+    public class MonsterData
     {
         public GameObject MonsterGameObject { get; set; }
         public Animator Animator { get; set; }
