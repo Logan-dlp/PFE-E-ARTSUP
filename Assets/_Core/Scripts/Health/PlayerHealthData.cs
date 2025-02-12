@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerHealthData", menuName = "Scriptable Objects/Player Health Data")]
+[CreateAssetMenu(fileName = "new_" + nameof(PlayerHealthData), menuName = "Scriptable Objects/Player Health Data")]
 public class PlayerHealthData : ScriptableObject
 {
     [SerializeField] private float _maxHealth;

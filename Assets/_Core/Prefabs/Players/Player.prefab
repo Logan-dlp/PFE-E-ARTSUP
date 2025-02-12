@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9013070810673826221}
   - component: {fileID: 2335678901166205118}
   - component: {fileID: 3912762589502611741}
+  - component: {fileID: 5532378603156099049}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -161,6 +162,23 @@ MonoBehaviour:
   _walkSpeed: 2
   _sprintSpeed: 4
   _maxStamina: 5
+--- !u!114 &5532378603156099049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999253988127387035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec8c50fa8294c14e95dcc6a9c08447e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  healthBarScriptableInt: {fileID: 11400000, guid: 5c3881731ba56f145bacba2d4e9b0a81, type: 2}
+  _timeBeforeGettingOutOfFight: 3
+  _healthRegenetion: 1
+  playerHealthData: {fileID: 11400000, guid: e09a0c07a5e93c24f8faa762d0ac326e, type: 2}
 --- !u!1 &4811927324672541078
 GameObject:
   m_ObjectHideFlags: 0
