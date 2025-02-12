@@ -47,7 +47,7 @@ namespace MoonlitMixes.Player
             ItemHold = Instantiate(item, _itemHoldPivot.transform);
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
-            GetComponent<PlayerInteraction>().ItemInHand = ItemHold;
+            GetComponent<PlayerInteraction>().ItemInHand = Item;
         }
 
         public void RemoveItem()

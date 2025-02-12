@@ -105,10 +105,6 @@ namespace MoonlitMixes.CookingMachine
                         _cauldronTimer.ResetCooldown();
                         CheckRecipeCompletion();
                     }
-                    else
-                    {
-                        Debug.Log("PotionFoiré");
-                    }
                 }
             }
         }
