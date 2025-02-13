@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Mix_Water
+  m_Name: M_Water_Potion
   m_Shader: {fileID: -6465566751694194690, guid: a93d652c326923e40ad1d873e9239f3e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,6 +37,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Bubble_Texture:
+        m_Texture: {fileID: 2800000, guid: 3e16b3805da23004cacfa5cc6d16b4a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Movement_Texture:
         m_Texture: {fileID: 2800000, guid: 3e16b3805da23004cacfa5cc6d16b4a2, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -59,17 +63,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Base_Water_In_To_Water_Bubble: 1
     - _Flow_Strength: 0.02
     - _Foam_Distance: 0
+    - _Power_Bubble: 5
     - _Power_Movement: 0.3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Size: 2.2
+    - _Size_1: 1
+    - _Speed_Bubble: 0.8
     - _Speed_Movement: 1.5
-    - _Water_In_To_Water_Bubble: 0
+    - _Water_In_To_Water_Bubble: 0.5
     - _test: 0
     m_Colors:
+    - _Color_bubble: {r: 0.6472693, g: 0.9773585, b: 0.9428658, a: 0}
+    - _Dark_Color_Bubble: {r: 0.39063805, g: 0.004122404, b: 0.7283019, a: 0}
     - _Dark_Foam_Color: {r: 0.23773581, g: 0, b: 0.22549936, a: 1}
+    - _Light_Color_Bubble: {r: 0.9656159, g: 0.7075471, b: 1, a: 0}
     - _Light_Foam_Color: {r: 0, g: 1, b: 0.9012573, a: 0}
     - _Water_Color: {r: 0.16785322, g: 0.4149279, b: 0.7735849, a: 0}
   m_BuildTextureStacks: []
