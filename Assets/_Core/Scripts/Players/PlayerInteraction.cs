@@ -41,7 +41,6 @@ namespace MoonlitMixes.Player
                             SetNewCookingMachine(cookingMachine);
                         }
                     }
-
                     else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron))
                     {
                         if (_currentCauldron != cauldron)
@@ -49,18 +48,15 @@ namespace MoonlitMixes.Player
                             SetNewCauldron(cauldron);
                         }
                     }
-
-                    else if (_currentCookingMachine != null)
-                    {
-                        _currentCookingMachine.TogleShowInteractivity();
-                        _currentCookingMachine = null;
-                        ResetInteractionTargets();
-                    }
                 }
-                else
+                /*else
                 {
                     ResetInteractionTargets();
-                }
+                }*/
+            }
+            else if (_currentCookingMachine != null || _currentCauldron != null)
+            {
+                ResetInteractionTargets();
             }
         }
 
@@ -88,17 +84,10 @@ namespace MoonlitMixes.Player
 
         private void ResetInteractionTargets()
         {
-            if (_currentCauldron != null)
-            {
-                _currentCauldron.TogleShowInteractivity();
-                _currentCauldron = null;
-            }
-
-            if (_currentCookingMachine != null)
-            {
-                _currentCookingMachine.TogleShowInteractivity();
-                _currentCookingMachine = null;
-            }
+            if(_currentCauldron != null) _currentCauldron.TogleShowInteractivity();
+            _currentCauldron = null;
+            if(_currentCookingMachine != null) _currentCookingMachine.TogleShowInteractivity();
+            _currentCookingMachine = null;
         }
 
         public void Interact(InputAction.CallbackContext ctx)

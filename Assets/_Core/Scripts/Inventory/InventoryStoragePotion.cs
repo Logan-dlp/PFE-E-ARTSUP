@@ -2,12 +2,11 @@ using System.Collections;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Player;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryStoragePotion : MonoBehaviour
 {
-    [SerializeField] private Canvas _inventoryUI;
+    [SerializeField] private GameObject _inventoryUI;
     [SerializeField] private ScriptableCloseCanvasEvent _scriptableCloseCanvasEvent;
 
     private void Start()
@@ -26,13 +25,13 @@ public class InventoryStoragePotion : MonoBehaviour
     
     public void OpenInventory()
     {
-        _inventoryUI.gameObject.SetActive(true);
+        _inventoryUI.SetActive(true);
         StartCoroutine(FirstSelected());
     }
 
     public void CloseInventory()
     {
-        _inventoryUI.gameObject.SetActive(false);
+        _inventoryUI.SetActive(false);
         FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
     }
 
