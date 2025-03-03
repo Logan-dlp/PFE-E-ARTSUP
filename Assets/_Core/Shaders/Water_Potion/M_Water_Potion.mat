@@ -45,8 +45,12 @@ Material:
         m_Texture: {fileID: 2800000, guid: 3e16b3805da23004cacfa5cc6d16b4a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_c0de1581ac0e41afaeb5182aba0a4cc4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: da3c0205a9b798d48abc38efcb82dd62, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _T_Spiral:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: da3c0205a9b798d48abc38efcb82dd62, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Water_Texture:
@@ -67,33 +71,42 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Base_Water_In_To_Mix_Water: 0
     - _Base_Water_In_To_Water_Bubble: 0
     - _Color_Saturation: 0
     - _Flow_Strength: 0.02
     - _Foam_Distance: 0
-    - _Power: 0
+    - _Power: 5
     - _Power_Bubble: 5
     - _Power_Movement: 0.3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Saturation: 0
     - _Scale: 3
+    - _Scale_T_BaseWater: 1.3
+    - _Scale_T_Bubble: 1.3
     - _Size: 2.2
     - _Size_1: 2.2
+    - _Size_Bubble_UV: 1
+    - _Size_UV: 1
     - _Speed_Bubble: 0.8
     - _Speed_Movement: 1.5
     - _Time_Speed: 10
     - _Water_In_To_Water_Bubble: 0.5
     - _test: 0
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 0, b: 0.4835167, a: 0}
     - _Color_bubble: {r: 0, g: 1, b: 0.8928571, a: 0}
     - _Dark_Color_Bubble: {r: 0.42215967, g: 0.20971873, b: 0.5169811, a: 0}
     - _Dark_Foam_Color: {r: 0.5924529, g: 0.414717, b: 0.58371174, a: 1}
     - _Light_Color_Bubble: {r: 0.9730566, g: 0.7754717, b: 1, a: 0}
     - _Light_Foam_Color: {r: 0.035848916, g: 1, b: 0.90547544, a: 0}
     - _Speed_Voronoi: {r: 0, g: 0, b: 0, a: 0}
+    - _Speed_Voronoi_BaseWater: {r: 0, g: 0, b: 0, a: 0}
+    - _Speed_Voronoi_Bubble: {r: 0, g: 0, b: 0, a: 0}
     - _Tiling_Voronoi: {r: 1, g: 1, b: 0, a: 0}
+    - _Tiling_Voronoi_Bubble: {r: 1, g: 1, b: 0, a: 0}
+    - _Tilling_Voronoi_BaseWater: {r: 1, g: 1, b: 0, a: 0}
     - _Water_Color: {r: 0.32499105, g: 0.5856937, b: 0.9622642, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
