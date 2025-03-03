@@ -11,6 +11,12 @@ public class CauldronTimer : MonoBehaviour
     private bool _canAction = true;
     private float _remainingTime;
     
+    public bool CanAction
+    {
+        get => _canAction;
+        set => _canAction = value;
+    }
+    
     public bool TimerIsActive
     {
         get => _timerIsActive;
@@ -38,34 +44,35 @@ public class CauldronTimer : MonoBehaviour
         
         if (_remainingTime >= _itemCooldown/2)
         {
+            _canAction = false;
             _remainingTime -= Time.fixedDeltaTime;
             //Debug.Log($"Cooldown restant: {_remainingTime:F2} secondes");
         }
         else if (_remainingTime >= 0)
         {   
-            _cauldronRecipeChecker.CanMix = true;
             _canAction = true;
             _remainingTime -= Time.fixedDeltaTime;
             //Debug.Log($"Cooldown restant avant cramé: {_remainingTime:F2} secondes");
         }
         else if(!_timerFinished)
         {
-            _cauldronRecipeChecker.CanMix = false;
             _canAction = false;
             _timerIsActive = false;
             _timerFinished = true;
-            _cauldronRecipeChecker.CanMix = true;
+            _cauldronRecipeChecker.NeedMix = false;
+            _cauldronRecipeChecker.CheckQTE(false);
             //Debug.Log("Le cooldown est termin�. Vous pouvez ajouter un nouvel �l�ment !");
         }
-    }
-
-    public bool CanAction()
-    {
-        return _remainingTime > 0 && _timerIsActive && _canAction;
     }
 
     public void ResetCooldown()
     {
         _remainingTime = _itemCooldown;
-    }  
+    }
+
+    public void StopCooldown()
+    {
+        _remainingTime = _itemCooldown;
+        _timerIsActive = false;
+    }
 }

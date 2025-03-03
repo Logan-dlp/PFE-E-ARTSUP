@@ -49,10 +49,6 @@ namespace MoonlitMixes.Player
                         }
                     }
                 }
-                /*else
-                {
-                    ResetInteractionTargets();
-                }*/
             }
             else if (_currentCookingMachine != null || _currentCauldron != null)
             {
@@ -112,9 +108,9 @@ namespace MoonlitMixes.Player
                         _currentCookingMachine.ConvertItem(ItemInHand, this);
                     }
                     
-                    else if (_currentCauldron != null)
+                    else if (_currentCauldron != null && _currentCauldron.GetComponent<CauldronTimer>().CanAction)
                     {
-                        if(ItemInHand.Usage == ItemUsage.Whole)
+                        if(ItemInHand.Usage == ItemUsage.Whole &&  _currentCauldron.NeedItem)
                         {
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
@@ -141,9 +137,9 @@ namespace MoonlitMixes.Player
                             _playerInput.SwitchCurrentActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
                         }
-                        else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron))
+                        else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
                         {
-                            if(!cauldron.CanMix) return;
+                            if(!cauldron.NeedMix) return;
                             _playerInput.SwitchCurrentActionMap(_actionMapQTE);
                             cauldron.Mix(this);
                         }

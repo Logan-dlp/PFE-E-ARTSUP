@@ -19,13 +19,22 @@ namespace MoonlitMixes.CookingMachine
         private PotionInventory _potionInventory;
         private CauldronMixing _cauldronMixing;
         private bool _qteSuccess;
-        private ItemData _lastAddedItem;
-        private bool _canMix;
-
-        public bool CanMix
+        private Recipe _currentRecipe;
+        private int _currentRecipeIndex;
+        private bool _needMix;
+        private bool _needItem = true;
+        private ItemData _ingredentToAdd;
+        
+        public bool NeedMix
         {
-            get => _canMix;
-            set => _canMix = value;
+            get => _needMix;
+            set => _needMix = value;
+        }
+
+        public bool NeedItem
+        {
+            get => _needItem;
+            set => _needItem = value;
         }
 
         private void Awake()
@@ -48,30 +57,40 @@ namespace MoonlitMixes.CookingMachine
 
         public void AddIngredient(ItemData ingredient)
         {
-            if(!_currentIngredients.Any()) _cauldronTimer.TimerIsActive = true;
+            if(!_currentIngredients.Any())
+            {
+                _cauldronTimer.TimerIsActive = true;
+                
+                foreach (Recipe recipe in _allRecipes)
+                {
+                    if(recipe.RequiredIngredients[0] == ingredient)
+                    {
+                        _currentRecipe = recipe;
+                        _currentRecipeIndex = 0;
+                        break;
+                    }
+                }
+            } 
 
             if (ingredient == null)
             {
-                Debug.LogWarning("L'ingr�dient ajout� est null !");
                 return;
             }
-
             
-            if (!_cauldronTimer.CanAction())
+            if(ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
             {
-                Debug.Log("Il faut attendre avant d'ajouter un autre ingr�dient !");
+                HandleFailedPotion();
                 return;
             }
 
-            Debug.Log("Add + " + ingredient);
-            Debug.Log($"Ingr�dient ajout� : {ingredient.ObjectName}");
-            _currentIngredients.Add(ingredient);
-            _lastAddedItem = ingredient;
+            _ingredentToAdd = ingredient;
             _cauldronTimer.ResetCooldown();
             TriggerBubbleVFX();
+            _needItem = false;
+            _needMix = true;
         }
 
-        private void ValidateIngredient(ItemData ingredient)
+        private void ValidateIngredientAddition(ItemData ingredient)
         {
             if (!_qteSuccess)
             {
@@ -79,80 +98,58 @@ namespace MoonlitMixes.CookingMachine
                 return;
             }
 
-            Dictionary<ElementType, int> currentCounts = new Dictionary<ElementType, int>();
-            foreach (var ing in _currentIngredients)
+            if(_currentRecipe.RequiredIngredients[_currentRecipeIndex] == ingredient)
             {
-                if (!currentCounts.ContainsKey(ing.Type))
-                {
-                    currentCounts[ing.Type] = 0;
-                }
-                currentCounts[ing.Type]++;
+                _currentIngredients.Add(ingredient);
+                _needMix = false;
+                _currentRecipeIndex++;
+                _cauldronTimer.ResetCooldown();
+                CheckRecipeCompletion();
             }
-
-            foreach (Recipe recipe in _allRecipes)
-            {
-                foreach (var requirement in recipe.RequiredIngredients)
-                {
-                    if (requirement.ElementType == ingredient.Type)
-                    {
-                        currentCounts.TryGetValue(ingredient.Type, out int currentCount);
-
-                        if (currentCount > requirement.Quantity)
-                        {
-                            Debug.LogWarning($"Trop d'ingr�dients du type {ingredient.Type} ajout�s !");
-                            return;
-                        }
-                        _cauldronTimer.ResetCooldown();
-                        CheckRecipeCompletion();
-                    }
-                }
-            }
+        
         }
 
         private void CheckRecipeCompletion()
         {
-            foreach (Recipe recipe in _allRecipes)
+            if (IsRecipeComplete(_currentRecipe))
             {
-                if (IsRecipeComplete(recipe))
-                {
-                    HandleSuccessfulPotion(recipe);
-                    return;
-                }
+                HandleSuccessfulPotion(_currentRecipe);
+                return;
+            }
+            else
+            {
+                _needItem = true;
             }
         }
 
         private bool IsRecipeComplete(Recipe recipe)
         {
-            Dictionary<ElementType, int> ingredientCount = new Dictionary<ElementType, int>();
-            foreach (var ingredient in _currentIngredients)
+            if(recipe.RequiredIngredients.Count == _currentRecipeIndex)
             {
-                if (!ingredientCount.ContainsKey(ingredient.Type))
-                {
-                    ingredientCount[ingredient.Type] = 0;
-                }
-                ingredientCount[ingredient.Type]++;
+                return true;
             }
-
-            foreach (var requirement in recipe.RequiredIngredients)
+            else
             {
-                if (!ingredientCount.TryGetValue(requirement.ElementType, out int count) || count < requirement.Quantity)
-                {
-                    return false;
-                }
+                return false;
             }
-
-            return true;
         }
 
         private void HandleSuccessfulPotion(Recipe recipe)
         {
+            _needItem = true;
+            _currentRecipe = null;
+            _cauldronTimer.StopCooldown();
             _potionInventory.PotionList.Add(recipe.Potion);
+            _potionInventory.UpdatePotionCanvas();
             Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
         }
 
         private void HandleFailedPotion()
         {
+            _needItem = true;
+            _currentRecipe = null;
+            _cauldronTimer.StopCooldown();
             Debug.Log("Potion rat�e !");
             _currentIngredients.Clear();
         }
@@ -177,7 +174,7 @@ namespace MoonlitMixes.CookingMachine
         public void CheckQTE(bool state)
         {
             _qteSuccess = state;
-            ValidateIngredient(_lastAddedItem);
+            ValidateIngredientAddition(_ingredentToAdd);
         }
 
         public void Mix(PlayerInteraction playerInteraction)
