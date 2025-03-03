@@ -48,7 +48,7 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void Exit(MonsterData data)
         {
-            
+            data.NavMeshAgent.velocity = Vector3.zero;
         }
         
         private Vector3 GenerateRandomPoint(Vector3 origin, float rayMin, float rayMax)

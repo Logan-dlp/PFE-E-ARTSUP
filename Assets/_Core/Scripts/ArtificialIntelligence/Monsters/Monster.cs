@@ -16,8 +16,6 @@ namespace MoonlitMixes.AI
         private TargetTest _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
-        
-        private bool _collisionAttackActive = false;
 
         private void Start()
         {
@@ -89,9 +87,15 @@ namespace MoonlitMixes.AI
             }
         }
 
-        public void ToggleCollisionAttack()
+        public void Attack()
         {
-            _collisionAttackActive = !_collisionAttackActive;
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
+            {
+                if (hit.transform.TryGetComponent<TargetTest>(out TargetTest target))
+                {
+                    Debug.Log($"Target: {target.name}");
+                }
+            }
         }
         
         public void FinishAnimationAttack()
@@ -104,17 +108,6 @@ namespace MoonlitMixes.AI
             if (_comportement == MonsterComportement.Passive)
             {
                 _monsterData.PlayerReference = target;
-            }
-        }
-
-        public void CollisionEnter(Collider collider)
-        {
-            if (_collisionAttackActive)
-            {
-                if (collider.TryGetComponent<TargetTest>(out var Target))
-                {
-                    Debug.Log($"Je t'ai touché {collider.gameObject.name}");
-                }
             }
         }
     }

@@ -30,7 +30,18 @@ namespace MoonlitMixes.AI.StateMachine.States
                 data.PlayerReference = null;
             }
             
-            if (data.NavMeshAgent.hasPath)
+            if (Vector3.Distance(data.MonsterGameObject.transform.position, data.PlayerReference.transform.position) < data.StopDistanceToAttack)
+            {
+                data.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0);
+                data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0);
+
+                data.NavMeshAgent.ResetPath();
+                
+                data.NavMeshAgent.velocity = Vector3.zero;
+                    
+                return new MonsterStateAttack();
+            }
+            else
             {
                 Vector3 dir = (data.NavMeshAgent.steeringTarget - data.MonsterGameObject.transform.position).normalized;
                 Vector3 animDir = data.MonsterGameObject.transform.InverseTransformDirection(dir);
@@ -40,12 +51,6 @@ namespace MoonlitMixes.AI.StateMachine.States
                 data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.z : 0, DAMP_TIME, Time.deltaTime);
                 
                 data.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(data.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
-
-                if (Vector3.Distance(data.MonsterGameObject.transform.position, data.NavMeshAgent.destination) < data.StopDistanceToAttack)
-                {
-                    data.NavMeshAgent.ResetPath();
-                    return new MonsterStateAttack();
-                }
             }
             
             if (data.PlayerReference != null)
@@ -58,10 +63,7 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void Exit(MonsterData data)
         {
-            data.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0);
-            data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0);
-
-            data.NavMeshAgent.ResetPath();
+            
         }
     }
 }
