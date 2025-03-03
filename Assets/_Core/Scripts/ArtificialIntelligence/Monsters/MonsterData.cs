@@ -8,7 +8,7 @@ namespace MoonlitMixes.AI.StateMachine
         public GameObject MonsterGameObject { get; set; }
         public Animator Animator { get; set; }
         public NavMeshAgent NavMeshAgent { get; set; }
-        public TargetTest PlayerReference { get; set; }
+        public GameObject PlayerReference { get; set; }
         public Vector3 InitialPosition { get; set; }
         
         public float StopDistanceToAttack { get; set; }

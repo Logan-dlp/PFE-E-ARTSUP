@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,10 +10,14 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _walkSpeed = 2;
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
+        [SerializeField] private float _knockbackForce = 2;
+        [SerializeField] private float _knockbackDuration = .45f;
+        
         
         private CharacterController _characterController;
         
         private Vector3 _velocity;
+        private Vector3 _knockbackMovement = Vector3.zero;
         
         private Vector2 _movement;
         private Vector2 _targetMovement;
@@ -94,6 +99,17 @@ namespace MoonlitMixes.Player
             else if (ctx.canceled)
             {
                 _currentSpeed = _walkSpeed;
+            }
+        }
+
+        public IEnumerator Knockback(Vector3 direction)
+        {
+            float startTime = Time.time;
+            while (Time.time < (startTime + _knockbackDuration))
+            {
+                _knockbackMovement = Vector3.Lerp(_knockbackMovement, direction, Time.deltaTime * 10f);
+                _characterController.Move(_knockbackMovement * _knockbackForce * Time.deltaTime);
+                yield return null;
             }
         }
     }

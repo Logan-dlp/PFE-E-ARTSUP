@@ -1,3 +1,4 @@
+using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,8 +13,9 @@ namespace MoonlitMixes.AI
         [SerializeField] private float _stopDistanceToAttack;
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
+        [SerializeField] private int _attackForce;
 
-        private TargetTest _playerReference;
+        private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
         
@@ -21,7 +23,7 @@ namespace MoonlitMixes.AI
 
         private void Start()
         {
-            _playerReference = FindFirstObjectByType<TargetTest>();
+            _playerReference = GameObject.FindWithTag("Player");
             
             _monsterData = new MonsterData()
             {
@@ -99,11 +101,11 @@ namespace MoonlitMixes.AI
             _monsterData.Attacking = true;
         }
 
-        public void Attacked(TargetTest target)
+        public void Attacked(GameObject player)
         {
             if (_comportement == MonsterComportement.Passive)
             {
-                _monsterData.PlayerReference = target;
+                _monsterData.PlayerReference = player;
             }
         }
 
@@ -111,9 +113,9 @@ namespace MoonlitMixes.AI
         {
             if (_collisionAttackActive)
             {
-                if (collider.TryGetComponent<TargetTest>(out var Target))
+                if (collider.TryGetComponent<PlayerLife>(out PlayerLife player))
                 {
-                    Debug.Log($"Je t'ai touché {collider.gameObject.name}");
+                    player.AddDamage(player.transform.position - transform.position, _attackForce);
                 }
             }
         }
