@@ -1,7 +1,7 @@
-using MoonlitMixes.CookingMachine;
-using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Item;
 
 namespace MoonlitMixes.Player
 {
@@ -100,6 +100,12 @@ namespace MoonlitMixes.Player
                             PlayerHoldItem.RemoveItem();
                             ItemInHand = null;
                         }
+
+                        else if(hit.transform.TryGetComponent(out Trashcan trashcan))
+                        {
+                            trashcan.DiscardItem();
+                            PlayerHoldItem.RemoveItem();
+                        }
                     }
 
                     if (_currentCookingMachine != null)
@@ -115,11 +121,6 @@ namespace MoonlitMixes.Player
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
                         }
-                    }
-    
-                    else
-                    {
-                        Debug.Log("Il faut attendre avant d'ajouter un autre ingrédient !");
                     }
                 }
                 else
@@ -143,10 +144,6 @@ namespace MoonlitMixes.Player
                             _playerInput.SwitchCurrentActionMap(_actionMapQTE);
                             cauldron.Mix(this);
                         }
-                    }
-                    else
-                    {
-                        Debug.Log("Vous n'avez aucun objet dans les mains !");
                     }
                 }
                 
