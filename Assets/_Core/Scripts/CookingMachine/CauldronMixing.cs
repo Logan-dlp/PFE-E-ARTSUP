@@ -1,5 +1,5 @@
-using MoonlitMixes.Player;
 using UnityEngine;
+using MoonlitMixes.Player;
 
 namespace MoonlitMixes.CookingMachine
 {

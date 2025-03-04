@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using System;
 using System.Collections;
-using System;
-using Random = UnityEngine.Random;
-using MoonlitMixes.Datas;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using MoonlitMixes.Datas;
 using MoonlitMixes.Events;
 using MoonlitMixes.Player;
+using Random = UnityEngine.Random;
 
 namespace MoonlitMixes.QTE
 {
@@ -22,6 +22,7 @@ namespace MoonlitMixes.QTE
         [SerializeField] private ScriptableQTEConfig _qTEConfig;
         [SerializeField] private ScriptableQTEEvent _qTEEvent;
         [SerializeField] private ScriptableBoolEvent _scriptableBoolEvent;
+        [SerializeField, Range(.1f, 1f)] private float _delayRatioFailure;
 
         private int _currentIndex;
         private int _currentPressCount = 0;
@@ -241,9 +242,11 @@ namespace MoonlitMixes.QTE
             }
             else
             {
-                _failureCount++;
-                _completedQTECount = 0;
-                StartQTE();
+                _qteSuccess = false;
+                _qteSlot.color = Color.red;
+                _progressBarComplete = false;
+                _progressBarUI.fillAmount = 0;
+                StartCoroutine(DisplayFailureForDuration());
             }
         }
 
@@ -507,6 +510,15 @@ namespace MoonlitMixes.QTE
                 FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
                 _scriptableBoolEvent.SendBool(true);
             }
+        }
+
+        private IEnumerator DisplayFailureForDuration()
+        {
+            yield return new WaitForSeconds(_qTEConfig.SuccessDisplayDuration * _delayRatioFailure);
+            _completedQTECount = 0;
+            _failureCount++;
+            _qteSlot.color = Color.white;
+            StartQTE();
         }
     }
 }

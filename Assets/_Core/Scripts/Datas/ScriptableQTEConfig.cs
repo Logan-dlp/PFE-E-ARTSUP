@@ -1,9 +1,9 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using MoonlitMixes.Events;
-using System.Collections.Generic;
 
 namespace MoonlitMixes.Datas
 {
