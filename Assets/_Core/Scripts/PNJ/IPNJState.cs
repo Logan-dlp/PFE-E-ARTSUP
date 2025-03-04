@@ -2,8 +2,8 @@ namespace MoonlitMixes.AI.StateMachine
 {
     public interface IPNJState
     {
-        void EnterState(PNJData pnj);
-        void UpdateState(PNJData pnj, PNJStateMachine stateMachine);
-        void ExitState(PNJData pnj);
+        void EnterState(PNJData data);
+        void UpdateState(PNJData data, PNJStateMachine stateMachine);
+        void ExitState(PNJData data);
     }
 }

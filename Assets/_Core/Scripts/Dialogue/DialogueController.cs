@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
+    [SerializeField] private GameObject _panelDialogue;
     [SerializeField] private DialogueScriptableObject dialogueScriptable;
     [SerializeField] private TMP_Text _textPlayer;
     [SerializeField] private TMP_Text _textNPC;
@@ -16,6 +18,20 @@ public class DialogueController : MonoBehaviour
     private bool _skipText = false;
     private int _index;
     private int dialogueIndex = 0;
+
+    public static event Action OnDialogueFinished;
+
+    private void Start()
+    {
+        _panelDialogue.SetActive(false);
+    }
+
+    public void StartDialogue()
+    {
+        dialogueIndex = 0;
+        _panelDialogue.SetActive(true);
+        NextDialogue();
+    }
 
     public void NextDialogue()
     {
@@ -32,25 +48,30 @@ public class DialogueController : MonoBehaviour
                 _imagePlayer.sprite = dialogueScriptable.dialogueSection[dialogueIndex].sprite;
                 _imagePlayer.preserveAspect = true;
                 WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textPlayer);
-                dialogueIndex++;
             }
             else
             {
                 _imageNPC.sprite = dialogueScriptable.dialogueSection[dialogueIndex].sprite;
                 _imageNPC.preserveAspect = true;
                 WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textNPC);
-                dialogueIndex++;
             }
+            dialogueIndex++;
         }
         else if (dialogueIndex == dialogueScriptable.dialogueSection.Length)
         {
-
+            EndDialogue();
         }
+    }
+
+    private void EndDialogue()
+    {
+        _panelDialogue.SetActive(false);
+        OnDialogueFinished?.Invoke();
     }
 
     private void WriteText(string text, TMP_Text textBox)
     {
-        textBox.maxVisibleCharacters = 0; //Resets whenever this is re-used.
+        textBox.maxVisibleCharacters = 0;
         textBox.text = text;
         _textIsWritten = true;
         StartCoroutine(TypeText(textBox));

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.AI;
 using MoonlitMixes.AI.StateMachine;
 using MoonlitMixes.AI.StateMachine.States;
@@ -8,24 +8,34 @@ namespace MoonlitMixes.AI
 {
     public class PNJStateMachine : MonoBehaviour
     {
-        [SerializeField] private Transform waypointsParent;
-        [SerializeField] private NavMeshAgent agent;
-        [SerializeField] private Animator animator;
-        [SerializeField] private float dialogueDuration = 3f;
+        [SerializeField] private Transform _waypointsParent;
+        [SerializeField] private float _dialogueDuration = 3f;
 
+        private NavMeshAgent _agent;
+        private Animator _animator;
         private PNJData _pnjData;
         private IPNJState _currentState;
         private List<IPNJState> _states;
+        private static bool _isShopOpen = false;
+        private static List<PNJStateMachine> _spawnedPNJs = new List<PNJStateMachine>();
+
+        private void Awake()
+        {
+            _agent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
+
+            CloseOrOpenShop.OnShopToggled += HandleShopToggle;
+        }
 
         private void Start()
         {
             List<Transform> waypoints = new List<Transform>();
-            foreach (Transform child in waypointsParent)
+            foreach (Transform child in _waypointsParent)
             {
                 waypoints.Add(child);
             }
 
-            _pnjData = new PNJData(gameObject, agent, animator, waypoints, dialogueDuration);
+            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration);
 
             _states = new List<IPNJState>
             {
@@ -36,7 +46,20 @@ namespace MoonlitMixes.AI
                 new DespawnState()
             };
 
-            TransitionToState(0);
+            if (_isShopOpen || _spawnedPNJs.Contains(this))
+            {
+                _spawnedPNJs.Add(this);
+                TransitionToState(0);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            CloseOrOpenShop.OnShopToggled -= HandleShopToggle;
         }
 
         private void Update()
@@ -58,6 +81,28 @@ namespace MoonlitMixes.AI
             if (nextIndex < _states.Count)
             {
                 TransitionToState(nextIndex);
+            }
+        }
+
+        private void HandleShopToggle(bool isOpen)
+        {
+            _isShopOpen = isOpen;
+
+            if (_isShopOpen)
+            {
+                if (!_spawnedPNJs.Contains(this))
+                {
+                    _spawnedPNJs.Add(this);
+                    gameObject.SetActive(true);
+                    TransitionToState(0);
+                }
+            }
+            else
+            {
+                if (!_spawnedPNJs.Contains(this))
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }
     }

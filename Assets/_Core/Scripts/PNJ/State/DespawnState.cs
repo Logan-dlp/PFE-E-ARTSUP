@@ -5,16 +5,16 @@ namespace MoonlitMixes.AI.StateMachine.States
 {
     public class DespawnState : IPNJState
     {
-        public void EnterState(PNJData pnj)
+        public void EnterState(PNJData data)
         {
-            pnj.PNJGameObject.SetActive(false);
+            data.PNJGameObject.SetActive(false);
         }
 
-        public void UpdateState(PNJData pnj, PNJStateMachine stateMachine)
+        public void UpdateState(PNJData data, PNJStateMachine stateMachine)
         {
             stateMachine.NextState();
         }
 
-        public void ExitState(PNJData pnj) { }
+        public void ExitState(PNJData data) { }
     }
 }

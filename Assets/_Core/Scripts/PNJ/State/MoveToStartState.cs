@@ -5,21 +5,21 @@ namespace MoonlitMixes.AI.StateMachine.States
 {
     public class MoveToStartState : IPNJState
     {
-        public void EnterState(PNJData pnj)
+        public void EnterState(PNJData data)
         {
-            pnj.Agent.SetDestination(pnj.Waypoints[0].position);
-            pnj.Animator.SetBool("isWalking", true);
+            data.Agent.SetDestination(data.Waypoints[0].position);
+            data.Animator.SetBool("isWalking", true);
         }
 
-        public void UpdateState(PNJData pnj, PNJStateMachine stateMachine)
+        public void UpdateState(PNJData data, PNJStateMachine stateMachine)
         {
-            if (!pnj.Agent.pathPending && pnj.Agent.remainingDistance <= pnj.Agent.stoppingDistance)
+            if (!data.Agent.pathPending && data.Agent.remainingDistance <= data.Agent.stoppingDistance)
             {
-                pnj.Animator.SetBool("isWalking", false);
+                data.Animator.SetBool("isWalking", false);
                 stateMachine.NextState();
             }
         }
 
-        public void ExitState(PNJData pnj) { }
+        public void ExitState(PNJData data) { }
     }
 }
