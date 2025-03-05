@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using MoonlitMixes.AI.StateMachine;
@@ -10,6 +11,7 @@ namespace MoonlitMixes.AI
     {
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
+        [SerializeField] private float _spawnDelay = 2f;
 
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -18,13 +20,14 @@ namespace MoonlitMixes.AI
         private List<IPNJState> _states;
         private static bool _isShopOpen = false;
         private static List<PNJStateMachine> _spawnedPNJs = new List<PNJStateMachine>();
+        private Coroutine _spawnCoroutine;
 
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
-
             CloseOrOpenShop.OnShopToggled += HandleShopToggle;
+            DisablePNJ();
         }
 
         private void Start()
@@ -42,24 +45,19 @@ namespace MoonlitMixes.AI
                 new SpawnState(),
                 new MoveToEndState(),
                 new DialogueState(),
+                new ChoosePotionState(),
                 new MoveToStartState(),
                 new DespawnState()
             };
-
-            if (_isShopOpen || _spawnedPNJs.Contains(this))
-            {
-                _spawnedPNJs.Add(this);
-                TransitionToState(0);
-            }
-            else
-            {
-                gameObject.SetActive(false);
-            }
         }
 
         private void OnDestroy()
         {
             CloseOrOpenShop.OnShopToggled -= HandleShopToggle;
+            if (_spawnCoroutine != null)
+            {
+                StopCoroutine(_spawnCoroutine);
+            }
         }
 
         private void Update()
@@ -93,17 +91,37 @@ namespace MoonlitMixes.AI
                 if (!_spawnedPNJs.Contains(this))
                 {
                     _spawnedPNJs.Add(this);
-                    gameObject.SetActive(true);
-                    TransitionToState(0);
+                    _spawnCoroutine = StartCoroutine(SpawnAfterDelay());
                 }
             }
             else
             {
-                if (!_spawnedPNJs.Contains(this))
+                if (_spawnedPNJs.Contains(this))
                 {
-                    gameObject.SetActive(false);
+                    _spawnedPNJs.Remove(this);
+                    DisablePNJ();
                 }
             }
+        }
+
+        private IEnumerator SpawnAfterDelay()
+        {
+            yield return new WaitForSeconds(_spawnDelay);
+            EnablePNJ();
+            TransitionToState(0);
+        }
+
+        private void DisablePNJ()
+        {
+            _agent.enabled = false;
+            _animator.enabled = false;
+        }
+
+        private void EnablePNJ()
+
+        {
+            _agent.enabled = true;
+            _animator.enabled = true;
         }
     }
 }

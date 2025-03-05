@@ -36,9 +36,6 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
 
-        public void ExitState(PNJData data)
-        {
-            data.Agent.isStopped = false;
-        }
+        public void ExitState(PNJData data) { }
     }
 }
