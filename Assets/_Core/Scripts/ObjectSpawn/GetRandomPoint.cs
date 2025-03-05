@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MoonlitMixes.Datas;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace MoonlitMixes.ObjectSpwan
                     #if UNITY_EDITOR
                         EditorApplication.ExitPlaymode();
                     #endif
+                    return;
                 }
 
                 int nbOfSpawn = (int)Random.Range(_spawnMinMax.x, _spawnMinMax.y);
@@ -44,7 +46,6 @@ namespace MoonlitMixes.ObjectSpwan
             {
                 for (int i = 0; i < _objectSpawnScriptableData.objectSpawneds.Length; i++)
                 {
-                    Debug.Log("Loop");
                     GameObject createdObject = Instantiate(_objectSpawnScriptableData.objectSpawneds[i]._object);
                     createdObject.transform.position = _objectSpawnScriptableData.objectSpawneds[i]._verticesSpawnPosition;
                 }
