@@ -7,34 +7,33 @@ namespace MoonlitMixes.AI.StateMachine.States
         private const float MAX_DEGREES_DELTA = 180;
         private const string ATTACK_ANIMATOR_VARIABLE = "Attack";
         
-        public void Enter(MonsterData data)
+        public void Enter(MonsterData monsterData)
         {
-            data.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
+            monsterData.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
+            monsterData.FinishedAttacking = false;
         }
 
-        public IMonsterState Update(MonsterData data)
+        public IMonsterState Update(MonsterData monsterData)
         {
-            Vector3 dir = (data.PlayerReference.transform.position - data.MonsterGameObject.transform.position).normalized;
-            data.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(data.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
+            Vector3 dir = (monsterData.PlayerReference.transform.position - monsterData.MonsterGameObject.transform.position).normalized;
+            monsterData.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(monsterData.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
             
-            if (data.PlayerReference == null)
+            if (monsterData.PlayerReference == null)
             {
                 return new MonsterStateIdle();
             }
             
-            if (data.Attacking)
+            if (monsterData.FinishedAttacking)
             {
-                data.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
-                
                 return new MonsterStateFollowPlayer();
             }
             
             return null;
         }
 
-        public void Exit(MonsterData data)
+        public void Exit(MonsterData monsterData)
         {
-            data.Attacking = false;
+            
         }
     }
 }

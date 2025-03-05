@@ -9,7 +9,7 @@ namespace MoonlitMixes.AI
         [ContextMenu("Attack Monster")]
         public void AttackMonsters()
         {
-            monster.Attacked(this);
+            monster.Damage(this);
         }
     }
 }

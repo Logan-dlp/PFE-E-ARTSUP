@@ -33,7 +33,7 @@ namespace MoonlitMixes.AI
                 AttackRadius = _attackRadius,
                 DetectionStop = _detectionStop,
                 
-                Attacking = false,
+                FinishedAttacking = false,
             };
             
             TransitionTo(new MonsterStateIdle());
@@ -100,10 +100,10 @@ namespace MoonlitMixes.AI
         
         public void FinishAnimationAttack()
         {
-            _monsterData.Attacking = true;
+            _monsterData.FinishedAttacking = true;
         }
-
-        public void Attacked(TargetTest target)
+        
+        public void Damage(TargetTest target)
         {
             if (_comportement == MonsterComportement.Passive)
             {

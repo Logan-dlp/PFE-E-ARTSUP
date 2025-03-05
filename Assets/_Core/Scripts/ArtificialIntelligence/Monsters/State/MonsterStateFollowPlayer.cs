@@ -10,60 +10,62 @@ namespace MoonlitMixes.AI.StateMachine.States
         private const string HORIZONTAL_ANIMATOR_VARIABLE = "Horizontal";
         private const string VERTICAL_ANIMATOR_VARIABLE = "Vertical";
         
-        public void Enter(MonsterData data)
+        public void Enter(MonsterData monsterData)
         {
-            if (data.PlayerReference != null)
+            if (Vector3.Distance(monsterData.PlayerReference.transform.position, monsterData.InitialPosition) > monsterData.DetectionStop)
             {
-                data.NavMeshAgent.SetDestination(data.PlayerReference.transform.position);
+                monsterData.PlayerReference = null;
             }
         }
 
-        public IMonsterState Update(MonsterData data)
+        public IMonsterState Update(MonsterData monsterData)
         {
-            if (data.PlayerReference == null)
+            if (monsterData.PlayerReference == null)
             {
                 return new MonsterStateIdle();
             }
-            
-            if (Vector3.Distance(data.PlayerReference.transform.position, data.InitialPosition) > data.DetectionStop)
+            else
             {
-                data.PlayerReference = null;
+                monsterData.NavMeshAgent.SetDestination(monsterData.PlayerReference.transform.position);
             }
             
-            if (Vector3.Distance(data.MonsterGameObject.transform.position, data.PlayerReference.transform.position) < data.StopDistanceToAttack)
+            if (Vector3.Distance(monsterData.PlayerReference.transform.position, monsterData.InitialPosition) > monsterData.DetectionStop)
             {
-                data.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0);
-                data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0);
-
-                data.NavMeshAgent.ResetPath();
-                
-                data.NavMeshAgent.velocity = Vector3.zero;
-                    
-                return new MonsterStateAttack();
+                monsterData.PlayerReference = null;
             }
             else
             {
-                Vector3 dir = (data.NavMeshAgent.steeringTarget - data.MonsterGameObject.transform.position).normalized;
-                Vector3 animDir = data.MonsterGameObject.transform.InverseTransformDirection(dir);
-                bool isFacingMoveDirection = Vector3.Dot(dir, data.MonsterGameObject.transform.forward) > DAMP_TIME;
+                if (Vector3.Distance(monsterData.MonsterGameObject.transform.position, monsterData.PlayerReference.transform.position) < monsterData.StopDistanceToAttack)
+                {
+                    monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0);
+                    monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0);
+
+                    monsterData.NavMeshAgent.ResetPath();
+                    
+                    return new MonsterStateAttack();
+                }
+                else
+                {
+                    if (monsterData.NavMeshAgent.hasPath)
+                    {
+                        Vector3 direction = (monsterData.NavMeshAgent.steeringTarget - monsterData.MonsterGameObject.transform.position).normalized;
+                        Vector3 animDirection = monsterData.MonsterGameObject.transform.InverseTransformDirection(direction);
+                        bool isFacingMoveDirection = Vector3.Dot(direction, monsterData.MonsterGameObject.transform.forward) > DAMP_TIME;
                 
-                data.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.x : 0, DAMP_TIME, Time.deltaTime);
-                data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.z : 0, DAMP_TIME, Time.deltaTime);
+                        monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDirection.x : 0, DAMP_TIME, Time.deltaTime);
+                        monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDirection.z : 0, DAMP_TIME, Time.deltaTime);
                 
-                data.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(data.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
-            }
-            
-            if (data.PlayerReference != null)
-            {
-                data.NavMeshAgent.SetDestination(data.PlayerReference.transform.position);
+                        monsterData.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(monsterData.MonsterGameObject.transform.rotation, Quaternion.LookRotation(direction), MAX_DEGREES_DELTA * Time.deltaTime);
+                    }
+                }
             }
             
             return null;
         }
 
-        public void Exit(MonsterData data)
+        public void Exit(MonsterData monsterData)
         {
-            
+            monsterData.NavMeshAgent.velocity = Vector3.zero;
         }
     }
 }

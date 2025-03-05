@@ -10,27 +10,27 @@ namespace MoonlitMixes.AI.StateMachine.States
         private const string HORIZONTAL_ANIMATOR_VARIABLE = "Horizontal";
         private const string VERTICAL_ANIMATOR_VARIABLE = "Vertical";
         
-        public void Enter(MonsterData data)
+        public void Enter(MonsterData monsterData)
         {
-            data.NavMeshAgent.SetDestination(GenerateRandomPoint(data.InitialPosition, 0, data.AttackRadius));
+            monsterData.NavMeshAgent.SetDestination(GenerateRandomPoint(monsterData.InitialPosition, 0, monsterData.AttackRadius));
         }
 
-        public IMonsterState Update(MonsterData data)
+        public IMonsterState Update(MonsterData monsterData)
         {
-            if (data.NavMeshAgent.hasPath)
+            if (monsterData.NavMeshAgent.hasPath)
             {
-                Vector3 dir = (data.NavMeshAgent.steeringTarget - data.MonsterGameObject.transform.position).normalized;
-                Vector3 animDir = data.MonsterGameObject.transform.InverseTransformDirection(dir);
-                bool isFacingMoveDirection = Vector3.Dot(dir, data.MonsterGameObject.transform.forward) > DAMP_TIME;
+                Vector3 dir = (monsterData.NavMeshAgent.steeringTarget - monsterData.MonsterGameObject.transform.position).normalized;
+                Vector3 animDir = monsterData.MonsterGameObject.transform.InverseTransformDirection(dir);
+                bool isFacingMoveDirection = Vector3.Dot(dir, monsterData.MonsterGameObject.transform.forward) > DAMP_TIME;
                 
-                data.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.x : 0, DAMP_TIME, Time.deltaTime);
-                data.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.z : 0, DAMP_TIME, Time.deltaTime);
+                monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.x : 0, DAMP_TIME, Time.deltaTime);
+                monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDir.z : 0, DAMP_TIME, Time.deltaTime);
                 
-                data.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(data.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
+                monsterData.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(monsterData.MonsterGameObject.transform.rotation, Quaternion.LookRotation(dir), MAX_DEGREES_DELTA * Time.deltaTime);
 
-                if (Vector3.Distance(data.MonsterGameObject.transform.position, data.NavMeshAgent.destination) < data.NavMeshAgent.radius)
+                if (Vector3.Distance(monsterData.MonsterGameObject.transform.position, monsterData.NavMeshAgent.destination) < monsterData.NavMeshAgent.radius)
                 {
-                    data.NavMeshAgent.ResetPath();
+                    monsterData.NavMeshAgent.ResetPath();
                 }
             }
             else
@@ -38,7 +38,7 @@ namespace MoonlitMixes.AI.StateMachine.States
                 return new MonsterStateIdle();
             }
             
-            if (data.PlayerReference != null)
+            if (monsterData.PlayerReference != null)
             {
                 return new MonsterStateFollowPlayer();
             }
@@ -46,9 +46,9 @@ namespace MoonlitMixes.AI.StateMachine.States
             return null;
         }
 
-        public void Exit(MonsterData data)
+        public void Exit(MonsterData monsterData)
         {
-            data.NavMeshAgent.velocity = Vector3.zero;
+            monsterData.NavMeshAgent.velocity = Vector3.zero;
         }
         
         private Vector3 GenerateRandomPoint(Vector3 origin, float rayMin, float rayMax)
