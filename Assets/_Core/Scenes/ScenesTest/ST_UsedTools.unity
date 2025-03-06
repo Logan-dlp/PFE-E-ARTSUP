@@ -744,6 +744,7 @@ GameObject:
   - component: {fileID: 276779957}
   - component: {fileID: 276779956}
   - component: {fileID: 276779960}
+  - component: {fileID: 276779961}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -855,6 +856,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemListData: {fileID: 11400000, guid: f678749f63de85e4d9b2d0278bfd1db0, type: 2}
+--- !u!114 &276779961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276779955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9bc857dddd13d4cb6eb53c93731d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 75
+  healthBarScriptableInt: {fileID: 11400000, guid: 38177138b79a1194f99da6c69f9113bd, type: 2}
 --- !u!1 &420074330
 GameObject:
   m_ObjectHideFlags: 0
@@ -3935,7 +3950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventory: {fileID: 914575746}
-  _rochetsCasses: 0
+  _brokenRock: 0
+  _attackDamage: 25
 --- !u!114 &1394328114
 MonoBehaviour:
   m_ObjectHideFlags: 0

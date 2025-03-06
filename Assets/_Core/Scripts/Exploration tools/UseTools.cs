@@ -1,4 +1,5 @@
-﻿using MoonlitMixes.Inventory;
+﻿using MoonlitMixes.Health;
+using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,7 +7,8 @@ using UnityEngine.InputSystem;
 public class UseTools : MonoBehaviour
 {
     [SerializeField] private InventoryUI _inventory;
-    [SerializeField] private int _rochetsCasses = 0;
+    [SerializeField] private int _brokenRock = 0;
+    [SerializeField] private float _attackDamage;
 
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
@@ -84,7 +86,7 @@ public class UseTools : MonoBehaviour
                 {
                     if (itemList.Items.Count >= 2)
                     {
-                        float chance = GetPreciousStoneChance(_rochetsCasses);
+                        float chance = GetPreciousStoneChance(_brokenRock);
                         ItemData itemToAdd;
                         float randomValue = Random.value;
 
@@ -99,10 +101,10 @@ public class UseTools : MonoBehaviour
 
                         _inventory?.AddItem(itemToAdd);
 
-                        _rochetsCasses++;
-                        if (_rochetsCasses >= 3)
+                        _brokenRock++;
+                        if (_brokenRock >= 3)
                         {
-                            _rochetsCasses = 0;
+                            _brokenRock = 0;
                         }
                     }
                 }
@@ -126,23 +128,32 @@ public class UseTools : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
         {
-            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-
-            if (itemList != null && itemList.ToolType == ToolType.Septer)
+            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
             {
-                if (itemList.Items.Count > 0)
-                {
-                    ItemData itemToAdd = itemList.Items[0];
+                enemyHealth.TakeDamage(_attackDamage);
 
-                    if (_inventory != null)
+                if (enemyHealth._currentHealth <= 0)
+                {
+                    ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+                    if (itemList != null && itemList.ToolType == ToolType.Septer)
                     {
-                        _inventory.AddItem(itemToAdd);
+                        if (itemList.Items.Count > 0)
+                        {
+                            ItemData itemToAdd = itemList.Items[0];
+
+                            if (_inventory != null)
+                            {
+                                _inventory.AddItem(itemToAdd);
+                            }
+                        }
+                        Destroy(hit.collider.gameObject);
                     }
                 }
-                Destroy(hit.collider.gameObject);
             }
         }
     }
+
 
     private bool CanUseHand()
     {
