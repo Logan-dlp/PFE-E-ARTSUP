@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using MoonlitMixes.Datas;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace MoonlitMixes.ObjectSpwan
 
                 if(_verticesArray.Length < _spawnMinMax.y)
                 {
-                    Debug.LogError("Too much object compared to the number of vertices");
+                    Debug.LogWarning("Too much objects compared to the number of vertices");
                     
                     #if UNITY_EDITOR
                         EditorApplication.ExitPlaymode();
@@ -33,6 +32,12 @@ namespace MoonlitMixes.ObjectSpwan
                     return;
                 }
 
+                foreach(GameObject obj in _prefabArray)
+                {
+                    GameObject createdObject = Instantiate(obj);
+                    createdObject.transform.position = gameObject.transform.position + SelectRandomVertice();
+
+                }
                 int nbOfSpawn = (int)Random.Range(_spawnMinMax.x, _spawnMinMax.y);
         
                 for (int i = 0; i < nbOfSpawn; i++)
