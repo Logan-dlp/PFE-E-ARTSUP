@@ -497,6 +497,52 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1706447431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1706447433}
+  - component: {fileID: 1706447432}
+  m_Layer: 0
+  m_Name: ItemSaver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1706447432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706447431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e09c9a22cbe14f842abbd9c411fccd85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableEvent: {fileID: 11400000, guid: 0c1fe0ff387d30b44986371de1a72512, type: 2}
+  _scriptableObjectSpawnData: {fileID: 11400000, guid: e30df195aa6921242bce8332150be2fe, type: 2}
+--- !u!4 &1706447433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706447431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.241142, y: 13.106705, z: 6.6304927}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1887147454
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,9 +577,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabArray:
-  - {fileID: 919132149155446097, guid: 66c3d99d301bd984ca0826068cd14988, type: 3}
-  - {fileID: 919132149155446097, guid: ad3174d026b346245b178b09bb010e44, type: 3}
-  _spawnMinMax: {x: 1, y: 1}
+  - {fileID: 6240361478904216552, guid: d2fe044084e46d340ac687176a771123, type: 3}
+  - {fileID: 8929921678127332270, guid: 61c6fede1c99bd34697a65261b26f5c6, type: 3}
+  - {fileID: 6330081954392150813, guid: b1cfbaba1b2b9d54c8c1ef5b0c3dfffd, type: 3}
+  _spawnMinMax: {x: 2, y: 4}
   _objectSpawnScriptableData: {fileID: 11400000, guid: e30df195aa6921242bce8332150be2fe, type: 2}
 --- !u!64 &1887147456
 MeshCollider:
@@ -3085,3 +3132,4 @@ SceneRoots:
   - {fileID: 593886748}
   - {fileID: 318790323}
   - {fileID: 1887147460}
+  - {fileID: 1706447433}

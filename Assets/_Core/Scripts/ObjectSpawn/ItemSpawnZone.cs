@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace MoonlitMixes.ObjectSpwan
 {
-    public class GetRandomPoint : MonoBehaviour
+    public class ItemSpawnZone : MonoBehaviour
     {
         [SerializeField] private GameObject[] _prefabArray;
         [SerializeField] private Vector2 _spawnMinMax; 
-        [SerializeField] private ObjectSpawnScriptableData _objectSpawnScriptableData;
-        
+        [SerializeField] private ScriptableObjectSpawnData _objectSpawnScriptableData;
+
         private Mesh _mesh;
         private Vector3[] _verticesArray;
         private List<Vector3> _usedVerticeList = new List<Vector3>();
-    
+
         private void Start()
         {
-            if(_objectSpawnScriptableData.objectSpawneds.Length == 0)
+            if(_objectSpawnScriptableData.objectSpawnedList.Count == 0)
             {
                 _mesh = GetComponent<MeshCollider>().sharedMesh;
                 _verticesArray = _mesh.vertices;
@@ -36,23 +36,24 @@ namespace MoonlitMixes.ObjectSpwan
                 {
                     GameObject createdObject = Instantiate(obj);
                     createdObject.transform.position = gameObject.transform.position + SelectRandomVertice();
-
                 }
+                
                 int nbOfSpawn = (int)Random.Range(_spawnMinMax.x, _spawnMinMax.y);
         
                 for (int i = 0; i < nbOfSpawn; i++)
                 {
-                    GameObject createdObject = Instantiate(_prefabArray[Random.Range(0,_prefabArray.Length)]);
-                    
+                    int itemSelection = Random.Range(0,_prefabArray.Length);
+                    GameObject createdObject = Instantiate(_prefabArray[itemSelection]);
                     createdObject.transform.position = gameObject.transform.position + SelectRandomVertice();
+
                 }
             }
             else
             {
-                for (int i = 0; i < _objectSpawnScriptableData.objectSpawneds.Length; i++)
+                for (int i = 0; i < _objectSpawnScriptableData.objectSpawnedList.Count; i++)
                 {
-                    GameObject createdObject = Instantiate(_objectSpawnScriptableData.objectSpawneds[i]._object);
-                    createdObject.transform.position = _objectSpawnScriptableData.objectSpawneds[i]._verticesSpawnPosition;
+                    GameObject createdObject = Instantiate(_objectSpawnScriptableData.objectSpawnedList[i]._object);
+                    createdObject.transform.position = _objectSpawnScriptableData.objectSpawnedList[i]._verticesSpawnPosition;
                 }
             }
         }
