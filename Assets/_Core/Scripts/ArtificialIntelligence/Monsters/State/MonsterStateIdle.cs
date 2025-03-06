@@ -1,24 +1,29 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace MoonlitMixes.AI.StateMachine.States
 {
     public class MonsterStateIdle : IMonsterState
     {
+        private const float MIN_RANGE_RANDOM_TIMER = 0.5f;
+        private const float MAX_RANGE_RANDOM_TIMER = 3;
+        private const float DAMP_TIME = 0.25f;
+        
+        private const string HORIZONTAL_ANIMATOR_VARIABLE = "Horizontal";
+        private const string VERTICAL_ANIMATOR_VARIABLE = "Vertical";
+        
         private float _timer;
         
-        public void Enter(MonsterData data)
+        public void Enter(MonsterData monsterData)
         {
-            _timer = Random.Range(.5f, 3f);
+            _timer = Random.Range(MIN_RANGE_RANDOM_TIMER, MAX_RANGE_RANDOM_TIMER);
         }
 
-        public IMonsterState Update(MonsterData data)
+        public IMonsterState Update(MonsterData monsterData)
         {
-            data.Animator.SetFloat("Horizontal", 0, .25f, Time.deltaTime);
-            data.Animator.SetFloat("Vertical", 0, .25f, Time.deltaTime);
+            monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0, DAMP_TIME, Time.deltaTime);
+            monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0, DAMP_TIME, Time.deltaTime);
             
-            if (data.PlayerReference != null)
+            if (monsterData.PlayerReference != null)
             {
                 return new MonsterStateFollowPlayer();
             }
@@ -35,7 +40,7 @@ namespace MoonlitMixes.AI.StateMachine.States
             return null;
         }
 
-        public void Exit(MonsterData data)
+        public void Exit(MonsterData monsterData)
         {
             
         }

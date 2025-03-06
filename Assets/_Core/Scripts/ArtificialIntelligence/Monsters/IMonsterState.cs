@@ -2,8 +2,8 @@ namespace MoonlitMixes.AI.StateMachine.States
 {
     public interface IMonsterState
     {
-        public void Enter(MonsterData data);
-        public IMonsterState Update(MonsterData data);
-        public void Exit(MonsterData data);
+        public void Enter(MonsterData monsterData);
+        public IMonsterState Update(MonsterData monsterData);
+        public void Exit(MonsterData monsterData);
     }
 }

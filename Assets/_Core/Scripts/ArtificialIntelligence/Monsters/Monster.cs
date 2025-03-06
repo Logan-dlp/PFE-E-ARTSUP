@@ -1,4 +1,3 @@
-using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,17 +12,14 @@ namespace MoonlitMixes.AI
         [SerializeField] private float _stopDistanceToAttack;
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
-        [SerializeField] private int _attackForce;
 
-        private GameObject _playerReference;
+        private TargetTest _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
-        
-        private bool _collisionAttackActive = false;
 
         private void Start()
         {
-            _playerReference = GameObject.FindWithTag("Player");
+            _playerReference = FindFirstObjectByType<TargetTest>();
             
             _monsterData = new MonsterData()
             {
@@ -37,7 +33,7 @@ namespace MoonlitMixes.AI
                 AttackRadius = _attackRadius,
                 DetectionStop = _detectionStop,
                 
-                Attacking = false,
+                FinishedAttacking = false,
             };
             
             TransitionTo(new MonsterStateIdle());
@@ -91,32 +87,27 @@ namespace MoonlitMixes.AI
             }
         }
 
-        public void ToggleCollisionAttack()
+        public void Attack()
         {
-            _collisionAttackActive = !_collisionAttackActive;
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
+            {
+                if (hit.transform.TryGetComponent<TargetTest>(out TargetTest target))
+                {
+                    Debug.Log($"Target: {target.name}");
+                }
+            }
         }
         
         public void FinishAnimationAttack()
         {
-            _monsterData.Attacking = true;
+            _monsterData.FinishedAttacking = true;
         }
-
-        public void Attacked(GameObject player)
+        
+        public void Damage(TargetTest target)
         {
             if (_comportement == MonsterComportement.Passive)
             {
-                _monsterData.PlayerReference = player;
-            }
-        }
-
-        public void CollisionEnter(Collider collider)
-        {
-            if (_collisionAttackActive)
-            {
-                if (collider.TryGetComponent<PlayerLife>(out PlayerLife player))
-                {
-                    player.AddDamage(player.transform.position - transform.position, _attackForce);
-                }
+                _monsterData.PlayerReference = target;
             }
         }
     }

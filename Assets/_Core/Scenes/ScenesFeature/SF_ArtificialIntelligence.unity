@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caaf451049dc97e41a93b95cad4ae893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monsters: {fileID: 0}
+  monster: {fileID: 0}
 --- !u!1001 &1209333411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -536,7 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2246758435089256571, guid: 38a0007867e756344b9d117bba719607, type: 3}
       propertyPath: _stopDistanceToAttack
-      value: 2.3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4666742513218503136, guid: 38a0007867e756344b9d117bba719607, type: 3}
       propertyPath: m_LocalPosition.x
@@ -578,8 +578,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8831757969642708376, guid: 38a0007867e756344b9d117bba719607, type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8831757969642708376, guid: 38a0007867e756344b9d117bba719607, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8831757969642708376, guid: 38a0007867e756344b9d117bba719607, type: 3}
+      propertyPath: m_Acceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8831757969642708376, guid: 38a0007867e756344b9d117bba719607, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1953351335444538910, guid: 38a0007867e756344b9d117bba719607, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a0007867e756344b9d117bba719607, type: 3}
