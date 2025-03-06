@@ -10,9 +10,6 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _walkSpeed = 2;
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
-        [SerializeField] private float _knockbackForce = 2;
-        [SerializeField] private float _knockbackDuration = .45f;
-        
         
         private CharacterController _characterController;
         
@@ -102,13 +99,13 @@ namespace MoonlitMixes.Player
             }
         }
 
-        public IEnumerator Knockback(Vector3 direction)
+        public IEnumerator Knockback(Vector3 direction, float force, float duration)
         {
             float startTime = Time.time;
-            while (Time.time < (startTime + _knockbackDuration))
+            while (Time.time < (startTime + duration))
             {
                 _knockbackMovement = Vector3.Lerp(_knockbackMovement, direction, Time.deltaTime * 10f);
-                _characterController.Move(_knockbackMovement * _knockbackForce * Time.deltaTime);
+                _characterController.Move(_knockbackMovement * force * Time.deltaTime);
                 yield return null;
             }
         }

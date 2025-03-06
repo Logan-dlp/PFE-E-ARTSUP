@@ -14,10 +14,10 @@ namespace MoonlitMixes.Player
             playerMovement = GetComponent<PlayerMovement>();
         }
 
-        public void AddDamage(Vector3 direction, int damage)
+        public void AddDamage(int damage, Vector3 direction, float force, float duration)
         {
             _health -= damage;
-            StartCoroutine(playerMovement.Knockback(direction));
+            StartCoroutine(playerMovement.Knockback(direction, force, duration));
         }
     }
 }

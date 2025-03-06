@@ -14,6 +14,10 @@ namespace MoonlitMixes.AI
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
 
+        [SerializeField] private int _attackDamage;
+        [SerializeField] private float _attackForce = 2;
+        [SerializeField] private float _attackDuration = .45f;
+
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
@@ -93,9 +97,9 @@ namespace MoonlitMixes.AI
         {
             if (Physics.Raycast(transform.position + _attackRayOffset, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
             {
-                if (hit.transform.TryGetComponent<PlayerLife>(out PlayerLife target))
+                if (hit.transform.TryGetComponent<PlayerLife>(out PlayerLife playerLife))
                 {
-                    
+                    playerLife.AddDamage(_attackDamage, transform.forward, _attackForce, _attackDuration);
                 }
             }
         }
