@@ -1,3 +1,4 @@
+using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,13 +14,14 @@ namespace MoonlitMixes.AI
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
 
-        private TargetTest _playerReference;
+        private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
+        private Vector3 _attackRayOffset = new(0, .5f, 0);
 
         private void Start()
         {
-            _playerReference = FindFirstObjectByType<TargetTest>();
+            _playerReference = FindFirstObjectByType<PlayerLife>().gameObject;
             
             _monsterData = new MonsterData()
             {
@@ -89,11 +91,11 @@ namespace MoonlitMixes.AI
 
         public void Attack()
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
+            if (Physics.Raycast(transform.position + _attackRayOffset, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
             {
-                if (hit.transform.TryGetComponent<TargetTest>(out TargetTest target))
+                if (hit.transform.TryGetComponent<PlayerLife>(out PlayerLife target))
                 {
-                    Debug.Log($"Target: {target.name}");
+                    
                 }
             }
         }
@@ -103,7 +105,7 @@ namespace MoonlitMixes.AI
             _monsterData.FinishedAttacking = true;
         }
         
-        public void Damage(TargetTest target)
+        public void Damage(GameObject target)
         {
             if (_comportement == MonsterComportement.Passive)
             {
