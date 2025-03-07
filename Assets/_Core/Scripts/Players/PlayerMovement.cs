@@ -9,7 +9,8 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _walkSpeed = 2;
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
-        
+        [SerializeField] private bool _canSprint = false;
+
         private CharacterController _characterController;
         
         private Vector3 _velocity;
@@ -87,7 +88,7 @@ namespace MoonlitMixes.Player
         
         public void SetSprint(InputAction.CallbackContext ctx)
         {
-            if (ctx.started && _currentStamina > 0)
+            if (ctx.started && _currentStamina > 0 && _canSprint)
             {
                 _currentSpeed = _sprintSpeed;
             }

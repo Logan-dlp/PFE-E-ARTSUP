@@ -13,6 +13,7 @@ namespace MoonlitMixes.Item
         [SerializeField] private ItemData _itemToConvert;
         [SerializeField] private string _description;
         [SerializeField] private GameObject _itemPrefab;
+        [SerializeField] private ItemUsage _state;
 
         public string ObjectName
         {
@@ -34,6 +35,11 @@ namespace MoonlitMixes.Item
             get => _itemUsage;
         }
 
+        public ItemUsage State
+        {
+            get => _state;
+        }
+
         public Sprite ItemSprite
         {
             get => _sprite;
@@ -42,13 +48,13 @@ namespace MoonlitMixes.Item
         public ItemData ItemToConvert
         {
             get => _itemToConvert;
-        } 
+        }
 
         public string Description
         {
             get => _description;
         }
-
+        
         public GameObject ItemPrefab
         {
             get => _itemPrefab;

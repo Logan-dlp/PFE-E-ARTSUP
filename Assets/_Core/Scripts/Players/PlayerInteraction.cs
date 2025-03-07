@@ -17,6 +17,7 @@ namespace MoonlitMixes.Player
         private PlayerHoldItem _playerHoldItem;
         private ACookingMachine _currentCookingMachine;
         private PlayerInput _playerInput;
+        private CauldronRecipeChecker _currentCauldron;
 
         private void Awake()
         {
@@ -26,7 +27,7 @@ namespace MoonlitMixes.Player
 
         private void Update()
         {
-            Debug.DrawRay(transform.position, transform.forward * _interactionDistance, Color.red);
+            Debug.DrawRay(transform.position + new Vector3(0,.3f,0), transform.forward * _interactionDistance, Color.red);
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance))
             {
                 if(ItemInHand != null)
@@ -38,18 +39,38 @@ namespace MoonlitMixes.Player
                             SetNewCookingMachine(cookingMachine);
                         }
                     }
+
+                    else if(hit.transform.TryGetComponent<CauldronRecipeChecker>(out CauldronRecipeChecker cauldron))
+                    {
+                        if (_currentCauldron != cauldron)
+                        {
+                            SetNewCauldron(cauldron);
+                        }
+                    }
+
                     else if (_currentCookingMachine != null)
                     {
                         _currentCookingMachine.TogleShowInteractivity();
                         _currentCookingMachine = null;
+                        ResetInteractionTargets();
                     }
                 }
-                else if (_currentCookingMachine != null)
+                else
                 {
-                    _currentCookingMachine.TogleShowInteractivity();
-                    _currentCookingMachine = null;
+                    ResetInteractionTargets();
                 }
             }
+        }
+
+        private void SetNewCauldron(CauldronRecipeChecker newCauldron)
+        {
+            if (_currentCauldron != null)
+            {
+                _currentCauldron.TogleShowInteractivity();
+            }
+            newCauldron.TogleShowInteractivity();
+            _currentCauldron = newCauldron;
+            _currentCookingMachine = null;
         }
 
         private void SetNewCookingMachine(ACookingMachine newCookingMachine)
@@ -60,12 +81,29 @@ namespace MoonlitMixes.Player
             }
             newCookingMachine.TogleShowInteractivity();
             _currentCookingMachine = newCookingMachine;
+            _currentCauldron = null;
+        }
+
+        private void ResetInteractionTargets()
+        {
+            if (_currentCauldron != null)
+            {
+                _currentCauldron.TogleShowInteractivity();
+                _currentCauldron = null;
+            }
+
+            if (_currentCookingMachine != null)
+            {
+                _currentCookingMachine.TogleShowInteractivity();
+                _currentCookingMachine = null;
+            }
         }
 
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
+
                 if(ItemInHand != null)
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
@@ -73,14 +111,25 @@ namespace MoonlitMixes.Player
                         if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
                             waitingTable.PlaceItem(_playerHoldItem.ItemHold);
-                            _playerHoldItem.Item = null;
-                            _playerHoldItem.ItemHold = null;
+                            _playerHoldItem.RemoveItem();
                             ItemInHand = null;
                         }
                     }
+
                     if (_currentCookingMachine != null)
                     {
-                        ItemInHand = _currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab;
+                        _playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
+                    }
+                    
+                    else if (_currentCauldron != null)
+                    {
+                        _currentCauldron.AddIngredient(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
+                        _playerHoldItem.RemoveItem();
+                    }
+    
+                    else
+                    {
+                        Debug.Log("Il faut attendre avant d'ajouter un autre ingrédient !");
                     }
                 }
                 else
@@ -89,9 +138,12 @@ namespace MoonlitMixes.Player
                     {
                         if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
                         {
-                            ItemInHand = itemGiver.GiveItem();
-                            _playerHoldItem.GetItemData(ItemInHand);
+                            _playerHoldItem.GetItemData(itemGiver.GiveItem());
                         }
+                    }
+                    else
+                    {
+                        Debug.Log("Vous n'avez aucun objet dans les mains !");
                     }
                 }
                 
