@@ -10,9 +10,10 @@ public class RouletteSelectionTools : MonoBehaviour
     [SerializeField] private List<GameObject> _toolGameObjects;
 
     private int _currentToolIndex = 0;
-    private ToolType _currentToolType;
     private List<ToolData> _tools;
     private List<ToolType> _toolTypes;
+
+    public ToolType CurrentToolType { get; private set; }
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class RouletteSelectionTools : MonoBehaviour
             return;
         }
 
-        _currentToolType = _toolTypes[_currentToolIndex];
+        CurrentToolType = _toolTypes[_currentToolIndex];
         UpdateToolSlots();
         UpdateActiveTool();
     }
@@ -47,15 +48,10 @@ public class RouletteSelectionTools : MonoBehaviour
             _currentToolIndex = (_currentToolIndex - 1 + _tools.Count) % _tools.Count;
         }
 
-        _currentToolType = _toolTypes[_currentToolIndex];
+        CurrentToolType = _toolTypes[_currentToolIndex];
 
         UpdateToolSlots();
         UpdateActiveTool();
-    }
-
-    public ToolType GetCurrentToolType()
-    {
-        return _currentToolType;
     }
 
     private void UpdateToolSlots()
