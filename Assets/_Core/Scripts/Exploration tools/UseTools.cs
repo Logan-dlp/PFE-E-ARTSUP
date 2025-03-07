@@ -32,7 +32,7 @@ public class UseTools : MonoBehaviour
                 return;
             }
 
-            _currentTool = _rouletteSelection.GetCurrentToolType();
+            _currentTool = _rouletteSelection.CurrentToolType;
 
             switch (_currentTool)
             {
