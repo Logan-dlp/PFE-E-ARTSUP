@@ -22,6 +22,8 @@ namespace MoonlitMixes.Item
 
         private void Save()
         {
+            _scriptableObjectSpawnData.objectSpawnedList.Clear();
+            
             allInteractableObjectArray = FindObjectsByType<PrefabHolder>(FindObjectsSortMode.None);
             foreach (PrefabHolder obj in allInteractableObjectArray)
             {
