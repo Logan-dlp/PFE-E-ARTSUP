@@ -9,10 +9,11 @@ namespace MoonlitMixes.Inventory
 {
     public class InventoryUI : MonoBehaviour
     {
-        [SerializeField] private InventoryData _inventory;
-        [SerializeField] private InventoryData  _inventoryReceives;
-        [SerializeField] private GameObject _slotPrefab;
         public List<GameObject> _slots = new List<GameObject>();
+        
+        [SerializeField] private InventoryData _inventory;
+        [SerializeField] private InventoryData _inventoryReceives;
+        [SerializeField] private GameObject _slotPrefab;
 
         private int _initialSlotsPerRow = 5;
 

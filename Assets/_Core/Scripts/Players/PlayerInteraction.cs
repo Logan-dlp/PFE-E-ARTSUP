@@ -29,8 +29,7 @@ namespace MoonlitMixes.Player
 
         private void Update()
         {
-            Debug.DrawRay(transform.position + new Vector3(0,.3f,0), transform.forward * _interactionDistance, Color.red);
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
             {
                 if(ItemInHand != null)
                 {
@@ -47,6 +46,10 @@ namespace MoonlitMixes.Player
                         {
                             SetNewCauldron(cauldron);
                         }
+                    }
+                    else if(hit.transform.TryGetComponent(out WaitingTable waitingTable))
+                    {
+                        ResetInteractionTargets();
                     }
                 }
             }
