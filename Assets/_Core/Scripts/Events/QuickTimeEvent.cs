@@ -22,6 +22,7 @@ namespace MoonlitMixes.QTE
         [SerializeField] private ScriptableQTEConfig _qTEConfig;
         [SerializeField] private ScriptableQTEEvent _qTEEvent;
         [SerializeField] private ScriptableBoolEvent _scriptableBoolEvent;
+        [SerializeField] private PlayerInput _playerInput;
         [SerializeField, Range(.1f, 1f)] private float _delayRatioFailure;
 
         private int _currentIndex;
@@ -78,7 +79,7 @@ namespace MoonlitMixes.QTE
                 case ScriptableQTEConfig.QTEInputType.Fixed:
                     break;
                 case ScriptableQTEConfig.QTEInputType.Stir:
-                    _rightStick = FindFirstObjectByType<PlayerInput>().currentActionMap.FindAction("RightStick");
+                    _rightStick = _playerInput.currentActionMap.FindAction("RightStick");
                     StirInput();
                     break;
             }
@@ -118,17 +119,22 @@ namespace MoonlitMixes.QTE
                     //Permet d'update la progress bar
                     if(!_progressBarComplete)
                     {
-                        if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar && _progressBarValue > 0)
-                        {
-                            _progressBarValue -= Time.deltaTime;
-                            _progressBarUI.fillAmount = _progressBarValue / _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput;
-                        }
+                        UpdateProgressBar();
                     }
                 }
             }
             else
             {
                 _qteSlot.enabled = false;
+            }
+        }
+
+        private void UpdateProgressBar()
+        {
+            if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar && _progressBarValue > 0)
+            {
+                _progressBarValue -= Time.deltaTime;
+                _progressBarUI.fillAmount = _progressBarValue / _qTEConfig.CustomQTEButtonList[_currentIndex].requiredInput;
             }
         }
 
@@ -252,77 +258,21 @@ namespace MoonlitMixes.QTE
 
         private bool CheckButtonPress(ScriptableQTEConfig.InputCommand inputCommand)
         {
-            switch (inputCommand)
+            if (_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != inputCommand)
             {
-                case ScriptableQTEConfig.InputCommand.A:
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.A) 
-                    {
-                        ResetPressCount();
-                        return false;
-                    }
-
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
-                    {
-                        _progressBarValue++;
-                    }
-                    else
-                    {
-                        _currentPressCount++;
-                    }
-                    break;
-
-                case ScriptableQTEConfig.InputCommand.B:
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.B)
-                    {
-                        ResetPressCount();
-                        return false;
-                    }
-
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
-                    {
-                        _progressBarValue++;
-                    }
-                    else
-                    {
-                        _currentPressCount++;
-                    }
-                    break;
-
-                case ScriptableQTEConfig.InputCommand.X:
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.X)
-                    {
-                        ResetPressCount();
-                        return false;
-                    }
-                    
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
-                    {
-                        _progressBarValue++;
-                    }
-                    else
-                    {
-                        _currentPressCount++;
-                    }
-                    break;
-
-                case ScriptableQTEConfig.InputCommand.Y:
-
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].inputCommand != ScriptableQTEConfig.InputCommand.Y)
-                    {
-                        ResetPressCount();
-                        return false;
-                    }
-                    
-                    if(_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
-                    {
-                        _progressBarValue++;
-                    }
-                    else
-                    {
-                        _currentPressCount++;
-                    }
-                    break;
+                ResetPressCount();
+                return false;
             }
+
+            if (_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
+            {
+                _progressBarValue++;
+            }
+            else
+            {
+                _currentPressCount++;
+            }
+            
             return true;
 
             void ResetPressCount()
@@ -491,7 +441,9 @@ namespace MoonlitMixes.QTE
 
         private IEnumerator DisplaySuccessForDuration()
         {
+            _playerInput.DeactivateInput();
             yield return new WaitForSeconds(_qTEConfig.SuccessDisplayDuration);
+            _playerInput.ActivateInput();
             _qteSlot.color = Color.white;
 
             _completedQTECount++;
@@ -514,7 +466,9 @@ namespace MoonlitMixes.QTE
 
         private IEnumerator DisplayFailureForDuration()
         {
+            _playerInput.DeactivateInput();
             yield return new WaitForSeconds(_qTEConfig.SuccessDisplayDuration * _delayRatioFailure);
+            _playerInput.ActivateInput();
             _completedQTECount = 0;
             _failureCount++;
             _qteSlot.color = Color.white;

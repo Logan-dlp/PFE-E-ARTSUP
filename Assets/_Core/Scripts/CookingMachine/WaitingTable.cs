@@ -93,8 +93,7 @@ namespace MoonlitMixes.CookingMachine
         private void Movement(InputAction.CallbackContext context)
         {
             if(!context.started) return;
-            Vector2 vec = context.ReadValue<Vector2>();
-            Debug.Log(vec);
+            Vector2 vec = context.ReadValue<Vector2>().normalized;
             switch((vec.x, vec.y))
             {
                 case (1,0):
@@ -143,6 +142,7 @@ namespace MoonlitMixes.CookingMachine
 
         public void StartHighlight()
         {
+            _indexSelectedItem = 0;
             _isActive = true;
             _lightArray[0].intensity = 1;
         }

@@ -6,6 +6,7 @@ namespace MoonlitMixes.CookingMachine
     public class CauldronMixing : ACookingMachine
     {
         [SerializeField] private GameObject _interactUI;
+        
         private bool _isActive = false;
         private CauldronRecipeChecker _cauldronRecipeChecker;
 

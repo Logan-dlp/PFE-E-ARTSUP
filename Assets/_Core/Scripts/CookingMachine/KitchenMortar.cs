@@ -4,8 +4,8 @@ namespace MoonlitMixes.CookingMachine
 {
     public class KitchenMortar : ACookingMachine
     {
-        [SerializeField] protected GameObject InteractUI;
-        protected bool _isActive = false;
+        [SerializeField] private GameObject InteractUI;
+        private bool _isActive = false;
         
         public override void TogleShowInteractivity()
         {
