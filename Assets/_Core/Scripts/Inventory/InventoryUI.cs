@@ -49,7 +49,6 @@ namespace MoonlitMixes.Inventory
                         itemObj.transform.localPosition = Vector3.zero;
                         itemObj.transform.localScale = Vector3.one;
                         itemObj.transform.localRotation = Quaternion.identity;
-
                         Image itemImage = itemObj.AddComponent<Image>();
                         itemImage.sprite = item.ItemSprite;
                         itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
@@ -64,6 +63,9 @@ namespace MoonlitMixes.Inventory
                         {
                             itemImage.sprite = item.ItemSprite;
                         }
+
+                        itemTransform.localRotation = Quaternion.identity;
+                        itemTransform.localScale = Vector3.one;
                     }
                 }
                 else
@@ -76,6 +78,7 @@ namespace MoonlitMixes.Inventory
                 }
             }
         }
+
 
         private void AddNewRowOfSlots()
         {
