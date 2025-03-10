@@ -1,7 +1,6 @@
-using System;
+using UnityEngine;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
-using UnityEngine;
 
 namespace MoonlitMixes.Player
 {
@@ -15,12 +14,12 @@ namespace MoonlitMixes.Player
     
         private void OnEnable()
         {
-            _scriptableItemEvent.ItemDataAction += GetItemData;
+            _scriptableItemEvent.ItemDataAction += ChangeItemData;
         }
     
         private void OnDisable()
         {
-            _scriptableItemEvent.ItemDataAction -= GetItemData;
+            _scriptableItemEvent.ItemDataAction -= ChangeItemData;
         }
     
         private void DisplayItemHold()
@@ -30,7 +29,7 @@ namespace MoonlitMixes.Player
         }
         
         
-        public void GetItemData(GameObject item)
+        public void ChangeItemData(GameObject item)
         {
             try
             {
@@ -48,7 +47,7 @@ namespace MoonlitMixes.Player
             ItemHold = Instantiate(item, _itemHoldPivot.transform);
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
-            GetComponent<PlayerInteraction>().ItemInHand = ItemHold;
+            GetComponent<PlayerInteraction>().ItemInHand = Item;
         }
 
         public void RemoveItem()

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using MoonlitMixes.Item;
+using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
@@ -15,10 +17,32 @@ namespace MoonlitMixes.CookingMachine
         private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
         private PotionInventory _potionInventory;
+        private CauldronMixing _cauldronMixing;
+        private bool _qteSuccess;
+        private Recipe _currentRecipe;
+        private int _currentRecipeIndex;
+        private bool _needMix;
+        private bool _needItem = true;
+        private ItemData _ingredentToAdd;
+        
+        public bool NeedMix
+        {
+            get => _needMix;
+            set => _needMix = value;
+        }
+
+        public bool NeedItem
+        {
+            get => _needItem;
+            set => _needItem = value;
+        }
+
         private void Awake()
         {
+            _cauldronMixing = GetComponent<CauldronMixing>();
             _cauldronTimer = GetComponent<CauldronTimer>();
             _potionInventory = FindFirstObjectByType<PotionInventory>();
+
             if (_cauldronTimer == null)
             {
                 Debug.LogError("CauldronTimer n'est pas attach� au chaudron !");
@@ -33,114 +57,99 @@ namespace MoonlitMixes.CookingMachine
 
         public void AddIngredient(ItemData ingredient)
         {
+            if(!_currentIngredients.Any())
+            {
+                _cauldronTimer.TimerIsActive = true;
+                
+                foreach (Recipe recipe in _allRecipes)
+                {
+                    if(recipe.RequiredIngredients[0] == ingredient)
+                    {
+                        _currentRecipe = recipe;
+                        _currentRecipeIndex = 0;
+                        break;
+                    }
+                }
+            } 
+
             if (ingredient == null)
             {
-                Debug.LogWarning("L'ingr�dient ajout� est null !");
                 return;
             }
-
-            if (!_cauldronTimer.CanAddItem())
-            {
-                Debug.Log("Il faut attendre avant d'ajouter un autre ingr�dient !");
-                return;
-            }
-
-            Debug.Log($"Ingr�dient ajout� : {ingredient.ObjectName}");
-
-            _currentIngredients.Add(ingredient);
-            _cauldronTimer.ResetCooldown();
-            TriggerBubbleVFX();
-
-            bool isValid = ValidateIngredient(ingredient);
-
-            if (!isValid)
+            
+            if(ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
             {
                 HandleFailedPotion();
                 return;
             }
 
-            CheckRecipeCompletion();
+            _ingredentToAdd = ingredient;
+            _cauldronTimer.ResetCooldown();
+            TriggerBubbleVFX();
+            _needItem = false;
+            _needMix = true;
         }
 
-        private bool ValidateIngredient(ItemData ingredient)
+        private void ValidateIngredientAddition(ItemData ingredient)
         {
-            Dictionary<ElementType, int> currentCounts = new Dictionary<ElementType, int>();
-            foreach (var ing in _currentIngredients)
+            if (!_qteSuccess)
             {
-                if (!currentCounts.ContainsKey(ing.Type))
-                {
-                    currentCounts[ing.Type] = 0;
-                }
-                currentCounts[ing.Type]++;
+                HandleFailedPotion();
+                return;
             }
 
-            foreach (Recipe recipe in _allRecipes)
+            if(_currentRecipe.RequiredIngredients[_currentRecipeIndex] == ingredient)
             {
-                foreach (var requirement in recipe.RequiredIngredients)
-                {
-                    if (requirement.ElementType == ingredient.Type)
-                    {
-                        currentCounts.TryGetValue(ingredient.Type, out int currentCount);
-
-                        if (currentCount > requirement.Quantity)
-                        {
-                            Debug.LogWarning($"Trop d'ingr�dients du type {ingredient.Type} ajout�s !");
-                            return false;
-                        }
-
-                        return true;
-                    }
-                }
+                _currentIngredients.Add(ingredient);
+                _needMix = false;
+                _currentRecipeIndex++;
+                _cauldronTimer.ResetCooldown();
+                CheckRecipeCompletion();
             }
-
-            Debug.LogWarning($"L'ingr�dient {ingredient.ObjectName} ne correspond � aucune recette !");
-            return false;
+        
         }
 
         private void CheckRecipeCompletion()
         {
-            foreach (Recipe recipe in _allRecipes)
+            if (IsRecipeComplete(_currentRecipe))
             {
-                if (IsRecipeComplete(recipe))
-                {
-                    HandleSuccessfulPotion(recipe);
-                    return;
-                }
+                HandleSuccessfulPotion(_currentRecipe);
+                return;
+            }
+            else
+            {
+                _needItem = true;
             }
         }
 
         private bool IsRecipeComplete(Recipe recipe)
         {
-            Dictionary<ElementType, int> ingredientCount = new Dictionary<ElementType, int>();
-            foreach (var ingredient in _currentIngredients)
+            if(recipe.RequiredIngredients.Count == _currentRecipeIndex)
             {
-                if (!ingredientCount.ContainsKey(ingredient.Type))
-                {
-                    ingredientCount[ingredient.Type] = 0;
-                }
-                ingredientCount[ingredient.Type]++;
+                return true;
             }
-
-            foreach (var requirement in recipe.RequiredIngredients)
+            else
             {
-                if (!ingredientCount.TryGetValue(requirement.ElementType, out int count) || count < requirement.Quantity)
-                {
-                    return false;
-                }
+                return false;
             }
-
-            return true;
         }
 
         private void HandleSuccessfulPotion(Recipe recipe)
         {
+            _needItem = true;
+            _currentRecipe = null;
+            _cauldronTimer.StopCooldown();
             _potionInventory.PotionList.Add(recipe.Potion);
+            _potionInventory.UpdatePotionCanvas();
             Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
         }
 
         private void HandleFailedPotion()
         {
+            _needItem = true;
+            _currentRecipe = null;
+            _cauldronTimer.StopCooldown();
             Debug.Log("Potion rat�e !");
             _currentIngredients.Clear();
         }
@@ -150,7 +159,7 @@ namespace MoonlitMixes.CookingMachine
             if (_bubbleVFX != null)
             {
                 _bubbleVFX.SetActive(true);
-                Invoke(nameof(DisableBubbleVFX), _cauldronTimer.GetTimeRemaining());
+                Invoke(nameof(DisableBubbleVFX), _cauldronTimer.RemainingTime);
             }
         }
 
@@ -160,6 +169,17 @@ namespace MoonlitMixes.CookingMachine
             {
                 _bubbleVFX.SetActive(false);
             }
+        }
+
+        public void CheckQTE(bool state)
+        {
+            _qteSuccess = state;
+            ValidateIngredientAddition(_ingredentToAdd);
+        }
+
+        public void Mix(PlayerInteraction playerInteraction)
+        {
+            _cauldronMixing.ConvertItem(playerInteraction);
         }
     }
 }

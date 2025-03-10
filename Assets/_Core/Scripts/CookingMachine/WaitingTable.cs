@@ -1,6 +1,7 @@
-using MoonlitMixes.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using MoonlitMixes.Events;
+using MoonlitMixes.Player;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -84,9 +85,7 @@ namespace MoonlitMixes.CookingMachine
 
         private void QuitWaitingTable()
         {
-            PlayerInput playerInput = FindFirstObjectByType<PlayerInput>(); 
-            playerInput.actions.FindActionMap("WaitingTable").Disable();
-            playerInput.actions.FindActionMap("Player").Enable();
+            FindFirstObjectByType<PlayerInteraction>().QuitInteraction(); 
             _isActive = false;
             UpdateHighlight();
         }
@@ -94,7 +93,7 @@ namespace MoonlitMixes.CookingMachine
         private void Movement(InputAction.CallbackContext context)
         {
             if(!context.started) return;
-            Vector2 vec = context.ReadValue<Vector2>();
+            Vector2 vec = context.ReadValue<Vector2>().normalized;
             switch((vec.x, vec.y))
             {
                 case (1,0):
@@ -143,6 +142,7 @@ namespace MoonlitMixes.CookingMachine
 
         public void StartHighlight()
         {
+            _indexSelectedItem = 0;
             _isActive = true;
             _lightArray[0].intensity = 1;
         }
