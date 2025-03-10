@@ -502,10 +502,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelDialogue: {fileID: 515777297}
   dialogueScriptable: {fileID: 11400000, guid: fe284154c1a02f44f877d0047d2a2c15, type: 2}
-  _textPlayer: {fileID: 1531993379}
-  _textNPC: {fileID: 423601367}
-  _imagePlayer: {fileID: 2000333656}
-  _imageNPC: {fileID: 1132598516}
+  _textPlayer: {fileID: 423601367}
+  _textNPC: {fileID: 1531993379}
+  _imagePlayer: {fileID: 1132598516}
+  _imageNPC: {fileID: 2000333656}
   letterDelay: 0.05
 --- !u!224 &145157945
 RectTransform:
@@ -1351,7 +1351,7 @@ GameObject:
   - component: {fileID: 423601368}
   - component: {fileID: 423601367}
   m_Layer: 5
-  m_Name: Text NPC
+  m_Name: Text Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3086,7 +3086,7 @@ GameObject:
   - component: {fileID: 1132598517}
   - component: {fileID: 1132598516}
   m_Layer: 5
-  m_Name: Image NPC
+  m_Name: Image Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3112,8 +3112,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 38d08d05f1cbdc54c8b16121bb77f2b0, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 16ff745b80a10804bb3f32a9dc8e4230, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4094,9 +4094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _potionChoicePanel: {fileID: 598322907}
-  _buttonPotion1: {fileID: 1989054128}
-  _buttonPotion2: {fileID: 2136741935}
-  _buttonPotion3: {fileID: 1226288691}
+  _buttonsParent: {fileID: 2145729657}
 --- !u!1 &1531993378
 GameObject:
   m_ObjectHideFlags: 0
@@ -4109,7 +4107,7 @@ GameObject:
   - component: {fileID: 1531993380}
   - component: {fileID: 1531993379}
   m_Layer: 5
-  m_Name: Text Player
+  m_Name: Text NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5472,7 +5470,7 @@ GameObject:
   - component: {fileID: 2000333657}
   - component: {fileID: 2000333656}
   m_Layer: 5
-  m_Name: Image Player
+  m_Name: Image NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5498,8 +5496,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 16ff745b80a10804bb3f32a9dc8e4230, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 38d08d05f1cbdc54c8b16121bb77f2b0, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
