@@ -15,7 +15,7 @@ public class UseTools : MonoBehaviour
 
     private void Awake()
     {
-        _rouletteSelection = FindObjectOfType<RouletteSelectionTools>();
+        _rouletteSelection = FindFirstObjectByType<RouletteSelectionTools>();
         if (_rouletteSelection == null)
         {
             Debug.LogError("❌ Aucun RouletteSelectionTools trouvé dans la scène !");

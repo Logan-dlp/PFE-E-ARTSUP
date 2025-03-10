@@ -21,7 +21,7 @@ namespace MoonlitMixes.Stamina
         {
             if (_playerMovement == null)
             {
-                _playerMovement = FindObjectOfType<PlayerMovement>();
+                _playerMovement = FindFirstObjectByType<PlayerMovement>();
             }
 
             if (_playerMovement != null)
