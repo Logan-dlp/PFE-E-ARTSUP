@@ -10,9 +10,6 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         public void EnterState(PNJData data)
         {
-            data.Agent.isStopped = true;
-            data.Animator.SetBool("isWalking", false);
-
             _potionChoice = GameObject.FindObjectOfType<PotionChoiceController>();
 
             _potionChoice.ShowPotionChoices();

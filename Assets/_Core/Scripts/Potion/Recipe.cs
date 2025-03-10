@@ -11,7 +11,7 @@ namespace MoonlitMixes.Potion
         [SerializeField] private List<ItemData> _requiredIngredients;
         [SerializeField] private Sprite _potionSprite;
         [SerializeField, TextArea] private string _description;
-        [SerializeField] private Potion _potion;
+        [SerializeField] private PotionResult _potion;
 
         public string RecipeName
         {
@@ -33,7 +33,7 @@ namespace MoonlitMixes.Potion
             get => _description;
         }
 
-        public Potion Potion
+        public PotionResult Potion
         {
             get => _potion;
         }

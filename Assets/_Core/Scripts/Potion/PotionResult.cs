@@ -4,7 +4,7 @@ using NaughtyAttributes;
 namespace MoonlitMixes.Potion
 {
     [CreateAssetMenu(fileName = "Potion", menuName = "Scriptable Objects/Potion")]
-    public class Potion : ScriptableObject
+    public class PotionResult : ScriptableObject
     {
         [SerializeField] private Recipe _recipe;
         [SerializeField, Range(1,4)] private int _quality;
