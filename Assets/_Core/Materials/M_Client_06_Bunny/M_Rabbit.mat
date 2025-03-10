@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Client02Leopard
-  m_Shader: {fileID: -6465566751694194690, guid: 69ab48d6ececcad45afbe598965254bb, type: 3}
+  m_Name: M_Rabbit
+  m_Shader: {fileID: -6465566751694194690, guid: a8377b25c57d5314e80a938eef438473, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -37,24 +37,36 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Alpha:
-        m_Texture: {fileID: 2800000, guid: eb24783acb962034abf8ee2b8877a84b, type: 3}
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: e71537c78b2b4df4e9674952af5f428e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Color:
-        m_Texture: {fileID: 2800000, guid: 46afd77529c8f764d822e950b2179e08, type: 3}
+        m_Texture: {fileID: 2800000, guid: e71537c78b2b4df4e9674952af5f428e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emissive:
-        m_Texture: {fileID: 2800000, guid: 46e55551ec8ace84886165efde7531ad, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6890cc8ebd960e4458bf6b9765692789, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive_Map:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask_non_cell:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: df0474b02ceda194e90c329f67895fa9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal_map:
-        m_Texture: {fileID: 2800000, guid: 433ce47bfee54314ab848ef331337f78, type: 3}
+        m_Texture: {fileID: 2800000, guid: cf293668cedf2ab468bb914057dcc13d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _alpha:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -71,18 +83,30 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Emissive_strenght: 7.69
+    - _Emissive_Strenght: 0.042
+    - _Emissive_strenght: 0.397
+    - _Hard_Specular_Size: 0
+    - _Hard_Specular_Transparency: 0.1
+    - _Light_Specular_Size: 0.271
+    - _Light_Specular_Transparency: 0.033
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Shadow_Size: 0.254
-    - _colorajust: 1.21
-    - _reflet_size: 0.186
-    - _reflet_transparency: 0.062
+    - _Shadow_Size: 0.181
+    - _Shadow_Transparency: 0.1
+    - _colorajust: 1.9
+    - _reflet_size: 0.067
+    - _reflet_transparency: 0.028
     m_Colors:
     - _Basecolorajust: {r: 1, g: 1, b: 1, a: 0}
-    - _Emissive_color: {r: 1, g: 1, b: 1, a: 0}
-    - _Shadow_color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0}
-    - _reflet_color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
-    - _v2_light: {r: 2.02, g: 5, b: 2.51, a: 0}
+    - _Color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0}
+    - _Cutoff_Tresholds: {r: 0.89, g: 0.5, b: 0, a: 0}
+    - _Emissive_Color: {r: 0.4943396, g: 0.4943396, b: 0.4943396, a: 0}
+    - _Emissive_color: {r: 1, g: 0, b: 0, a: 0}
+    - _Hard_Specular_Color: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 0}
+    - _Light_Specular_Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0}
+    - _Shadow_Color: {r: 0.26792446, g: 0.26792446, b: 0.26792446, a: 0}
+    - _Shadow_color: {r: 0.33712137, g: 0.33090067, b: 0.49056602, a: 0}
+    - _reflet_color: {r: 0.5606978, g: 0.5606978, b: 0.6792453, a: 0}
+    - _v2_light: {r: 2.12, g: 5, b: 2.51, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
