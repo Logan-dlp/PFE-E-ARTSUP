@@ -1,38 +1,43 @@
+using MoonlitMixes.Datas;
+using MoonlitMixes.Inventory;
 using UnityEditor;
-using UnityEngine;
 
-[CustomEditor(typeof(InventoryUI))]
-public class InventoryUIEditor : Editor
+
+namespace MoonlitMixes.Editor
 {
-    SerializedProperty inventoryProperty;
-    SerializedProperty slotPrefabProperty;
-    SerializedProperty inventoryData;
-
-    private void OnEnable()
+    [CustomEditor(typeof(InventoryUI))]
+    public class InventoryUIEditor : UnityEditor.Editor
     {
-        inventoryProperty = serializedObject.FindProperty("_inventory");
-        slotPrefabProperty = serializedObject.FindProperty("_slotPrefab");
-        inventoryData = serializedObject.FindProperty("_inventoryReceives");
-    }
+        SerializedProperty inventoryProperty;
+        SerializedProperty slotPrefabProperty;
+        SerializedProperty inventoryData;
 
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-
-        EditorGUILayout.PropertyField(inventoryProperty);
-
-        InventoryData inventory = inventoryProperty.objectReferenceValue as InventoryData;
-
-        if (inventory != null && inventory.Mode != InventoryData.InventoryMode.InventoryCellar)
+        private void OnEnable()
         {
-            EditorGUILayout.PropertyField(inventoryData);
+            inventoryProperty = serializedObject.FindProperty("_inventory");
+            slotPrefabProperty = serializedObject.FindProperty("_slotPrefab");
+            inventoryData = serializedObject.FindProperty("_inventoryReceives");
         }
 
-        if (inventory != null && inventory.Mode != InventoryData.InventoryMode.InventoryPlayer)
+        public override void OnInspectorGUI()
         {
-            EditorGUILayout.PropertyField(slotPrefabProperty);
-        }
+            serializedObject.Update();
 
-        serializedObject.ApplyModifiedProperties();
+            EditorGUILayout.PropertyField(inventoryProperty);
+
+            InventoryData inventory = inventoryProperty.objectReferenceValue as InventoryData;
+
+            if (inventory != null && inventory.Mode != InventoryData.InventoryMode.InventoryCellar)
+            {
+                EditorGUILayout.PropertyField(inventoryData);
+            }
+
+            if (inventory != null && inventory.Mode != InventoryData.InventoryMode.InventoryPlayer)
+            {
+                EditorGUILayout.PropertyField(slotPrefabProperty);
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }

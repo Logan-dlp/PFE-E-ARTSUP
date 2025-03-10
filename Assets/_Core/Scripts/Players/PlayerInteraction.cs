@@ -1,4 +1,5 @@
 using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,34 +7,70 @@ namespace MoonlitMixes.Player
 {
     public class PlayerInteraction : MonoBehaviour
     {
-        [SerializeField] private ItemData _itemDataInHand;
         [SerializeField] private float _interactionDistance;
+        [SerializeField] private LayerMask _layerHitable;
+        [SerializeField] private string _actionMapPlayer;
+        [SerializeField] private string _actionMapWaitingTable;
 
+        public GameObject ItemInHand { get; set; }
+        
+        private PlayerHoldItem _playerHoldItem;
         private ACookingMachine _currentCookingMachine;
+        private PlayerInput _playerInput;
+        private CauldronRecipeChecker _currentCauldron;
+
+        private void Awake()
+        {
+            _playerHoldItem = GetComponent<PlayerHoldItem>();
+            _playerInput = GetComponent<PlayerInput>();
+        }
 
         private void Update()
         {
-            Debug.DrawRay(transform.position, transform.forward * _interactionDistance, Color.red);
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance) && _itemDataInHand != null)
+            Debug.DrawRay(transform.position + new Vector3(0,.3f,0), transform.forward * _interactionDistance, Color.red);
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance))
             {
-                if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == _itemDataInHand.Usage)
+                if(ItemInHand != null)
                 {
-                    if (_currentCookingMachine != cookingMachine)
+                    if (hit.transform.TryGetComponent<ACookingMachine>(out ACookingMachine cookingMachine) && cookingMachine.TransformType == ItemInHand.GetComponent<ItemDataHolder>().ItemData.Usage)
                     {
-                        SetNewCookingMachine(cookingMachine);
+                        if (_currentCookingMachine != cookingMachine)
+                        {
+                            SetNewCookingMachine(cookingMachine);
+                        }
+                    }
+
+                    else if(hit.transform.TryGetComponent<CauldronRecipeChecker>(out CauldronRecipeChecker cauldron))
+                    {
+                        if (_currentCauldron != cauldron)
+                        {
+                            SetNewCauldron(cauldron);
+                        }
+                    }
+
+                    else if (_currentCookingMachine != null)
+                    {
+                        _currentCookingMachine.TogleShowInteractivity();
+                        _currentCookingMachine = null;
+                        ResetInteractionTargets();
                     }
                 }
-                else if (_currentCookingMachine != null)
+                else
                 {
-                    _currentCookingMachine.TogleShowInteractivity();
-                    _currentCookingMachine = null;
+                    ResetInteractionTargets();
                 }
             }
-            else if (_currentCookingMachine != null)
+        }
+
+        private void SetNewCauldron(CauldronRecipeChecker newCauldron)
+        {
+            if (_currentCauldron != null)
             {
-                _currentCookingMachine.TogleShowInteractivity();
-                _currentCookingMachine = null;
+                _currentCauldron.TogleShowInteractivity();
             }
+            newCauldron.TogleShowInteractivity();
+            _currentCauldron = newCauldron;
+            _currentCookingMachine = null;
         }
 
         private void SetNewCookingMachine(ACookingMachine newCookingMachine)
@@ -44,15 +81,88 @@ namespace MoonlitMixes.Player
             }
             newCookingMachine.TogleShowInteractivity();
             _currentCookingMachine = newCookingMachine;
+            _currentCauldron = null;
+        }
+
+        private void ResetInteractionTargets()
+        {
+            if (_currentCauldron != null)
+            {
+                _currentCauldron.TogleShowInteractivity();
+                _currentCauldron = null;
+            }
+
+            if (_currentCookingMachine != null)
+            {
+                _currentCookingMachine.TogleShowInteractivity();
+                _currentCookingMachine = null;
+            }
         }
 
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
-                if (_currentCookingMachine != null)
+
+                if(ItemInHand != null)
                 {
-                    _itemDataInHand = _currentCookingMachine.ConvertItem(_itemDataInHand);
+                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+                    {
+                        if(hit.transform.TryGetComponent<WaitingTable>(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                        {
+                            waitingTable.PlaceItem(_playerHoldItem.ItemHold);
+                            _playerHoldItem.RemoveItem();
+                            ItemInHand = null;
+                        }
+                    }
+
+                    if (_currentCookingMachine != null)
+                    {
+                        _playerHoldItem.GetItemData(_currentCookingMachine.ConvertItem(ItemInHand.GetComponent<ItemDataHolder>().ItemData).ItemPrefab);
+                    }
+                    
+                    else if (_currentCauldron != null)
+                    {
+                        _currentCauldron.AddIngredient(ItemInHand.GetComponent<ItemDataHolder>().ItemData);
+                        _playerHoldItem.RemoveItem();
+                    }
+    
+                    else
+                    {
+                        Debug.Log("Il faut attendre avant d'ajouter un autre ingrédient !");
+                    }
+                }
+                else
+                {
+                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+                    {
+                        if(hit.transform.TryGetComponent(out ProtoItemGiver itemGiver))
+                        {
+                            _playerHoldItem.GetItemData(itemGiver.GiveItem());
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Vous n'avez aucun objet dans les mains !");
+                    }
+                }
+                
+            }
+        }
+
+        public void InteractSecondary(InputAction.CallbackContext ctx)
+        {
+            if(!ctx.started) return;
+
+            if(ItemInHand != null) return;
+
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+            {
+                if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                {
+                    _playerInput.actions.FindActionMap(_actionMapPlayer).Disable();
+                    _playerInput.actions.FindActionMap(_actionMapWaitingTable).Enable();
+                    waitingTable.StartHighlight();
                 }
             }
         }

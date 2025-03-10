@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2706271961355637246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8781071824870333557}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8781071824870333557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2706271961355637246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.098, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8382842497933849048}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2999253988127387035
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,8 +44,10 @@ GameObject:
   - component: {fileID: 9013070810673826221}
   - component: {fileID: 2335678901166205118}
   - component: {fileID: 3912762589502611741}
+  - component: {fileID: 5182343487448402742}
+  - component: {fileID: 1903099245317494324}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +67,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7593421234916077849}
+  - {fileID: 8781071824870333557}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2577415737625632099
@@ -141,6 +175,86 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 10eb79df-d88c-408b-8d53-7e6812a3e67d
     m_ActionName: 'Player/Sprint[/Keyboard/ctrl]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5182343487448402742}
+        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerInteraction, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4740dbaf-b023-4d55-998d-565fec3660fe
+    m_ActionName: 'Player/Interact[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5182343487448402742}
+        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerInteraction, Assembly-CSharp
+        m_MethodName: InteractSecondary
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 88083a86-c620-495e-9b14-a21cd7d6e878
+    m_ActionName: 'Player/SecondaryInteract[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 6f2a0305bf388f24b88918983618ccdb, type: 2}
+        m_TargetAssemblyTypeName: AScriptableInputEvent, Assembly-CSharp
+        m_MethodName: SendInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 36a8c9b0-cd09-4f25-a6ee-5f686ae75fff
+    m_ActionName: 'WaitingTable/MovementHighlightObject[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 85c12f6b9e4495042baad4b1e2fdbd40, type: 2}
+        m_TargetAssemblyTypeName: AScriptableInputEvent, Assembly-CSharp
+        m_MethodName: SendInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 41313a80-ada3-4f94-a6a5-5a94a978f878
+    m_ActionName: 'WaitingTable/Select[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: a8ad0271d4c134d4a905483b3ab902a2, type: 2}
+        m_TargetAssemblyTypeName: AScriptableInputEvent, Assembly-CSharp
+        m_MethodName: SendInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6ebde777-92c2-4c1b-9aa2-02275f88fcb1
+    m_ActionName: 'WaitingTable/Cancel[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -161,6 +275,38 @@ MonoBehaviour:
   _walkSpeed: 2
   _sprintSpeed: 4
   _maxStamina: 5
+--- !u!114 &5182343487448402742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999253988127387035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac77821526ba273418f72b5659686b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionDistance: 1
+  _layerHitable:
+    serializedVersion: 2
+    m_Bits: 2147483712
+  _actionMapPlayer: Player
+  _actionMapWaitingTable: WaitingTable
+--- !u!114 &1903099245317494324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999253988127387035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f6671373675a44f85e13bfd09882fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemHoldPivot: {fileID: 2706271961355637246}
+  _scriptableItemEvent: {fileID: 11400000, guid: 24a5da4c4d5399945ac3f1b3974c6941, type: 2}
 --- !u!1 &4811927324672541078
 GameObject:
   m_ObjectHideFlags: 0
