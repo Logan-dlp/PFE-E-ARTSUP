@@ -1,3 +1,4 @@
+using System.Collections;
 using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,10 +22,12 @@ namespace MoonlitMixes.AI
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
+        private Rigidbody _rigidbody;
         private Vector3 _attackRayOffset = new(0, .5f, 0);
 
         private void Start()
         {
+            _rigidbody = GetComponent<Rigidbody>();
             _playerReference = FindFirstObjectByType<PlayerLife>().gameObject;
             
             _monsterData = new MonsterData()
@@ -109,12 +112,29 @@ namespace MoonlitMixes.AI
             _monsterData.FinishedAttacking = true;
         }
         
-        public void Damage(GameObject target)
+        public void Damage(GameObject player, float damage, Vector3 direction, float force)
         {
             if (_comportement == MonsterComportement.Passive)
             {
-                _monsterData.PlayerReference = target;
+                _monsterData.PlayerReference = player;
             }
+            
+            StartCoroutine(Knockback(direction, force));
+            
+            Debug.Log($"{this.name} à eu un dégât !");
+        }
+
+        private IEnumerator Knockback(Vector3 direction, float force)
+        {
+            _monsterData.NavMeshAgent.enabled = false;
+            _rigidbody.isKinematic = false;
+            
+            _rigidbody.linearVelocity = direction * force;
+            
+            yield return new WaitForSeconds(.5f);
+            
+            _monsterData.NavMeshAgent.enabled = true;
+            _rigidbody.isKinematic = true;
         }
     }
 }

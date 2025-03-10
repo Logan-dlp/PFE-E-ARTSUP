@@ -12,7 +12,10 @@ namespace MoonlitMixes.AI.StateMachine.States
         
         public void Enter(MonsterData monsterData)
         {
-            monsterData.NavMeshAgent.SetDestination(GenerateRandomPoint(monsterData.InitialPosition, 0, monsterData.AttackRadius));
+            if (monsterData.NavMeshAgent != null)
+            {
+                monsterData.NavMeshAgent.SetDestination(GenerateRandomPoint(monsterData.InitialPosition, 0, monsterData.AttackRadius));
+            }
         }
 
         public IMonsterState Update(MonsterData monsterData)

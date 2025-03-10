@@ -1,4 +1,5 @@
-﻿using MoonlitMixes.Health;
+﻿using MoonlitMixes.AI;
+using MoonlitMixes.Health;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;
@@ -8,14 +9,16 @@ public class UseTools : MonoBehaviour
 {
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private int _brokenRock = 0;
+    [SerializeField] private float _attackDistance;
     [SerializeField] private float _attackDamage;
+    [SerializeField] private float _attackForce;
 
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
 
     private void Awake()
     {
-        _rouletteSelection = FindObjectOfType<RouletteSelectionTools>();
+        _rouletteSelection = FindFirstObjectByType<RouletteSelectionTools>();
         if (_rouletteSelection == null)
         {
             Debug.LogError("❌ Aucun RouletteSelectionTools trouvé dans la scène !");
@@ -126,31 +129,36 @@ public class UseTools : MonoBehaviour
     private void UseSepter()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, _attackDistance))
         {
-            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            if (hit.transform.TryGetComponent(out Monster monster))
             {
-                enemyHealth.TakeDamage(_attackDamage);
-
-                if (enemyHealth._currentHealth <= 0)
-                {
-                    ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-                    if (itemList != null && itemList.ToolType == ToolType.Septer)
-                    {
-                        if (itemList.Items.Count > 0)
-                        {
-                            ItemData itemToAdd = itemList.Items[0];
-
-                            if (_inventory != null)
-                            {
-                                _inventory.AddItem(itemToAdd);
-                            }
-                        }
-                        Destroy(hit.collider.gameObject);
-                    }
-                }
+                monster.Damage(gameObject, _attackDamage, transform.forward, _attackForce);
             }
+            
+            // EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+            // if (enemyHealth != null)
+            // {
+            //     enemyHealth.TakeDamage(_attackDamage);
+            //
+            //     if (enemyHealth._currentHealth <= 0)
+            //     {
+            //         ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+            //         if (itemList != null && itemList.ToolType == ToolType.Septer)
+            //         {
+            //             if (itemList.Items.Count > 0)
+            //             {
+            //                 ItemData itemToAdd = itemList.Items[0];
+            //
+            //                 if (_inventory != null)
+            //                 {
+            //                     _inventory.AddItem(itemToAdd);
+            //                 }
+            //             }
+            //             Destroy(hit.collider.gameObject);
+            //         }
+            //     }
+            // }
         }
     }
 
