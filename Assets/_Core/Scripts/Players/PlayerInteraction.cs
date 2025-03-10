@@ -136,7 +136,7 @@ namespace MoonlitMixes.Player
                             _playerInput.SwitchCurrentActionMap(_actionMapUI);
                         }
 
-                        else if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                        else if(hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
                             _playerInput.SwitchCurrentActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
