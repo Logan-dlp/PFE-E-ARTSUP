@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,6 +8,8 @@ namespace MoonlitMixes.Player
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
+        public event Action<float> OnStaminaChanged;
+        
         [SerializeField] private float _walkSpeed = 2;
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
@@ -67,18 +70,26 @@ namespace MoonlitMixes.Player
         
         private void UpdateStamina(float deltaTime)
         {
+            float oldStamina = _currentStamina;
+
             if (_currentSpeed == _sprintSpeed && _targetMovement != Vector2.zero)
             {
-                _currentStamina -= deltaTime;
+                _currentStamina = Mathf.Max(0, _currentStamina - deltaTime);
             }
             else if (_currentStamina < _maxStamina)
             {
-                _currentStamina += deltaTime;
+                _currentStamina = Mathf.Min(_maxStamina, _currentStamina + deltaTime);
             }
-        
+
             if (_currentStamina <= 0)
             {
                 _currentSpeed = _walkSpeed;
+            }
+
+            // Notifie seulement si la stamina a chang�
+            if (Mathf.Abs(oldStamina - _currentStamina) > Mathf.Epsilon)
+            {
+                OnStaminaChanged?.Invoke(_currentStamina / _maxStamina);
             }
         }
         
