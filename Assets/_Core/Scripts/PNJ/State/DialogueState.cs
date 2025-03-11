@@ -9,19 +9,12 @@ namespace MoonlitMixes.AI.StateMachine.States
     {
         private DialogueController _dialogueController;
         private PNJData _pnjData;
-        private PotionResult _selectedPotion;
 
         public void EnterState(PNJData data)
         {
             _pnjData = data;
             data.Agent.isStopped = true;
             data.Animator.SetBool("isWalking", false);
-
-            if (_pnjData.RequestPotionList != null && _pnjData.RequestPotionList.PotionResults.Count > 0)
-            {
-                _selectedPotion = _pnjData.RequestPotionList.PotionResults[0];
-                Debug.Log($"Potion sélectionnée : {_selectedPotion.Recipe.RecipeName}");
-            }
 
             _dialogueController = GameObject.FindObjectOfType<DialogueController>();
 

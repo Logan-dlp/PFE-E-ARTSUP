@@ -11,7 +11,14 @@ namespace MoonlitMixes.Potion
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _slotContainer;
 
+        private PotionChoiceController _potionChoiceController;
+
         public List<PotionResult> PotionList => potionResultListData.PotionResults;
+
+        private void Start()
+        {
+            _potionChoiceController = FindObjectOfType<PotionChoiceController>();
+        }
 
         public void UpdatePotionCanvas()
         {
@@ -39,6 +46,18 @@ namespace MoonlitMixes.Potion
 
                 nameText.text = PotionList[i].Recipe.RecipeName;
                 potionImage.sprite = PotionList[i].Recipe.PotionSprite;
+
+                Button btn = newSlot.GetComponent<Button>();
+                string potionName = PotionList[i].Recipe.RecipeName;
+                btn.onClick.AddListener(() => OnPotionButtonClicked(potionName));
+            }
+        }
+
+        private void OnPotionButtonClicked(string potionName)
+        {
+            if (_potionChoiceController != null)
+            {
+                _potionChoiceController.SelectPotion(potionName);
             }
         }
     }

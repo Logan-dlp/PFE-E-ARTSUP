@@ -7,24 +7,40 @@ public class PotionChoiceController : MonoBehaviour
     [SerializeField] private GameObject _potionChoicePanel;
     [SerializeField] private PotionInventory _potionInventory;
 
+    private string _selectedPotionName;
+
     public static event Action<string> OnPotionChoiceSelected;
 
     private void Start()
     {
         _potionChoicePanel.SetActive(false);
-        DialogueController.OnDialogueFinished += ShowPotionChoices;
     }
 
     public void ShowPotionChoices()
     {
         _potionChoicePanel.SetActive(true);
 
+        if (_potionInventory.PotionList.Count > 0)
+        {
+            _selectedPotionName = _potionInventory.PotionList[0].Recipe.RecipeName;
+            Debug.Log($"Potion choisie par le PNJ : {_selectedPotionName}");
+        }
+
         _potionInventory.UpdatePotionCanvas();
     }
 
-    private void SelectPotion(string potionName)
+    public void SelectPotion(string potionName)
     {
+        if (_selectedPotionName == potionName)
+        {
+            Debug.Log("Bonne potion choisie !");
+            OnPotionChoiceSelected?.Invoke(potionName);
+        }
+        else
+        {
+            Debug.Log("Mauvaise potion, essayez encore !");
+        }
+
         _potionChoicePanel.SetActive(false);
-        OnPotionChoiceSelected?.Invoke(potionName);
     }
 }
