@@ -19,6 +19,8 @@ namespace MoonlitMixes.AI.Editor
         private SerializedProperty _attackForceProperty;
         private SerializedProperty _attackDurationProperty;
         
+        private SerializedProperty _healthProperty;
+        
         private bool _isViewDetailsOpened = false;
         
         private void OnEnable()
@@ -34,6 +36,8 @@ namespace MoonlitMixes.AI.Editor
             _attackDamageProperty = serializedObject.FindProperty("_attackDamage");
             _attackForceProperty = serializedObject.FindProperty("_attackForce");
             _attackDurationProperty = serializedObject.FindProperty("_attackDuration");
+            
+            _healthProperty = serializedObject.FindProperty("_health");
         }
 
         public override void OnInspectorGUI()
@@ -72,6 +76,12 @@ namespace MoonlitMixes.AI.Editor
                 _attackForceProperty.floatValue = 2;
                 _attackDurationProperty.floatValue = .45f;
             }
+            
+            EditorGUILayout.Space(12);
+            EditorGUILayout.LabelField("Life", EditorStyles.boldLabel);
+            EditorGUILayout.Space();
+            
+            _healthProperty.intValue = EditorGUILayout.IntField("Health", _healthProperty.intValue);
             
             serializedObject.ApplyModifiedProperties();
         }

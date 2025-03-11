@@ -10,7 +10,7 @@ public class UseTools : MonoBehaviour
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private int _brokenRock = 0;
     [SerializeField] private float _attackDistance;
-    [SerializeField] private float _attackDamage;
+    [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackForce;
 
     private RouletteSelectionTools _rouletteSelection;
@@ -48,6 +48,23 @@ public class UseTools : MonoBehaviour
                 case ToolType.Septer:
                     UseSepter();
                     break;
+            }
+        }
+    }
+
+    public void CollectItems(ItemListSource itemListSource)
+    {
+        ItemListData itemList = itemListSource?.GetItemList();
+        if (itemList != null)
+        {
+            if (itemList.Items.Count > 0)
+            {
+                ItemData item = itemList.Items[0];
+
+                if (_inventory != null)
+                {
+                    _inventory.AddItem(item);
+                }
             }
         }
     }
@@ -135,33 +152,8 @@ public class UseTools : MonoBehaviour
             {
                 monster.Damage(gameObject, _attackDamage, transform.forward, _attackForce);
             }
-            
-            // EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-            // if (enemyHealth != null)
-            // {
-            //     enemyHealth.TakeDamage(_attackDamage);
-            //
-            //     if (enemyHealth._currentHealth <= 0)
-            //     {
-            //         ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-            //         if (itemList != null && itemList.ToolType == ToolType.Septer)
-            //         {
-            //             if (itemList.Items.Count > 0)
-            //             {
-            //                 ItemData itemToAdd = itemList.Items[0];
-            //
-            //                 if (_inventory != null)
-            //                 {
-            //                     _inventory.AddItem(itemToAdd);
-            //                 }
-            //             }
-            //             Destroy(hit.collider.gameObject);
-            //         }
-            //     }
-            // }
         }
     }
-
 
     private bool CanUseHand()
     {

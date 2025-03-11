@@ -1,4 +1,5 @@
 using System.Collections;
+using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,6 +19,8 @@ namespace MoonlitMixes.AI
         [SerializeField] private int _attackDamage;
         [SerializeField] private float _attackForce = 2;
         [SerializeField] private float _attackDuration = .45f;
+        
+        [SerializeField] private int _health = 100;
 
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
@@ -112,16 +115,23 @@ namespace MoonlitMixes.AI
             _monsterData.FinishedAttacking = true;
         }
         
-        public void Damage(GameObject player, float damage, Vector3 direction, float force)
+        public void Damage(GameObject player, int damage, Vector3 direction, float force)
         {
             if (_comportement == MonsterComportement.Passive)
             {
                 _monsterData.PlayerReference = player;
             }
             
-            StartCoroutine(Knockback(direction, force));
+            _health -= damage;
             
-            Debug.Log($"{this.name} à eu un dégât !");
+            StartCoroutine(Knockback(direction, force));
+
+            if (_health <= 0)
+            {
+                StartCoroutine(Death());
+                
+                player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
+            }
         }
 
         private IEnumerator Knockback(Vector3 direction, float force)
@@ -135,6 +145,12 @@ namespace MoonlitMixes.AI
             
             _monsterData.NavMeshAgent.enabled = true;
             _rigidbody.isKinematic = true;
+        }
+
+        private IEnumerator Death()
+        {
+            yield return new WaitForSeconds(.5f);
+            Destroy(gameObject);
         }
     }
 }
