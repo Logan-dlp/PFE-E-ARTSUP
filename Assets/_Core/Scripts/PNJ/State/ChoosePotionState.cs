@@ -1,5 +1,4 @@
 using UnityEngine;
-using MoonlitMixes.AI.StateMachine;
 
 namespace MoonlitMixes.AI.StateMachine.States
 {
@@ -7,6 +6,7 @@ namespace MoonlitMixes.AI.StateMachine.States
     {
         private PotionChoiceController _potionChoice;
         private bool _isWaitingForChoice = true;
+        private string _potionNameSelect;
 
         public void EnterState(PNJData data)
         {
@@ -21,6 +21,8 @@ namespace MoonlitMixes.AI.StateMachine.States
         {
             if (!_isWaitingForChoice)
             {
+                stateMachine.SetSelectedPotion(_potionNameSelect);
+
                 stateMachine.NextState();
             }
         }
@@ -32,6 +34,7 @@ namespace MoonlitMixes.AI.StateMachine.States
 
         private void OnPotionSelected(string potionName)
         {
+            _potionNameSelect = potionName;
             _isWaitingForChoice = false;
             Debug.Log("Potion choisie: " + potionName);
         }

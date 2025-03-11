@@ -8,6 +8,7 @@ public class PotionChoiceController : MonoBehaviour
     [SerializeField] private PotionInventory _potionInventory;
 
     private string _selectedPotionName;
+    public string SelectedPotionName => _selectedPotionName;
 
     public static event Action<string> OnPotionChoiceSelected;
 
@@ -39,6 +40,7 @@ public class PotionChoiceController : MonoBehaviour
         else
         {
             Debug.Log("Mauvaise potion, essayez encore !");
+            OnPotionChoiceSelected?.Invoke(potionName);
         }
 
         _potionChoicePanel.SetActive(false);

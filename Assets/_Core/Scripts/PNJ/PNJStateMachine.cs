@@ -13,6 +13,15 @@ namespace MoonlitMixes.AI
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
         [SerializeField] private PotionListData _potionList;
+        [SerializeField] private DialogueController _dialogueController;
+        [SerializeField] private DialogueController _dialogueControllerSuccess;
+        [SerializeField] private DialogueController _dialogueControllerFailure;
+
+        public DialogueController DialogueController => _dialogueController;
+        public DialogueController DialogueControllerSuccess => _dialogueControllerSuccess;
+        public DialogueController DialogueControllerFailure => _dialogueControllerFailure;
+        public string SelectedPotionName { get; private set; }
+
 
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -47,6 +56,7 @@ namespace MoonlitMixes.AI
                 new MoveToEndState(),
                 new DialogueState(),
                 new ChoosePotionState(),
+                new ChoiceDialogueState(),
                 new MoveToStartState(),
                 new DespawnState()
             };
@@ -123,6 +133,11 @@ namespace MoonlitMixes.AI
         {
             _agent.enabled = true;
             _animator.enabled = true;
+        }
+
+        public void SetSelectedPotion(string potionName)
+        {
+            SelectedPotionName = potionName;
         }
     }
 }

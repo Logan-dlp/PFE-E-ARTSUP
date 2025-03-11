@@ -16,9 +16,14 @@ namespace MoonlitMixes.AI.StateMachine.States
             data.Agent.isStopped = true;
             data.Animator.SetBool("isWalking", false);
 
-            _dialogueController = GameObject.FindObjectOfType<DialogueController>();
+            PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
 
-            if (_dialogueController != null)
+            if (pnjStateMachine != null)
+            {
+                _dialogueController = pnjStateMachine.DialogueController;
+            }
+
+                if (_dialogueController != null)
             {
                 _dialogueController.StartDialogue();
                 DialogueController.OnDialogueFinished += OnDialogueEnd;

@@ -65,9 +65,18 @@ public class DialogueController : MonoBehaviour
 
     private void EndDialogue()
     {
+        ClearDialogue();
+
         _panelDialogue.SetActive(false);
         OnDialogueFinished?.Invoke();
     }
+
+    private void ClearDialogue()
+    {
+        _textPlayer.text = "";
+        _textNPC.text = "";
+    }
+
 
     private void WriteText(string text, TMP_Text textBox)
     {
