@@ -12,6 +12,7 @@ namespace MoonlitMixes.AI
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
+        [SerializeField] private PotionListData _potionList;
 
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -38,7 +39,7 @@ namespace MoonlitMixes.AI
                 waypoints.Add(child);
             }
 
-            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration);
+            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration, _potionList);
 
             _states = new List<IPNJState>
             {

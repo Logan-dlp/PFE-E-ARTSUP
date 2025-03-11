@@ -28,8 +28,6 @@ namespace MoonlitMixes.AI.StateMachine.States
         public void ExitState(PNJData data)
         {
             PotionChoiceController.OnPotionChoiceSelected -= OnPotionSelected;
-
-            data.Agent.isStopped = false;
         }
 
         private void OnPotionSelected(string potionName)
