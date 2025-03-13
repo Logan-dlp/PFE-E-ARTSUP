@@ -1,8 +1,6 @@
 using UnityEngine;
-using MoonlitMixes.AI.StateMachine;
-using MoonlitMixes.Potion;
 
-namespace MoonlitMixes.AI.StateMachine.States
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class ChoiceDialogueState : IPNJState
     {

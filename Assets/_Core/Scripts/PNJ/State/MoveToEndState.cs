@@ -1,13 +1,11 @@
 using UnityEngine;
-using MoonlitMixes.AI.StateMachine;
 
-namespace MoonlitMixes.AI.StateMachine.States
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class MoveToEndState : IPNJState
     {
         public void EnterState(PNJData data)
         {
-            data.Agent.isStopped = false;
             data.Animator.SetBool("isWalking", true);
             data.Agent.SetDestination(data.Waypoints[data.Waypoints.Count - 1].position);
         }

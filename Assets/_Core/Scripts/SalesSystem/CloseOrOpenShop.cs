@@ -1,54 +1,70 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
-using MoonlitMixes.AI;
 
-public class CloseOrOpenShop : MonoBehaviour
+namespace MoonlitMixes.AI.PNJ
 {
-    [SerializeField] private GameObject _openText;
-    [SerializeField] private GameObject _closeText;
-    [SerializeField] private PNJStateMachine _pnjStateMachine;
-
-    private bool _isPlayerInTrigger = false;
-    private bool _isShopOpen = false;
-
-    public static event Action<bool> OnShopToggled;
-
-    private void Start()
+    public class CloseOrOpenShop : MonoBehaviour
     {
-        _isShopOpen = false;
-        UpdateUI();
-    }
+        [SerializeField] private GameObject _openText;
+        [SerializeField] private GameObject _closeText;
+        [SerializeField] private CustomerSpawner _customerSpawner;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        private bool _isPlayerInTrigger = false;
+        private bool _isShopOpen = false;
+
+        public static event Action<bool> OnShopToggled;
+
+        private void Start()
         {
-            _isPlayerInTrigger = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            _isPlayerInTrigger = false;
-        }
-    }
-
-    public void OnToggleShop(InputAction.CallbackContext context)
-    {
-        if (context.performed && _isPlayerInTrigger)
-        {
-            _isShopOpen = !_isShopOpen;
+            _isShopOpen = false;
             UpdateUI();
-            OnShopToggled?.Invoke(_isShopOpen);
+            _customerSpawner.OnAllCustomersGone += AutoCloseShop;
         }
-    }
 
-    private void UpdateUI()
-    {
-        _openText.SetActive(_isShopOpen);
-        _closeText.SetActive(!_isShopOpen);
+        private void OnDestroy()
+        {
+            _customerSpawner.OnAllCustomersGone -= AutoCloseShop;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                _isPlayerInTrigger = true;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                _isPlayerInTrigger = false;
+            }
+        }
+
+        public void OnToggleShop(InputAction.CallbackContext context)
+        {
+            if (context.performed && _isPlayerInTrigger && !_isShopOpen)
+            {
+                _isShopOpen = true;
+                UpdateUI();
+                OnShopToggled?.Invoke(true);
+                _customerSpawner.StartSpawning();
+            }
+        }
+
+        public void AutoCloseShop()
+        {
+            _isShopOpen = false;
+            UpdateUI();
+            OnShopToggled?.Invoke(false);
+        }
+
+        private void UpdateUI()
+        {
+            _openText.SetActive(_isShopOpen);
+            _closeText.SetActive(!_isShopOpen);
+        }
     }
 }

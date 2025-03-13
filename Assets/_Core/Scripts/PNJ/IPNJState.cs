@@ -1,4 +1,4 @@
-namespace MoonlitMixes.AI.StateMachine
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public interface IPNJState
     {

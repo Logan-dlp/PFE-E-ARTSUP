@@ -1,7 +1,4 @@
-using UnityEngine;
-using MoonlitMixes.AI.StateMachine;
-
-namespace MoonlitMixes.AI.StateMachine.States
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class DespawnState : IPNJState
     {
@@ -10,10 +7,7 @@ namespace MoonlitMixes.AI.StateMachine.States
             data.PNJGameObject.SetActive(false);
         }
 
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine)
-        {
-            stateMachine.NextState();
-        }
+        public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
 
         public void ExitState(PNJData data) { }
     }

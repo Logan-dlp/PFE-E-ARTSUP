@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoonlitMixes.AI.StateMachine.States
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class ChoosePotionState : IPNJState
     {

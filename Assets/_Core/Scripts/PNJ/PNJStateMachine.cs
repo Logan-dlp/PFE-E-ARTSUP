@@ -1,11 +1,9 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.AI;
-using MoonlitMixes.AI.StateMachine;
-using MoonlitMixes.AI.StateMachine.States;
+using System.Collections.Generic;
+using MoonlitMixes.AI.PNJ.StateMachine.States;
 
-namespace MoonlitMixes.AI
+namespace MoonlitMixes.AI.PNJ
 {
     public class PNJStateMachine : MonoBehaviour
     {
@@ -22,21 +20,18 @@ namespace MoonlitMixes.AI
         public DialogueController DialogueControllerFailure => _dialogueControllerFailure;
         public string SelectedPotionName { get; private set; }
 
+        public event System.Action OnDespawn;
 
         private NavMeshAgent _agent;
         private Animator _animator;
         private PNJData _pnjData;
         private IPNJState _currentState;
         private List<IPNJState> _states;
-        private static bool _isShopOpen = false;
-        private static List<PNJStateMachine> _spawnedPNJs = new List<PNJStateMachine>();
-        private Coroutine _spawnCoroutine;
 
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
-            CloseOrOpenShop.OnShopToggled += HandleShopToggle;
             DisablePNJ();
         }
 
@@ -62,15 +57,6 @@ namespace MoonlitMixes.AI
             };
         }
 
-        private void OnDestroy()
-        {
-            CloseOrOpenShop.OnShopToggled -= HandleShopToggle;
-            if (_spawnCoroutine != null)
-            {
-                StopCoroutine(_spawnCoroutine);
-            }
-        }
-
         private void Update()
         {
             _currentState?.UpdateState(_pnjData, this);
@@ -93,46 +79,10 @@ namespace MoonlitMixes.AI
             }
         }
 
-        private void HandleShopToggle(bool isOpen)
-        {
-            _isShopOpen = isOpen;
-
-            if (_isShopOpen)
-            {
-                if (!_spawnedPNJs.Contains(this))
-                {
-                    _spawnedPNJs.Add(this);
-                    _spawnCoroutine = StartCoroutine(SpawnAfterDelay());
-                }
-            }
-            else
-            {
-                if (_spawnedPNJs.Contains(this))
-                {
-                    _spawnedPNJs.Remove(this);
-                    DisablePNJ();
-                }
-            }
-        }
-
-        private IEnumerator SpawnAfterDelay()
-        {
-            yield return new WaitForSeconds(_spawnDelay);
-            EnablePNJ();
-            TransitionToState(0);
-        }
-
         private void DisablePNJ()
         {
             _agent.enabled = false;
             _animator.enabled = false;
-        }
-
-        private void EnablePNJ()
-
-        {
-            _agent.enabled = true;
-            _animator.enabled = true;
         }
 
         public void SetSelectedPotion(string potionName)

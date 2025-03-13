@@ -1,7 +1,6 @@
 using UnityEngine;
-using MoonlitMixes.AI.StateMachine;
 
-namespace MoonlitMixes.AI.StateMachine.States
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class MoveToStartState : IPNJState
     {
