@@ -1,30 +1,25 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using MoonlitMixes.Player;
 
 namespace MoonlitMixes.AI.PNJ
 {
     public class CloseOrOpenShop : MonoBehaviour
     {
-        [SerializeField] private GameObject _openText;
-        [SerializeField] private GameObject _closeText;
         [SerializeField] private CustomerSpawner _customerSpawner;
+        [SerializeField] private InteractionButton _interactionButton;
 
         private bool _isPlayerInTrigger = false;
         private bool _isShopOpen = false;
+        private bool _hasShopBeenOpened = false;
 
         public static event Action<bool> OnShopToggled;
+        public bool HasShopBeenOpened => _hasShopBeenOpened;
 
         private void Start()
         {
             _isShopOpen = false;
-            UpdateUI();
-            _customerSpawner.OnAllCustomersGone += AutoCloseShop;
-        }
-
-        private void OnDestroy()
-        {
-            _customerSpawner.OnAllCustomersGone -= AutoCloseShop;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -45,26 +40,19 @@ namespace MoonlitMixes.AI.PNJ
 
         public void OnToggleShop(InputAction.CallbackContext context)
         {
-            if (context.performed && _isPlayerInTrigger && !_isShopOpen)
+            if (_hasShopBeenOpened) return;
+
+            if (context.performed && _isPlayerInTrigger)
             {
-                _isShopOpen = true;
-                UpdateUI();
-                OnShopToggled?.Invoke(true);
-                _customerSpawner.StartSpawning();
+                if (!_isShopOpen)
+                {
+                    _isShopOpen = true;
+                    _hasShopBeenOpened = true;
+                    OnShopToggled?.Invoke(true);
+                    _customerSpawner.StartSpawning();
+                    _interactionButton.DeactivateButtonUI();
+                }
             }
-        }
-
-        public void AutoCloseShop()
-        {
-            _isShopOpen = false;
-            UpdateUI();
-            OnShopToggled?.Invoke(false);
-        }
-
-        private void UpdateUI()
-        {
-            _openText.SetActive(_isShopOpen);
-            _closeText.SetActive(!_isShopOpen);
         }
     }
 }

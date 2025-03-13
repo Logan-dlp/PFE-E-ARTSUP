@@ -15,16 +15,18 @@ namespace MoonlitMixes.Player
         [SerializeField] private bool _canSprint = false;
 
         private CharacterController _characterController;
-        
+
         private Vector3 _velocity;
-        
+
         private Vector2 _movement;
         private Vector2 _targetMovement;
-        
+
         private float _currentSpeed;
         private float _currentStamina;
         private float _meshScale;
-        
+
+        private bool _isMovementBlocked = false;
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
@@ -32,26 +34,29 @@ namespace MoonlitMixes.Player
             _currentStamina = _maxStamina;
             _meshScale = GetComponentInChildren<MeshRenderer>().transform.localScale.y;
         }
-        
+
         private void FixedUpdate()
         {
-            UpdateStamina(Time.fixedDeltaTime);
-            UpdateMovement(Time.fixedDeltaTime);
-            UpdateGravity(Time.fixedDeltaTime);
+            if (!_isMovementBlocked)
+            {
+                UpdateStamina(Time.fixedDeltaTime);
+                UpdateMovement(Time.fixedDeltaTime);
+                UpdateGravity(Time.fixedDeltaTime);
+            }
         }
-        
+
         private void UpdateMovement(float deltaTime)
         {
             _movement = Vector2.Lerp(_movement, _targetMovement, deltaTime * 10f);
             Vector3 move = new Vector3(_movement.x, 0, _movement.y);
             _characterController.Move(move * _currentSpeed * deltaTime);
-        
+
             if (move != Vector3.zero)
             {
                 gameObject.transform.forward = move;
             }
         }
-        
+
         private void UpdateGravity(float deltaTime)
         {
             Debug.DrawRay(transform.position, -transform.up * (_meshScale + .5f), Color.red);
@@ -85,7 +90,6 @@ namespace MoonlitMixes.Player
                 _currentSpeed = _walkSpeed;
             }
 
-            // Notifie seulement si la stamina a changé
             if (Mathf.Abs(oldStamina - _currentStamina) > Mathf.Epsilon)
             {
                 OnStaminaChanged?.Invoke(_currentStamina / _maxStamina);
@@ -96,7 +100,7 @@ namespace MoonlitMixes.Player
         {
             _targetMovement = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
         }
-        
+
         public void SetSprint(InputAction.CallbackContext ctx)
         {
             if (ctx.started && _currentStamina > 0 && _canSprint)
@@ -107,6 +111,11 @@ namespace MoonlitMixes.Player
             {
                 _currentSpeed = _walkSpeed;
             }
+        }
+
+        public void BlockMovement(bool block)
+        {
+            _isMovementBlocked = block;
         }
     }
 }
