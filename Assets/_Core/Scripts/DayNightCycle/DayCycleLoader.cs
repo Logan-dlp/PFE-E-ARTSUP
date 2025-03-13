@@ -5,30 +5,33 @@ namespace MoonlitMixes.DayNightCycle
 {
     public class DayCycleLoader : MonoBehaviour
     {
-        [SerializeField] private DayNightCycleInfo dayNightCycleInfo;
+        [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
+        [SerializeField] private DayCycleLights _dayCycleLights;
 
         void Start()
         {
-            switch(dayNightCycleInfo.ActualTimePhase)
+            switch(_dayNightCycleInfo.ActualTimePhase)
             {
-                case 0 : 
-                    RenderSettings.skybox = dayNightCycleInfo.skyboxDawn;
-                    break;
                 case 1 :
-                    RenderSettings.skybox = dayNightCycleInfo.skyboxDay;
+                    RenderSettings.skybox = _dayNightCycleInfo.skyboxDay;
+                    _dayCycleLights.TurnOnDayLight();
                     break;
                 case 2 :
-                    RenderSettings.skybox = dayNightCycleInfo.skyBoxAfternoon;
+                    RenderSettings.skybox = _dayNightCycleInfo.skyBoxAfternoon;
+                    _dayCycleLights.TurnOnAfternoonLight();
                     break;
                 case 3 :
-                    RenderSettings.skybox = dayNightCycleInfo.skyBoxTwillight;
+                    RenderSettings.skybox = _dayNightCycleInfo.skyBoxTwillight;
+                    _dayCycleLights.TurnOnTwillightLight();
                     break;
                 case 4 :
-                    RenderSettings.skybox = dayNightCycleInfo.skyboxNight;
+                    RenderSettings.skybox = _dayNightCycleInfo.skyboxNight;
+                    _dayCycleLights.TurnOnNightLight();
                     break;
                 default :
-                    RenderSettings.skybox = dayNightCycleInfo.skyboxDawn;
-                    dayNightCycleInfo.ActualTimePhase = 0;
+                    RenderSettings.skybox = _dayNightCycleInfo.skyboxDawn;
+                    _dayNightCycleInfo.ActualTimePhase = 0;
+                    _dayCycleLights.TurnOnDawnLight();
                     break;
             }
             DynamicGI.UpdateEnvironment();
