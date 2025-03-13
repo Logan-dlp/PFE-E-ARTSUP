@@ -28,6 +28,12 @@ namespace MoonlitMixes.AI.PNJ
         private IPNJState _currentState;
         private List<IPNJState> _states;
 
+        public void InvokeOnDespawn()
+        {
+            OnDespawn?.Invoke();
+        }
+
+
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
