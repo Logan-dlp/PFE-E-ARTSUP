@@ -44,9 +44,9 @@ namespace MoonlitMixes.Potion
                     }
                 }
                 
-                GameObject confirmationPanel = newSlot.transform.Find("ConfirmationPanel").gameObject; // Ajoute un GameObject "ConfirmationPanel"
-                Button confirmButton = confirmationPanel.transform.Find("ConfirmButton").GetComponent<Button>(); // Ajoute un bouton "YesButton"
-                Button cancelButton = confirmationPanel.transform.Find("CancelButton").GetComponent<Button>(); // Ajoute un bouton "NoButton"
+                GameObject confirmationPanel = newSlot.transform.Find("ConfirmationPanel").gameObject;
+                Button confirmButton = confirmationPanel.transform.Find("ConfirmButton").GetComponent<Button>();
+                Button cancelButton = confirmationPanel.transform.Find("CancelButton").GetComponent<Button>();
 
                 nameText.text = PotionList[i].Recipe.RecipeName;
                 potionImage.sprite = PotionList[i].Recipe.PotionSprite;
@@ -78,14 +78,28 @@ namespace MoonlitMixes.Potion
             {
                 _potionChoiceController.SelectPotion(potionName);
             }
+
+            RemovePotionFromList(potionName);
+
+            UpdatePotionCanvas();
+
             confirmationPanel.SetActive(false);
         }
 
+
         private void CancelPotionChoice(GameObject confirmationPanel, Button potionButton)
         {
-            Debug.Log("Annulation de la sélection.");
             potionButton.interactable = true;
             confirmationPanel.SetActive(false);
+        }
+
+        private void RemovePotionFromList(string potionName)
+        {
+            PotionResult potionToRemove = PotionList.Find(potion => potion.Recipe.RecipeName == potionName);
+            if (potionToRemove != null)
+            {
+                PotionList.Remove(potionToRemove);
+            }
         }
     }
 }
