@@ -43,22 +43,49 @@ namespace MoonlitMixes.Potion
                         break;
                     }
                 }
+                
+                GameObject confirmationPanel = newSlot.transform.Find("ConfirmationPanel").gameObject; // Ajoute un GameObject "ConfirmationPanel"
+                Button confirmButton = confirmationPanel.transform.Find("ConfirmButton").GetComponent<Button>(); // Ajoute un bouton "YesButton"
+                Button cancelButton = confirmationPanel.transform.Find("CancelButton").GetComponent<Button>(); // Ajoute un bouton "NoButton"
 
                 nameText.text = PotionList[i].Recipe.RecipeName;
                 potionImage.sprite = PotionList[i].Recipe.PotionSprite;
 
                 Button btn = newSlot.GetComponent<Button>();
                 string potionName = PotionList[i].Recipe.RecipeName;
-                btn.onClick.AddListener(() => OnPotionButtonClicked(potionName));
+                btn.onClick.AddListener(() => OnPotionButtonClicked(potionName, confirmationPanel, confirmButton, cancelButton, btn));
             }
         }
 
-        private void OnPotionButtonClicked(string potionName)
+        private void OnPotionButtonClicked(string potionName, GameObject confirmationPanel, Button yesButton, Button noButton, Button potionButton)
+        {
+            Debug.Log($"Potion sélectionnée: {potionName}, affichage du panneau de confirmation.");
+
+            potionButton.interactable = false;
+
+            confirmationPanel.SetActive(true);
+
+            yesButton.onClick.RemoveAllListeners();
+            yesButton.onClick.AddListener(() => ConfirmPotionChoice(potionName, confirmationPanel));
+
+            noButton.onClick.RemoveAllListeners();
+            noButton.onClick.AddListener(() => CancelPotionChoice(confirmationPanel, potionButton));
+        }
+
+        private void ConfirmPotionChoice(string potionName, GameObject confirmationPanel)
         {
             if (_potionChoiceController != null)
             {
                 _potionChoiceController.SelectPotion(potionName);
             }
+            confirmationPanel.SetActive(false);
+        }
+
+        private void CancelPotionChoice(GameObject confirmationPanel, Button potionButton)
+        {
+            Debug.Log("Annulation de la sélection.");
+            potionButton.interactable = true;
+            confirmationPanel.SetActive(false);
         }
     }
 }
