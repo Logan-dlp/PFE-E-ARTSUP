@@ -14,6 +14,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
             _potionChoice.ShowPotionChoices();
 
+            _isWaitingForChoice = true;
             PotionChoiceController.OnPotionChoiceSelected += OnPotionSelected;
         }
 

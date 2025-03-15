@@ -27,6 +27,20 @@ namespace MoonlitMixes.AI.PNJ
         private PNJData _pnjData;
         private IPNJState _currentState;
         private List<IPNJState> _states;
+        private int _failedAttempts = 0;
+        public int FailedAttempts => _failedAttempts;
+
+        public void IncrementFailedAttempts()
+        {
+            _failedAttempts++;
+        }
+
+
+        public void ResetFailedAttempts()
+        {
+            _failedAttempts = 0;
+        }
+
 
         public void InvokeOnDespawn()
         {
@@ -70,11 +84,15 @@ namespace MoonlitMixes.AI.PNJ
 
         public void TransitionToState(int stateIndex)
         {
+            if (_currentState == _states[stateIndex]) return;
+
             if (stateIndex < 0 || stateIndex >= _states.Count) return;
+
             _currentState?.ExitState(_pnjData);
             _currentState = _states[stateIndex];
             _currentState.EnterState(_pnjData);
         }
+
 
         public void NextState()
         {

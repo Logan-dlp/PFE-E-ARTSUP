@@ -63,7 +63,7 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    private void EndDialogue()
+    public void EndDialogue()
     {
         ClearDialogue();
 

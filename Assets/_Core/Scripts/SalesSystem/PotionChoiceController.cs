@@ -6,6 +6,7 @@ public class PotionChoiceController : MonoBehaviour
 {
     [SerializeField] private GameObject _potionChoicePanel;
     [SerializeField] private PotionInventory _potionInventory;
+    [SerializeField] private DialogueController _dialogueController;
 
     private string _selectedPotionName;
     public string SelectedPotionName => _selectedPotionName;
