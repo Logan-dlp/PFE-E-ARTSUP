@@ -10,11 +10,14 @@ namespace MoonlitMixes.Potion
         [SerializeField] private PotionListData potionResultListData;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _slotContainer;
+        [SerializeField] private GameObject _specialButtonPrefab;
 
+        private string noPotionName = "No Potion";
         private PotionChoiceController _potionChoiceController;
         private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
         private bool _isSelectionInProgress = false;
         private List<Button> _potionButtons = new List<Button>();
+        private PotionResult _potion;
 
         public List<PotionResult> PotionList => potionResultListData.PotionResults;
 
@@ -53,17 +56,30 @@ namespace MoonlitMixes.Potion
                 Button confirmButton = confirmationPanel.transform.Find("ConfirmButton").GetComponent<Button>();
                 Button cancelButton = confirmationPanel.transform.Find("CancelButton").GetComponent<Button>();
 
-                PotionResult potion = PotionList[i];
-                nameText.text = potion.Recipe.RecipeName;
-                potionImage.sprite = potion.Recipe.PotionSprite;
+                _potion = PotionList[i];
+                nameText.text = _potion.Recipe.RecipeName;
+                potionImage.sprite = _potion.Recipe.PotionSprite;
 
                 Button btn = newSlot.GetComponent<Button>();
                 _potionButtons.Add(btn);
-                btn.onClick.AddListener(() => OnPotionButtonClicked(potion, confirmationPanel, confirmButton, cancelButton, btn));
+                btn.onClick.AddListener(() => OnPotionButtonClicked(_potion, confirmationPanel, confirmButton, cancelButton, btn));
             }
+
+            GameObject specialButton = Instantiate(_specialButtonPrefab, _slotContainer);
+            TextMeshProUGUI specialNameText = specialButton.GetComponentInChildren<TextMeshProUGUI>();
+            specialNameText.text = noPotionName;
+
+            Button specialBtn = specialButton.GetComponent<Button>();
+            _potionButtons.Add(specialBtn);
+
+            GameObject confirmationPanelNoPotion = specialButton.transform.Find("ConfirmationPanel").gameObject;
+            Button confirmButtonNoPotion = confirmationPanelNoPotion.transform.Find("ConfirmButton").GetComponent<Button>();
+            Button cancelButtonNoPotion = confirmationPanelNoPotion.transform.Find("CancelButton").GetComponent<Button>();
+
+            specialBtn.onClick.AddListener(() => OnNoPotionButtonClicked(null, confirmationPanelNoPotion, confirmButtonNoPotion, cancelButtonNoPotion, specialBtn));
         }
 
-        private void OnPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button yesButton, Button noButton, Button potionButton)
+        private void OnPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button confirmButton, Button cancelButton, Button potionButton)
         {
             if (_isSelectionInProgress) return;
 
@@ -80,27 +96,41 @@ namespace MoonlitMixes.Potion
                 _potionPrices[potion.Recipe.RecipeName] = potion.Price;
             }
 
-            yesButton.onClick.RemoveAllListeners();
-            yesButton.onClick.AddListener(() => ConfirmPotionChoice(potion, confirmationPanel));
+            confirmButton.onClick.RemoveAllListeners();
+            confirmButton.onClick.AddListener(() => ConfirmPotionChoice(potion, confirmationPanel));
 
-            noButton.onClick.RemoveAllListeners();
-            noButton.onClick.AddListener(() => CancelPotionChoice(confirmationPanel, potionButton));
+            cancelButton.onClick.RemoveAllListeners();
+            cancelButton.onClick.AddListener(() => CancelPotionChoice(confirmationPanel, potionButton));
+        }
+
+        private void OnNoPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button confirmButton, Button cancelButton, Button potionButton)
+        {
+            _isSelectionInProgress = true;
+            TogglePotionButtons(false);
+
+            potionButton.interactable = false;
+            confirmationPanel.SetActive(true);
+
+            confirmButton.onClick.RemoveAllListeners();
+            confirmButton.onClick.AddListener(() => ConfirmPotionChoice(null, confirmationPanel));
+
+            cancelButton.onClick.RemoveAllListeners();
+            cancelButton.onClick.AddListener(() => CancelPotionChoice(confirmationPanel, potionButton));
         }
 
         private void ConfirmPotionChoice(PotionResult potion, GameObject confirmationPanel)
         {
             if (_potionChoiceController != null)
             {
-                _potionChoiceController.SelectPotion(potion.Recipe.RecipeName);
+                _potionChoiceController.SelectPotion(potion?.Recipe.RecipeName);
+                if (potion != null) RemovePotionFromList(potion.Recipe.RecipeName);
             }
-
-            if (_potionPrices.TryGetValue(potion.Recipe.RecipeName, out int price))
+            if (potion != null && _potionPrices.TryGetValue(potion.Recipe.RecipeName, out int price))
             {
                 Debug.Log($"Potion confirmée: {potion.Recipe.RecipeName}, Prix: {price}");
                 _potionPrices.Remove(potion.Recipe.RecipeName);
             }
 
-            RemovePotionFromList(potion.Recipe.RecipeName);
             UpdatePotionCanvas();
             confirmationPanel.SetActive(false);
 

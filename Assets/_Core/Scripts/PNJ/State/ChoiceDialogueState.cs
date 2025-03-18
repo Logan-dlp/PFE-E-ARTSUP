@@ -8,6 +8,7 @@ public class ChoiceDialogueState : IPNJState
     private PNJData _pnjData;
     private DialogueController _dialogueControllerSuccess;
     private DialogueController _dialogueControllerFailure;
+    private DialogueController _dialogueControllerNoPotion;
     private PotionChoiceController _potionChoiceController;
     private PNJStateMachine _pnjStateMachine;
 
@@ -20,6 +21,7 @@ public class ChoiceDialogueState : IPNJState
         {
             _dialogueControllerSuccess = _pnjStateMachine.DialogueControllerSuccess;
             _dialogueControllerFailure = _pnjStateMachine.DialogueControllerFailure;
+            _dialogueControllerNoPotion = _pnjStateMachine.DialogueControllerNoPotion;
         }
 
         _pnjData = data;
@@ -30,6 +32,11 @@ public class ChoiceDialogueState : IPNJState
         {
             _pnjStateMachine.ResetFailedAttempts();
             _dialogueControllerSuccess?.StartDialogue();
+        }
+        else if (string.IsNullOrEmpty(_pnjStateMachine.SelectedPotionName))
+        {
+            _pnjStateMachine.ResetFailedAttempts();
+            _dialogueControllerNoPotion?.StartDialogue();
         }
         else
         {
@@ -44,24 +51,24 @@ public class ChoiceDialogueState : IPNJState
     {
         DialogueController.OnDialogueFinished -= OnDialogueEnd;
 
-        if (_potionChoiceController.SelectedPotionName == _pnjStateMachine.SelectedPotionName)
+        if (_potionChoiceController.SelectedPotionName == _pnjStateMachine.SelectedPotionName || string.IsNullOrEmpty(_pnjStateMachine.SelectedPotionName))
         {
             _pnjStateMachine.ResetFailedAttempts();
             _pnjStateMachine.NextState();
         }
         else
         {
-            if (_pnjStateMachine.FailedAttempts >= 3)
+            if (_pnjStateMachine.FailedAttempts < 3)
+            {
+                _pnjStateMachine.TransitionToState(3);
+            }
+            else if (_pnjStateMachine.FailedAttempts == 0 || _pnjStateMachine.FailedAttempts >= 3)
             {
                 _pnjStateMachine.NextState();
             }
-            else
-            {
-                _dialogueControllerFailure.EndDialogue();
-                DialogueController.OnDialogueFinished -= OnDialogueEnd;
-                _pnjStateMachine.TransitionToState(3);
-            }
         }
+        _dialogueControllerFailure.EndDialogue();
+        DialogueController.OnDialogueFinished -= OnDialogueEnd;
     }
 
     public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }

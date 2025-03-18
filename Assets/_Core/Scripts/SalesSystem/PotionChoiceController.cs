@@ -36,14 +36,13 @@ public class PotionChoiceController : MonoBehaviour
         if (_selectedPotionName == potionName)
         {
             Debug.Log("Bonne potion choisie !");
-            OnPotionChoiceSelected?.Invoke(potionName);
         }
         else
         {
-            Debug.Log("Mauvaise potion, essayez encore !");
-            OnPotionChoiceSelected?.Invoke(potionName);
+            Debug.Log(string.IsNullOrEmpty(potionName) ? "Pas de potion choisie !" : "Mauvaise potion, essayez encore !");
         }
 
+        OnPotionChoiceSelected?.Invoke(potionName);
         _potionChoicePanel.SetActive(false);
     }
 }

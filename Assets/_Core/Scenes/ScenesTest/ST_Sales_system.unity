@@ -303,6 +303,10 @@ PrefabInstance:
       propertyPath: _dialogueControllerSuccess
       value: 
       objectReference: {fileID: 1953421099}
+    - target: {fileID: 8525346488732657459, guid: 3659cf7e6f84c634f9f155d28e720e7e, type: 3}
+      propertyPath: _dialogueControllerNoPotion
+      value: 
+      objectReference: {fileID: 974770090}
     - target: {fileID: 8929202120412996162, guid: 3659cf7e6f84c634f9f155d28e720e7e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -970,6 +974,10 @@ PrefabInstance:
       propertyPath: _dialogueControllerSuccess
       value: 
       objectReference: {fileID: 1953421099}
+    - target: {fileID: 7561991305090039826, guid: 1171a31f25843434c98ab27e4d2a2b97, type: 3}
+      propertyPath: _dialogueControllerNoPotion
+      value: 
+      objectReference: {fileID: 974770090}
     - target: {fileID: 8763894287550986129, guid: 1171a31f25843434c98ab27e4d2a2b97, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1173,6 +1181,10 @@ PrefabInstance:
       propertyPath: _dialogueControllerSuccess
       value: 
       objectReference: {fileID: 1953421099}
+    - target: {fileID: 8105294104795306671, guid: 5ac3c76d3ced70c43a81facf48546bba, type: 3}
+      propertyPath: _dialogueControllerNoPotion
+      value: 
+      objectReference: {fileID: 974770090}
     - target: {fileID: 8354640808962684786, guid: 5ac3c76d3ced70c43a81facf48546bba, type: 3}
       propertyPath: m_Name
       value: X Bot_001
@@ -1821,6 +1833,7 @@ RectTransform:
   - {fileID: 145157945}
   - {fileID: 1953421098}
   - {fileID: 954476818}
+  - {fileID: 974770089}
   - {fileID: 515777298}
   m_Father: {fileID: 412595381}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1942,6 +1955,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelDialogue: {fileID: 515777297}
   dialogueScriptable: {fileID: 11400000, guid: 8186a0fa839a3d54fbe060918622104a, type: 2}
+  _textPlayer: {fileID: 423601367}
+  _textNPC: {fileID: 1531993379}
+  _imagePlayer: {fileID: 1132598516}
+  _imageNPC: {fileID: 2000333656}
+  letterDelay: 0.05
+--- !u!1 &974770088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 974770089}
+  - component: {fileID: 974770090}
+  m_Layer: 5
+  m_Name: DialogueNoPotion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &974770089
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974770088}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 719625576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &974770090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974770088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 825286867c8644e4b90b4edb9ceaaa38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _panelDialogue: {fileID: 515777297}
+  dialogueScriptable: {fileID: 11400000, guid: 10df61d75080f1b4d977512196f49704, type: 2}
   _textPlayer: {fileID: 423601367}
   _textNPC: {fileID: 1531993379}
   _imagePlayer: {fileID: 1132598516}
@@ -2705,6 +2773,7 @@ MonoBehaviour:
   potionResultListData: {fileID: 11400000, guid: 66dc7d06323c3ff4c8ba46dba43958bd, type: 2}
   _slotPrefab: {fileID: 7839139791226570139, guid: e5c0acd6de2726c49b1e42e2b6040fe9, type: 3}
   _slotContainer: {fileID: 2145729657}
+  _specialButtonPrefab: {fileID: 7839139791226570139, guid: 5d1ff7d482672864d8596bd67b886ed2, type: 3}
 --- !u!1 &1531993378
 GameObject:
   m_ObjectHideFlags: 0

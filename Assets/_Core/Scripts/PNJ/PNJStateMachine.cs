@@ -14,7 +14,8 @@ namespace MoonlitMixes.AI.PNJ
         [SerializeField] private DialogueController _dialogueController;
         [SerializeField] private DialogueController _dialogueControllerSuccess;
         [SerializeField] private DialogueController _dialogueControllerFailure;
-
+        [SerializeField] private DialogueController _dialogueControllerNoPotion;
+        public DialogueController DialogueControllerNoPotion => _dialogueControllerNoPotion;
         public DialogueController DialogueController => _dialogueController;
         public DialogueController DialogueControllerSuccess => _dialogueControllerSuccess;
         public DialogueController DialogueControllerFailure => _dialogueControllerFailure;
