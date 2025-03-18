@@ -24,6 +24,10 @@ namespace MoonlitMixes.Potion
         private void Start()
         {
             _potionChoiceController = FindObjectOfType<PotionChoiceController>();
+            if (_potionChoiceController == null)
+            {
+                Debug.LogError("PotionChoiceController is not assigned in the scene!");
+            }
         }
 
         public void UpdatePotionCanvas()
@@ -56,13 +60,13 @@ namespace MoonlitMixes.Potion
                 Button confirmButton = confirmationPanel.transform.Find("ConfirmButton").GetComponent<Button>();
                 Button cancelButton = confirmationPanel.transform.Find("CancelButton").GetComponent<Button>();
 
-                _potion = PotionList[i];
-                nameText.text = _potion.Recipe.RecipeName;
-                potionImage.sprite = _potion.Recipe.PotionSprite;
+                PotionResult potion = PotionList[i];
+                nameText.text = potion.Recipe.RecipeName;
+                potionImage.sprite = potion.Recipe.PotionSprite;
 
                 Button btn = newSlot.GetComponent<Button>();
                 _potionButtons.Add(btn);
-                btn.onClick.AddListener(() => OnPotionButtonClicked(_potion, confirmationPanel, confirmButton, cancelButton, btn));
+                btn.onClick.AddListener(() => OnPotionButtonClicked(potion, confirmationPanel, confirmButton, cancelButton, btn));
             }
 
             GameObject specialButton = Instantiate(_specialButtonPrefab, _slotContainer);
@@ -120,15 +124,24 @@ namespace MoonlitMixes.Potion
 
         private void ConfirmPotionChoice(PotionResult potion, GameObject confirmationPanel)
         {
-            if (_potionChoiceController != null)
+            if (potion != null && potion.Recipe != null)
             {
-                _potionChoiceController.SelectPotion(potion?.Recipe.RecipeName);
-                if (potion != null) RemovePotionFromList(potion.Recipe.RecipeName);
+                if (_potionChoiceController != null)
+                {
+                    _potionChoiceController.SelectPotion(potion.Recipe.RecipeName);
+                    RemovePotionFromList(potion.Recipe.RecipeName);
+                }
+
+                if (_potionPrices.TryGetValue(potion.Recipe.RecipeName, out int price))
+                {
+                    Debug.Log($"Potion confirmée: {potion.Recipe.RecipeName}, Prix: {price}");
+                    _potionPrices.Remove(potion.Recipe.RecipeName);
+                }
             }
-            if (potion != null && _potionPrices.TryGetValue(potion.Recipe.RecipeName, out int price))
+            else
             {
-                Debug.Log($"Potion confirmée: {potion.Recipe.RecipeName}, Prix: {price}");
-                _potionPrices.Remove(potion.Recipe.RecipeName);
+                _potionChoiceController.SelectPotion("");  // Assurez-vous de définir une valeur vide pour indiquer "aucune potion"
+                Debug.Log("Aucune potion sélectionnée (No Potion).");
             }
 
             UpdatePotionCanvas();
@@ -137,6 +150,7 @@ namespace MoonlitMixes.Potion
             _isSelectionInProgress = false;
             TogglePotionButtons(true);
         }
+
 
         private void CancelPotionChoice(GameObject confirmationPanel, Button potionButton)
         {
