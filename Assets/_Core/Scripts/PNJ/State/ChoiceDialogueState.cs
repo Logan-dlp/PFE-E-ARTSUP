@@ -2,6 +2,8 @@
 using MoonlitMixes.AI.PNJ;
 using UnityEngine;
 using System.Collections;
+using MoonlitMixes.Potion;
+using TMPro;
 
 public class ChoiceDialogueState : IPNJState
 {
@@ -11,11 +13,13 @@ public class ChoiceDialogueState : IPNJState
     private DialogueController _dialogueControllerNoPotion;
     private PotionChoiceController _potionChoiceController;
     private PNJStateMachine _pnjStateMachine;
+    private PotionPriceCalculate _potionPriceCalculated;
 
     public void EnterState(PNJData data)
     {
         _pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
         _potionChoiceController = GameObject.FindObjectOfType<PotionChoiceController>();
+        _potionPriceCalculated = GameObject.FindObjectOfType<PotionPriceCalculate>();
 
         if (_pnjStateMachine != null)
         {
@@ -32,16 +36,37 @@ public class ChoiceDialogueState : IPNJState
         {
             _pnjStateMachine.ResetFailedAttempts();
             _dialogueControllerSuccess?.StartDialogue();
+            if (_potionPriceCalculated != null)
+            {
+                int basePrice = 100;
+                float multiplier = 1f;
+
+                _potionPriceCalculated.CalculatePotionPrice(basePrice, multiplier);
+            }
         }
         else if (string.IsNullOrEmpty(_pnjStateMachine.SelectedPotionName))
         {
             _pnjStateMachine.ResetFailedAttempts();
             _dialogueControllerNoPotion?.StartDialogue();
+            if (_potionPriceCalculated != null)
+            {
+                int basePrice = 100;
+                float multiplier = 0f;
+
+                _potionPriceCalculated.CalculatePotionPrice(basePrice, multiplier);
+            }
         }
         else
         {
             _pnjStateMachine.IncrementFailedAttempts();
             _dialogueControllerFailure?.StartDialogue();
+            if (_potionPriceCalculated != null)
+            {
+                int basePrice = 100;
+                float multiplier = 0.5f;
+
+                _potionPriceCalculated.CalculatePotionPrice(basePrice, multiplier);
+            }
         }
 
         DialogueController.OnDialogueFinished += OnDialogueEnd;
