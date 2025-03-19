@@ -1,17 +1,26 @@
 using UnityEngine;
 using System;
 using MoonlitMixes.Potion;
+using System.Collections.Generic;
 
 public class PotionChoiceController : MonoBehaviour
 {
     [SerializeField] private GameObject _potionChoicePanel;
     [SerializeField] private PotionInventory _potionInventory;
     [SerializeField] private DialogueController _dialogueController;
+    private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
+    private PotionPriceCalculate _potionPriceCalculated;
+
 
     private string _selectedPotionName;
     public string SelectedPotionName => _selectedPotionName;
 
     public static event Action<string> OnPotionChoiceSelected;
+
+    private void Awake()
+    {
+        _potionPriceCalculated = FindObjectOfType<PotionPriceCalculate>();
+    }
 
     private void Start()
     {
@@ -26,6 +35,18 @@ public class PotionChoiceController : MonoBehaviour
         {
             _selectedPotionName = _potionInventory.PotionList[0].Recipe.RecipeName;
             Debug.Log($"Potion choisie par le PNJ : {_selectedPotionName}");
+
+            if (_potionPrices.TryGetValue(_selectedPotionName, out int price))
+            {
+                Debug.Log($"Potion confirmée: {_selectedPotionName}, Prix: {price}");
+                _potionPrices.Remove(_selectedPotionName);
+
+                if (_potionPriceCalculated != null)
+                {
+                    _potionPriceCalculated.SetSelectedPotionPrice(price);
+                }
+                _potionPrices[_selectedPotionName] = _potionInventory.PotionList[0].Price;
+            }
         }
 
         _potionInventory.UpdatePotionCanvas();

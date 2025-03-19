@@ -14,28 +14,18 @@ namespace MoonlitMixes.Potion
 
         private string noPotionName = "No Potion";
         private PotionChoiceController _potionChoiceController;
-        private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
         private bool _isSelectionInProgress = false;
         private List<Button> _potionButtons = new List<Button>();
-        private PotionResult _potion;
-
-        private PotionPriceCalculate _potionPriceCalculated;
 
         public List<PotionResult> PotionList => potionResultListData.PotionResults;
 
         private void Start()
         {
             _potionChoiceController = FindObjectOfType<PotionChoiceController>();
-            _potionPriceCalculated = FindObjectOfType<PotionPriceCalculate>();
 
             if (_potionChoiceController == null)
             {
                 Debug.LogError("PotionChoiceController is not assigned in the scene!");
-            }
-
-            if (_potionPriceCalculated == null)
-            {
-                Debug.LogError("PotionManager is not assigned in the scene!");
             }
         }
 
@@ -104,11 +94,6 @@ namespace MoonlitMixes.Potion
             potionButton.interactable = false;
             confirmationPanel.SetActive(true);
 
-            if (!_potionPrices.ContainsKey(potion.Recipe.RecipeName))
-            {
-                _potionPrices[potion.Recipe.RecipeName] = potion.Price;
-            }
-
             confirmButton.onClick.RemoveAllListeners();
             confirmButton.onClick.AddListener(() => ConfirmPotionChoice(potion, confirmationPanel));
 
@@ -139,17 +124,6 @@ namespace MoonlitMixes.Potion
                 {
                     _potionChoiceController.SelectPotion(potion.Recipe.RecipeName);
                     RemovePotionFromList(potion.Recipe.RecipeName);
-                }
-
-                if (_potionPrices.TryGetValue(potion.Recipe.RecipeName, out int price))
-                {
-                    Debug.Log($"Potion confirmée: {potion.Recipe.RecipeName}, Prix: {price}");
-                    _potionPrices.Remove(potion.Recipe.RecipeName);
-
-                    if (_potionPriceCalculated != null)
-                    {
-                        _potionPriceCalculated.SetSelectedPotionPrice(price);
-                    }
                 }
             }
             else
