@@ -51,7 +51,7 @@ public class ChoiceDialogueState : IPNJState
         {
             _pnjStateMachine.ResetFailedAttempts();
             _dialogueControllerNoPotion?.StartDialogue();
-            _potionPriceCalculated?.CalculatePotionPrice(potionPrice, 0);
+            _potionPriceCalculated?.CalculatePotionPrice(0, 0);
         }
         else
         {
