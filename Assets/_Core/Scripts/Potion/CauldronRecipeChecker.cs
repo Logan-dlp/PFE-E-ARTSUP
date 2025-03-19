@@ -143,6 +143,7 @@ namespace MoonlitMixes.CookingMachine
             _potionInventory.UpdatePotionCanvas();
             Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
+            _ingredentToAdd = null;
         }
 
         private void HandleFailedPotion()
