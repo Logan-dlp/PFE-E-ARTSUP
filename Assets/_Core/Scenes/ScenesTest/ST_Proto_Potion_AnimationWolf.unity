@@ -4924,6 +4924,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4172748722870749099, guid: a941f370c8cb64145b73f2aaa9de66e7, type: 3}
   m_PrefabInstance: {fileID: 1429569687}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &574558406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3617038064778977266, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+  m_PrefabInstance: {fileID: 1350758166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &584768145 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3121042314366726311, guid: 287e1de9ce8af5c4c9cda45b94e32a67, type: 3}
@@ -12105,6 +12110,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12148,7 +12177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f6671373675a44f85e13bfd09882fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemHoldPivot: {fileID: 0}
+  _itemHoldPivot: {fileID: 574558406}
   _scriptableItemEvent: {fileID: 11400000, guid: 24a5da4c4d5399945ac3f1b3974c6941, type: 2}
 --- !u!114 &1350758169
 MonoBehaviour:
@@ -12376,19 +12405,7 @@ MonoBehaviour:
     m_ActionId: cca0bdf1-73eb-4592-967c-56fdcbb295f7
     m_ActionName: 'QTE/ButtonWest[/XInputControllerWindows/buttonWest]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 809880260}
-        m_TargetAssemblyTypeName: MoonlitMixes.QTE.QuickTimeEvent, Assembly-CSharp
-        m_MethodName: GetInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 9c3c050e-f820-47cd-8a55-9ca2cc6f7e71
     m_ActionName: 'QTE/RightStick[/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:

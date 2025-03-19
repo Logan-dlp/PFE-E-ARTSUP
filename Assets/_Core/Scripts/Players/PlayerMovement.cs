@@ -15,43 +15,46 @@ namespace MoonlitMixes.Player
         [SerializeField] private bool _canSprint = false;
 
         private CharacterController _characterController;
-        
+        private Animator _animator;
+
         private Vector3 _velocity;
-        
         private Vector2 _movement;
         private Vector2 _targetMovement;
-        
+
         private float _currentSpeed;
         private float _currentStamina;
         private float _meshScale;
-        
+        private bool _isInventoryOpen = false;
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
             _meshScale = GetComponentInChildren<SkinnedMeshRenderer>().transform.localScale.y;
+            _animator = GetComponent<Animator>();
         }
-        
+
         private void FixedUpdate()
         {
             UpdateStamina(Time.fixedDeltaTime);
             UpdateMovement(Time.fixedDeltaTime);
             UpdateGravity(Time.fixedDeltaTime);
+            UpdateAnimations();
         }
-        
+
         private void UpdateMovement(float deltaTime)
         {
             _movement = Vector2.Lerp(_movement, _targetMovement, deltaTime * 10f);
             Vector3 move = new Vector3(_movement.x, 0, _movement.y);
             _characterController.Move(move * _currentSpeed * deltaTime);
-        
+
             if (move != Vector3.zero)
             {
                 gameObject.transform.forward = move;
             }
         }
-        
+
         private void UpdateGravity(float deltaTime)
         {
             Debug.DrawRay(transform.position, -transform.up * (_meshScale + .5f), Color.red);
@@ -85,18 +88,25 @@ namespace MoonlitMixes.Player
                 _currentSpeed = _walkSpeed;
             }
 
-            // Notifie seulement si la stamina a changé
             if (Mathf.Abs(oldStamina - _currentStamina) > Mathf.Epsilon)
             {
                 OnStaminaChanged?.Invoke(_currentStamina / _maxStamina);
             }
         }
 
+        private void UpdateAnimations()
+        {
+            bool isMoving = _targetMovement.magnitude > 0.1f;
+
+            _animator.SetBool("isRun", !_isInventoryOpen && isMoving);
+            _animator.SetBool("isIdle", !_isInventoryOpen && !isMoving);
+        }
+
         public void SetTargetMovement(InputAction.CallbackContext ctx)
         {
             _targetMovement = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
         }
-        
+
         public void SetSprint(InputAction.CallbackContext ctx)
         {
             if (ctx.started && _currentStamina > 0 && _canSprint)
@@ -107,6 +117,18 @@ namespace MoonlitMixes.Player
             {
                 _currentSpeed = _walkSpeed;
             }
+        }
+
+        public void OpenInventory()
+        {
+            _isInventoryOpen = true;
+            _animator.SetBool("isLongIdle", true);
+        }
+
+        public void CloseInventory()
+        {
+            _isInventoryOpen = false;
+            _animator.SetBool("isLongIdle", false);
         }
     }
 }

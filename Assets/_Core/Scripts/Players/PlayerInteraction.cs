@@ -17,7 +17,8 @@ namespace MoonlitMixes.Player
         private ACookingMachine _currentCookingMachine;
         private PlayerInput _playerInput;
         private CauldronRecipeChecker _currentCauldron;
-        
+        private Animator _animator;
+
         public ItemData ItemInHand { get; set; }
         public PlayerHoldItem PlayerHoldItem { get; private set;}
 
@@ -25,6 +26,7 @@ namespace MoonlitMixes.Player
         {
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _playerInput = GetComponent<PlayerInput>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -102,12 +104,16 @@ namespace MoonlitMixes.Player
                             waitingTable.PlaceItem(PlayerHoldItem.ItemHold);
                             PlayerHoldItem.RemoveItem();
                             ItemInHand = null;
+                            _animator.SetBool("isPut", true);
+                            Invoke(nameof(ResetPutAnimation), 0.5f);
                         }
 
                         else if(hit.transform.TryGetComponent(out Trashcan trashcan))
                         {
                             trashcan.DiscardItem();
                             PlayerHoldItem.RemoveItem();
+                            _animator.SetBool("isThrow", true);
+                            Invoke(nameof(ResetThrowAnimation), 0.5f);
                         }
                     }
 
@@ -134,6 +140,7 @@ namespace MoonlitMixes.Player
                         {
                             inventory.OpenInventory();
                             _playerInput.SwitchCurrentActionMap(_actionMapUI);
+                            GetComponent<PlayerMovement>().OpenInventory();
                         }
 
                         else if(hit.transform.TryGetComponent(out WaitingTable waitingTable))
@@ -153,9 +160,20 @@ namespace MoonlitMixes.Player
             }
         }
 
+        private void ResetPutAnimation()
+        {
+            _animator.SetBool("isPut", false);
+        }
+
+        private void ResetThrowAnimation()
+        {
+            _animator.SetBool("isThrow", false);
+        }
+
         public void QuitInteraction()
         {
             _playerInput.SwitchCurrentActionMap(_actionMapPlayer);
+            GetComponent<PlayerMovement>().CloseInventory();
         }
     }
 }
