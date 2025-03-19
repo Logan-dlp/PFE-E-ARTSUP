@@ -30,7 +30,7 @@ namespace MoonlitMixes.Player
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
-            _meshScale = GetComponentInChildren<MeshRenderer>().transform.localScale.y;
+            _meshScale = GetComponent<CharacterController>().height;
         }
         
         private void FixedUpdate()
