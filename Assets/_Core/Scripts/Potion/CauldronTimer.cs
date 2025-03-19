@@ -84,5 +84,6 @@ public class CauldronTimer : MonoBehaviour
         _timerIsActive = false;
         _fillBarBack.fillAmount = 0;
         _fillBarFront.fillAmount = 0;
+        _canAction = true;
     }
 }
