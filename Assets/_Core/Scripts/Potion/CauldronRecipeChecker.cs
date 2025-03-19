@@ -152,6 +152,7 @@ namespace MoonlitMixes.CookingMachine
             _cauldronTimer.StopCooldown();
             Debug.Log("Potion rat�e !");
             _currentIngredients.Clear();
+            _ingredentToAdd = null;
         }
 
         private void TriggerBubbleVFX()

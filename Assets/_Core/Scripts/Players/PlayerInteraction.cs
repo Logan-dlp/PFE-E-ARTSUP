@@ -29,7 +29,8 @@ namespace MoonlitMixes.Player
 
         private void Update()
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+            Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward, Color.red);
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
             {
                 if(ItemInHand != null)
                 {
