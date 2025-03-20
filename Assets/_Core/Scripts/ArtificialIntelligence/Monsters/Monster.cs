@@ -1,6 +1,4 @@
 using System.Collections;
-using MoonlitMixes.Item;
-using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +6,7 @@ namespace MoonlitMixes.AI
 {
     using StateMachine;
     using StateMachine.States;
+    using Player;
     
     public class Monster : MonoBehaviour
     {
