@@ -4,101 +4,117 @@ using System;
 using System.Collections;
 using UnityEngine.UI;
 
-public class DialogueController : MonoBehaviour
+namespace MoonlitMixes.Dialogue
 {
-    [SerializeField] private GameObject _panelDialogue;
-    [SerializeField] private DialogueScriptableObject dialogueScriptable;
-    [SerializeField] private TMP_Text _textPlayer;
-    [SerializeField] private TMP_Text _textNPC;
-    [SerializeField] private Image _imagePlayer;
-    [SerializeField] private Image _imageNPC;
-    [SerializeField] private float letterDelay = .05f;
-
-    private bool _textIsWritten = false;
-    private bool _skipText = false;
-    private int _index;
-    private int dialogueIndex = 0;
-
-    public static event Action OnDialogueFinished;
-
-    private void Start()
+    public class DialogueController : MonoBehaviour
     {
-        _panelDialogue.SetActive(false);
-    }
-
-    public void StartDialogue()
-    {
-        dialogueIndex = 0;
-        _panelDialogue.SetActive(true);
-        NextDialogue();
-    }
-
-    public void NextDialogue()
-    {
-        if (_textIsWritten == true)
+        private static DialogueController _instance;
+        public static DialogueController Instance => _instance;
+        
+        public static event Action OnDialogueFinished;
+        
+        [SerializeField] private GameObject _panelDialogue;
+        [SerializeField] private TMP_Text _textPlayer;
+        [SerializeField] private TMP_Text _textNPC;
+        [SerializeField] private Image _imagePlayer;
+        [SerializeField] private Image _imageNPC;
+        [SerializeField] private float letterDelay = .05f;
+    
+        private bool _isTextIsWritten = false;
+        private bool _isSkipText = false;
+        
+        private void Awake()
         {
-            _skipText = true;
-            return;
-        }
-
-        if (dialogueIndex != dialogueScriptable.dialogueSection.Length)
-        {
-            if (dialogueScriptable.dialogueSection[dialogueIndex].isPlayer)
+            if (_instance != null && _instance != this)
             {
-                _imagePlayer.sprite = dialogueScriptable.dialogueSection[dialogueIndex].sprite;
-                _imagePlayer.preserveAspect = true;
-                WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textPlayer);
+                Destroy(this.gameObject);
             }
             else
             {
-                _imageNPC.sprite = dialogueScriptable.dialogueSection[dialogueIndex].sprite;
-                _imageNPC.preserveAspect = true;
-                WriteText(dialogueScriptable.dialogueSection[dialogueIndex].dialogue, _textNPC);
+                _instance = this;
             }
-            dialogueIndex++;
         }
-        else if (dialogueIndex == dialogueScriptable.dialogueSection.Length)
+
+        private void Start()
         {
-            EndDialogue();
+            _panelDialogue.SetActive(false);
         }
-    }
-
-    public void EndDialogue()
-    {
-        ClearDialogue();
-
-        _panelDialogue.SetActive(false);
-        OnDialogueFinished?.Invoke();
-    }
-
-    private void ClearDialogue()
-    {
-        _textPlayer.text = "";
-        _textNPC.text = "";
-    }
-
-
-    private void WriteText(string text, TMP_Text textBox)
-    {
-        textBox.maxVisibleCharacters = 0;
-        textBox.text = text;
-        _textIsWritten = true;
-        StartCoroutine(TypeText(textBox));
-    }
-
-    private IEnumerator TypeText(TMP_Text textBox)
-    {
-        for (_index = 0; _index < textBox.text.Length; _index++)
+    
+        public void LaunchDialogue(DialogueScriptableObject dialogue)
         {
-            textBox.maxVisibleCharacters++;
-            yield return new WaitForSeconds(letterDelay);
-            if (_skipText == true)
+            _panelDialogue.SetActive(true);
+            ClearDialogue();
+            NextDialogue(dialogue);
+        }
+    
+        public void NextDialogue(DialogueScriptableObject dialogue)
+        {
+            int _dialogueIterator = 0;
+            
+            if (_dialogueIterator >= dialogue.dialogueSection.Length)
             {
-                textBox.maxVisibleCharacters = textBox.text.Length;
-                _skipText = false;
-                break;
+                EndDialogue();
+                return;
             }
+            
+            if (_isTextIsWritten)
+            {
+                _isSkipText = true;
+                return;
+            }
+            
+            if (dialogue.dialogueSection[_dialogueIterator].isPlayer)
+            {
+                _imagePlayer.sprite = dialogue.dialogueSection[_dialogueIterator].sprite;
+                _imagePlayer.preserveAspect = true;
+                WriteText(dialogue.dialogueSection[_dialogueIterator].dialogue, _textPlayer);
+            }
+            else
+            {
+                _imageNPC.sprite = dialogue.dialogueSection[_dialogueIterator].sprite;
+                _imageNPC.preserveAspect = true;
+                WriteText(dialogue.dialogueSection[_dialogueIterator].dialogue, _textNPC);
+            }
+            
+            _dialogueIterator++;
         }
-        _textIsWritten = false;
+    
+        public void EndDialogue()
+        {
+            ClearDialogue();
+            _panelDialogue.SetActive(false);
+            OnDialogueFinished?.Invoke();
+        }
+    
+        private void ClearDialogue()
+        {
+            _textPlayer.text = "";
+            _textNPC.text = "";
+        }
+    
+    
+        private void WriteText(string text, TMP_Text textBox)
+        {
+            textBox.maxVisibleCharacters = 0;
+            textBox.text = text;
+            _isTextIsWritten = true;
+            StartCoroutine(TypeText(textBox));
+        }
+    
+        private IEnumerator TypeText(TMP_Text textBox)
+        {
+            for (int i = 0; i < textBox.text.Length; ++i)
+            {
+                textBox.maxVisibleCharacters++;
+                yield return new WaitForSeconds(letterDelay);
+                if (_isSkipText == true)
+                {
+                    textBox.maxVisibleCharacters = textBox.text.Length;
+                    _isSkipText = false;
+                    break;
+                }
+            }
+            _isTextIsWritten = false;
+        }
     }
 }

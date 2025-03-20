@@ -1,8 +1,9 @@
+using MoonlitMixes.Dialogue;
+
 namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class DialogueState : IPNJState
     {
-        private DialogueController _dialogueController;
         private PNJData _pnjData;
 
         public void EnterState(PNJData data)
@@ -12,15 +13,10 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             data.Animator.SetBool("isWalking", false);
 
             PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
-
-            if (pnjStateMachine != null)
+            
+            if (DialogueController.Instance != null)
             {
-                _dialogueController = pnjStateMachine.DialogueController;
-            }
-
-                if (_dialogueController != null)
-            {
-                _dialogueController.StartDialogue();
+                //_dialogueController.StartDialogue();
                 DialogueController.OnDialogueFinished += OnDialogueEnd;
             }
         }

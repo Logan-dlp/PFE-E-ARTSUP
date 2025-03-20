@@ -2,13 +2,11 @@
 using MoonlitMixes.Potion;
 using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.AI.PNJ;
+using MoonlitMixes.Dialogue;
 
 public class ChoiceDialogueState : IPNJState
 {
     private PNJData _pnjData;
-    private DialogueController _dialogueControllerSuccess;
-    private DialogueController _dialogueControllerFailure;
-    private DialogueController _dialogueControllerNoPotion;
     private PotionChoiceController _potionChoiceController;
     private PNJStateMachine _pnjStateMachine;
     private PotionPriceCalculate _potionPriceCalculated;
@@ -20,13 +18,6 @@ public class ChoiceDialogueState : IPNJState
         _potionChoiceController = GameObject.FindObjectOfType<PotionChoiceController>();
         _potionPriceCalculated = GameObject.FindObjectOfType<PotionPriceCalculate>();
         _potionInventory = GameObject.FindObjectOfType<PotionInventory>();
-
-        if (_pnjStateMachine != null)
-        {
-            _dialogueControllerSuccess = _pnjStateMachine.DialogueControllerSuccess;
-            _dialogueControllerFailure = _pnjStateMachine.DialogueControllerFailure;
-            _dialogueControllerNoPotion = _pnjStateMachine.DialogueControllerNoPotion;
-        }
 
         _pnjData = data;
         _pnjData.Agent.isStopped = true;
@@ -44,19 +35,19 @@ public class ChoiceDialogueState : IPNJState
 
         if (_potionChoiceController.SelectedPotionName == _pnjStateMachine.SelectedPotionName)
         {
-            _dialogueControllerSuccess?.StartDialogue();
+            //_dialogueControllerSuccess?.StartDialogue();
             _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _pnjStateMachine.FailedAttempts);
         }
         else if (string.IsNullOrEmpty(_pnjStateMachine.SelectedPotionName))
         {
             _pnjStateMachine.ResetFailedAttempts();
-            _dialogueControllerNoPotion?.StartDialogue();
+            //_dialogueControllerNoPotion?.StartDialogue();
             _potionPriceCalculated?.CalculatePotionPrice(0, 0);
         }
         else
         {
             _pnjStateMachine.IncrementFailedAttempts();
-            _dialogueControllerFailure?.StartDialogue();
+            //_dialogueControllerFailure?.StartDialogue();
             _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _pnjStateMachine.FailedAttempts);
         }
 
@@ -83,7 +74,7 @@ public class ChoiceDialogueState : IPNJState
                 _pnjStateMachine.NextState();
             }
         }
-        _dialogueControllerFailure.EndDialogue();
+        DialogueController.Instance.EndDialogue();
     }
 
     public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
