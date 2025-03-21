@@ -8,10 +8,11 @@ namespace MoonlitMixes.Player
     {
         [SerializeField] private GameObject _itemHoldPivot;
         [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+
     
         public ItemData Item { get; set; }
         public GameObject ItemHold { get; set; }
-    
+
         private void OnEnable()
         {
             _scriptableItemEvent.ItemDataAction += ChangeItemData;

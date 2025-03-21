@@ -1,6 +1,7 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 namespace MoonlitMixes.Player
 {
@@ -15,43 +16,52 @@ namespace MoonlitMixes.Player
         [SerializeField] private bool _canSprint = false;
 
         private CharacterController _characterController;
-        
+        private Animator _animator;
+
         private Vector3 _velocity;
-        
         private Vector2 _movement;
         private Vector2 _targetMovement;
-        
+
         private float _currentSpeed;
         private float _currentStamina;
         private float _meshScale;
-        
+        private bool _isInventoryOpen = false;
+        private bool _isPerformingActionIdle = true;
+        private bool _isPerformingActionHolding = false;
+        private bool _isCut = false;
+        private bool _isCrush = false;
+        private bool _isMix = false;
+
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
-            _meshScale = GetComponent<CharacterController>().height;
+            _meshScale = GetComponentInChildren<SkinnedMeshRenderer>().transform.localScale.y;
+            _animator = GetComponent<Animator>();
         }
-        
+
         private void FixedUpdate()
         {
             UpdateStamina(Time.fixedDeltaTime);
             UpdateMovement(Time.fixedDeltaTime);
             UpdateGravity(Time.fixedDeltaTime);
+            UpdateAnimations();
         }
-        
+
         private void UpdateMovement(float deltaTime)
         {
             _movement = Vector2.Lerp(_movement, _targetMovement, deltaTime * 10f);
             Vector3 move = new Vector3(_movement.x, 0, _movement.y);
             _characterController.Move(move * _currentSpeed * deltaTime);
-        
+
             if (move != Vector3.zero)
             {
                 gameObject.transform.forward = move;
             }
         }
-        
+
         private void UpdateGravity(float deltaTime)
         {
             Debug.DrawRay(transform.position, -transform.up * (_meshScale + .5f), Color.red);
@@ -85,10 +95,35 @@ namespace MoonlitMixes.Player
                 _currentSpeed = _walkSpeed;
             }
 
-            // Notifie seulement si la stamina a changé
             if (Mathf.Abs(oldStamina - _currentStamina) > Mathf.Epsilon)
             {
                 OnStaminaChanged?.Invoke(_currentStamina / _maxStamina);
+            }
+        }
+
+        private void UpdateAnimations()
+        {
+            bool isMoving = _targetMovement.magnitude > 0.1f;
+            bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
+
+            _isPerformingActionHolding = isHoldingItem && !_isCut && !_isMix && !_isCrush;
+
+            _animator.SetBool("isHoldingIdle", _isPerformingActionHolding && !isMoving);
+            _animator.SetBool("isHoldingRun", _isPerformingActionHolding && isMoving);
+
+            if (!_isPerformingActionHolding)
+            {
+                if (_isPerformingActionIdle && !_isMix && !_isInventoryOpen)
+                {
+                    _animator.SetBool("isRun", isMoving);
+                    _animator.SetBool("isIdle", !isMoving);
+                }
+                else if (_isMix)
+                {
+                    _isPerformingActionIdle = false;
+                    _animator.SetBool("isIdle", false);
+                    _animator.SetBool("isRun", false);
+                }
             }
         }
 
@@ -96,7 +131,7 @@ namespace MoonlitMixes.Player
         {
             _targetMovement = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
         }
-        
+
         public void SetSprint(InputAction.CallbackContext ctx)
         {
             if (ctx.started && _currentStamina > 0 && _canSprint)
@@ -106,6 +141,92 @@ namespace MoonlitMixes.Player
             else if (ctx.canceled)
             {
                 _currentSpeed = _walkSpeed;
+            }
+        }
+
+        public void OpenInventory()
+        {
+            _isInventoryOpen = true;
+            _animator.SetBool("isLongIdle", true);
+        }
+
+        public void CloseInventory()
+        {
+            _isInventoryOpen = false;
+            _animator.SetBool("isLongIdle", false);
+        }
+
+        public void InteractCut()
+        {
+            _isCut = true;
+            _animator.SetBool("isCut", true);
+        }
+
+        public void FinishedInteractCut()
+        {
+            _isCut = false;
+            _animator.SetBool("isCut", false);
+        }
+
+        public void InteractMix()
+        {
+            _isMix = true;
+            _animator.SetBool("isMix", true);
+            _isPerformingActionHolding = false;
+            _animator.SetBool("isHoldingRun", false);
+        }
+
+        public void FinishedInteractMix()
+        {
+            _isMix = false;
+            _animator.SetBool("isMix", false);
+        }
+
+        public void InteractCrush()
+        {
+            _isCrush = true;
+            _animator.SetBool("isCrush", true);
+        }
+
+        public void FinishedInteractCrush()
+        {
+            _isCrush = false;
+            _animator.SetBool("isCrush", false);
+        }
+
+        public void SetPerformingActionHolding(bool state)
+        {
+            Debug.Log($"SetPerformingActionHolding: {state}");
+
+            _isPerformingActionHolding = state;
+            _isPerformingActionIdle = !state;
+
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isHoldingIdle", false);
+            _animator.SetBool("isRun", false);
+            _animator.SetBool("isHoldingRun", false);
+
+            if (state)
+            {
+                _animator.SetBool("isHoldingIdle", true);
+                _animator.SetBool("isHoldingRun", true);
+            }
+        }
+
+        public void SetPerformingActionIdle(bool state)
+        {
+            Debug.Log($"SetPerformingActionIdle: {state}");
+
+            _isPerformingActionIdle = state;
+            _isPerformingActionHolding = !state;
+
+            _animator.SetBool("isHoldingIdle", false);
+            _animator.SetBool("isHoldingRun", false);
+            _animator.SetBool("isRun", false);
+
+            if (state)
+            {
+                _animator.SetBool("isIdle", true);
             }
         }
     }
