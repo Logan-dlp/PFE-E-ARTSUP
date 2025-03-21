@@ -15,7 +15,7 @@ namespace MoonlitMixes.QTE
 
         [Header("Button Sprites")]
         [SerializeField] private Sprite[] _buttonSpritesArray;
-
+        [SerializeField] private Sprite[] _buttonSpritesPressedArray;
         [SerializeField] private Image _qteSlot;
         [SerializeField] private Image _progressBarUI;
 
@@ -24,6 +24,7 @@ namespace MoonlitMixes.QTE
         [SerializeField] private ScriptableBoolEvent _scriptableBoolEvent;
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField, Range(.1f, 1f)] private float _delayRatioFailure;
+        [SerializeField, Range(.1f, 1)] private float _pressedSpriteTime = .1f;
 
         private int _currentIndex;
         private int _currentPressCount = 0;
@@ -209,7 +210,7 @@ namespace MoonlitMixes.QTE
                 _currentIndex = _qTEConfig.CustomQTEButtonList.Count - 1;
             }
 
-            _qteSlot.sprite = GetSprite(_qTEConfig.CustomQTEButtonList[_currentIndex]);
+            _qteSlot.sprite = _buttonSpritesArray[GetSprite(_qTEConfig.CustomQTEButtonList[_currentIndex])];
             _qteSlot.color = Color.white;
 
             //Ecoute les inputs du joystick
@@ -267,10 +268,12 @@ namespace MoonlitMixes.QTE
             if (_qTEConfig.CustomQTEButtonList[_currentIndex].isProgressBar)
             {
                 _progressBarValue++;
+                StartCoroutine(SpritePressedChange());              
             }
             else
             {
                 _currentPressCount++;
+                StartCoroutine(SpritePressedChange());
             }
             
             return true;
@@ -330,20 +333,20 @@ namespace MoonlitMixes.QTE
             }
         }
 
-        private Sprite GetSprite(ScriptableQTEConfig.CustomQTEButton _QTEButton)
+        private int GetSprite(ScriptableQTEConfig.CustomQTEButton _QTEButton)
         {
             switch (_QTEButton.inputCommand)
             {
                 case ScriptableQTEConfig.InputCommand.A:
-                    return _buttonSpritesArray[0];
+                    return 0;
                 case ScriptableQTEConfig.InputCommand.B:
-                    return _buttonSpritesArray[1];
+                    return 1;
                 case ScriptableQTEConfig.InputCommand.Y:
-                    return _buttonSpritesArray[2];
+                    return 2;
                 case ScriptableQTEConfig.InputCommand.X:
-                    return _buttonSpritesArray[3];
+                    return 3;
                 default:
-                    return _buttonSpritesArray[4];
+                    return 4;
             }
         }
 
@@ -473,6 +476,13 @@ namespace MoonlitMixes.QTE
             _failureCount++;
             _qteSlot.color = Color.white;
             StartQTE();
+        }
+
+        private IEnumerator SpritePressedChange()
+        {
+            _qteSlot.sprite = _buttonSpritesPressedArray[GetSprite(_qTEConfig.CustomQTEButtonList[_currentIndex])];
+            yield return new WaitForSeconds(_pressedSpriteTime);
+            _qteSlot.sprite = _buttonSpritesArray[GetSprite(_qTEConfig.CustomQTEButtonList[_currentIndex])];
         }
     }
 }
