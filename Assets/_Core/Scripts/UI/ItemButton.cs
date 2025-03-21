@@ -7,7 +7,7 @@ public class ItemButton : MonoBehaviour, ISelectHandler, IPointerClickHandler, I
     [SerializeField] private ItemButtonEvent _onSelectEvent;
     [SerializeField] private ItemButtonEvent _onSubmitEvent;
     [SerializeField] private ItemButtonEvent _onClickEvent;
-    
+
     public ItemButtonEvent onSelectEvent
     {
         get => _onSelectEvent;
@@ -43,8 +43,7 @@ public class ItemButton : MonoBehaviour, ISelectHandler, IPointerClickHandler, I
 
     public void ObtainSelectionFocus()
     {
-        EventSystem.current.SetSelectedGameObject(gameObject);
-
+        EventSystem.current.SetSelectedGameObject(this.gameObject);
         _onSelectEvent.Invoke(this);
     }
 }
@@ -52,5 +51,4 @@ public class ItemButton : MonoBehaviour, ISelectHandler, IPointerClickHandler, I
 [System.Serializable]
 public class ItemButtonEvent : UnityEvent<ItemButton>
 {
-
 }
