@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 namespace MoonlitMixes.Player
 {
@@ -27,6 +28,9 @@ namespace MoonlitMixes.Player
         private bool _isInventoryOpen = false;
         private bool _isPerformingActionHolding = false;
         private bool _isPerformingActionIdle = true;
+        private bool _isCut = false;
+        private bool _isCrush = false;
+        private bool _isMix = false;
 
         private void Awake()
         {
@@ -100,8 +104,7 @@ namespace MoonlitMixes.Player
         {
             bool isMoving = _targetMovement.magnitude > 0.1f;
             bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
-
-            if (isHoldingItem)
+            if (isHoldingItem && _isCut == false && _isMix == false && _isCrush == false)
             {
                 _isPerformingActionHolding = true;
                 _animator.SetBool("isHoldingIdle", !isMoving);
@@ -114,10 +117,16 @@ namespace MoonlitMixes.Player
                 _animator.SetBool("isHoldingRun", false);
             }
 
-            if (_isPerformingActionIdle)
+            if (_isPerformingActionIdle && _isMix == false)
             {
                 _animator.SetBool("isRun", !_isInventoryOpen && isMoving);
                 _animator.SetBool("isIdle", !_isInventoryOpen && !isMoving);
+            }
+            else if (_isMix == true)
+            {
+                _isPerformingActionIdle = false;
+                _animator.SetBool("isIdle", false);
+                _animator.SetBool("isRun", false);
             }
         }
 
@@ -149,6 +158,54 @@ namespace MoonlitMixes.Player
         {
             _isInventoryOpen = false;
             _animator.SetBool("isLongIdle", false);
+            _isPerformingActionHolding = true;
+            _isPerformingActionIdle = false;
+
+            bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
+            if (isHoldingItem)
+            {
+                SetPerformingActionHolding(true);
+                SetPerformingActionIdle(false);
+            }
+        }
+
+        public void InteractCut()
+        {
+            _isCut = true;
+            _animator.SetBool("isCut", true);
+        }
+
+        public void FinishedInteractCut()
+        {
+            _isCut = false;
+            _animator.SetBool("isCut", false);
+        }
+
+        public void InteractMix()
+        {
+            _isMix = true;
+            _animator.SetBool("isMix", true);
+            _isPerformingActionHolding = false;
+            _animator.SetBool("isHoldingRun", false);
+        }
+
+        public void FinishedInteractMix()
+        {
+            _isMix = false;
+            _animator.SetBool("isMix", false);
+        }
+
+        public void InteractCrush()
+        {
+            _isCrush = true;
+            _animator.SetBool("isCrush", true);
+        }
+
+        public void FinishedInteractCrush()
+        {
+            _isCrush = false;
+            _animator.SetBool("isCrush", false);
+
         }
 
         public void SetPerformingActionHolding(bool state)

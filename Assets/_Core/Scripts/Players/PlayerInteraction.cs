@@ -137,13 +137,11 @@ namespace MoonlitMixes.Player
 
                         if (ItemInHand.Usage == ItemUsage.Cut)
                         {
-                            _animator.SetBool("isCut", true);
-                            _animator.SetBool("isHoldingIdle", false);
+                            _playerMovement.InteractCut();
                         }
                         else if (ItemInHand.Usage == ItemUsage.Crush)
                         {
-                            _animator.SetBool("isCrush", true);
-                            _animator.SetBool("isHoldingIdle", false);
+                            _playerMovement.InteractCrush();
                         }
 
                         _currentCookingMachine.ConvertItem(ItemInHand, this);
@@ -154,6 +152,8 @@ namespace MoonlitMixes.Player
                         {
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
+
+                            _playerMovement.SetPerformingActionIdle(true);
                         }
                     }
                 }
@@ -180,9 +180,7 @@ namespace MoonlitMixes.Player
                             _playerInput.SwitchCurrentActionMap(_actionMapQTE);
                             cauldron.Mix(this);
 
-                            _animator.SetBool("isMix", true);
-                            _playerMovement.SetPerformingActionHolding(false);
-                            _playerMovement.SetPerformingActionIdle(false);
+                            _playerMovement.InteractMix();
                         }
                     }
                 }
@@ -210,7 +208,18 @@ namespace MoonlitMixes.Player
             _animator.SetBool("isCrush", false);
             _animator.SetBool("isCut", false);
             _animator.SetBool("isMix", false);
-            _animator.SetBool("isHoldingIdle", true);
+            _playerMovement.FinishedInteractCut();
+            _playerMovement.FinishedInteractCrush();
+            _playerMovement.FinishedInteractMix();
+
+            if (PlayerHoldItem.ItemHold == null)
+            {
+                _playerMovement.SetPerformingActionIdle(true);
+            }
+            else
+            {
+                _playerMovement.SetPerformingActionHolding(true);
+            }
         }
     }
 }
