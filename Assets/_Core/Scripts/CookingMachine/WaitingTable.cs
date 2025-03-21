@@ -17,6 +17,8 @@ namespace MoonlitMixes.CookingMachine
         private Light[] _lightArray = new Light[10];
         private bool _isActive = false; 
         private int _indexSelectedItem = 0;
+        private PlayerMovement _playerMovement;
+
 
         private void OnEnable()
         {
@@ -38,6 +40,8 @@ namespace MoonlitMixes.CookingMachine
             {
                 _lightArray[i] = _pivotWaitingItemsArray[i].GetComponent<Light>();
             }
+
+            _playerMovement = FindFirstObjectByType<PlayerMovement>();
         }
 
         public void PlaceItem(GameObject itemGameObject)
@@ -88,6 +92,20 @@ namespace MoonlitMixes.CookingMachine
             FindFirstObjectByType<PlayerInteraction>().QuitInteraction(); 
             _isActive = false;
             UpdateHighlight();
+            UpdatePlayerAnimation();
+        }
+
+        private void UpdatePlayerAnimation()
+        {
+            if (_playerMovement == null) return;
+
+            bool isHoldingItem = FindFirstObjectByType<PlayerHoldItem>().ItemHold != null;
+
+            if (isHoldingItem)
+            {
+                _playerMovement.SetPerformingActionHolding(true);
+                _playerMovement.SetPerformingActionIdle(false);
+            }
         }
 
         private void Movement(InputAction.CallbackContext context)

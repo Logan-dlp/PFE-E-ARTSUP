@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +25,8 @@ namespace MoonlitMixes.Player
         private float _currentStamina;
         private float _meshScale;
         private bool _isInventoryOpen = false;
+        private bool _isPerformingActionHolding = false;
+        private bool _isPerformingActionIdle = true;
 
         private void Awake()
         {
@@ -97,10 +99,31 @@ namespace MoonlitMixes.Player
         private void UpdateAnimations()
         {
             bool isMoving = _targetMovement.magnitude > 0.1f;
+            bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
 
-            _animator.SetBool("isRun", !_isInventoryOpen && isMoving);
-            _animator.SetBool("isIdle", !_isInventoryOpen && !isMoving);
+            if (isHoldingItem)
+            {
+                _isPerformingActionHolding = true;
+            }
+            else
+            {
+                _isPerformingActionHolding = false;
+            }
+
+            if (_isPerformingActionHolding)
+            {
+                _animator.SetBool("isHoldingIdle", !isMoving);
+                _animator.SetBool("isHoldingRun", isMoving);
+                return;
+            }
+
+            if (_isPerformingActionIdle)
+            {
+                _animator.SetBool("isRun", !_isInventoryOpen && isMoving);
+                _animator.SetBool("isIdle", !_isInventoryOpen && !isMoving);
+            }
         }
+
 
         public void SetTargetMovement(InputAction.CallbackContext ctx)
         {
@@ -129,6 +152,33 @@ namespace MoonlitMixes.Player
         {
             _isInventoryOpen = false;
             _animator.SetBool("isLongIdle", false);
+        }
+
+        public void SetPerformingActionHolding(bool state)
+        {
+            _isPerformingActionHolding = state;
+            _isPerformingActionIdle = !state;
+
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isRun", false);
+            _animator.SetBool("isHoldingIdle", false);
+            _animator.SetBool("isHoldingRun", false);
+
+            _animator.SetBool("isHoldingIdle", state);
+            _animator.SetBool("isHoldingRun", state);
+        }
+
+        public void SetPerformingActionIdle(bool state)
+        {
+            _isPerformingActionIdle = state;
+            _isPerformingActionHolding = !state;
+
+            _animator.SetBool("isHoldingIdle", false);
+            _animator.SetBool("isHoldingRun", false);
+            _animator.SetBool("isRun", false);
+
+            _animator.SetBool("isIdle", state);
+            _animator.SetBool("isRun", state);
         }
     }
 }

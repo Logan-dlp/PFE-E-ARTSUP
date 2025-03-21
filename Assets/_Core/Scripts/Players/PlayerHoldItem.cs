@@ -12,12 +12,6 @@ namespace MoonlitMixes.Player
     
         public ItemData Item { get; set; }
         public GameObject ItemHold { get; set; }
-        private Animator _animator;
-
-        private void Awake()
-        {
-            _animator = GetComponent<Animator>();
-        }
 
         private void OnEnable()
         {
@@ -55,7 +49,6 @@ namespace MoonlitMixes.Player
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
             GetComponent<PlayerInteraction>().ItemInHand = Item;
-            _animator.SetBool("isHold", true);
         }
 
         public void RemoveItem()
@@ -76,7 +69,6 @@ namespace MoonlitMixes.Player
             ItemHold = null;
             Item = null;
             GetComponent<PlayerInteraction>().ItemInHand = null;
-            _animator.SetBool("isHold", false);
         }
     }
 }

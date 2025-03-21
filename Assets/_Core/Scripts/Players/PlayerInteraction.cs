@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using MoonlitMixes.CookingMachine;
 using MoonlitMixes.Item;
@@ -18,22 +18,24 @@ namespace MoonlitMixes.Player
         private PlayerInput _playerInput;
         private CauldronRecipeChecker _currentCauldron;
         private Animator _animator;
+        private PlayerMovement _playerMovement;
 
         public ItemData ItemInHand { get; set; }
-        public PlayerHoldItem PlayerHoldItem { get; private set;}
+        public PlayerHoldItem PlayerHoldItem { get; private set; }
 
         private void Awake()
         {
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _playerInput = GetComponent<PlayerInput>();
             _animator = GetComponent<Animator>();
+            _playerMovement = GetComponent<PlayerMovement>();
         }
 
         private void Update()
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
             {
-                if(ItemInHand != null)
+                if (ItemInHand != null)
                 {
                     if (hit.transform.TryGetComponent(out ACookingMachine cookingMachine) && cookingMachine.TransformType == ItemInHand.Usage)
                     {
@@ -42,14 +44,14 @@ namespace MoonlitMixes.Player
                             SetNewCookingMachine(cookingMachine);
                         }
                     }
-                    else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron))
+                    else if (hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron))
                     {
                         if (_currentCauldron != cauldron)
                         {
                             SetNewCauldron(cauldron);
                         }
                     }
-                    else if(hit.transform.TryGetComponent(out WaitingTable waitingTable))
+                    else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                     {
                         ResetInteractionTargets();
                     }
@@ -85,9 +87,9 @@ namespace MoonlitMixes.Player
 
         private void ResetInteractionTargets()
         {
-            if(_currentCauldron != null) _currentCauldron.TogleShowInteractivity();
+            if (_currentCauldron != null) _currentCauldron.TogleShowInteractivity();
             _currentCauldron = null;
-            if(_currentCookingMachine != null) _currentCookingMachine.TogleShowInteractivity();
+            if (_currentCookingMachine != null) _currentCookingMachine.TogleShowInteractivity();
             _currentCookingMachine = null;
         }
 
@@ -95,37 +97,60 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
-                if(ItemInHand != null)
+                if (ItemInHand != null)
                 {
-                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+                    if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        if(hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
+                        if (hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
                             waitingTable.PlaceItem(PlayerHoldItem.ItemHold);
                             PlayerHoldItem.RemoveItem();
                             ItemInHand = null;
+
                             _animator.SetBool("isPut", true);
                             Invoke(nameof(ResetPutAnimation), 0.5f);
+                            if (PlayerHoldItem.ItemHold == null)
+                            {
+                                _playerMovement.SetPerformingActionIdle(true);
+                            }
+                            else
+                            {
+                                _playerMovement.SetPerformingActionHolding(true);
+                            }
                         }
-
-                        else if(hit.transform.TryGetComponent(out Trashcan trashcan))
+                        else if (hit.transform.TryGetComponent(out Trashcan trashcan))
                         {
                             trashcan.DiscardItem();
                             PlayerHoldItem.RemoveItem();
                             _animator.SetBool("isThrow", true);
                             Invoke(nameof(ResetThrowAnimation), 0.5f);
+                            _playerMovement.SetPerformingActionHolding(false);
                         }
                     }
 
                     if (_currentCookingMachine != null)
                     {
                         _playerInput.SwitchCurrentActionMap(_actionMapQTE);
+
+                        _playerMovement.SetPerformingActionHolding(false);
+                        _playerMovement.SetPerformingActionIdle(false);
+
+                        if (ItemInHand.Usage == ItemUsage.Cut)
+                        {
+                            _animator.SetBool("isCut", true);
+                            _animator.SetBool("isHoldingIdle", false);
+                        }
+                        else if (ItemInHand.Usage == ItemUsage.Crush)
+                        {
+                            _animator.SetBool("isCrush", true);
+                            _animator.SetBool("isHoldingIdle", false);
+                        }
+
                         _currentCookingMachine.ConvertItem(ItemInHand, this);
                     }
-                    
                     else if (_currentCauldron != null && _currentCauldron.GetComponent<CauldronTimer>().CanAction)
                     {
-                        if(ItemInHand.Usage == ItemUsage.Whole &&  _currentCauldron.NeedItem)
+                        if (ItemInHand.Usage == ItemUsage.Whole && _currentCauldron.NeedItem)
                         {
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
@@ -136,44 +161,55 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        if(hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
+                        if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
                             inventory.OpenInventory();
                             _playerInput.SwitchCurrentActionMap(_actionMapUI);
-                            GetComponent<PlayerMovement>().OpenInventory();
+                            _playerMovement.OpenInventory();
                         }
-
-                        else if(hit.transform.TryGetComponent(out WaitingTable waitingTable))
+                        else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
                             _playerInput.SwitchCurrentActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
                         }
-                        else if(hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
+                        else if (hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
                         {
-                            if(!cauldron.NeedMix) return;
+                            if (!cauldron.NeedMix) return;
+
                             _playerInput.SwitchCurrentActionMap(_actionMapQTE);
                             cauldron.Mix(this);
+
+                            _animator.SetBool("isMix", true);
+                            _playerMovement.SetPerformingActionHolding(false);
+                            _playerMovement.SetPerformingActionIdle(false);
                         }
                     }
                 }
-                
             }
         }
 
         private void ResetPutAnimation()
         {
             _animator.SetBool("isPut", false);
+            _animator.SetBool("isHoldingIdle", true);
+            _playerMovement.SetPerformingActionHolding(false);
         }
 
         private void ResetThrowAnimation()
         {
             _animator.SetBool("isThrow", false);
+            _animator.SetBool("isHoldingIdle", true);
+            _playerMovement.SetPerformingActionHolding(false);
         }
 
         public void QuitInteraction()
         {
             _playerInput.SwitchCurrentActionMap(_actionMapPlayer);
-            GetComponent<PlayerMovement>().CloseInventory();
+            _playerMovement.CloseInventory();
+            _animator.SetBool("isCrush", false);
+            _animator.SetBool("isCut", false);
+            _animator.SetBool("isMix", false);
+            _animator.SetBool("isHoldingIdle", true);
         }
     }
 }
