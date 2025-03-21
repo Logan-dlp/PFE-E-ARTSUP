@@ -205,13 +205,19 @@ namespace MoonlitMixes.Player
         {
             _playerInput.SwitchCurrentActionMap(_actionMapPlayer);
             _playerMovement.CloseInventory();
-            _animator.SetBool("isCrush", false);
-            _animator.SetBool("isCut", false);
-            _animator.SetBool("isMix", false);
+
+            _playerMovement.SetPerformingActionHolding(false);
+            _playerMovement.SetPerformingActionIdle(false);
+
+            Invoke(nameof(UpdatePlayerMovementState), 0.5f);
+
             _playerMovement.FinishedInteractCut();
             _playerMovement.FinishedInteractCrush();
             _playerMovement.FinishedInteractMix();
+        }
 
+        private void UpdatePlayerMovementState()
+        {
             if (PlayerHoldItem.ItemHold == null)
             {
                 _playerMovement.SetPerformingActionIdle(true);

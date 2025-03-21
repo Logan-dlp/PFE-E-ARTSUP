@@ -117,10 +117,10 @@ namespace MoonlitMixes.Player
                 _animator.SetBool("isHoldingRun", false);
             }
 
-            if (_isPerformingActionIdle && _isMix == false)
+            if (_isPerformingActionIdle && _isMix == false && _isInventoryOpen == false)
             {
-                _animator.SetBool("isRun", !_isInventoryOpen && isMoving);
-                _animator.SetBool("isIdle", !_isInventoryOpen && !isMoving);
+                _animator.SetBool("isRun", isMoving);
+                _animator.SetBool("isIdle", !isMoving);
             }
             else if (_isMix == true)
             {
@@ -158,15 +158,6 @@ namespace MoonlitMixes.Player
         {
             _isInventoryOpen = false;
             _animator.SetBool("isLongIdle", false);
-            _isPerformingActionHolding = true;
-            _isPerformingActionIdle = false;
-
-            bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
-            if (isHoldingItem)
-            {
-                SetPerformingActionHolding(true);
-                SetPerformingActionIdle(false);
-            }
         }
 
         public void InteractCut()
@@ -210,6 +201,8 @@ namespace MoonlitMixes.Player
 
         public void SetPerformingActionHolding(bool state)
         {
+            Debug.Log($"SetPerformingActionHolding: {state}");
+
             _isPerformingActionHolding = state;
             _isPerformingActionIdle = !state;
 
@@ -227,6 +220,8 @@ namespace MoonlitMixes.Player
 
         public void SetPerformingActionIdle(bool state)
         {
+            Debug.Log($"SetPerformingActionIdle: {state}");
+
             _isPerformingActionIdle = state;
             _isPerformingActionHolding = !state;
 
