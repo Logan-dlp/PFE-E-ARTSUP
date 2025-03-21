@@ -166,6 +166,7 @@ namespace MoonlitMixes.Player
                             inventory.OpenInventory();
                             _playerInput.SwitchCurrentActionMap(_actionMapUI);
                             _playerMovement.OpenInventory();
+                            _playerMovement.SetPerformingActionIdle(false);
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
