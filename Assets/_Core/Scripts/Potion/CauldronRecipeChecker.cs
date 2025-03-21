@@ -143,6 +143,7 @@ namespace MoonlitMixes.CookingMachine
             _potionInventory.UpdatePotionCanvas();
             Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
+            _ingredentToAdd = null;
         }
 
         private void HandleFailedPotion()
@@ -152,6 +153,7 @@ namespace MoonlitMixes.CookingMachine
             _cauldronTimer.StopCooldown();
             Debug.Log("Potion rat�e !");
             _currentIngredients.Clear();
+            _ingredentToAdd = null;
         }
 
         private void TriggerBubbleVFX()
