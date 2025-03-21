@@ -1,6 +1,7 @@
 using UnityEngine;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
+using System.Collections;
 
 namespace MoonlitMixes.Player
 {
@@ -45,7 +46,8 @@ namespace MoonlitMixes.Player
                 throw;
             }
 
-            ItemHold = Instantiate(item, _itemHoldPivot.transform);
+            ItemHold = Instantiate(item, _itemHoldPivot.transform.position, item.transform.rotation, _itemHoldPivot.transform);
+
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
             GetComponent<PlayerInteraction>().ItemInHand = Item;
