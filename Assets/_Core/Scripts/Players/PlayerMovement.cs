@@ -104,17 +104,14 @@ namespace MoonlitMixes.Player
             if (isHoldingItem)
             {
                 _isPerformingActionHolding = true;
+                _animator.SetBool("isHoldingIdle", !isMoving);
+                _animator.SetBool("isHoldingRun", isMoving);
             }
             else
             {
                 _isPerformingActionHolding = false;
-            }
-
-            if (_isPerformingActionHolding)
-            {
-                _animator.SetBool("isHoldingIdle", !isMoving);
-                _animator.SetBool("isHoldingRun", isMoving);
-                return;
+                _animator.SetBool("isHoldingIdle", false);
+                _animator.SetBool("isHoldingRun", false);
             }
 
             if (_isPerformingActionIdle)
@@ -160,12 +157,15 @@ namespace MoonlitMixes.Player
             _isPerformingActionIdle = !state;
 
             _animator.SetBool("isIdle", false);
-            _animator.SetBool("isRun", false);
             _animator.SetBool("isHoldingIdle", false);
+            _animator.SetBool("isRun", false);
             _animator.SetBool("isHoldingRun", false);
 
-            _animator.SetBool("isHoldingIdle", state);
-            _animator.SetBool("isHoldingRun", state);
+            if (state)
+            {
+                _animator.SetBool("isHoldingIdle", true);
+                _animator.SetBool("isHoldingRun", true);
+            }
         }
 
         public void SetPerformingActionIdle(bool state)
@@ -177,8 +177,10 @@ namespace MoonlitMixes.Player
             _animator.SetBool("isHoldingRun", false);
             _animator.SetBool("isRun", false);
 
-            _animator.SetBool("isIdle", state);
-            _animator.SetBool("isRun", state);
+            if (state)
+            {
+                _animator.SetBool("isIdle", true);
+            }
         }
     }
 }
