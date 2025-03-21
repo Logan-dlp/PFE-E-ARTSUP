@@ -40,11 +40,13 @@ public class AutoScroll : MonoBehaviour
         float viewportMin = Mathf.Abs(_content.anchoredPosition.y);
         float viewportMax = viewportMin + viewportHeight;
 
+        // Si l'élément est trop bas → SCROLL DOWN
         if (itemPosY + itemHeight > viewportMax)
         {
             float newY = itemPosY + itemHeight - viewportHeight;
             _scrollRect.verticalNormalizedPosition = Mathf.Clamp01(1f - (newY / (contentHeight - viewportHeight)));
         }
+        // Si l'élément est trop haut → SCROLL UP
         else if (itemPosY < viewportMin)
         {
             if (itemPosY < 0f)
@@ -57,6 +59,14 @@ public class AutoScroll : MonoBehaviour
                 float newY = itemPosY;
                 _scrollRect.verticalNormalizedPosition = Mathf.Clamp01(1f - (newY / (contentHeight + viewportHeight)));
             }
+        }
+
+        // Vérification si l'élément sélectionné se trouve dans la première ligne
+        if (itemPosY < itemHeight)
+        {
+            // Alors la première ligne est entièrement visible
+            float firstLineY = viewportMin - (viewportMin % itemHeight);
+            _scrollRect.verticalNormalizedPosition = Mathf.Clamp01(1f - (firstLineY / (contentHeight - viewportHeight)));
         }
     }
 
