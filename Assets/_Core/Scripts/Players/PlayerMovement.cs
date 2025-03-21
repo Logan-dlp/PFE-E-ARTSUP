@@ -26,11 +26,12 @@ namespace MoonlitMixes.Player
         private float _currentStamina;
         private float _meshScale;
         private bool _isInventoryOpen = false;
-        private bool _isPerformingActionHolding = false;
         private bool _isPerformingActionIdle = true;
+        private bool _isPerformingActionHolding = false;
         private bool _isCut = false;
         private bool _isCrush = false;
         private bool _isMix = false;
+
 
         private void Awake()
         {
@@ -104,32 +105,27 @@ namespace MoonlitMixes.Player
         {
             bool isMoving = _targetMovement.magnitude > 0.1f;
             bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
-            if (isHoldingItem && _isCut == false && _isMix == false && _isCrush == false)
-            {
-                _isPerformingActionHolding = true;
-                _animator.SetBool("isHoldingIdle", !isMoving);
-                _animator.SetBool("isHoldingRun", isMoving);
-            }
-            else
-            {
-                _isPerformingActionHolding = false;
-                _animator.SetBool("isHoldingIdle", false);
-                _animator.SetBool("isHoldingRun", false);
-            }
 
-            if (_isPerformingActionIdle && _isMix == false && _isInventoryOpen == false)
+            _isPerformingActionHolding = isHoldingItem && !_isCut && !_isMix && !_isCrush;
+
+            _animator.SetBool("isHoldingIdle", _isPerformingActionHolding && !isMoving);
+            _animator.SetBool("isHoldingRun", _isPerformingActionHolding && isMoving);
+
+            if (!_isPerformingActionHolding)
             {
-                _animator.SetBool("isRun", isMoving);
-                _animator.SetBool("isIdle", !isMoving);
-            }
-            else if (_isMix == true)
-            {
-                _isPerformingActionIdle = false;
-                _animator.SetBool("isIdle", false);
-                _animator.SetBool("isRun", false);
+                if (_isPerformingActionIdle && !_isMix && !_isInventoryOpen)
+                {
+                    _animator.SetBool("isRun", isMoving);
+                    _animator.SetBool("isIdle", !isMoving);
+                }
+                else if (_isMix)
+                {
+                    _isPerformingActionIdle = false;
+                    _animator.SetBool("isIdle", false);
+                    _animator.SetBool("isRun", false);
+                }
             }
         }
-
 
         public void SetTargetMovement(InputAction.CallbackContext ctx)
         {
@@ -196,7 +192,6 @@ namespace MoonlitMixes.Player
         {
             _isCrush = false;
             _animator.SetBool("isCrush", false);
-
         }
 
         public void SetPerformingActionHolding(bool state)
