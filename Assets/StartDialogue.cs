@@ -1,3 +1,4 @@
+using System;
 using MoonlitMixes.Dialogue;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +14,10 @@ public class StartDialogue : MonoBehaviour
         _dialogueController.LaunchDialogue(_dialogueScriptableObject);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void Update()
+    {
         Debug.Log(FindFirstObjectByType<PlayerInput>().currentActionMap);
     }
 }
