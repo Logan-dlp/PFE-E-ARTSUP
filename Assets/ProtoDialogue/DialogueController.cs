@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using System;
 using System.Collections;
 using UnityEngine.UI;
@@ -45,11 +45,19 @@ namespace MoonlitMixes.Dialogue
     
         public void LaunchDialogue(DialogueScriptableObject dialogue)
         {
+            _dialogueIterator = 0;
             _dialogueScriptableObject = dialogue;
             _panelDialogue.SetActive(true);
             ClearDialogue();
             NextDialogue();
-            _dialogueIterator = 0;
+        }
+
+        public void StartNextDialogueFromController(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                NextDialogue();
+            }
         }
     
         public void NextDialogue()
@@ -71,11 +79,12 @@ namespace MoonlitMixes.Dialogue
                 {
                     _imageNPC.sprite = _dialogueScriptableObject.dialogueSection[_dialogueIterator].sprite;
                 }
-                NextDialogue();
+                _dialogueIterator++;
             }
 
             /*if (_isTextIsWritten)
             {
+                Debug.Log("");
                 _isSkipText = true;
                 return;
             }*/
@@ -101,7 +110,7 @@ namespace MoonlitMixes.Dialogue
             ClearDialogue();
             _panelDialogue.SetActive(false);
             OnDialogueFinished?.Invoke();
-            FindFirstObjectByType<PlayerInput>().SwitchCurrentActionMap("Dialogue");
+            FindFirstObjectByType<PlayerInput>().SwitchCurrentActionMap("Player");
         }
     
         private void ClearDialogue()
