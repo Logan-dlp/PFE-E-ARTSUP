@@ -11,8 +11,9 @@ public class InventoryStoragePotion : MonoBehaviour
 
     private void Start()
     {
-        CloseInventory();
+        _inventoryUI.SetActive(false);
     }
+    
     private void OnEnable()
     {
         _scriptableCloseCanvasEvent.CloseCanvasAction += CloseInventory;
