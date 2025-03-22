@@ -9,9 +9,10 @@ public class StartDialogue : MonoBehaviour
     
     void Start()
     {
-        _dialogueController.LaunchDialogue(_dialogueScriptableObject);
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
         FindFirstObjectByType<PlayerInput>().SwitchCurrentActionMap("Dialogue");
+        _dialogueController.LaunchDialogue(_dialogueScriptableObject);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log(FindFirstObjectByType<PlayerInput>().currentActionMap);
     }
 }

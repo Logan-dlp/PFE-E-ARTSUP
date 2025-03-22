@@ -1777,6 +1777,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368066904}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &369995861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 369995862}
+  - component: {fileID: 369995864}
+  - component: {fileID: 369995863}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &369995862
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369995861}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1921284377}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -854, y: 442}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &369995863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369995861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 279bf0316809f7747b5954a7e132f72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _potionSlotPrefab: {fileID: 7400195189864738404, guid: 27a0cdd4a9b9b8d4b95d93fba52acb54, type: 3}
+--- !u!114 &369995864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369995861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 10
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1001 &380831304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3708,6 +3784,10 @@ PrefabInstance:
     - target: {fileID: 4228335010692236825, guid: 4864035eb910fe34db2e88a84b1931cb, type: 3}
       propertyPath: m_RenderMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228335010692236825, guid: 4864035eb910fe34db2e88a84b1931cb, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4228335010692236825, guid: 4864035eb910fe34db2e88a84b1931cb, type: 3}
       propertyPath: m_VertexColorAlwaysGammaSpace
@@ -5829,6 +5909,10 @@ PrefabInstance:
     - target: {fileID: 8150902625681940703, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171506437572305494, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: Dialogue
       objectReference: {fileID: 0}
     - target: {fileID: 8171506437572305494, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -8416,6 +8500,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2883202451955731204, guid: 89721dcfebc672a4390e40454ac7eb77, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3004327393192782545, guid: 89721dcfebc672a4390e40454ac7eb77, type: 3}
       propertyPath: m_SizeDelta.x
       value: 750
@@ -9806,6 +9894,90 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8002200643356993559, guid: 9177c6fb01f731949bcca4b09479bfd5, type: 3}
   m_PrefabInstance: {fileID: 1921106688}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1921284374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1921284377}
+  - component: {fileID: 1921284376}
+  - component: {fileID: 1921284375}
+  m_Layer: 5
+  m_Name: CanvasPotionInventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1921284375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921284374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1921284376
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921284374}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &1921284377
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921284374}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 369995862}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &1931470938 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5735777650080353266, guid: da5bf9449f923be44a4450f9f732a142, type: 3}
@@ -10687,8 +10859,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca5572a77d4eb940a4ad991bce773b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _potionList: []
-  _images: []
+  _potionList:
+  - {fileID: 11400000, guid: 91d8ce2d7f388e94cbf0d87fd7163ee7, type: 2}
+  - {fileID: 11400000, guid: 3c5505d3ae3b73f408eb45eda0735903, type: 2}
+  - {fileID: 11400000, guid: 5f09096f77f5ebb45a582f1066a5d620, type: 2}
+  _potionSlotPrefab: {fileID: 7400195189864738404, guid: 27a0cdd4a9b9b8d4b95d93fba52acb54, type: 3}
+  _UI: {fileID: 369995861}
 --- !u!4 &2086326919
 Transform:
   m_ObjectHideFlags: 0
@@ -11109,15 +11285,15 @@ PrefabInstance:
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: '_allRecipes.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 07d09a410444dd240af03ebbb0c6092d, type: 2}
+      objectReference: {fileID: 11400000, guid: eaa2a94f185db3f4abe5cddeafd8404a, type: 2}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: '_allRecipes.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: eaa2a94f185db3f4abe5cddeafd8404a, type: 2}
+      objectReference: {fileID: 11400000, guid: 6e27954170305fe4ca88477991db0849, type: 2}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: '_allRecipes.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 6e27954170305fe4ca88477991db0849, type: 2}
+      objectReference: {fileID: 11400000, guid: ba6bfc1161455a649a1424d7be7c50da, type: 2}
     - target: {fileID: 8589104317660538512, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -11357,15 +11533,15 @@ PrefabInstance:
     - target: {fileID: 7058826848915818329, guid: 2ec62c02af530544d816ddecffd229bc, type: 3}
       propertyPath: '_allRecipes.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 07d09a410444dd240af03ebbb0c6092d, type: 2}
+      objectReference: {fileID: 11400000, guid: eaa2a94f185db3f4abe5cddeafd8404a, type: 2}
     - target: {fileID: 7058826848915818329, guid: 2ec62c02af530544d816ddecffd229bc, type: 3}
       propertyPath: '_allRecipes.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: eaa2a94f185db3f4abe5cddeafd8404a, type: 2}
+      objectReference: {fileID: 11400000, guid: 6e27954170305fe4ca88477991db0849, type: 2}
     - target: {fileID: 7058826848915818329, guid: 2ec62c02af530544d816ddecffd229bc, type: 3}
       propertyPath: '_allRecipes.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 6e27954170305fe4ca88477991db0849, type: 2}
+      objectReference: {fileID: 11400000, guid: ba6bfc1161455a649a1424d7be7c50da, type: 2}
     - target: {fileID: 7125704812804921366, guid: 2ec62c02af530544d816ddecffd229bc, type: 3}
       propertyPath: _qTE
       value: 
@@ -11444,6 +11620,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1044839872739798143, guid: dbc84fd7b7f06ce46ad29d7e9763640d, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849561549304332567, guid: dbc84fd7b7f06ce46ad29d7e9763640d, type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3107764723554890445, guid: dbc84fd7b7f06ce46ad29d7e9763640d, type: 3}
@@ -12520,15 +12700,15 @@ PrefabInstance:
     - target: {fileID: 2951259069271583787, guid: cadb866936695a448ac925306104a960, type: 3}
       propertyPath: '_allRecipes.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 07d09a410444dd240af03ebbb0c6092d, type: 2}
+      objectReference: {fileID: 11400000, guid: eaa2a94f185db3f4abe5cddeafd8404a, type: 2}
     - target: {fileID: 2951259069271583787, guid: cadb866936695a448ac925306104a960, type: 3}
       propertyPath: '_allRecipes.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: eaa2a94f185db3f4abe5cddeafd8404a, type: 2}
+      objectReference: {fileID: 11400000, guid: 6e27954170305fe4ca88477991db0849, type: 2}
     - target: {fileID: 2951259069271583787, guid: cadb866936695a448ac925306104a960, type: 3}
       propertyPath: '_allRecipes.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 6e27954170305fe4ca88477991db0849, type: 2}
+      objectReference: {fileID: 11400000, guid: ba6bfc1161455a649a1424d7be7c50da, type: 2}
     - target: {fileID: 3170147860752078705, guid: cadb866936695a448ac925306104a960, type: 3}
       propertyPath: _qTE
       value: 
@@ -12881,3 +13061,4 @@ SceneRoots:
   - {fileID: 6392630654498958919}
   - {fileID: 730431778}
   - {fileID: 1515187320}
+  - {fileID: 1921284377}
