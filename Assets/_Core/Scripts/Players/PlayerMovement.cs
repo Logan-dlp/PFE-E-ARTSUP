@@ -38,8 +38,12 @@ namespace MoonlitMixes.Player
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
-            _meshScale = GetComponentInChildren<SkinnedMeshRenderer>().transform.localScale.y;
-            _animator = GetComponent<Animator>();
+            _meshScale = GetComponentInChildren<MeshRenderer>().transform.localScale.y;
+
+            if (_animator != null)
+            {
+                _animator = GetComponent<Animator>();
+            }
         }
 
         private void FixedUpdate()
@@ -103,6 +107,8 @@ namespace MoonlitMixes.Player
 
         private void UpdateAnimations()
         {
+            if (_animator == null) return;
+
             bool isMoving = _targetMovement.magnitude > 0.1f;
             bool isHoldingItem = GetComponent<PlayerHoldItem>().ItemHold != null;
 
