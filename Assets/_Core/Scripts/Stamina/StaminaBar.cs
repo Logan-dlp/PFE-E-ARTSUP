@@ -7,7 +7,8 @@ namespace MoonlitMixes.Stamina
     public class StaminaBar : MonoBehaviour
     {
         [SerializeField] private PlayerMovement _playerMovement;
-        [SerializeField] private Image _staminaBarImage;
+        
+        private Image _staminaBarImage;
 
         private void Awake()
         {

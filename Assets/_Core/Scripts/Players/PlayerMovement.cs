@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 namespace MoonlitMixes.Player
 {
@@ -19,12 +19,15 @@ namespace MoonlitMixes.Player
         private Animator _animator;
 
         private Vector3 _velocity;
+        private Vector3 _knockbackMovement = Vector3.zero;
+
         private Vector2 _movement;
         private Vector2 _targetMovement;
 
         private float _currentSpeed;
         private float _currentStamina;
         private float _meshScale;
+
         private bool _isInventoryOpen = false;
         private bool _isPerformingActionIdle = true;
         private bool _isPerformingActionHolding = false;
@@ -149,6 +152,18 @@ namespace MoonlitMixes.Player
                 _currentSpeed = _walkSpeed;
             }
         }
+
+        public IEnumerator Knockback(Vector3 direction, float force, float duration)
+        {
+            float startTime = Time.time;
+            while (Time.time < (startTime + duration))
+            {
+                _knockbackMovement = Vector3.Lerp(_knockbackMovement, direction, Time.deltaTime * 10f);
+                _characterController.Move(_knockbackMovement * force * Time.deltaTime);
+                yield return null;
+            }
+        }
+
 
         public void OpenInventory()
         {

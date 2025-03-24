@@ -7,11 +7,11 @@ using UnityEngine.InputSystem;
 public class UseTools : MonoBehaviour
 {
     [SerializeField] private InventoryUI _inventory;
-    [SerializeField] private int _brokenRock = 0;
     [SerializeField] private float _attackDistance;
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackForce;
 
+    private int _brokenRock = 0;
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
 
