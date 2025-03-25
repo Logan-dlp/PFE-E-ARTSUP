@@ -1,3 +1,4 @@
+using MoonlitMixes.Player;
 using UnityEngine;
 
 namespace MoonlitMixes.Health
@@ -6,8 +7,15 @@ namespace MoonlitMixes.Health
     {
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegenetion;
+
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
+        private PlayerMovement _playerMovement;
+
+        private void Awake()
+        {
+            _playerMovement = GetComponent<PlayerMovement>();
+        }
 
         private void FixedUpdate()
         {
@@ -33,6 +41,12 @@ namespace MoonlitMixes.Health
             RemoveHealth(damage);
             _isInFight = true;
             _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
+        }
+
+        public void AddDamage(int damage, Vector3 direction, float force, float duration)
+        {
+            _currentHealth -= damage;
+            StartCoroutine(_playerMovement.Knockback(direction, force, duration));
         }
 
         protected override void CheckHealth()

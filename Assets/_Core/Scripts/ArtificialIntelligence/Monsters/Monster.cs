@@ -7,7 +7,8 @@ namespace MoonlitMixes.AI
     using StateMachine;
     using StateMachine.States;
     using Player;
-    
+    using MoonlitMixes.Health;
+
     public class Monster : MonoBehaviour
     {
         [SerializeField] private MonsterComportement _comportement;
@@ -30,7 +31,7 @@ namespace MoonlitMixes.AI
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _playerReference = FindFirstObjectByType<PlayerLife>().gameObject;
+            _playerReference = FindFirstObjectByType<PlayerHealth>().gameObject;
             
             _monsterData = new MonsterData()
             {
