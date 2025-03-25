@@ -77,15 +77,8 @@ namespace MoonlitMixes.AI.Editor
                 _attackDurationProperty.floatValue = .45f;
             }
             
-            EditorGUILayout.Space(12);
-            EditorGUILayout.LabelField("Life", EditorStyles.boldLabel);
-            EditorGUILayout.Space();
-            
-            _healthProperty.intValue = EditorGUILayout.IntField("Health", _healthProperty.intValue);
-            
             serializedObject.ApplyModifiedProperties();
         }
     }
 }
-
 #endif

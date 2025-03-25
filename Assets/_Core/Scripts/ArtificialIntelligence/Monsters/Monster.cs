@@ -20,16 +20,16 @@ namespace MoonlitMixes.AI
         [SerializeField] private float _attackForce = 2;
         [SerializeField] private float _attackDuration = .45f;
         
-        [SerializeField] private int _health = 100;
-
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
+        private EnemyHealth _enemyHealth;
         private Rigidbody _rigidbody;
         private Vector3 _attackRayOffset = new(0, .5f, 0);
 
         private void Start()
         {
+            _enemyHealth = GetComponent<EnemyHealth>();
             _rigidbody = GetComponent<Rigidbody>();
             _playerReference = FindFirstObjectByType<PlayerHealth>().gameObject;
             
@@ -103,9 +103,9 @@ namespace MoonlitMixes.AI
         {
             if (Physics.Raycast(transform.position + _attackRayOffset, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
             {
-                if (hit.transform.TryGetComponent<PlayerLife>(out PlayerLife playerLife))
+                if (hit.transform.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
                 {
-                    playerLife.AddDamage(_attackDamage, transform.forward, _attackForce, _attackDuration);
+                    playerHealth.AddDamage(_attackDamage, transform.forward, _attackForce, _attackDuration);
                 }
             }
         }
@@ -114,22 +114,22 @@ namespace MoonlitMixes.AI
         {
             _monsterData.FinishedAttacking = true;
         }
-        
+
         public void Damage(GameObject player, int damage, Vector3 direction, float force)
         {
             if (_comportement == MonsterComportement.Passive)
             {
                 _monsterData.PlayerReference = player;
             }
-            
-            _health -= damage;
-            
+
+            _enemyHealth.TakeDamage(damage);
+
             StartCoroutine(Knockback(direction, force));
 
-            if (_health <= 0)
+            if (_enemyHealth._currentHealth <= 0)
             {
                 StartCoroutine(Death());
-                
+
                 player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
             }
         }
