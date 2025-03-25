@@ -1,12 +1,42 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public static class SceneLoader
 {
-    private static List<AsyncOperation> _sceneToLoad = new List<AsyncOperation>();
-    public static void LoadAsyncScene(string sceneName)
+    private static AsyncOperation _sceneToLoad;
+    private static bool _animFinished;
+
+    public static void InitSceneLoader()
     {
-        _sceneToLoad.Add(SceneManager.LoadSceneAsync(sceneName));
+        _animFinished = false;
+        EndTransitionEvent.OnAnimEndEvent -= OnAnimEnd;
+    }
+    public static void LoadAsyncScene(string sceneName, Animator animator)
+    {
+        EndTransitionEvent.OnAnimEndEvent += OnAnimEnd;
+        _sceneToLoad = SceneManager.LoadSceneAsync(sceneName);
+        _sceneToLoad.allowSceneActivation = false;
+        animator.SetTrigger("Start");
+        StaticCoroutine.Start(LoadingScene());
+    }
+
+    private static IEnumerator LoadingScene()
+    {
+        while(!_sceneToLoad.isDone)
+        {
+            if(_animFinished)
+            {
+                _sceneToLoad.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+    }
+
+    private static void OnAnimEnd()
+    {
+        _animFinished = true;
+        EndTransitionEvent.OnAnimEndEvent -= OnAnimEnd;
     }
 }
