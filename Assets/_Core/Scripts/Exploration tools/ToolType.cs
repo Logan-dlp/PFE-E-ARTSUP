@@ -1,7 +1,10 @@
-public enum ToolType
+namespace MoonlitMixes.ExplorationTools
 {
-    Pickaxe,
-    Machete,
-    Septer,
-    Hand
+    public enum ToolType
+    {
+        Pickaxe,
+        Machete,
+        Septer,
+        Hand
+    }
 }

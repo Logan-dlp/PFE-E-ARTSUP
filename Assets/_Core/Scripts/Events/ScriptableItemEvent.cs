@@ -7,6 +7,7 @@ namespace MoonlitMixes.Events
     public class ScriptableItemEvent : ScriptableObject
     {
         public event Action<GameObject> ItemDataAction;
+        
         public void SendObject(GameObject item)
         {
             ItemDataAction?.Invoke(item);

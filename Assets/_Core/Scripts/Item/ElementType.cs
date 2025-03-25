@@ -1,7 +1,10 @@
-public enum ElementType
+namespace MoonlitMixes.Item
 {
-    Earth,
-    Water,
-    Fire,
-    Air
+    public enum ElementType
+    {
+        Earth,
+        Water,
+        Fire,
+        Air
+    }
 }

@@ -31,8 +31,7 @@ namespace MoonlitMixes.Player
         private bool _isCut = false;
         private bool _isCrush = false;
         private bool _isMix = false;
-
-
+        
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();

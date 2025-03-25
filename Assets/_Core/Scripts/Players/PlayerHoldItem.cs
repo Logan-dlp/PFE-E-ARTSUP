@@ -7,13 +7,12 @@ namespace MoonlitMixes.Player
 {
     public class PlayerHoldItem : MonoBehaviour
     {
-        [SerializeField] private GameObject _itemHoldPivot;
-        [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
-
-    
         public ItemData Item { get; set; }
         public GameObject ItemHold { get; set; }
-
+        
+        [SerializeField] private GameObject _itemHoldPivot;
+        [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+        
         private void OnEnable()
         {
             _scriptableItemEvent.ItemDataAction += ChangeItemData;
@@ -29,7 +28,6 @@ namespace MoonlitMixes.Player
             ItemHold.transform.localPosition = Vector3.zero;
             ItemHold.transform.localScale = Vector3.one;
         }
-        
         
         public void ChangeItemData(GameObject item)
         {

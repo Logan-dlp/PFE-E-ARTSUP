@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
+using MoonlitMixes.Potion;
 
 namespace MoonlitMixes.Player
 {

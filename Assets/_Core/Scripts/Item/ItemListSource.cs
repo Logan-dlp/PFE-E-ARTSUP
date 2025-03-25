@@ -1,12 +1,15 @@
 using UnityEngine;
 using MoonlitMixes.Item;
 
-public class ItemListSource : MonoBehaviour
+namespace MoonlitMixes.Item
 {
-    [SerializeField] private ItemListData _itemListData;
-
-    public ItemListData GetItemList()
+    public class ItemListSource : MonoBehaviour
     {
-        return _itemListData;
+        [SerializeField] private ItemListData _itemListData;
+
+        public ItemListData GetItemList()
+        {
+            return _itemListData;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using MoonlitMixes.Datas;
+using MoonlitMixes.Datas.Inventory;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace MoonlitMixes.Editor
 
             EditorGUILayout.PropertyField(inventoryModeProperty);
 
-            if (inventoryModeProperty.enumValueIndex == (int)InventoryData.InventoryMode.InventoryPlayer)
+            if (inventoryModeProperty.enumValueIndex == (int)InventoryMode.InventoryPlayer)
             {
                 EditorGUILayout.PropertyField(maxSlotsProperty, new GUIContent("Maximum number of slots"));
             }

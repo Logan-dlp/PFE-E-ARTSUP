@@ -10,8 +10,8 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] private float _idleChangeTimer;
         [SerializeField] private ScriptableBoolEvent _scriptableBoolEvent;
 
-        private Animator _animator;
         private AnimatorControllerParameter[] _animatorControllerParameterArray;
+        private Animator _animator;
         private float _timer;
 
         private void Awake()

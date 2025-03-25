@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using MoonlitMixes.CookingMachine;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
-namespace MoonlitMixes.CookingMachine
+namespace MoonlitMixes.Potion
 {
     public class CauldronRecipeChecker : MonoBehaviour
     {

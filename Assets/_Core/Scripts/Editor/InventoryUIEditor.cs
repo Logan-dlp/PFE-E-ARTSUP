@@ -1,7 +1,7 @@
 using MoonlitMixes.Datas;
+using MoonlitMixes.Datas.Inventory;
 using MoonlitMixes.Inventory;
 using UnityEditor;
-
 
 namespace MoonlitMixes.Editor
 {
@@ -27,12 +27,12 @@ namespace MoonlitMixes.Editor
 
             InventoryData inventory = inventoryProperty.objectReferenceValue as InventoryData;
 
-            if (inventory != null && inventory.Mode != InventoryData.InventoryMode.InventoryCellar)
+            if (inventory != null && inventory.Mode != InventoryMode.InventoryCellar)
             {
                 EditorGUILayout.PropertyField(inventoryData);
             }
 
-            if (inventory != null && inventory.Mode != InventoryData.InventoryMode.InventoryPlayer)
+            if (inventory != null && inventory.Mode != InventoryMode.InventoryPlayer)
             {
                 EditorGUILayout.PropertyField(slotPrefabProperty);
             }

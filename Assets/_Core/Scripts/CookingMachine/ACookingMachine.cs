@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Datas.QTE;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
-using MoonlitMixes.QTE;
 
 namespace MoonlitMixes.CookingMachine
 {
     public abstract class ACookingMachine : MonoBehaviour
     {
         [SerializeField] protected ItemUsage _transformType;
+        public ItemUsage TransformType => _transformType;
+        
         [SerializeField] protected ScriptableQTEConfig _scriptableQTEConfig;
         [SerializeField] protected QuickTimeEvent _qTE;
         [SerializeField] protected ScriptableQTEEvent _scriptableQTEEvent;
@@ -21,8 +23,7 @@ namespace MoonlitMixes.CookingMachine
         protected PlayerInteraction _playerInteraction;
         
         private ItemData _itemData;
-
-        public ItemUsage TransformType => _transformType;
+        
         public abstract void TogleShowInteractivity();
 
         protected void Activate()
