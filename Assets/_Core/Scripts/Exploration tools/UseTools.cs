@@ -1,4 +1,4 @@
-﻿using MoonlitMixes.Health;
+﻿using MoonlitMixes.AI;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;
@@ -8,7 +8,9 @@ public class UseTools : MonoBehaviour
 {
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private int _brokenRock = 0;
-    [SerializeField] private float _attackDamage;
+    [SerializeField] private float _attackDistance;
+    [SerializeField] private int _attackDamage;
+    [SerializeField] private float _attackForce;
 
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
@@ -45,6 +47,23 @@ public class UseTools : MonoBehaviour
                 case ToolType.Septer:
                     UseSepter();
                     break;
+            }
+        }
+    }
+
+    public void CollectItems(ItemListSource itemListSource)
+    {
+        ItemListData itemList = itemListSource?.GetItemList();
+        if (itemList != null)
+        {
+            if (itemList.Items.Count > 0)
+            {
+                ItemData item = itemList.Items[0];
+
+                if (_inventory != null)
+                {
+                    _inventory.AddItem(item);
+                }
             }
         }
     }
@@ -126,34 +145,14 @@ public class UseTools : MonoBehaviour
     private void UseSepter()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, _attackDistance))
         {
-            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            if (hit.transform.TryGetComponent(out Monster monster))
             {
-                enemyHealth.TakeDamage(_attackDamage);
-
-                if (enemyHealth._currentHealth <= 0)
-                {
-                    ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-                    if (itemList != null && itemList.ToolType == ToolType.Septer)
-                    {
-                        if (itemList.Items.Count > 0)
-                        {
-                            ItemData itemToAdd = itemList.Items[0];
-
-                            if (_inventory != null)
-                            {
-                                _inventory.AddItem(itemToAdd);
-                            }
-                        }
-                        Destroy(hit.collider.gameObject);
-                    }
-                }
+                monster.Damage(gameObject, _attackDamage, transform.forward, _attackForce);
             }
         }
     }
-
 
     private bool CanUseHand()
     {
