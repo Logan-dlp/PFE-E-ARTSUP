@@ -9,7 +9,6 @@ namespace MoonlitMixes.UI
         [SerializeField] private RectTransform _viewSortRectTransform;
         [SerializeField] private RectTransform _content;
         [SerializeField] private ScrollRect _scrollRect;
-        [SerializeField] private float _transitionDuration = 0.2f;
     
         private TransitionHelper _transitionHelper = new TransitionHelper();
     

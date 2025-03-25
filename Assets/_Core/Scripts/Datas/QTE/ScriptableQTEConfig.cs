@@ -32,7 +32,7 @@ namespace MoonlitMixes.Datas.QTE
         [SerializeField] private bool _isStirProgressBar;
 
         [Header("Customizable QTE Buttons")]
-        [SerializeField] private List<CustomQTEButton> _customQTEButtonList;
+        [SerializeField] private List<CustomQTEButton> _customQTEButtonList = new();
 
         private Image _qteSlot;
         private Image _progressBarUI;

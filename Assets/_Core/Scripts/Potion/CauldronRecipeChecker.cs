@@ -142,7 +142,6 @@ namespace MoonlitMixes.Potion
             _cauldronTimer.StopCooldown();
             _potionInventory.PotionList.Add(recipe.Potion);
             _potionInventory.UpdatePotionCanvas();
-            Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
             _ingredentToAdd = null;
         }

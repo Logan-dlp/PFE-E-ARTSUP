@@ -195,8 +195,6 @@ namespace MoonlitMixes.Player
 
         public void SetPerformingActionHolding(bool state)
         {
-            Debug.Log($"SetPerformingActionHolding: {state}");
-
             _isPerformingActionHolding = state;
             _isPerformingActionIdle = !state;
 
@@ -214,8 +212,6 @@ namespace MoonlitMixes.Player
 
         public void SetPerformingActionIdle(bool state)
         {
-            Debug.Log($"SetPerformingActionIdle: {state}");
-
             _isPerformingActionIdle = state;
             _isPerformingActionHolding = !state;
 
