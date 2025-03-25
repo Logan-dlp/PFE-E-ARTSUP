@@ -1,4 +1,4 @@
-using MoonlitMixes.Player;
+﻿using MoonlitMixes.Player;
 using UnityEngine;
 
 namespace MoonlitMixes.Health
@@ -6,7 +6,7 @@ namespace MoonlitMixes.Health
     public class PlayerHealth : AHealth
     {
         [SerializeField] private float _timeBeforeGettingOutOfFight;
-        [SerializeField] private float _healthRegenetion;
+        [SerializeField] private float _healthRegeneration;
 
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
@@ -19,43 +19,58 @@ namespace MoonlitMixes.Health
 
         private void FixedUpdate()
         {
-            if(_timeBeforeOutOfFight >= 0)
+            if (_isInFight)
             {
-                _timeBeforeOutOfFight -= .02f;
+                if (_timeBeforeOutOfFight > 0)
+                {
+                    _timeBeforeOutOfFight -= Time.fixedDeltaTime;
+                }
+                else
+                {
+                    _isInFight = false;
+                }
             }
-            else
+
+            if (!_isInFight && _currentHealth < _maxHealth)
             {
-                _isInFight = false;
-            }
-            
-            if(_currentHealth < _maxHealth && !_isInFight)
-            {
-                _currentHealth += _healthRegenetion * .02f;
+                _currentHealth += _healthRegeneration * Time.fixedDeltaTime;
+                _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
                 CheckHealth();
             }
         }
 
         public override void TakeDamage(float damage)
         {
-            Debug.Log("");
-            RemoveHealth(damage);
-            _isInFight = true;
-            _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
+            _currentHealth -= damage;
+            _currentHealth = Mathf.Max(_currentHealth, 0);
+
+            EnterFightMode();
+            CheckHealth();
         }
 
         public void AddDamage(int damage, Vector3 direction, float force, float duration)
         {
             _currentHealth -= damage;
+            _currentHealth = Mathf.Max(_currentHealth, 0);
+
+            EnterFightMode();
+            CheckHealth();
             StartCoroutine(_playerMovement.Knockback(direction, force, duration));
+        }
+
+        public void EnterFightMode()
+        {
+            _isInFight = true;
+            _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
         }
 
         protected override void CheckHealth()
         {
-            if(_currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
                 Debug.Log("PlayerDeath");
             }
-            
+
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }
     }

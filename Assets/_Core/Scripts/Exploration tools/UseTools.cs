@@ -53,8 +53,6 @@ public class UseTools : MonoBehaviour
 
     public void CollectItems(ItemListSource itemListSource)
     {
-        Debug.Log("Collect Item");
-
         ItemListData itemList = itemListSource?.GetItemList();
         if (itemList != null)
         {
@@ -65,7 +63,6 @@ public class UseTools : MonoBehaviour
                 if (_inventory != null)
                 {
                     _inventory.AddItem(item);
-                    Debug.Log("Add Item" + item.name);
                 }
             }
         }
@@ -147,13 +144,11 @@ public class UseTools : MonoBehaviour
 
     private void UseSepter()
     {
-        Debug.Log("useSepter");
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, _attackDistance))
         {
             if (hit.transform.TryGetComponent(out Monster monster))
             {
-                Debug.Log("Hit :" + monster.name);
                 monster.Damage(gameObject, _attackDamage, transform.forward, _attackForce);
             }
         }

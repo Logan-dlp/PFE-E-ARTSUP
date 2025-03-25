@@ -117,6 +117,8 @@ namespace MoonlitMixes.AI
 
         public void Damage(GameObject player, int damage, Vector3 direction, float force)
         {
+            FindFirstObjectByType<PlayerHealth>().EnterFightMode();
+
             if (_comportement == MonsterComportement.Passive)
             {
                 _monsterData.PlayerReference = player;
