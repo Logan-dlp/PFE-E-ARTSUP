@@ -70,5 +70,10 @@ namespace MoonlitMixes.CookingMachine
             Desactivate();
             _playerInteraction.PlayerHoldItem.RemoveItem();
         }
+
+        public void DesactiveQTE()
+        {
+            _qTE.EndQTE();
+        }
     }
 }

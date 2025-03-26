@@ -151,7 +151,9 @@ namespace MoonlitMixes.Potion
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();
-            Debug.Log("Potion rat�e !");
+
+            _cauldronMixing.DesactiveQTE();
+            
             _currentIngredients.Clear();
             _ingredentToAdd = null;
         }
