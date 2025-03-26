@@ -19,7 +19,7 @@ namespace MoonlitMixes.AI
         [SerializeField] private int _attackDamage;
         [SerializeField] private float _attackForce = 2;
         [SerializeField] private float _attackDuration = .45f;
-        
+
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
@@ -30,24 +30,36 @@ namespace MoonlitMixes.AI
         private void Start()
         {
             _enemyHealth = GetComponent<EnemyHealth>();
+            if (_enemyHealth == null)
+            {
+                Debug.LogError("EnemyHealth non trouvé sur " + gameObject.name);
+            }
+
             _rigidbody = GetComponent<Rigidbody>();
-            _playerReference = FindFirstObjectByType<PlayerHealth>().gameObject;
-            
+            if (_rigidbody == null)
+            {
+                Debug.LogError("Rigidbody non trouvé sur " + gameObject.name);
+            }
+
+            _playerReference = FindFirstObjectByType<PlayerHealth>()?.gameObject;
+            if (_playerReference == null)
+            {
+                Debug.LogError("PlayerHealth non trouvé dans la scène.");
+            }
+
             _monsterData = new MonsterData()
             {
                 MonsterGameObject = gameObject,
                 Animator = GetComponent<Animator>(),
                 NavMeshAgent = GetComponent<NavMeshAgent>(),
-                PlayerReference = null,
+                PlayerReference = _playerReference,
                 InitialPosition = transform.position,
-                
                 StopDistanceToAttack = _stopDistanceToAttack,
                 AttackRadius = _attackRadius,
                 DetectionStop = _detectionStop,
-                
                 FinishedAttacking = false,
             };
-            
+
             TransitionTo(new MonsterStateIdle());
         }
 
@@ -58,7 +70,7 @@ namespace MoonlitMixes.AI
             {
                 _monsterData.PlayerReference = _playerReference;
             }
-            
+
             IMonsterState nextMonsterState = _currentMonsterState?.Update(_monsterData);
             if (nextMonsterState != null)
             {
@@ -72,14 +84,14 @@ namespace MoonlitMixes.AI
             _currentMonsterState = nextMonsterState;
             _currentMonsterState?.Enter(_monsterData);
         }
-        
+
         private void OnDrawGizmos()
         {
             if (_monsterData != null)
             {
                 Gizmos.color = new Color(255, 0, 0, .5f);
                 Gizmos.DrawSphere(_monsterData.InitialPosition, _detectionStop);
-                
+
                 if (_comportement == MonsterComportement.Aggressive)
                 {
                     Gizmos.color = new Color(0, 0, 255, .5f);
@@ -109,7 +121,7 @@ namespace MoonlitMixes.AI
                 }
             }
         }
-        
+
         public void FinishAnimationAttack()
         {
             _monsterData.FinishedAttacking = true;
@@ -140,11 +152,11 @@ namespace MoonlitMixes.AI
         {
             _monsterData.NavMeshAgent.enabled = false;
             _rigidbody.isKinematic = false;
-            
+
             _rigidbody.linearVelocity = direction * force;
-            
+
             yield return new WaitForSeconds(.5f);
-            
+
             _monsterData.NavMeshAgent.enabled = true;
             _rigidbody.isKinematic = true;
         }
