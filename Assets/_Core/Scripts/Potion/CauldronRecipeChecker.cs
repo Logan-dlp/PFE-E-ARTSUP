@@ -78,7 +78,7 @@ namespace MoonlitMixes.Potion
                 return;
             }
             
-            if(ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
+            if(_currentRecipe == null || ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
             {
                 HandleFailedPotion();
                 return;
