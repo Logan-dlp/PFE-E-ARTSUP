@@ -1,7 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class RouletteSelectionTools : MonoBehaviour
 {
@@ -11,14 +11,12 @@ public class RouletteSelectionTools : MonoBehaviour
 
     private int _currentToolIndex = 0;
     private List<ToolData> _tools;
-    private List<ToolType> _toolTypes;
 
     public ToolType CurrentToolType { get; private set; }
 
     private void Start()
     {
         _tools = _toolListData != null ? _toolListData.ToolList : new List<ToolData>();
-        _toolTypes = new List<ToolType> { ToolType.Pickaxe, ToolType.Machete, ToolType.Septer };
 
         if (_tools.Count == 0 || _toolGameObjects.Count == 0 || _tools.Count != _toolGameObjects.Count)
         {
@@ -26,7 +24,7 @@ public class RouletteSelectionTools : MonoBehaviour
             return;
         }
 
-        CurrentToolType = _toolTypes[_currentToolIndex];
+        CurrentToolType = _tools[_currentToolIndex].ToolType;
         UpdateToolSlots();
         UpdateActiveTool();
     }
@@ -48,7 +46,7 @@ public class RouletteSelectionTools : MonoBehaviour
             _currentToolIndex = (_currentToolIndex - 1 + _tools.Count) % _tools.Count;
         }
 
-        CurrentToolType = _toolTypes[_currentToolIndex];
+        CurrentToolType = _tools[_currentToolIndex].ToolType;
 
         UpdateToolSlots();
         UpdateActiveTool();

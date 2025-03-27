@@ -7,6 +7,7 @@ public class ToolData : ScriptableObject
     [SerializeField] private GameObject _toolPrefab;
     [SerializeField] private Sprite _sprite;
     [SerializeField] private string _description;
+    [SerializeField] private ToolType _toolType;
 
     public string ObjectName
     {
@@ -25,5 +26,10 @@ public class ToolData : ScriptableObject
     public GameObject ToolPrefab
     {
         get => _toolPrefab;
+    }
+
+    public ToolType ToolType
+    {
+        get => _toolType;
     }
 }
