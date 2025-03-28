@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 8f73d94623fb2d644a2f7210ba3dc210, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _OFF_ON_MOVEMENT_FOR_ROCK_A
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -26,6 +27,10 @@ Material:
     m_TexEnvs:
     - _Alpha_Rock:
         m_Texture: {fileID: 2800000, guid: 23f76c8baf97c3742955ef66cecaf468, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Rock:
+        m_Texture: {fileID: 2800000, guid: f78e9a8d7af98704baf1e27a080bef3b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _base_lava:
@@ -47,23 +52,24 @@ Material:
     m_Ints: []
     m_Floats:
     - _Distortion_lava: 0.4
-    - _Emissive: 0.55
+    - _Emissive: 0.26
+    - _OFF_ON_MOVEMENT_FOR_ROCK: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Rock_OFF_ON: 0
     - _Scrool_Speed: 0.3
-    - _Twirl_Strenght: 0
+    - _Speed_appearing_rock: 0
+    - _Twirl_Strenght: 0.69
     m_Colors:
     - _Background_Color: {r: 0.62352943, g: 0.43137258, b: 0.19215685, a: 0}
+    - _Background_Color_Rock: {r: 0.21698102, g: 0.078809164, b: 0.078809164, a: 0}
     - _Base_color: {r: 0.32156855, g: 0.078431346, b: 0, a: 0}
-    - _Color: {r: 0.51886785, g: 0.28353658, b: 0.12971696, a: 0}
-    - _Color_1: {r: 0.35849056, g: 0.18385836, b: 0.02198292, a: 0}
-    - _Color_2: {r: 0.21698102, g: 0.078809164, b: 0.078809164, a: 0}
     - _Middle_Color: {r: 1, g: 0.5215686, b: 0.27843136, a: 0}
-    - _gestion_normal: {r: 0.43, g: 0.79, b: 0.81, a: 0}
+    - _Middle_Color_Rock: {r: 0.35849056, g: 0.18385836, b: 0.02198292, a: 0}
+    - _Top_Color_Rock: {r: 0.51886785, g: 0.28353658, b: 0.12971696, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &8313643437023929337
+--- !u!114 &5965627356323179513
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
