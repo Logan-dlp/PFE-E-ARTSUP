@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class PickUpTool : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private ToolData _toolData;
+    [SerializeField] private GameObject _toolPrefab;
+    [SerializeField] private RouletteSelectionTools _rouletteSelectionTools;
+
+    private bool _isToolPickedUp = false;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (_isToolPickedUp) return;
+
+        if (other.CompareTag("Player"))
+        {
+            PickupTool();
+            gameObject.SetActive(false);
+            _isToolPickedUp = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void PickupTool()
     {
-        
+        if (_rouletteSelectionTools != null)
+        {
+            _rouletteSelectionTools.AddTool(_toolData, _toolPrefab);
+        }
     }
 }

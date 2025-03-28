@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class RouletteSelectionTools : MonoBehaviour
 {
-    [SerializeField] private ToolListData _toolListData;
     [SerializeField] private Image[] _toolSlots;
     [SerializeField] private List<GameObject> _toolGameObjects;
 
@@ -16,15 +15,21 @@ public class RouletteSelectionTools : MonoBehaviour
 
     private void Start()
     {
-        _tools = _toolListData != null ? _toolListData.ToolList : new List<ToolData>();
+        _tools = new List<ToolData>();
 
-        if (_tools.Count == 0 || _toolGameObjects.Count == 0 || _tools.Count != _toolGameObjects.Count)
-        {
-            Debug.LogError("Mismatch entre ToolData et GameObjects !");
-            return;
-        }
+        _toolGameObjects = new List<GameObject>();
 
-        CurrentToolType = _tools[_currentToolIndex].ToolType;
+        UpdateToolSlots();
+        UpdateActiveTool();
+    }
+
+    public void AddTool(ToolData newTool, GameObject toolPrefab)
+    {
+        _tools.Add(newTool);
+        _toolGameObjects.Add(toolPrefab);
+
+        toolPrefab.SetActive(false);
+
         UpdateToolSlots();
         UpdateActiveTool();
     }
@@ -73,7 +78,14 @@ public class RouletteSelectionTools : MonoBehaviour
     {
         for (int i = 0; i < _toolGameObjects.Count; i++)
         {
-            _toolGameObjects[i].SetActive(i == _currentToolIndex);
+            if (i == _currentToolIndex)
+            {
+                _toolGameObjects[i].SetActive(true);
+            }
+            else
+            {
+                _toolGameObjects[i].SetActive(false);
+            }
         }
     }
 }
