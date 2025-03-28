@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScriptableCloseCanvasEvent : ScriptableObject
 {
     public event Action CloseCanvasAction;
+    
     public void CloseCanvas()
     {
         CloseCanvasAction?.Invoke();

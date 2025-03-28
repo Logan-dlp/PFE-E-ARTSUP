@@ -1,7 +1,10 @@
-public enum ItemUsage
+namespace MoonlitMixes.Item
 {
-    Crush,
-    Cut,
-    Mix,
-    Whole
+    public enum ItemUsage
+    {
+        Crush,
+        Cut,
+        Mix,
+        Whole
+    }
 }

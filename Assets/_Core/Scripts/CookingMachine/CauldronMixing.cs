@@ -1,5 +1,6 @@
 using UnityEngine;
 using MoonlitMixes.Player;
+using MoonlitMixes.Potion;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -7,14 +8,14 @@ namespace MoonlitMixes.CookingMachine
     {
         [SerializeField] private GameObject _interactUI;
         
-        private bool _isActive = false;
         private CauldronRecipeChecker _cauldronRecipeChecker;
-
-
+        private bool _isActive = false;
+        
         private void Awake()
         {
             _cauldronRecipeChecker = GetComponent<CauldronRecipeChecker>();
         }
+        
         public override void TogleShowInteractivity()
         {
             _isActive = !_isActive;

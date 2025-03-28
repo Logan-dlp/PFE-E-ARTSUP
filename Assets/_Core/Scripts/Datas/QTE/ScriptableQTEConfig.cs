@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using NaughtyAttributes;
 using MoonlitMixes.Events;
 
-namespace MoonlitMixes.Datas
+namespace MoonlitMixes.Datas.QTE
 {
     [CreateAssetMenu(fileName = "ScriptableQTEConfig", menuName = "Scriptable Objects/ScriptableQTEConfig")]
     public class ScriptableQTEConfig : ScriptableObject
@@ -32,7 +32,7 @@ namespace MoonlitMixes.Datas
         [SerializeField] private bool _isStirProgressBar;
 
         [Header("Customizable QTE Buttons")]
-        [SerializeField] private List<CustomQTEButton> _customQTEButtonList;
+        [SerializeField] private List<CustomQTEButton> _customQTEButtonList = new();
 
         private Image _qteSlot;
         private Image _progressBarUI;
@@ -126,32 +126,5 @@ namespace MoonlitMixes.Datas
             get => _qteSlot;
             set => _qteSlot = value;
         }
-
-        public enum QTEInputType
-        {
-            AllInputRandom,
-            OneInputRandom,
-            Fixed,
-            Stir,
-        }
-
-        public enum InputCommand
-        {
-            A,
-            B,
-            X,
-            Y,
-            R_Stick,
-        }
-        
-        [Serializable]
-        public class CustomQTEButton
-        {
-            public InputCommand inputCommand;
-            [Min(1)] public int requiredInput;
-            [Min(1)] public float qTEDuration;
-            public bool isProgressBar;
-        }
-
     }
 }

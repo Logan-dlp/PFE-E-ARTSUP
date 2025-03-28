@@ -1,44 +1,50 @@
+using System;
 using System.Collections;
-using MoonlitMixes.Inventory;
+using MoonlitMixes.Inputs;
 using MoonlitMixes.Player;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryStoragePotion : MonoBehaviour
+namespace MoonlitMixes.Inventory
 {
-    [SerializeField] private GameObject _inventoryUI;
-    [SerializeField] private ScriptableCloseCanvasEvent _scriptableCloseCanvasEvent;
-
-    private void Start()
+    public class InventoryStoragePotion : MonoBehaviour
     {
-        _inventoryUI.SetActive(false);
-    }
+        [SerializeField] private GameObject _inventoryUI;
+        [SerializeField] private ScriptableCloseCanvasEvent _scriptableCloseCanvasEvent;
+
+        private void Start()
+        {
+            _inventoryUI.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            _scriptableCloseCanvasEvent.CloseCanvasAction += CloseInventory;
+        }
+
+        private void OnDisable()
+        {
+            _scriptableCloseCanvasEvent.CloseCanvasAction -= CloseInventory;
+        }
     
-    private void OnEnable()
-    {
-        _scriptableCloseCanvasEvent.CloseCanvasAction += CloseInventory;
-    }
+        public void OpenInventory()
+        {
+            _inventoryUI.SetActive(true);
+            StartCoroutine(FirstSelected());
+        }
 
-    private void OnDisable()
-    {
-        _scriptableCloseCanvasEvent.CloseCanvasAction -= CloseInventory;
-    }
-    
-    public void OpenInventory()
-    {
-        _inventoryUI.SetActive(true);
-        StartCoroutine(FirstSelected());
-    }
+        public void CloseInventory()
+        {
+            _inventoryUI.SetActive(false);
+            FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
+        }
 
-    public void CloseInventory()
-    {
-        _inventoryUI.SetActive(false);
-        FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
-    }
-
-    private IEnumerator FirstSelected()
-    {
-        yield return new WaitForEndOfFrame();
-        FindFirstObjectByType<InventoryUI>()._slots[0].GetComponent<Button>().Select();
+        private IEnumerator FirstSelected()
+        {
+            yield return new WaitForEndOfFrame();
+            //FindFirstObjectByType<EventSystem>().firstSelectedGameObject = FindFirstObjectByType<InventoryUI>()._slots[0].GetComponent<Button>().gameObject;
+            FindFirstObjectByType<InventoryUI>()._slots[0].GetComponent<Button>().Select();
+        }
     }
 }

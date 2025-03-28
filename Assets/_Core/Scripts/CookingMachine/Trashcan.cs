@@ -10,8 +10,8 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] private float _idleChangeTimer;
         [SerializeField] private ScriptableBoolEvent _scriptableBoolEvent;
 
-        private Animator _animator;
         private AnimatorControllerParameter[] _animatorControllerParameterArray;
+        private Animator _animator;
         private float _timer;
 
         private void Awake()
@@ -31,23 +31,23 @@ namespace MoonlitMixes.CookingMachine
             }
         }
 
-        void OnTriggerStay(Collider other)
-        {
-            if(other.gameObject.layer == 10 && other.GetComponent<PlayerInteraction>().ItemInHand != null)
-            {
-                AnimMouth(true);
-            }
-        }
+        // void OnTriggerStay(Collider other)
+        // {
+        //     if(other.gameObject.layer == 10 && other.GetComponent<PlayerInteraction>().ItemInHand != null)
+        //     {
+        //         AnimMouth(true);
+        //     }
+        // }
+        //
+        // void OnTriggerExit(Collider other)
+        // {
+        //     if(other.gameObject.layer == 10)
+        //     {
+        //         AnimMouth(false);
+        //     }
+        // }
 
-        void OnTriggerExit(Collider other)
-        {
-            if(other.gameObject.layer == 10)
-            {
-                AnimMouth(false);
-            }
-        }
-
-        private void AnimMouth(bool state)
+        public void AnimMouth(bool state)
         {
             if(state)
             {

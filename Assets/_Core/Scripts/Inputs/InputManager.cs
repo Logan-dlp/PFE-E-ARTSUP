@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,8 +7,8 @@ namespace MoonlitMixes.Inputs
     public class InputManager : MonoBehaviour
     {
         // Make Singleton !
-        private InputManager _instance;
-        public InputManager Instance => _instance;
+        private static InputManager _instance;
+        public static InputManager Instance => _instance;
         
         private PlayerInput _currentPlayerInput;
 

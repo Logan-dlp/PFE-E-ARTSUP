@@ -6,6 +6,7 @@ namespace MoonlitMixes.Health
     {
         [SerializeField] internal float _maxHealth;
         [SerializeField] protected HealthBarScriptableInt healthBarScriptableInt;
+        
         internal float _currentHealth;
 
         abstract protected void CheckHealth();

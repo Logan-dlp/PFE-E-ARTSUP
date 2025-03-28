@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using System.Collections;
+using MoonlitMixes.Inputs;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
@@ -20,8 +21,7 @@ namespace MoonlitMixes.Dialogue
         [SerializeField] private Image _imagePlayer;
         [SerializeField] private Image _imageNPC;
         [SerializeField] private float letterDelay = .05f;
-    
-        private bool _isTextIsWritten = false;
+        
         private bool _isSkipText = false;
         private DialogueScriptableObject _dialogueScriptableObject;
         private int _dialogueIterator;
@@ -64,7 +64,6 @@ namespace MoonlitMixes.Dialogue
         {
             if (_dialogueIterator >= _dialogueScriptableObject.dialogueSection.Length)
             {
-                Debug.Log("");
                 EndDialogue();
                 return;
             }
@@ -110,7 +109,7 @@ namespace MoonlitMixes.Dialogue
             ClearDialogue();
             _panelDialogue.SetActive(false);
             OnDialogueFinished?.Invoke();
-            FindFirstObjectByType<PlayerInput>().SwitchCurrentActionMap("Player");
+            InputManager.Instance.SwitchActionMap("Player");
         }
     
         private void ClearDialogue()
@@ -124,7 +123,6 @@ namespace MoonlitMixes.Dialogue
         {
             textBox.maxVisibleCharacters = 0;
             textBox.text = text;
-            _isTextIsWritten = true;
             StartCoroutine(TypeText(textBox));
         }
     
@@ -141,7 +139,6 @@ namespace MoonlitMixes.Dialogue
                     break;
                 }
             }
-            _isTextIsWritten = false;
         }
     }
 }

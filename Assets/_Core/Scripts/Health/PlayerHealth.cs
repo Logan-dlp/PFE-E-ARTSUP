@@ -6,6 +6,7 @@ namespace MoonlitMixes.Health
     {
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegenetion;
+        
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
 

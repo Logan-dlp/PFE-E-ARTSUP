@@ -2,20 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using MoonlitMixes.Item;
 
-namespace MoonlitMixes.Datas
+namespace MoonlitMixes.Datas.Inventory
 {
     [CreateAssetMenu(fileName = "Inventory", menuName = "Scriptable Objects/Inventory")]
     public class InventoryData : ScriptableObject
     {
         [SerializeField] private InventoryMode _inventoryMode = InventoryMode.InventoryPlayer;
-        [SerializeField] private int _maxSlots = 20;
         [SerializeField] private List<ItemData> _items = new List<ItemData>();
-
-        public enum InventoryMode
-        {
-            InventoryPlayer,
-            InventoryCellar,
-        }
+        [SerializeField] private int _maxSlots = 20;
 
         public InventoryMode Mode
         {

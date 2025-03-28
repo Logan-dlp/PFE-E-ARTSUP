@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace MoonlitMixes.Events
+namespace MoonlitMixes.Events.Inputs
 {
     public abstract class AScriptableInputEvent : ScriptableObject
     {

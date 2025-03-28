@@ -19,9 +19,9 @@ namespace MoonlitMixes.Potion
         [ContextMenu("UpdatePotions")]
         public void UpdatePotionCanvas()
         {
-            foreach(Transform child in gameObject.transform)
+            foreach(Transform child in _UI.transform)
             {
-                Destroy(child);
+                Destroy(child.gameObject);
             }
 
             foreach(Potion potion in _potionList)

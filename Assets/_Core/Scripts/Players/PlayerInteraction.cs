@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Inputs;
+using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
+using MoonlitMixes.Potion;
 
 namespace MoonlitMixes.Player
 {
@@ -15,10 +18,10 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapUI;
 
         private ACookingMachine _currentCookingMachine;
-        private PlayerInput _playerInput;
         private CauldronRecipeChecker _currentCauldron;
         private Animator _animator;
         private PlayerMovement _playerMovement;
+        private Trashcan _currentTrashcan;
 
         public ItemData ItemInHand { get; set; }
         public PlayerHoldItem PlayerHoldItem { get; private set; }
@@ -26,7 +29,6 @@ namespace MoonlitMixes.Player
         private void Awake()
         {
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
-            _playerInput = GetComponent<PlayerInput>();
             _animator = GetComponent<Animator>();
             _playerMovement = GetComponent<PlayerMovement>();
         }
@@ -55,11 +57,22 @@ namespace MoonlitMixes.Player
                     {
                         ResetInteractionTargets();
                     }
+
+                    if (hit.transform.TryGetComponent(out Trashcan trashcan))
+                    {
+                        trashcan.AnimMouth(true);
+                        _currentTrashcan = trashcan;
+                    }
                 }
             }
             else if (_currentCookingMachine != null || _currentCauldron != null)
             {
                 ResetInteractionTargets();
+            }
+            else if (_currentTrashcan != null)
+            {
+                _currentTrashcan.AnimMouth(false);
+                _currentTrashcan = null;
             }
         }
 
@@ -99,7 +112,7 @@ namespace MoonlitMixes.Player
             {
                 if (ItemInHand != null)
                 {
-                    if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
+                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
                         if (hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
@@ -130,7 +143,7 @@ namespace MoonlitMixes.Player
 
                     if (_currentCookingMachine != null)
                     {
-                        _playerInput.SwitchCurrentActionMap(_actionMapQTE);
+                        InputManager.Instance.SwitchActionMap(_actionMapQTE);
 
                         _playerMovement.SetPerformingActionHolding(false);
                         _playerMovement.SetPerformingActionIdle(false);
@@ -163,21 +176,21 @@ namespace MoonlitMixes.Player
                     {
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
+                            InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
-                            _playerInput.SwitchCurrentActionMap(_actionMapUI);
                             _playerMovement.OpenInventory();
                             _playerMovement.SetPerformingActionIdle(false);
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
-                            _playerInput.SwitchCurrentActionMap(_actionMapWaitingTable);
+                            InputManager.Instance.SwitchActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
                         }
                         else if (hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
                         {
                             if (!cauldron.NeedMix) return;
-
-                            _playerInput.SwitchCurrentActionMap(_actionMapQTE);
+                            
+                            InputManager.Instance.SwitchActionMap(_actionMapQTE);
                             cauldron.Mix(this);
 
                             _playerMovement.InteractMix();
@@ -203,7 +216,7 @@ namespace MoonlitMixes.Player
 
         public void QuitInteraction()
         {
-            _playerInput.SwitchCurrentActionMap(_actionMapPlayer);
+            InputManager.Instance.SwitchActionMap(_actionMapPlayer);
             _playerMovement.CloseInventory();
 
             _playerMovement.SetPerformingActionHolding(false);
