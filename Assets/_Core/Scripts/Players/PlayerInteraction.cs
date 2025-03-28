@@ -21,6 +21,7 @@ namespace MoonlitMixes.Player
         private CauldronRecipeChecker _currentCauldron;
         private Animator _animator;
         private PlayerMovement _playerMovement;
+        private Trashcan _currentTrashcan;
 
         public ItemData ItemInHand { get; set; }
         public PlayerHoldItem PlayerHoldItem { get; private set; }
@@ -56,11 +57,22 @@ namespace MoonlitMixes.Player
                     {
                         ResetInteractionTargets();
                     }
+
+                    if (hit.transform.TryGetComponent(out Trashcan trashcan))
+                    {
+                        trashcan.AnimMouth(true);
+                        _currentTrashcan = trashcan;
+                    }
                 }
             }
             else if (_currentCookingMachine != null || _currentCauldron != null)
             {
                 ResetInteractionTargets();
+            }
+            else if (_currentTrashcan != null)
+            {
+                _currentTrashcan.AnimMouth(false);
+                _currentTrashcan = null;
             }
         }
 
