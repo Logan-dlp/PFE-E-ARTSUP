@@ -50,6 +50,23 @@ namespace MoonlitMixes.ExplorationTools
                 }
             }
         }
+        
+        public void CollectItems(ItemListSource itemListSource)
+        {
+            ItemListData itemList = itemListSource?.GetItemList();
+            if (itemList != null)
+            {
+                if (itemList.Items.Count > 0)
+                {
+                    ItemData item = itemList.Items[0];
+
+                    if (_inventory != null)
+                    {
+                        _inventory.AddItem(item);
+                    }
+                }
+            }
+        }
     
         private void UseMachete()
         {
