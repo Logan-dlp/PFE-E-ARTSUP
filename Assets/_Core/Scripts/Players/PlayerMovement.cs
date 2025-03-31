@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -18,6 +20,7 @@ namespace MoonlitMixes.Player
         private CharacterController _characterController;
         private Animator _animator;
 
+        private Vector3 _knockbackMovement = Vector3.zero;
         private Vector3 _velocity;
         private Vector2 _movement;
         private Vector2 _targetMovement;
@@ -222,6 +225,17 @@ namespace MoonlitMixes.Player
             if (state)
             {
                 _animator.SetBool("isIdle", true);
+            }
+        }
+        
+        public IEnumerator Knockback(Vector3 direction, float force, float duration)
+        {
+            float startTime = Time.time;
+            while (Time.time < (startTime + duration))
+            {
+                _knockbackMovement = Vector3.Lerp(_knockbackMovement, direction, Time.deltaTime * 10f);
+                _characterController.Move(_knockbackMovement * force * Time.deltaTime);
+                yield return null;
             }
         }
     }
