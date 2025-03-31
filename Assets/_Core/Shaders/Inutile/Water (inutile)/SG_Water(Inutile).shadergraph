@@ -22,9 +22,6 @@
             "m_Id": "ee3176c673124374ba40f2ae5b362523"
         },
         {
-            "m_Id": "0788254c72c749eabd6012e1485c914b"
-        },
-        {
             "m_Id": "ea634dea2fe8434bb67966dd44dd209a"
         },
         {
@@ -136,9 +133,6 @@
             "m_Id": "79e0bb66206b4c7fbb634c9e773fc76d"
         },
         {
-            "m_Id": "e987e0540b2b4fc5a2477ddae562aabe"
-        },
-        {
             "m_Id": "ebc6241d95264248affbc47f9fffd0ec"
         },
         {
@@ -197,6 +191,9 @@
         },
         {
             "m_Id": "8e98756061a94dca91ea381a8fa2adb8"
+        },
+        {
+            "m_Id": "6130dbcad3f14dc0854f65c972a5175e"
         }
     ],
     "m_GroupDatas": [
@@ -462,6 +459,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "6130dbcad3f14dc0854f65c972a5175e"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "79e0bb66206b4c7fbb634c9e773fc76d"
+                },
+                "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "79e0bb66206b4c7fbb634c9e773fc76d"
                 },
                 "m_SlotId": 2
@@ -693,20 +704,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "ac340ec3d689478b999cb8ce064be599"
-                },
-                "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "e987e0540b2b4fc5a2477ddae562aabe"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "79e0bb66206b4c7fbb634c9e773fc76d"
                 },
                 "m_SlotId": 1
             }
@@ -1008,8 +1005,8 @@
     "m_ObjectId": "03f499c995e448cbbc47b32e27f161ee",
     "m_Title": "Position In The World",
     "m_Position": {
-        "x": -2658.000244140625,
-        "y": -424.000244140625
+        "x": -2658.0,
+        "y": -424.0001220703125
     }
 }
 
@@ -1058,34 +1055,6 @@
         "e31": 0.0,
         "e32": 0.0,
         "e33": 1.0
-    }
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "0788254c72c749eabd6012e1485c914b",
-    "m_Guid": {
-        "m_GuidSerialized": "c32d46b0-9b4e-42f5-9d47-8146d36ead93"
-    },
-    "m_Name": "Size UV",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Size UV",
-    "m_DefaultReferenceName": "_Size_UV",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_DismissedVersion": 0,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 1.0,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
     }
 }
 
@@ -1349,8 +1318,8 @@
     "m_ObjectId": "1c0d8cf8b58a43e1a0d99ba03a438082",
     "m_Title": "Direction Water",
     "m_Position": {
-        "x": -3663.00048828125,
-        "y": -481.000244140625
+        "x": -3663.0,
+        "y": -481.00006103515627
     }
 }
 
@@ -1926,8 +1895,8 @@
     "m_ObjectId": "3732842cc9f842c3a8f7e03274246eab",
     "m_Title": "Gestion Texture",
     "m_Position": {
-        "x": -2076.000244140625,
-        "y": 247.0
+        "x": -2076.0,
+        "y": 247.00001525878907
     }
 }
 
@@ -2574,7 +2543,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 2.0999999046325685,
+    "m_Value": 0.20000000298023225,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -2752,6 +2721,42 @@
         "w": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "6130dbcad3f14dc0854f65c972a5175e",
+    "m_Group": {
+        "m_Id": "5deead789ca24dae805381532fdf9f26"
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -641.0,
+            "y": 493.0,
+            "width": 150.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "de4e56f3f52548f089a8711501fc67fa"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "817dd1da70da48578a9571dc089240a1"
+    }
 }
 
 {
@@ -3660,8 +3665,8 @@
     "m_ObjectId": "a4b2b61c0c8b442e8e2a9fc14bac388c",
     "m_Title": "Gestion de la couleur",
     "m_Position": {
-        "x": 254.0,
-        "y": 139.00006103515626
+        "x": 254.00048828125,
+        "y": 138.9998779296875
     }
 }
 
@@ -4369,8 +4374,8 @@
     "m_ObjectId": "c53b12dc279b40c58fca8f310e81c5dd",
     "m_Title": "Speed Water",
     "m_Position": {
-        "x": -3515.00048828125,
-        "y": 264.00006103515627
+        "x": -3515.0,
+        "y": 264.0
     }
 }
 
@@ -4938,6 +4943,27 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "de4e56f3f52548f089a8711501fc67fa",
+    "m_Id": 0,
+    "m_DisplayName": "Tilling Texture",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "df44a53fcd5c48e08e6653efbd0a64d4",
     "m_Id": 2,
@@ -5144,21 +5170,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "e518e25cdb444249b63c20c784f6ccf7",
-    "m_Id": 0,
-    "m_DisplayName": "Size UV",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "e5754546d79f46a5a1985e088a9e0934",
     "m_Id": 1,
@@ -5200,9 +5211,6 @@
     "m_ObjectId": "e73157b12c9d42be998f3400593576aa",
     "m_Name": "Texture Bottom",
     "m_ChildObjectList": [
-        {
-            "m_Id": "0788254c72c749eabd6012e1485c914b"
-        },
         {
             "m_Id": "ea634dea2fe8434bb67966dd44dd209a"
         }
@@ -5263,42 +5271,6 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "SurfaceDescription.Emission"
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
-    "m_ObjectId": "e987e0540b2b4fc5a2477ddae562aabe",
-    "m_Group": {
-        "m_Id": "5deead789ca24dae805381532fdf9f26"
-    },
-    "m_Name": "Property",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -663.0001220703125,
-            "y": 346.0000305175781,
-            "width": 116.0,
-            "height": 33.999969482421878
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "e518e25cdb444249b63c20c784f6ccf7"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Property": {
-        "m_Id": "0788254c72c749eabd6012e1485c914b"
-    }
 }
 
 {
