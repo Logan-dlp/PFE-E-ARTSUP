@@ -11,7 +11,7 @@ namespace MoonlitMixes.Datas
         [SerializeField] private Material _skyBoxTwillight;
         [SerializeField] private Material _skyboxNight;
         
-        private int _actualTimePhase;
+        [SerializeField] private int _actualTimePhase;
         
         public Material skyboxDawn
         {
