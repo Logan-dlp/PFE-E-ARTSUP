@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
-  _dayCycleLights: {fileID: 2979878908709890561}
+  _dayCycleLights: {fileID: 0}
 --- !u!1 &676056219
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,15 +783,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9195494005624006656, guid: f1aad9cb828ec7f41bfb31509e3a37ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.8718362
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9195494005624006656, guid: f1aad9cb828ec7f41bfb31509e3a37ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.09560428
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9195494005624006656, guid: f1aad9cb828ec7f41bfb31509e3a37ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.286837
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9195494005624006656, guid: f1aad9cb828ec7f41bfb31509e3a37ed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -859,14 +859,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff25396fb602fd468979a59d5e80f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lightingDawnMapDir:
-  - {fileID: 2800000, guid: ef6d0e3fe12763748b522aebec30d40f, type: 3}
-  _lightingDawnMapColor:
-  - {fileID: 2800000, guid: 3d458d8a1202cb24887eab5fd9105762, type: 3}
-  _lightingDayMapDir:
-  - {fileID: 2800000, guid: 5b9b2824e40e29340a821a94f3013414, type: 3}
-  _lightingDayMapColor:
-  - {fileID: 2800000, guid: eca5dee8ccee6a14a97b9088de64cc13, type: 3}
+  _lightMapTextureArray:
+  - _lightingMapDir:
+    - {fileID: 2800000, guid: ef6d0e3fe12763748b522aebec30d40f, type: 3}
+    _lightingMapColor:
+    - {fileID: 2800000, guid: 3d458d8a1202cb24887eab5fd9105762, type: 3}
+  - _lightingMapDir:
+    - {fileID: 2800000, guid: 5b9b2824e40e29340a821a94f3013414, type: 3}
+    _lightingMapColor:
+    - {fileID: 2800000, guid: eca5dee8ccee6a14a97b9088de64cc13, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

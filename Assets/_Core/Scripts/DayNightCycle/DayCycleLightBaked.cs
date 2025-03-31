@@ -3,61 +3,55 @@ using UnityEngine;
 
 public class DayCycleLightBaked : MonoBehaviour
 {
-    [SerializeField] private Texture2D[] _lightingDawnMapDir;
-    [SerializeField] private Texture2D[] _lightingDawnMapColor;
-    [SerializeField] private Texture2D[] _lightingDayMapDir;
-    [SerializeField] private Texture2D[] _lightingDayMapColor;
+    [SerializeField] private LightmapTexture[] _lightMapTextureArray;
 
-    private LightmapData[] _lightDawnMapArray;
-    private LightmapData[] _lightDayMapArray;
+    private int _dayTime = 0;
 
-    int dayTime = 1;
+    public int DayTime
+    {
+        get => _dayTime;
+        set => _dayTime = value;
+    }
 
     private void Awake()
     {
-        List<LightmapData> dlightmap = new List<LightmapData>();
-		
-		for(int i = 0; i < _lightingDawnMapDir.Length; i++)
-		{
-			LightmapData lmdata = new LightmapData();
-			
-   			lmdata.lightmapDir = _lightingDawnMapDir[i];
-   			lmdata.lightmapColor = _lightingDawnMapColor[i];
-			
-			dlightmap.Add(lmdata);
-		}
-		
-		_lightDawnMapArray = dlightmap.ToArray();
-		
-		List<LightmapData> blightmap = new List<LightmapData>();
-		
-		for(int i = 0; i < _lightingDayMapDir.Length; i++)
-		{
-			LightmapData lmdata = new LightmapData();
-			
-   			lmdata.lightmapDir = _lightingDayMapDir[i];
-   			lmdata.lightmapColor = _lightingDayMapColor[i];
-			
-			blightmap.Add(lmdata);
-		}
-		
-		_lightDayMapArray = blightmap.ToArray();
-        
+        for(int i = 0; i < _lightMapTextureArray.Length; i++)
+        {
+            List<LightmapData> lightmap = new List<LightmapData>();
+		    
+            for(int j = 0; j < _lightMapTextureArray[i]._lightingMapDir.Length; j++)
+		    {
+		    	LightmapData lmdata = new LightmapData();
+    
+   		    	lmdata.lightmapDir = _lightMapTextureArray[i]._lightingMapDir[j];
+   		    	lmdata.lightmapColor = _lightMapTextureArray[i]._lightingMapColor[j];
+    
+		    	lightmap.Add(lmdata);
+		    }
+		    
+            _lightMapTextureArray[i]._lightMapArray = lightmap.ToArray();
+        }    
     }
     
     [ContextMenu("ChangeBake")]
-    public void ChangeBake()
+    public void ChangeBake(/*int dayTime*/)
     {   
-        if(dayTime == 1)
+        LightmapSettings.lightmaps = _lightMapTextureArray[_dayTime]._lightMapArray;
+        
+        if(_dayTime == 1) 
         {
-            dayTime = 2;
-            LightmapSettings.lightmaps = _lightDawnMapArray;
+            _dayTime = 0; //C'est juste là pour les tests, faudra le retirer plus tard
+            Debug.Log("");
         }
-        else
-        {
-            dayTime = 1;
-            LightmapSettings.lightmaps = _lightDayMapArray;
-        }
+        else _dayTime++;
+    }
 
+    [System.Serializable]
+    public class LightmapTexture
+    {
+        [SerializeField] internal Texture2D[] _lightingMapDir;
+        [SerializeField] internal Texture2D[] _lightingMapColor;
+
+        internal LightmapData[] _lightMapArray;
     }
 }
