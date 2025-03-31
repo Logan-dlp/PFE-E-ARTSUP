@@ -141,7 +141,7 @@ namespace MoonlitMixes.Player
                         }
                     }
 
-                    if (_currentCookingMachine != null)
+                    if (_currentCookingMachine != null && ItemInHand.Usage == _currentCookingMachine.TransformType)
                     {
                         InputManager.Instance.SwitchActionMap(_actionMapQTE);
 
