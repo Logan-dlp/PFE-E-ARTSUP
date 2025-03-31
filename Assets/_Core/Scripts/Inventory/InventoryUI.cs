@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Datas.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.UI;
@@ -98,7 +99,7 @@ namespace MoonlitMixes.Inventory
                 return;
             }
 
-            if (_inventory.Mode == InventoryData.InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
+            if (_inventory.Mode == InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
             {
                 Debug.LogWarning("L'inventaire est plein !");
                 return;

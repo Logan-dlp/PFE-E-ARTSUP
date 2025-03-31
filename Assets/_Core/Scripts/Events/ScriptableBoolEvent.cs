@@ -7,6 +7,7 @@ namespace MoonlitMixes.Events
     public class ScriptableBoolEvent : ScriptableObject
     {
         public event Action<bool> BoolAction;
+        
         public void SendBool(bool boolValue)
         {
             BoolAction?.Invoke(boolValue);

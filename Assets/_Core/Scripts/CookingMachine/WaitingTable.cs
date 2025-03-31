@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using MoonlitMixes.Events;
+using MoonlitMixes.Events.Inputs;
 using MoonlitMixes.Player;
 
 namespace MoonlitMixes.CookingMachine
@@ -15,9 +16,9 @@ namespace MoonlitMixes.CookingMachine
 
         private GameObject[] _itemGameObjectArray = new GameObject[10];
         private Light[] _lightArray = new Light[10];
-        private bool _isActive = false; 
-        private int _indexSelectedItem = 0;
         private PlayerMovement _playerMovement;
+        private int _indexSelectedItem = 0;
+        private bool _isActive = false; 
 
 
         private void OnEnable()

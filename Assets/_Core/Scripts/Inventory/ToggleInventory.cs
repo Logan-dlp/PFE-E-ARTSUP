@@ -1,25 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ToggleInventory : MonoBehaviour
+namespace MoonlitMixes.Inventory
 {
-    [SerializeField] private GameObject _canvaInventory;
-    private bool isActive = false;
-
-    private void Start()
+    public class ToggleInventory : MonoBehaviour
     {
-        if (_canvaInventory != null)
+        [SerializeField] private GameObject _canvaInventory;
+    
+        private bool isActive = false;
+
+        private void Start()
         {
-            _canvaInventory.SetActive(isActive);
+            if (_canvaInventory != null)
+            {
+                _canvaInventory.SetActive(isActive);
+            }
         }
-    }
 
-    public void Toggle(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        public void Toggle(InputAction.CallbackContext context)
         {
-            isActive = !isActive;
-            _canvaInventory.SetActive(isActive);
+            if (context.performed)
+            {
+                isActive = !isActive;
+                _canvaInventory.SetActive(isActive);
+            }
         }
     }
 }

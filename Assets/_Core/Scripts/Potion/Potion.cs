@@ -9,11 +9,17 @@ namespace MoonlitMixes.Potion
         [SerializeField] private Recipe _recipe;
         [SerializeField, Range(1,4)] private int _quality;
         [SerializeField, ReadOnly] private int _price;
+        [SerializeField] private Sprite _sprite;
         
         public Recipe Recipe
         {
             get => _recipe;
             set => _recipe = value;
+        }
+
+        public Sprite SpritePotion
+        {
+            get => _sprite;
         }
     }
 }

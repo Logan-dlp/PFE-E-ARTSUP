@@ -1,189 +1,191 @@
-﻿using MoonlitMixes.AI;
+﻿using MoonlitMixes.Health;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UseTools : MonoBehaviour
+namespace MoonlitMixes.ExplorationTools
 {
-    [SerializeField] private InventoryUI _inventory;
-    [SerializeField] private int _brokenRock = 0;
-    [SerializeField] private float _attackDistance;
-    [SerializeField] private int _attackDamage;
-    [SerializeField] private float _attackForce;
-
-    private RouletteSelectionTools _rouletteSelection;
-    private ToolType _currentTool;
-
-    private void Awake()
+    public class UseTools : MonoBehaviour
     {
-        _rouletteSelection = FindFirstObjectByType<RouletteSelectionTools>();
-        if (_rouletteSelection == null)
+        [SerializeField] private InventoryUI _inventory;
+        [SerializeField] private int _brokenRock = 0;
+        [SerializeField] private float _attackDamage;
+    
+        private RouletteSelectionTools _rouletteSelection;
+        private ToolType _currentTool;
+    
+        private void Awake()
         {
-            Debug.LogError("❌ Aucun RouletteSelectionTools trouvé dans la scène !");
-        }
-    }
-
-    public void UseTool(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
-        {
-            if (CanUseHand())
+            _rouletteSelection = FindFirstObjectByType<RouletteSelectionTools>();
+            if (_rouletteSelection == null)
             {
-                UseHand();
-                return;
-            }
-
-            _currentTool = _rouletteSelection.CurrentToolType;
-
-            switch (_currentTool)
-            {
-                case ToolType.Machete:
-                    UseMachete();
-                    break;
-                case ToolType.Pickaxe:
-                    UsePickaxe();
-                    break;
-                case ToolType.Septer:
-                    UseSepter();
-                    break;
+                Debug.LogError("❌ Aucun RouletteSelectionTools trouvé dans la scène !");
             }
         }
-    }
-
-    public void CollectItems(ItemListSource itemListSource)
-    {
-        ItemListData itemList = itemListSource?.GetItemList();
-        if (itemList != null)
+    
+        public void UseTool(InputAction.CallbackContext ctx)
         {
-            if (itemList.Items.Count > 0)
+            if (ctx.performed)
             {
-                ItemData item = itemList.Items[0];
-
-                if (_inventory != null)
+                if (CanUseHand())
                 {
-                    _inventory.AddItem(item);
+                    UseHand();
+                    return;
+                }
+    
+                _currentTool = _rouletteSelection.CurrentToolType;
+    
+                switch (_currentTool)
+                {
+                    case ToolType.Machete:
+                        UseMachete();
+                        break;
+                    case ToolType.Pickaxe:
+                        UsePickaxe();
+                        break;
+                    case ToolType.Septer:
+                        UseSepter();
+                        break;
                 }
             }
         }
-    }
-
-    private void UseMachete()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+    
+        private void UseMachete()
         {
-            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-
-            if (itemList != null && itemList.ToolType == ToolType.Machete)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
             {
-                if (itemList.Items.Count > 0)
+                ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+    
+                if (itemList != null && itemList.ToolType == ToolType.Machete)
                 {
-                    ItemData itemToAdd = itemList.Items[0];
-
-                    if (_inventory != null)
+                    if (itemList.Items.Count > 0)
                     {
-                        _inventory.AddItem(itemToAdd);
-                    }
-                }
-            }
-        }
-    }
-
-
-    private void UsePickaxe()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
-        {
-            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-
-            if (itemList != null && itemList.ToolType == ToolType.Pickaxe)
-            {
-                RockHealth rockHealth = hit.collider.GetComponent<RockHealth>();
-                if (rockHealth != null && rockHealth.TakeDamage())
-                {
-                    if (itemList.Items.Count >= 2)
-                    {
-                        float chance = GetPreciousStoneChance(_brokenRock);
-                        ItemData itemToAdd;
-                        float randomValue = Random.value;
-
-                        if (randomValue < chance)
+                        ItemData itemToAdd = itemList.Items[0];
+    
+                        if (_inventory != null)
                         {
-                            itemToAdd = itemList.Items[1];
-                        }
-                        else
-                        {
-                            itemToAdd = itemList.Items[0];
-                        }
-
-                        _inventory?.AddItem(itemToAdd);
-
-                        _brokenRock++;
-                        if (_brokenRock >= 3)
-                        {
-                            _brokenRock = 0;
+                            _inventory.AddItem(itemToAdd);
                         }
                     }
                 }
             }
         }
-    }
-
-    private float GetPreciousStoneChance(int rockMined)
-    {
-        switch (rockMined)
+        
+        private void UsePickaxe()
         {
-            case 0: return 1f;   // Premier rochet -> 100% de pierre précieuse
-            case 1: return 0.4f; // Deuxième rochet -> 40% de chance
-            case 2: return 0.1f; // Troisième rochet -> 10% de chance
-            default: return 1f;  // Reset après 3 rochets -> Retour à 100%
-        }
-    }
-
-    private void UseSepter()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, _attackDistance))
-        {
-            if (hit.transform.TryGetComponent(out Monster monster))
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
             {
-                monster.Damage(gameObject, _attackDamage, transform.forward, _attackForce);
-            }
-        }
-    }
-
-    private bool CanUseHand()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
-        {
-            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-            return itemList != null && itemList.ToolType == ToolType.Hand;
-        }
-        return false;
-    }
-
-    private void UseHand()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
-        {
-            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-
-            if (itemList != null && itemList.ToolType == ToolType.Hand)
-            {
-                if (itemList.Items.Count > 0)
+                ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+    
+                if (itemList != null && itemList.ToolType == ToolType.Pickaxe)
                 {
-                    ItemData itemToAdd = itemList.Items[0];
-
-                    if (_inventory != null)
+                    RockHealth rockHealth = hit.collider.GetComponent<RockHealth>();
+                    if (rockHealth != null && rockHealth.TakeDamage())
                     {
-                        _inventory.AddItem(itemToAdd);
+                        if (itemList.Items.Count >= 2)
+                        {
+                            float chance = GetPreciousStoneChance(_brokenRock);
+                            ItemData itemToAdd;
+                            float randomValue = Random.value;
+    
+                            if (randomValue < chance)
+                            {
+                                itemToAdd = itemList.Items[1];
+                            }
+                            else
+                            {
+                                itemToAdd = itemList.Items[0];
+                            }
+    
+                            _inventory?.AddItem(itemToAdd);
+    
+                            _brokenRock++;
+                            if (_brokenRock >= 3)
+                            {
+                                _brokenRock = 0;
+                            }
+                        }
                     }
                 }
-                Destroy(hit.collider.gameObject);
+            }
+        }
+    
+        private float GetPreciousStoneChance(int rockMined)
+        {
+            switch (rockMined)
+            {
+                case 0: return 1f;   // Premier rochet -> 100% de pierre précieuse
+                case 1: return 0.4f; // Deuxième rochet -> 40% de chance
+                case 2: return 0.1f; // Troisième rochet -> 10% de chance
+                default: return 1f;  // Reset après 3 rochets -> Retour à 100%
+            }
+        }
+    
+        private void UseSepter()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+            {
+                EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(_attackDamage);
+    
+                    if (enemyHealth._currentHealth <= 0)
+                    {
+                        ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+                        if (itemList != null && itemList.ToolType == ToolType.Septer)
+                        {
+                            if (itemList.Items.Count > 0)
+                            {
+                                ItemData itemToAdd = itemList.Items[0];
+    
+                                if (_inventory != null)
+                                {
+                                    _inventory.AddItem(itemToAdd);
+                                }
+                            }
+                            Destroy(hit.collider.gameObject);
+                        }
+                    }
+                }
+            }
+        }
+        
+        private bool CanUseHand()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+            {
+                ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+                return itemList != null && itemList.ToolType == ToolType.Hand;
+            }
+            return false;
+        }
+    
+        private void UseHand()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+            {
+                ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+    
+                if (itemList != null && itemList.ToolType == ToolType.Hand)
+                {
+                    if (itemList.Items.Count > 0)
+                    {
+                        ItemData itemToAdd = itemList.Items[0];
+    
+                        if (_inventory != null)
+                        {
+                            _inventory.AddItem(itemToAdd);
+                        }
+                    }
+                    Destroy(hit.collider.gameObject);
+                }
             }
         }
     }

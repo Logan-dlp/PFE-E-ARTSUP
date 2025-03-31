@@ -1,18 +1,18 @@
 using UnityEngine;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
+using System.Collections;
 
 namespace MoonlitMixes.Player
 {
     public class PlayerHoldItem : MonoBehaviour
     {
-        [SerializeField] private GameObject _itemHoldPivot;
-        [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
-
-    
         public ItemData Item { get; set; }
         public GameObject ItemHold { get; set; }
-
+        
+        [SerializeField] private GameObject _itemHoldPivot;
+        [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+        
         private void OnEnable()
         {
             _scriptableItemEvent.ItemDataAction += ChangeItemData;
@@ -29,7 +29,6 @@ namespace MoonlitMixes.Player
             ItemHold.transform.localScale = Vector3.one;
         }
         
-        
         public void ChangeItemData(GameObject item)
         {
             try
@@ -45,7 +44,8 @@ namespace MoonlitMixes.Player
                 throw;
             }
 
-            ItemHold = Instantiate(item, _itemHoldPivot.transform);
+            ItemHold = Instantiate(item, _itemHoldPivot.transform.position, item.transform.rotation, _itemHoldPivot.transform);
+
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
             GetComponent<PlayerInteraction>().ItemInHand = Item;

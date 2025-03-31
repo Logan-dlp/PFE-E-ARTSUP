@@ -2,12 +2,15 @@ using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using UnityEngine;
 
-public class InventorySendItem : MonoBehaviour
+namespace MoonlitMixes.Inventory
 {
-    [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
-
-    public void SendItem()
+    public class InventorySendItem : MonoBehaviour
     {
-        _scriptableItemEvent.SendObject(GetComponentInChildren<ItemDataHolder>().ItemData.ItemPrefab);
+        [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+
+        public void SendItem()
+        {
+            _scriptableItemEvent.SendObject(GetComponentInChildren<ItemDataHolder>().ItemData.ItemPrefab);
+        }
     }
 }

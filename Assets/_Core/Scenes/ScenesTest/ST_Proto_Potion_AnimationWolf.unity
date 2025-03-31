@@ -4924,11 +4924,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4172748722870749099, guid: a941f370c8cb64145b73f2aaa9de66e7, type: 3}
   m_PrefabInstance: {fileID: 1429569687}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &574558406 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3617038064778977266, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-  m_PrefabInstance: {fileID: 1350758166}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &584768145 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3121042314366726311, guid: 287e1de9ce8af5c4c9cda45b94e32a67, type: 3}
@@ -5724,6 +5719,10 @@ MonoBehaviour:
   _itemCooldown: 40
   _fillBarFront: {fileID: 1001788852}
   _fillBarBack: {fileID: 1316123799}
+  _bubbleVFX: {fileID: 0}
+  _smokeVFX: {fileID: 0}
+  _burnedVFX: {fileID: 0}
+  _fireVFXArray: []
 --- !u!114 &690716419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6721,13 +6720,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6820867ca5af2984e914c58e23061534, type: 3}
   - {fileID: 21300000, guid: c9068340e374dc547b3e0580f46d8505, type: 3}
   - {fileID: 21300000, guid: 1fe21bc8a1565224a836404e2f10a84b, type: 3}
+  _buttonSpritesPressedArray: []
   _qteSlot: {fileID: 168334961}
   _progressBarUI: {fileID: 168334959}
   _qTEConfig: {fileID: 0}
   _qTEEvent: {fileID: 11400000, guid: f21e001eabba3d8408414fdd34d7a253, type: 2}
   _scriptableBoolEvent: {fileID: 11400000, guid: 386f5a5a309ffed4fbb944660e3d1a86, type: 2}
-  _playerInput: {fileID: 1350758171}
+  _playerInput: {fileID: 0}
   _delayRatioFailure: 0.77
+  _pressedSpriteTime: 0.1
 --- !u!4 &809880261
 Transform:
   m_ObjectHideFlags: 0
@@ -11394,6 +11395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abcfd4d7db728042957e9a18d1253d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _idleChangeTimer: 0
+  _scriptableBoolEvent: {fileID: 0}
 --- !u!65 &1308428580
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12106,407 +12109,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: char_wolf
       objectReference: {fileID: 0}
-    - target: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6818283851894377731, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758174}
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758173}
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758172}
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758171}
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758170}
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758169}
-    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1350758168}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
---- !u!1 &1350758167 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6682728787243280857, guid: 8d12a700542526f48a4a5adc8fb84839, type: 3}
-  m_PrefabInstance: {fileID: 1350758166}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1350758168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f6671373675a44f85e13bfd09882fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemHoldPivot: {fileID: 574558406}
-  _scriptableItemEvent: {fileID: 11400000, guid: 24a5da4c4d5399945ac3f1b3974c6941, type: 2}
---- !u!114 &1350758169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac77821526ba273418f72b5659686b83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactionDistance: 1
-  _layerHitable:
-    serializedVersion: 2
-    m_Bits: 960
-  _actionMapPlayer: Player
-  _actionMapQTE: QTE
-  _actionMapWaitingTable: WaitingTable
-  _actionMapUI: UI
---- !u!114 &1350758170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0135a207c05a14a824ee45b45968b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _walkSpeed: 5
-  _sprintSpeed: 4
-  _maxStamina: 5
-  _canSprint: 0
---- !u!114 &1350758171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: b0d947fa383cff04cb857d8f46ad4856, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1350758170}
-        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerMovement, Assembly-CSharp
-        m_MethodName: SetTargetMovement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2d8987b2-f66e-45f1-929b-a564e53a5e6f
-    m_ActionName: 'Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1350758170}
-        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerMovement, Assembly-CSharp
-        m_MethodName: SetSprint
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 10eb79df-d88c-408b-8d53-7e6812a3e67d
-    m_ActionName: 'Player/Sprint[/Keyboard/ctrl]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1350758169}
-        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerInteraction, Assembly-CSharp
-        m_MethodName: Interact
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 4740dbaf-b023-4d55-998d-565fec3660fe
-    m_ActionName: 'Player/Interact[/Keyboard/e]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 88083a86-c620-495e-9b14-a21cd7d6e878
-    m_ActionName: 'Player/SecondaryInteract[/Keyboard/q]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 6f2a0305bf388f24b88918983618ccdb, type: 2}
-        m_TargetAssemblyTypeName: AScriptableInputEvent, Assembly-CSharp
-        m_MethodName: SendInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 36a8c9b0-cd09-4f25-a6ee-5f686ae75fff
-    m_ActionName: 'WaitingTable/MovementHighlightObject[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 85c12f6b9e4495042baad4b1e2fdbd40, type: 2}
-        m_TargetAssemblyTypeName: AScriptableInputEvent, Assembly-CSharp
-        m_MethodName: SendInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 41313a80-ada3-4f94-a6a5-5a94a978f878
-    m_ActionName: 'WaitingTable/Select[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: a8ad0271d4c134d4a905483b3ab902a2, type: 2}
-        m_TargetAssemblyTypeName: AScriptableInputEvent, Assembly-CSharp
-        m_MethodName: SendInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6ebde777-92c2-4c1b-9aa2-02275f88fcb1
-    m_ActionName: 'WaitingTable/Cancel[/Keyboard/escape]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 809880260}
-        m_TargetAssemblyTypeName: MoonlitMixes.QTE.QuickTimeEvent, Assembly-CSharp
-        m_MethodName: GetInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 915df8cb-4c50-4a55-84f0-b5369b44fa82
-    m_ActionName: 'QTE/ButtonNorth[/XInputControllerWindows/buttonNorth]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 809880260}
-        m_TargetAssemblyTypeName: MoonlitMixes.QTE.QuickTimeEvent, Assembly-CSharp
-        m_MethodName: GetInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 9068b628-098e-4fd6-a8e0-e3aaf3ad8911
-    m_ActionName: 'QTE/ButtonSouth[/XInputControllerWindows/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 809880260}
-        m_TargetAssemblyTypeName: MoonlitMixes.QTE.QuickTimeEvent, Assembly-CSharp
-        m_MethodName: GetInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: bb48bc42-12e9-4a75-b74e-c6cf483b34d5
-    m_ActionName: 'QTE/ButtonEast[/XInputControllerWindows/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 809880260}
-        m_TargetAssemblyTypeName: MoonlitMixes.QTE.QuickTimeEvent, Assembly-CSharp
-        m_MethodName: GetInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: cca0bdf1-73eb-4592-967c-56fdcbb295f7
-    m_ActionName: 'QTE/ButtonWest[/XInputControllerWindows/buttonWest]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9c3c050e-f820-47cd-8a55-9ca2cc6f7e71
-    m_ActionName: 'QTE/RightStick[/XInputControllerWindows/rightStick]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 91b53931-eff0-4051-8436-d833ac8af9fc
-    m_ActionName: 'Player/Use Tool[/Keyboard/f]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 67c03e35-cc2f-4fe8-a536-fbb218ab1e6d
-    m_ActionName: 'Player/Change Tool[/Keyboard/e,/Keyboard/q]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0fa7b7ba-d4d6-4b4e-bbc0-a008b3a862e7
-    m_ActionName: 'Player/Open Inventory[/Keyboard/y]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 010ed930-3a23-4b15-9da3-f94629845b59
-    m_ActionName: UI/Navigate
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: eaf4d6a5-6adb-4d51-90ff-fbd66c96f70e
-    m_ActionName: UI/Submit
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 079c0808-31e7-4e25-b140-124ae63daf4b
-    m_ActionName: UI/Cancel
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!95 &1350758172
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bdb6873057be6cd499a619c5eb1cf0c4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!143 &1350758173
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!136 &1350758174
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350758167}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.21088248
-  m_Height: 1.5319148
-  m_Direction: 1
-  m_Center: {x: 0.0056571364, y: 0.7531008, z: -0.019153595}
 --- !u!1001 &1356111456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17741,6 +17348,10 @@ MonoBehaviour:
   _itemCooldown: 40
   _fillBarFront: {fileID: 982120216}
   _fillBarBack: {fileID: 793103801}
+  _bubbleVFX: {fileID: 0}
+  _smokeVFX: {fileID: 0}
+  _burnedVFX: {fileID: 0}
+  _fireVFXArray: []
 --- !u!114 &1846206384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22544,6 +22155,10 @@ MonoBehaviour:
   _itemCooldown: 40
   _fillBarFront: {fileID: 474360087}
   _fillBarBack: {fileID: 2068261412}
+  _bubbleVFX: {fileID: 0}
+  _smokeVFX: {fileID: 0}
+  _burnedVFX: {fileID: 0}
+  _fireVFXArray: []
 --- !u!114 &3024995609837503267
 MonoBehaviour:
   m_ObjectHideFlags: 0

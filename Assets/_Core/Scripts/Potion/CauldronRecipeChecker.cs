@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using MoonlitMixes.CookingMachine;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
-namespace MoonlitMixes.CookingMachine
+namespace MoonlitMixes.Potion
 {
     public class CauldronRecipeChecker : MonoBehaviour
     {
@@ -77,7 +78,7 @@ namespace MoonlitMixes.CookingMachine
                 return;
             }
             
-            if(ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
+            if(_currentRecipe == null || ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
             {
                 HandleFailedPotion();
                 return;
@@ -141,7 +142,6 @@ namespace MoonlitMixes.CookingMachine
             _cauldronTimer.StopCooldown();
             _potionInventory.PotionList.Add(recipe.Potion);
             _potionInventory.UpdatePotionCanvas();
-            Debug.Log($"Recette r�ussie : {recipe.RecipeName} !");
             _currentIngredients.Clear();
             _ingredentToAdd = null;
         }
@@ -151,7 +151,9 @@ namespace MoonlitMixes.CookingMachine
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();
-            Debug.Log("Potion rat�e !");
+
+            _cauldronMixing.DesactiveQTE();
+            
             _currentIngredients.Clear();
             _ingredentToAdd = null;
         }

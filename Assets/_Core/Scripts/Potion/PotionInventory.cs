@@ -7,19 +7,27 @@ namespace MoonlitMixes.Potion
     public class PotionInventory : MonoBehaviour
     {
         public List<Potion> _potionList = new List<Potion>();
-        [SerializeField] private Image[] _images;
+
+        [SerializeField] private GameObject _potionSlotPrefab;
+        [SerializeField] private GameObject _UI;
         
         public List<Potion> PotionList 
         {
             get => _potionList;
         }
 
+        [ContextMenu("UpdatePotions")]
         public void UpdatePotionCanvas()
         {
-            for(int i = 0; i < _potionList.Count; i++)
+            foreach(Transform child in _UI.transform)
             {
-                _images[i].color = new Color(1, 1, 1, 1);
-                _images[i].sprite = _potionList[i].Recipe.PotionSprite;
+                Destroy(child.gameObject);
+            }
+
+            foreach(Potion potion in _potionList)
+            {
+                GameObject obj = Instantiate(_potionSlotPrefab, _UI.transform);
+                obj.GetComponent<Image>().sprite = potion.SpritePotion;
             }
         }
     }
