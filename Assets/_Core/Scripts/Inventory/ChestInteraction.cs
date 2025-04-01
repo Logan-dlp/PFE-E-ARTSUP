@@ -1,9 +1,8 @@
 using MoonlitMixes.Datas;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CheckInventory : MonoBehaviour
+public class ChestInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject _filledItemUI;
     [SerializeField] private GameObject _emptyItemUI;
