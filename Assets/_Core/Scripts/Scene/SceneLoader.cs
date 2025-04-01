@@ -10,14 +10,10 @@ namespace MoonlitMixes.Scene
     {
         private static AsyncOperation _sceneToLoad;
         private static bool _animFinished;
-
-        public static void InitSceneLoader()
-        {
-            _animFinished = false;
-        }
-        
+       
         public static void LoadAsyncScene(string sceneName, Animator animator)
         {
+            _animFinished = false;
             EndTransitionEvent.OnAnimEndAction += OnAnimEnd;
             _sceneToLoad = SceneManager.LoadSceneAsync(sceneName);
             _sceneToLoad.allowSceneActivation = false;
