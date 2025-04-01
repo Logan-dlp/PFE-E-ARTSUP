@@ -7,11 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_Glow
+  m_Name: Shader Graphs_SG_UI_Glow
   m_Shader: {fileID: -6465566751694194690, guid: 95bd1ee8dd314a943b791e25f735fa91, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ON_OFF_1_ON
+  - _OUTLINE_GLOW_OR_TEXTURE_GLOW_OUTLINE_GLOW
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,11 +26,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Alpha:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 63567a33c56e1a941bc6a439fa705b72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_6a019403192f46d093c70b602e6eb528_Texture_1_Texture2D:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture_Glow:
@@ -36,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UI:
-        m_Texture: {fileID: 2800000, guid: cf909d34153d14a4e9dca4f7a57e72b8, type: 3}
+        m_Texture: {fileID: 2800000, guid: deee9c48f09cc1e4da4ee4443c234666, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -55,21 +61,24 @@ Material:
     m_Floats:
     - _Bottom_Line: 0.3
     - _ColorMask: 15
-    - _ON_OFF: 0
-    - _Power_Contour_Color: 0.5
-    - _Power_Glow: 12
+    - _ON_OFF_1: 0
+    - _OUTLINE_GLOW_OR_TEXTURE_GLOW: 0
+    - _Power_Contour_Color: 0.8
+    - _Power_Glow: 15
+    - _Power_Outline_UI_Glow: -1.05
     - _Speed_Glow: 2
+    - _Speed_Outline_Glow_UI: 0.8
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _Top_Line: 0.4
+    - _Top_Line: 0.35
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
     m_Colors:
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
-    - _Color_Glow: {r: 1, g: 0.028301716, b: 0.6940183, a: 0}
+    - _Color_Glow: {r: 0.9254902, g: 0.003921569, b: 0.635294, a: 0}
     - _Tilling_Texture_Glow: {r: 1.5, g: 0.9, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

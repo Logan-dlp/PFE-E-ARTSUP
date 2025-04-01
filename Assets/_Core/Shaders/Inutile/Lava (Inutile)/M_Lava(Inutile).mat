@@ -12,9 +12,10 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _OFF_ON_MOVEMENT_FOR_ROCK_A
+  - _OFF_ON_MOVEMENT_FOR_ROCK_OFF
   - _TEXTURE_OR_SHADER_B
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _OFF_ON_MOVEMENT_FOR_ROCK_A
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -50,6 +51,30 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _T_Alpha_Rock:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Base_Color:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Emissive_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Normal_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Rock:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Specular_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _base_lava:
         m_Texture: {fileID: 2800000, guid: 3e16b3805da23004cacfa5cc6d16b4a2, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -73,7 +98,7 @@ Material:
     - _OFF_ON_MOVEMENT_FOR_ROCK: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rock_OFF_ON: 0
+    - _Rock_OFF_ON: 1
     - _Scrool_Speed: -0.02
     - _Speed_appearing_rock: 0
     - _TEXTURE_OR_SHADER: 1
