@@ -1,5 +1,6 @@
 using System.Collections;
 using MoonlitMixes.Animation;
+using MoonlitMixes.StaticCoroutines;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +14,8 @@ namespace MoonlitMixes.Scene
         public static void InitSceneLoader()
         {
             _animFinished = false;
-            EndTransitionEvent.OnAnimEndAction -= OnAnimEnd;
         }
+        
         public static void LoadAsyncScene(string sceneName, Animator animator)
         {
             EndTransitionEvent.OnAnimEndAction += OnAnimEnd;
