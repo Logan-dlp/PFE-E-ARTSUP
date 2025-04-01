@@ -16,7 +16,8 @@ namespace MoonlitMixes.Player
         public void AddDamage(int damage, Vector3 direction, float force, float duration)
         {
             _health -= damage;
-            StartCoroutine(_playerMovement.Knockback(direction, force, duration));
+            // StartCoroutine(_playerMovement.Knockback(direction, force, duration));
+            Debug.Log("Knockback commentary here !");
         }
     }
 }
