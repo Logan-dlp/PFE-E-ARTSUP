@@ -79,7 +79,6 @@ namespace MoonlitMixes.Inventory
             }
         }
 
-
         private void AddNewRowOfSlots()
         {
             for (int i = 0; i < _initialSlotsPerRow; i++)

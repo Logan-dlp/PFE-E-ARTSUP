@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TriggerButtonUI : MonoBehaviour
 {
     [SerializeField] private GameObject _uiButton;
+    public bool isPlayerInTrigger { get; private set; } = false;
 
     private void Start()
     {
@@ -16,6 +18,7 @@ public class TriggerButtonUI : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            isPlayerInTrigger = true;
             if (_uiButton != null)
             {
                 _uiButton.SetActive(true);
@@ -27,6 +30,7 @@ public class TriggerButtonUI : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            isPlayerInTrigger = false;
             if (_uiButton != null)
             {
                 _uiButton.SetActive(false);

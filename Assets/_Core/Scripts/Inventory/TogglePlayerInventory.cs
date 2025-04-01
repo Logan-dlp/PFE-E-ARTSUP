@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ToggleInventory : MonoBehaviour
+public class TogglePlayerInventory : MonoBehaviour
 {
     [SerializeField] private GameObject _canvaInventory;
     private bool isActive = false;
