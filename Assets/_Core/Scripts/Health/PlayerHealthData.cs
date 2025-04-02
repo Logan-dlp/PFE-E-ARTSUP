@@ -1,20 +1,23 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new_" + nameof(PlayerHealthData), menuName = "Scriptable Objects/Player Health Data")]
-public class PlayerHealthData : ScriptableObject
+namespace MoonlitMixes.Health
 {
-    [SerializeField] private float _maxHealth;
-    [SerializeField] private float _currentHealth;
-
-    public float MaxHealth
+    [CreateAssetMenu(fileName = "new_" + nameof(PlayerHealthData), menuName = "Scriptable Objects/Player Health Data")]
+    public class PlayerHealthData : ScriptableObject
     {
-        get => _maxHealth;
-        set => _maxHealth = Mathf.Max(0, value);
-    }
+        [SerializeField] private float _maxHealth;
+        [SerializeField] private float _currentHealth;
 
-    public float CurrentHealth
-    {
-        get => _currentHealth;
-        set => _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set => _maxHealth = Mathf.Max(0, value);
+        }
+
+        public float CurrentHealth
+        {
+            get => _currentHealth;
+            set => _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+        }
     }
 }
