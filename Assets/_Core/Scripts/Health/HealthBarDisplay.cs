@@ -15,12 +15,15 @@ namespace MoonlitMixes.Health
 
         private void OnDisable()
         {
-            _healthBarScriptableInt.HealthAmountAction += UpdateHealthBar;
+            _healthBarScriptableInt.HealthAmountAction -= UpdateHealthBar;
         }
 
         private void UpdateHealthBar(float healthAmount)
         {
-            _healthBar.fillAmount = healthAmount;
+            if (_healthBar != null)
+            {
+                _healthBar.fillAmount = healthAmount;
+            }
         }
     }
 }
