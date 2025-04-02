@@ -1,18 +1,25 @@
+using MoonlitMixes.Respawn;
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MoonlitMixes.Health
 {
     public class PlayerHealth : AHealth
     {
+        public event Action OnPlayerRespawnInScene;
+        public event Action OnPlayerRespawnInOtherScene;
+
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegenetion;
-        
+        [SerializeField] private RespawnPointData respawnData;
+
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
 
         private void FixedUpdate()
         {
-            if(_timeBeforeOutOfFight >= 0)
+            if (_timeBeforeOutOfFight >= 0)
             {
                 _timeBeforeOutOfFight -= .02f;
             }
@@ -20,8 +27,8 @@ namespace MoonlitMixes.Health
             {
                 _isInFight = false;
             }
-            
-            if(_currentHealth < _maxHealth && !_isInFight)
+
+            if (_currentHealth < _maxHealth && !_isInFight)
             {
                 _currentHealth += _healthRegenetion * .02f;
                 CheckHealth();
@@ -30,7 +37,6 @@ namespace MoonlitMixes.Health
 
         public override void TakeDamage(float damage)
         {
-            Debug.Log("");
             RemoveHealth(damage);
             _isInFight = true;
             _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
@@ -38,12 +44,25 @@ namespace MoonlitMixes.Health
 
         protected override void CheckHealth()
         {
-            if(_currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
-                Debug.Log("PlayerDeath");
+                if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
+                {
+                    OnPlayerRespawnInScene?.Invoke();
+                }
+                else
+                {
+                    OnPlayerRespawnInOtherScene?.Invoke();
+                }
             }
-            
+
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
+        }
+
+        public void ResetHealth()
+        {
+            _currentHealth = _maxHealth;
+            CheckHealth();
         }
     }
 }
