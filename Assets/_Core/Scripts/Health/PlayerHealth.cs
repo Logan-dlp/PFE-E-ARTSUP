@@ -6,12 +6,10 @@ namespace MoonlitMixes.Health
     {
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegenetion;
-
         [SerializeField] private PlayerHealthData playerHealthData;
 
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
-
 
         private void FixedUpdate()
         {
@@ -46,7 +44,7 @@ namespace MoonlitMixes.Health
 
         protected override void CheckHealth()
         {
-            if (_currentHealth <= 0)
+            if(_currentHealth <= 0)
             {
                 Debug.Log("PlayerDeath");
             }
