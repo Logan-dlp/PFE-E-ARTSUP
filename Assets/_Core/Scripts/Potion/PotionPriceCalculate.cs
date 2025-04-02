@@ -21,7 +21,6 @@ namespace MoonlitMixes.Potion
             if (basePrice <= 0)
             {
                 Debug.Log("Aucune potion ou prix. Le prix est à 0.");
-                totalPotionPrice = 0;
                 UpdateTotalPriceUI();
                 return;
             }
