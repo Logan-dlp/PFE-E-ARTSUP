@@ -3,6 +3,7 @@ using System.Linq;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
+using MoonlitMixes.Potion.Inventory;
 using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine

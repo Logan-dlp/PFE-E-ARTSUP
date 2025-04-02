@@ -1,44 +1,47 @@
-using MoonlitMixes.AI.PNJ;
 using UnityEngine;
 using UnityEngine.UI;
+using MoonlitMixes.Shop;
 
-public class InteractionButton : MonoBehaviour
+namespace MoonlitMixes.Player.Interaction
 {
-    [SerializeField] private Image buttonImage;
-    [SerializeField] private CloseOrOpenShop _closeOrOpenShop;
-
-    private void Start()
+    public class InteractionButton : MonoBehaviour
     {
-        if (buttonImage != null)
-        {
-            buttonImage.gameObject.SetActive(false);
-        }
-    }
+        [SerializeField] private Image _buttonImage;
+        [SerializeField] private CloseOrOpenShop _closeOrOpenShop;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!_closeOrOpenShop.HasShopBeenOpened)
+        private void Start()
         {
-            if (buttonImage != null)
+            if (_buttonImage != null)
             {
-                buttonImage.gameObject.SetActive(true);
+                _buttonImage.gameObject.SetActive(false);
             }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (buttonImage != null)
+        private void OnTriggerEnter(Collider other)
         {
-            buttonImage.gameObject.SetActive(false);
+            if (!_closeOrOpenShop.HasShopBeenOpened)
+            {
+                if (_buttonImage != null)
+                {
+                    _buttonImage.gameObject.SetActive(true);
+                }
+            }
         }
-    }
 
-    public void DeactivateButtonUI()
-    {
-        if (buttonImage != null)
+        private void OnTriggerExit(Collider other)
         {
-            buttonImage.gameObject.SetActive(false);
+            if (_buttonImage != null)
+            {
+                _buttonImage.gameObject.SetActive(false);
+            }
+        }
+
+        public void DeactivateButtonUI()
+        {
+            if (_buttonImage != null)
+            {
+                _buttonImage.gameObject.SetActive(false);
+            }
         }
     }
 }

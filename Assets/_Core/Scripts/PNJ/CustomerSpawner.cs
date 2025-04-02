@@ -6,6 +6,8 @@ namespace MoonlitMixes.AI.PNJ
 {
     public class CustomerSpawner : MonoBehaviour
     {
+        public event System.Action OnAllCustomersGone;
+
         [SerializeField] private List<GameObject> _pnjPrefabs;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private float _timeBetweenSpawns = 2f;
@@ -16,8 +18,6 @@ namespace MoonlitMixes.AI.PNJ
         private int _pnjsDespawned = 0;
         private int _activeCustomers = 0;
         private bool _isSpawning = false;
-
-        public event System.Action OnAllCustomersGone;
 
         public void StartSpawning()
         {

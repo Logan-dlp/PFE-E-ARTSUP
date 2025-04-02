@@ -18,7 +18,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
                 _dialogueController = pnjStateMachine.DialogueController;
             }
 
-                if (_dialogueController != null)
+            if (_dialogueController != null)
             {
                 _dialogueController.StartDialogue();
                 DialogueController.OnDialogueFinished += OnDialogueEnd;

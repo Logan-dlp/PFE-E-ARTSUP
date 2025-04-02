@@ -1,12 +1,20 @@
+using MoonlitMixes.AI.PNJ.StateMachine.States;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
-using MoonlitMixes.AI.PNJ.StateMachine.States;
 
 namespace MoonlitMixes.AI.PNJ
 {
     public class PNJStateMachine : MonoBehaviour
     {
+        public DialogueController DialogueControllerNoPotion => _dialogueControllerNoPotion;
+        public DialogueController DialogueController => _dialogueController;
+        public DialogueController DialogueControllerSuccess => _dialogueControllerSuccess;
+        public DialogueController DialogueControllerFailure => _dialogueControllerFailure;
+        public int FailedAttempts => _failedAttempts;
+        public string SelectedPotionName { get; private set; }
+        public event System.Action OnDespawn;
+
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
@@ -15,13 +23,6 @@ namespace MoonlitMixes.AI.PNJ
         [SerializeField] private DialogueController _dialogueControllerSuccess;
         [SerializeField] private DialogueController _dialogueControllerFailure;
         [SerializeField] private DialogueController _dialogueControllerNoPotion;
-        public DialogueController DialogueControllerNoPotion => _dialogueControllerNoPotion;
-        public DialogueController DialogueController => _dialogueController;
-        public DialogueController DialogueControllerSuccess => _dialogueControllerSuccess;
-        public DialogueController DialogueControllerFailure => _dialogueControllerFailure;
-        public string SelectedPotionName { get; private set; }
-
-        public event System.Action OnDespawn;
 
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -29,7 +30,6 @@ namespace MoonlitMixes.AI.PNJ
         private IPNJState _currentState;
         private List<IPNJState> _states;
         private int _failedAttempts = 0;
-        public int FailedAttempts => _failedAttempts;
 
         public void IncrementFailedAttempts()
         {

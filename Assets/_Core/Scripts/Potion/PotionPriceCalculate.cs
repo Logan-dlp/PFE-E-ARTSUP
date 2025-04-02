@@ -5,8 +5,9 @@ namespace MoonlitMixes.Potion
 {
     public class PotionPriceCalculate : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI totalPriceText;
         public int SelectedPotionPrice { get; private set; }
+
+        [SerializeField] private TextMeshProUGUI totalPriceText;
         private int totalPotionPrice = 0;
 
         public void SetSelectedPotionPrice(int price)
