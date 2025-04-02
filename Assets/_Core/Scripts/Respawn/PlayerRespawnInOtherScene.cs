@@ -1,64 +1,67 @@
 using MoonlitMixes.Health;
-using MoonlitMixes.Respawn;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerRespawnInOtherScene : MonoBehaviour
+namespace MoonlitMixes.Respawn
 {
-    [SerializeField] private RespawnPointData _respawnPointData;
-    private PlayerHealth _playerHealth;
-
-    private static bool shouldReposition = false;
-
-    private void Awake()
+    public class PlayerRespawnInOtherScene : MonoBehaviour
     {
-        _playerHealth = GetComponent<PlayerHealth>();
-    }
+        [SerializeField] private RespawnPointData _respawnPointData;
 
-    private void OnEnable()
-    {
-        _playerHealth.OnPlayerRespawnInOtherScene += PrepareRespawnInOtherScene;
-    }
+        private PlayerHealth _playerHealth;
 
-    private void OnDisable()
-    {
-        _playerHealth.OnPlayerRespawnInOtherScene -= PrepareRespawnInOtherScene;
-    }
+        private static bool shouldReposition = false;
 
-    private void PrepareRespawnInOtherScene()
-    {
-        shouldReposition = true;
-        SceneManager.LoadScene(_respawnPointData.RespawnScene);
-    }
-
-    private void Start()
-    {
-        GameObject respawnPoint = GameObject.FindGameObjectWithTag("Respawn");
-
-        if (respawnPoint != null)
+        private void Awake()
         {
-            _respawnPointData.RespawnPosition = respawnPoint.transform.position;
-            _respawnPointData.RespawnRotation = respawnPoint.transform.rotation;
-            Debug.Log($"RespawnPoint mis à jour: {_respawnPointData.RespawnPosition}");
+            _playerHealth = GetComponent<PlayerHealth>();
         }
 
-        if (shouldReposition)
+        private void OnEnable()
         {
-            shouldReposition = false;
-            RepositionPlayer();
+            _playerHealth.OnPlayerRespawnInOtherScene += PrepareRespawnInOtherScene;
         }
-    }
 
-    private void RepositionPlayer()
-    {
-        CharacterController player = GameObject.FindAnyObjectByType<CharacterController>();
-
-        if (player != null)
+        private void OnDisable()
         {
-            player.enabled = false;
-            player.transform.position = _respawnPointData.RespawnPosition;
-            player.transform.rotation = _respawnPointData.RespawnRotation;
-            player.enabled = true;
+            _playerHealth.OnPlayerRespawnInOtherScene -= PrepareRespawnInOtherScene;
+        }
+
+        private void PrepareRespawnInOtherScene()
+        {
+            shouldReposition = true;
+            SceneManager.LoadScene(_respawnPointData.RespawnScene);
+        }
+
+        private void Start()
+        {
+            GameObject respawnPoint = GameObject.FindGameObjectWithTag("Respawn");
+
+            if (respawnPoint != null)
+            {
+                _respawnPointData.RespawnPosition = respawnPoint.transform.position;
+                _respawnPointData.RespawnRotation = respawnPoint.transform.rotation;
+                Debug.Log($"RespawnPoint mis à jour: {_respawnPointData.RespawnPosition}");
+            }
+
+            if (shouldReposition)
+            {
+                shouldReposition = false;
+                RepositionPlayer();
+            }
+        }
+
+        private void RepositionPlayer()
+        {
+            CharacterController player = GameObject.FindAnyObjectByType<CharacterController>();
+
+            if (player != null)
+            {
+                player.enabled = false;
+                player.transform.position = _respawnPointData.RespawnPosition;
+                player.transform.rotation = _respawnPointData.RespawnRotation;
+                player.enabled = true;
+            }
         }
     }
 }

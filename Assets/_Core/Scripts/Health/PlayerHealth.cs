@@ -1,25 +1,25 @@
+using MoonlitMixes.Respawn;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using MoonlitMixes.Respawn;
 
 namespace MoonlitMixes.Health
 {
     public class PlayerHealth : AHealth
     {
-        [SerializeField] private float _timeBeforeGettingOutOfFight;
-        [SerializeField] private float _healthRegenetion;
-        [SerializeField] private RespawnPointData respawnData;
-        private bool _isInFight;
-        private float _timeBeforeOutOfFight;
-
         public event Action OnPlayerRespawnInScene;
         public event Action OnPlayerRespawnInOtherScene;
 
+        [SerializeField] private float _timeBeforeGettingOutOfFight;
+        [SerializeField] private float _healthRegenetion;
+        [SerializeField] private RespawnPointData respawnData;
+
+        private bool _isInFight;
+        private float _timeBeforeOutOfFight;
 
         private void FixedUpdate()
         {
-            if(_timeBeforeOutOfFight >= 0)
+            if (_timeBeforeOutOfFight >= 0)
             {
                 _timeBeforeOutOfFight -= .02f;
             }
@@ -27,8 +27,8 @@ namespace MoonlitMixes.Health
             {
                 _isInFight = false;
             }
-            
-            if(_currentHealth < _maxHealth && !_isInFight)
+
+            if (_currentHealth < _maxHealth && !_isInFight)
             {
                 _currentHealth += _healthRegenetion * .02f;
                 CheckHealth();
@@ -44,7 +44,7 @@ namespace MoonlitMixes.Health
 
         protected override void CheckHealth()
         {
-            if(_currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
                 if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
                 {
@@ -55,7 +55,7 @@ namespace MoonlitMixes.Health
                     OnPlayerRespawnInOtherScene?.Invoke();
                 }
             }
-            
+
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }
 
