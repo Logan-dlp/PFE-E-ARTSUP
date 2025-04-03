@@ -1,38 +1,41 @@
+using MoonlitMixes.AI.PNJ.StateMachine.States;
+using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Dialogue;
+using UnityEngine;
 
-namespace MoonlitMixes.AI.PNJ.StateMachine.States
+public class DialogueState : IPNJState
 {
-    public class DialogueState : IPNJState
+    private PNJData _pnjData;
+
+    public void EnterState(PNJData data)
     {
-        private PNJData _pnjData;
+        _pnjData = data;
+        data.Agent.isStopped = true;
+        data.Animator.SetBool("isWalking", false);
 
-        public void EnterState(PNJData data)
+        PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
+
+        if (DialogueController.Instance != null && pnjStateMachine.dialogueData != null)
         {
-            _pnjData = data;
-            data.Agent.isStopped = true;
-            data.Animator.SetBool("isWalking", false);
-
-            PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
-            
-            if (DialogueController.Instance != null)
-            {
-                //_dialogueController.StartDialogue();
-                DialogueController.OnDialogueFinished += OnDialogueEnd;
-            }
+            DialogueController.Instance.StartDialogue(pnjStateMachine.dialogueData);
+            DialogueController.OnDialogueFinished += OnDialogueEnd;
         }
-
-        private void OnDialogueEnd()
+        else
         {
-            DialogueController.OnDialogueFinished -= OnDialogueEnd;
-
-            if (_pnjData != null)
-            {
-                _pnjData.PNJGameObject.GetComponent<PNJStateMachine>().NextState();
-            }
+            Debug.LogWarning("DialogueController ou DialogueData est nul");
         }
-
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
-
-        public void ExitState(PNJData data) { }
     }
+
+    private void OnDialogueEnd()
+    {
+        DialogueController.OnDialogueFinished -= OnDialogueEnd;
+
+        if (_pnjData != null)
+        {
+            _pnjData.PNJGameObject.GetComponent<PNJStateMachine>().NextState();
+        }
+    }
+
+    public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
+    public void ExitState(PNJData data) { }
 }

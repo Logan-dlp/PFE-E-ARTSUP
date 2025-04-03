@@ -15,9 +15,9 @@ public class ChoiceDialogueState : IPNJState
     public void EnterState(PNJData data)
     {
         _pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
-        _potionChoiceController = GameObject.FindObjectOfType<PotionChoiceController>();
-        _potionPriceCalculated = GameObject.FindObjectOfType<PotionPriceCalculate>();
-        _potionInventory = GameObject.FindObjectOfType<PotionInventory>();
+        _potionChoiceController = Object.FindFirstObjectByType<PotionChoiceController>();
+        _potionPriceCalculated = Object.FindFirstObjectByType<PotionPriceCalculate>();
+        _potionInventory = Object.FindFirstObjectByType<PotionInventory>();
 
         _pnjData = data;
         _pnjData.Agent.isStopped = true;

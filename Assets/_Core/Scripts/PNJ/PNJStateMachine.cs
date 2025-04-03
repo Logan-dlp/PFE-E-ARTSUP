@@ -8,13 +8,15 @@ namespace MoonlitMixes.AI.PNJ
 {
     public class PNJStateMachine : MonoBehaviour
     {
+        public event System.Action OnDespawn;
+        public string SelectedPotionName { get; private set; }
+        public int FailedAttempts => _failedAttempts;
+
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
         [SerializeField] private PotionListData _potionList;
-        public string SelectedPotionName { get; private set; }
-
-        public event System.Action OnDespawn;
+        [SerializeField] public DialogueData dialogueData;  // Changement ici
 
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -22,25 +24,21 @@ namespace MoonlitMixes.AI.PNJ
         private IPNJState _currentState;
         private List<IPNJState> _states;
         private int _failedAttempts = 0;
-        public int FailedAttempts => _failedAttempts;
 
         public void IncrementFailedAttempts()
         {
             _failedAttempts++;
         }
 
-
         public void ResetFailedAttempts()
         {
             _failedAttempts = 0;
         }
 
-
         public void InvokeOnDespawn()
         {
             OnDespawn?.Invoke();
         }
-
 
         private void Awake()
         {
@@ -86,7 +84,6 @@ namespace MoonlitMixes.AI.PNJ
             _currentState = _states[stateIndex];
             _currentState.EnterState(_pnjData);
         }
-
 
         public void NextState()
         {

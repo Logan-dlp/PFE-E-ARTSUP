@@ -1,8 +1,9 @@
 using UnityEngine;
 using TMPro;
-using System;
-using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MoonlitMixes.Dialogue
 {
@@ -10,24 +11,26 @@ namespace MoonlitMixes.Dialogue
     {
         private static DialogueController _instance;
         public static DialogueController Instance => _instance;
-        
-        public static event Action OnDialogueFinished;
-        
+
+        public static event System.Action OnDialogueFinished;
+
         [SerializeField] private GameObject _panelDialogue;
-        [SerializeField] private TMP_Text _textPlayer;
-        [SerializeField] private TMP_Text _textNPC;
-        [SerializeField] private Image _imagePlayer;
-        [SerializeField] private Image _imageNPC;
-        [SerializeField] private float letterDelay = .05f;
-    
-        private bool _isTextIsWritten = false;
-        private bool _isSkipText = false;
-        
+        [SerializeField] private TMP_Text[] _textBoxes;  // Les 2 blocs de texte
+        [SerializeField] private Image[] _imageSpeaker; // Les 2 images associées aux blocs de texte
+        [SerializeField] private SpeakerEffect[] _allSpeakers; // Les 4 personnages max dans la scène
+
+        private Dictionary<int, SpeakerEffect> _activeSpeakers = new Dictionary<int, SpeakerEffect>();
+        private DialogueData _currentDialogue;
+        private int _dialogueIndex = 0;
+        private bool _isTyping = false;
+        private Dictionary<int, int> _speakerToTextBox = new Dictionary<int, int>(); // Associe les personnages aux blocs de texte
+
+
         private void Awake()
         {
             if (_instance != null && _instance != this)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
             else
             {
@@ -35,86 +38,114 @@ namespace MoonlitMixes.Dialogue
             }
         }
 
-        private void Start()
+        public void StartDialogue(DialogueData dialogue)
         {
-            _panelDialogue.SetActive(false);
-        }
-    
-        public void LaunchDialogue(DialogueScriptableObject dialogue)
-        {
+            _currentDialogue = dialogue;
+            if (_currentDialogue == null) return;
+
             _panelDialogue.SetActive(true);
-            ClearDialogue();
-            NextDialogue(dialogue);
+
+            Debug.Log("Le panneau de dialogue est activé : " + _panelDialogue.activeSelf);
+
+            _dialogueIndex = 0;
+
+            MapSpeakersToTextBoxes();
+            DisplayNextDialogue();
         }
-    
-        public void NextDialogue(DialogueScriptableObject dialogue)
+
+        private void MapSpeakersToTextBoxes()
         {
-            int _dialogueIterator = 0;
-            
-            if (_dialogueIterator >= dialogue.dialogueSection.Length)
+            _activeSpeakers.Clear();
+            _speakerToTextBox.Clear();
+
+            List<int> assignedSpeakers = new List<int>();
+
+            for (int i = 0; i < _allSpeakers.Length; i++)
+            {
+                SpeakerEffect speaker = _allSpeakers[i];
+                if (speaker.gameObject.activeSelf) // On prend que les personnages actifs
+                {
+                    _activeSpeakers.Add(i, speaker);
+                    assignedSpeakers.Add(i);
+                }
+            }
+
+            if (assignedSpeakers.Count > 2)
+            {
+                Debug.LogWarning("Plus de 2 personnages parlent en même temps, ça peut être confus.");
+            }
+
+            for (int i = 0; i < Mathf.Min(assignedSpeakers.Count, 2); i++)
+            {
+                _speakerToTextBox.Add(assignedSpeakers[i], i);
+            }
+        }
+
+        public void DisplayNextDialogue()
+        {
+            Debug.Log("Affichage de la prochaine ligne de dialogue...");
+
+            if (_dialogueIndex >= _currentDialogue.lines.Length)
             {
                 EndDialogue();
                 return;
             }
-            
-            if (_isTextIsWritten)
-            {
-                _isSkipText = true;
-                return;
-            }
-            
-            if (dialogue.dialogueSection[_dialogueIterator].isPlayer)
-            {
-                _imagePlayer.sprite = dialogue.dialogueSection[_dialogueIterator].sprite;
-                _imagePlayer.preserveAspect = true;
-                WriteText(dialogue.dialogueSection[_dialogueIterator].dialogue, _textPlayer);
-            }
-            else
-            {
-                _imageNPC.sprite = dialogue.dialogueSection[_dialogueIterator].sprite;
-                _imageNPC.preserveAspect = true;
-                WriteText(dialogue.dialogueSection[_dialogueIterator].dialogue, _textNPC);
-            }
-            
-            _dialogueIterator++;
+
+            DialogueLineData line = _currentDialogue.lines[_dialogueIndex];
+
+            int speakerIndex = line.speakerIndex;
+            int textBoxIndex = _speakerToTextBox.ContainsKey(speakerIndex) ? _speakerToTextBox[speakerIndex] : 0;
+
+            UpdateSpeakerEffects(speakerIndex, line.effect);
+
+            _textBoxes[textBoxIndex].text = "";
+            _imageSpeaker[textBoxIndex].sprite = line.speakerSprite;
+            StartCoroutine(TypeText(line.text, _textBoxes[textBoxIndex]));
+
+            _dialogueIndex++;
         }
-    
+
+        private void UpdateSpeakerEffects(int activeIndex, SpeakerEffectType effect)
+        {
+            foreach (var speaker in _activeSpeakers)
+            {
+                if (speaker.Key == activeIndex)
+                {
+                    speaker.Value.ApplyEffect(effect);
+                }
+                else
+                {
+                    speaker.Value.DimEffect();
+                }
+            }
+        }
+
+        private IEnumerator TypeText(string text, TMP_Text textBox)
+        {
+            _isTyping = true;
+            textBox.text = "";
+
+            foreach (char letter in text)
+            {
+                textBox.text += letter;
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            _isTyping = false;
+        }
+
         public void EndDialogue()
         {
-            ClearDialogue();
             _panelDialogue.SetActive(false);
             OnDialogueFinished?.Invoke();
         }
-    
-        private void ClearDialogue()
+
+        public void OnNextDialoguePressed(InputAction.CallbackContext context)
         {
-            _textPlayer.text = "";
-            _textNPC.text = "";
-        }
-    
-    
-        private void WriteText(string text, TMP_Text textBox)
-        {
-            textBox.maxVisibleCharacters = 0;
-            textBox.text = text;
-            _isTextIsWritten = true;
-            StartCoroutine(TypeText(textBox));
-        }
-    
-        private IEnumerator TypeText(TMP_Text textBox)
-        {
-            for (int i = 0; i < textBox.text.Length; ++i)
+            if (context.performed)
             {
-                textBox.maxVisibleCharacters++;
-                yield return new WaitForSeconds(letterDelay);
-                if (_isSkipText == true)
-                {
-                    textBox.maxVisibleCharacters = textBox.text.Length;
-                    _isSkipText = false;
-                    break;
-                }
+                DisplayNextDialogue();
             }
-            _isTextIsWritten = false;
         }
     }
 }
