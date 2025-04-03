@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using MoonlitMixes.AI.PNJ.StateMachine.States;
-using MoonlitMixes.Dialogue;
 
 namespace MoonlitMixes.AI.PNJ
 {
@@ -16,7 +15,7 @@ namespace MoonlitMixes.AI.PNJ
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
         [SerializeField] private PotionListData _potionList;
-        [SerializeField] public DialogueData dialogueData;  // Changement ici
+        [SerializeField] public DialogueData dialogueData;
 
         private NavMeshAgent _agent;
         private Animator _animator;

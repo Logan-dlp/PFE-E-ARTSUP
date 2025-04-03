@@ -326,7 +326,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_ActionId
@@ -393,6 +393,10 @@ PrefabInstance:
       value: 079c0808-31e7-4e25-b140-124ae63daf4b
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
+      value: 1f612ddb-3ae7-4e07-83fc-d8949e89e4f3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_ActionName
       value: 'Player/Interact[/Keyboard/e]'
       objectReference: {fileID: 0}
@@ -457,12 +461,20 @@ PrefabInstance:
       value: UI/Cancel
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
+      value: 'Dialogue/Interact[/Keyboard/e]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -474,6 +486,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
@@ -489,6 +505,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 145157944}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -498,6 +518,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
@@ -513,6 +537,10 @@ PrefabInstance:
       value: OnToggleShop
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnNextDialoguePressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: CloseOrOpenShop, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -525,6 +553,10 @@ PrefabInstance:
       value: CloseOrOpenShop, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MoonlitMixes.Dialogue.DialogueController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -534,6 +566,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335678901166205118, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2999253988127387035, guid: 14433b17e9d3dac47bc42bf686c40789, type: 3}
@@ -619,10 +655,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelDialogue: {fileID: 515777297}
+  _letterDelay: 1.29
   _textBoxes:
   - {fileID: 423601367}
   - {fileID: 1531993379}
-  _imageSpeaker:
+  _imageSpeakers:
   - {fileID: 1132598516}
   - {fileID: 2000333656}
   _allSpeakers: []

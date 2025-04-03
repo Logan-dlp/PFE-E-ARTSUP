@@ -1,9 +1,8 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace MoonlitMixes.Dialogue
 {
@@ -15,76 +14,83 @@ namespace MoonlitMixes.Dialogue
         public static event System.Action OnDialogueFinished;
 
         [SerializeField] private GameObject _panelDialogue;
-        [SerializeField] private TMP_Text[] _textBoxes;  // Les 2 blocs de texte
-        [SerializeField] private Image[] _imageSpeaker; // Les 2 images associées aux blocs de texte
-        [SerializeField] private SpeakerEffect[] _allSpeakers; // Les 4 personnages max dans la scène
+        [SerializeField] private float _letterDelay = 0.05f;
+        [SerializeField] private TMP_Text[] _textBoxes;
+        [SerializeField] private Image[] _imageSpeakers;
+        [SerializeField] private SpeakerEffect[] _allSpeakers;
 
-        private Dictionary<int, SpeakerEffect> _activeSpeakers = new Dictionary<int, SpeakerEffect>();
         private DialogueData _currentDialogue;
         private int _dialogueIndex = 0;
         private bool _isTyping = false;
-        private Dictionary<int, int> _speakerToTextBox = new Dictionary<int, int>(); // Associe les personnages aux blocs de texte
+        private bool _isSkipText = false;
 
+        private PlayerInput _playerInput;
+        private InputActionAsset _inputActionAsset;
+        private InputActionMap _originalActionMap;
 
         private void Awake()
         {
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
-            else
+            _instance = this;
+
+            _playerInput = FindFirstObjectByType<PlayerInput>();
+            if (_playerInput == null)
             {
-                _instance = this;
+                Debug.LogError("PlayerInput not found in the scene!");
+                return;
+            }
+
+            _inputActionAsset = _playerInput.actions;
+            if (_inputActionAsset == null)
+            {
+                Debug.LogError("InputActionAsset is missing in PlayerInput!");
+                return;
             }
         }
 
         public void StartDialogue(DialogueData dialogue)
         {
-            _currentDialogue = dialogue;
-            if (_currentDialogue == null) return;
+            if (_inputActionAsset == null)
+            {
+                Debug.LogError("InputActionAsset is not assigned!");
+                return;
+            }
+
+            _originalActionMap = _inputActionAsset.FindActionMap("Player");
+            if (_originalActionMap == null)
+            {
+                Debug.LogError("The 'Player' ActionMap was not found!");
+                return;
+            }
+
+            var dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
+            if (dialogueActionMap == null)
+            {
+                Debug.LogError("The 'Dialogue' ActionMap was not found!");
+                return;
+            }
 
             _panelDialogue.SetActive(true);
+            dialogueActionMap.Enable();
 
-            Debug.Log("Le panneau de dialogue est activé : " + _panelDialogue.activeSelf);
+            _currentDialogue = dialogue;
+            if (_currentDialogue == null || _currentDialogue.lines == null || _currentDialogue.lines.Length == 0)
+            {
+                Debug.LogError("Dialogue data is invalid or empty!");
+                EndDialogue();
+                return;
+            }
 
             _dialogueIndex = 0;
-
-            MapSpeakersToTextBoxes();
             DisplayNextDialogue();
-        }
-
-        private void MapSpeakersToTextBoxes()
-        {
-            _activeSpeakers.Clear();
-            _speakerToTextBox.Clear();
-
-            List<int> assignedSpeakers = new List<int>();
-
-            for (int i = 0; i < _allSpeakers.Length; i++)
-            {
-                SpeakerEffect speaker = _allSpeakers[i];
-                if (speaker.gameObject.activeSelf) // On prend que les personnages actifs
-                {
-                    _activeSpeakers.Add(i, speaker);
-                    assignedSpeakers.Add(i);
-                }
-            }
-
-            if (assignedSpeakers.Count > 2)
-            {
-                Debug.LogWarning("Plus de 2 personnages parlent en même temps, ça peut être confus.");
-            }
-
-            for (int i = 0; i < Mathf.Min(assignedSpeakers.Count, 2); i++)
-            {
-                _speakerToTextBox.Add(assignedSpeakers[i], i);
-            }
         }
 
         public void DisplayNextDialogue()
         {
-            Debug.Log("Affichage de la prochaine ligne de dialogue...");
-
             if (_dialogueIndex >= _currentDialogue.lines.Length)
             {
                 EndDialogue();
@@ -92,43 +98,46 @@ namespace MoonlitMixes.Dialogue
             }
 
             DialogueLineData line = _currentDialogue.lines[_dialogueIndex];
+            int speakerIndex = line._speakerIndex;
 
-            int speakerIndex = line.speakerIndex;
-            int textBoxIndex = _speakerToTextBox.ContainsKey(speakerIndex) ? _speakerToTextBox[speakerIndex] : 0;
+            if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
+            {
+                Debug.LogWarning($"SpeakerIndex {speakerIndex} is out of bounds!");
+                _dialogueIndex++;
+                DisplayNextDialogue();
+                return;
+            }
 
-            UpdateSpeakerEffects(speakerIndex, line.effect);
+            _imageSpeakers[speakerIndex].sprite = line._speakerSprite;
 
-            _textBoxes[textBoxIndex].text = "";
-            _imageSpeaker[textBoxIndex].sprite = line.speakerSprite;
-            StartCoroutine(TypeText(line.text, _textBoxes[textBoxIndex]));
+            WriteText(line._text, _textBoxes[speakerIndex]);
+
+            StartCoroutine(TypeText(line._text, _textBoxes[speakerIndex]));
 
             _dialogueIndex++;
         }
 
-        private void UpdateSpeakerEffects(int activeIndex, SpeakerEffectType effect)
+        private void WriteText(string text, TMP_Text textBox)
         {
-            foreach (var speaker in _activeSpeakers)
-            {
-                if (speaker.Key == activeIndex)
-                {
-                    speaker.Value.ApplyEffect(effect);
-                }
-                else
-                {
-                    speaker.Value.DimEffect();
-                }
-            }
+            textBox.maxVisibleCharacters = 0;
+            textBox.text = text;
         }
 
         private IEnumerator TypeText(string text, TMP_Text textBox)
         {
-            _isTyping = true;
-            textBox.text = "";
-
-            foreach (char letter in text)
+            for (int i = 0; i < textBox.text.Length; ++i)
             {
-                textBox.text += letter;
-                yield return new WaitForSeconds(0.05f);
+                textBox.maxVisibleCharacters++;
+                _isTyping = true;
+
+                if (_isSkipText)
+                {
+                    textBox.maxVisibleCharacters = textBox.text.Length;
+                    _isSkipText = false;
+                    break;
+                }
+
+                yield return new WaitForSeconds(_letterDelay);
             }
 
             _isTyping = false;
@@ -137,14 +146,24 @@ namespace MoonlitMixes.Dialogue
         public void EndDialogue()
         {
             _panelDialogue.SetActive(false);
+            _inputActionAsset.FindActionMap("Dialogue")?.Disable();
+            _originalActionMap?.Enable();
+
             OnDialogueFinished?.Invoke();
         }
 
-        public void OnNextDialoguePressed(InputAction.CallbackContext context)
+        public void OnNextDialoguePressed(InputAction.CallbackContext ctx)
         {
-            if (context.performed)
+            if (ctx.performed)
             {
-                DisplayNextDialogue();
+                if (_isTyping)
+                {
+                    _isSkipText = true;
+                }
+                else
+                {
+                    DisplayNextDialogue();
+                }
             }
         }
     }
