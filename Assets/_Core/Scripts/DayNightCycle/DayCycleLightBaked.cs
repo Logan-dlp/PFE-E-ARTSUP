@@ -47,7 +47,7 @@ public class DayCycleLightBaked : MonoBehaviour
     }
 
     [System.Serializable]
-    public class LightmapTexture
+    private class LightmapTexture
     {
         [SerializeField] internal Texture2D[] _lightingMapDir;
         [SerializeField] internal Texture2D[] _lightingMapColor;

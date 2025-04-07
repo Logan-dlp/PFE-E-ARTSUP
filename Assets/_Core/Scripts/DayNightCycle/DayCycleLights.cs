@@ -9,13 +9,9 @@ public class DayCycleLights : MonoBehaviour
     [SerializeField] private GameObject[] _nightLightsArray;
 
     public void TurnOnDawnLight() => TrunOnLight(0);
-
     public void TurnOnDayLight() => TrunOnLight(1);
-    
     public void TurnOnAfternoonLight() => TrunOnLight(2);
-        
     public void TurnOnTwillightLight() => TrunOnLight(3);
-
     public void TurnOnNightLight() => TrunOnLight(4);
     
     private void TrunOnLight(int dayTime)

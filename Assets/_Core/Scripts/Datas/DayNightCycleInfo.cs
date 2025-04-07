@@ -9,8 +9,7 @@ namespace MoonlitMixes.Datas
         [SerializeField] private Material _skyboxDay;
         [SerializeField] private Material _skyBoxAfternoon;
         [SerializeField] private Material _skyBoxTwillight;
-        [SerializeField] private Material _skyboxNight;
-        
+        [SerializeField] private Material _skyboxNight;        
         [SerializeField] private int _actualTimePhase;
         
         public Material skyboxDawn
@@ -41,7 +40,7 @@ namespace MoonlitMixes.Datas
         public int ActualTimePhase
         {
             get => _actualTimePhase;
-            set => _actualTimePhase = value;
+            set => _actualTimePhase = Mathf.Clamp(value, 0, 5);
         }
     }
 }

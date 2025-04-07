@@ -31,8 +31,6 @@ namespace MoonlitMixes.DayNightCycle
             }
 
             //_dayCycleLights.ChangeBake(_dayNightCycleInfo.ActualTimePhase);
-
-            //DynamicGI.UpdateEnvironment();
         }
     }
 }
