@@ -36,8 +36,14 @@ namespace MoonlitMixes.Animation
 
         private void UpdateBaseAnimations()
         {
-            _animator.SetBool("isRun", isMoving);
-            _animator.SetBool("isIdle", !isMoving);
+            if(isMoving)
+            {
+                _animator.SetTrigger("Run");
+            }
+            else
+            {
+                _animator.SetTrigger("Idle");
+            }
         }
     }
 }

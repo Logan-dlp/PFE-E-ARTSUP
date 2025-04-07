@@ -23,14 +23,16 @@ namespace MoonlitMixes.Animation
             bool isHoldingItem = _playerHoldItem.ItemHold != null;
             _isPerformingActionHolding = isHoldingItem && !_isCut && !_isMix && !_isCrush;
 
-            _animator.SetBool("isHoldingIdle", _isPerformingActionHolding && !isMoving);
-            _animator.SetBool("isHoldingRun", _isPerformingActionHolding && isMoving);
 
             if(_isPerformingActionHolding || _isInventoryOpen || _isPerformingActionIdle)
             {
                 _otherRestrictingAnim = true;
-                _animator.SetBool("isRun", false);
-                _animator.SetBool("isIdle", false);
+                
+                _animator.SetBool("isHoldingIdle", _isPerformingActionHolding && !isMoving);
+                _animator.SetBool("isHoldingRun", _isPerformingActionHolding && isMoving);
+                
+                //_animator.SetBool("isRun", false);
+                //_animator.SetBool("isIdle", false);
             }
             else
             {
@@ -41,13 +43,12 @@ namespace MoonlitMixes.Animation
         public void OpenInventory()
         {
             _isInventoryOpen = true;
-            _animator.SetBool("isLongIdle", true);
+            _animator.SetTrigger("LongIdle");
         }
 
         public void CloseInventory()
         {
             _isInventoryOpen = false;
-            _animator.SetBool("isLongIdle", false);
         }
 
         public void InteractCut()
