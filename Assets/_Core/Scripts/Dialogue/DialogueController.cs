@@ -78,7 +78,7 @@ namespace MoonlitMixes.Dialogue
             dialogueActionMap.Enable();
 
             _currentDialogue = dialogue;
-            if (_currentDialogue == null || _currentDialogue.lines == null || _currentDialogue.lines.Length == 0)
+            if (_currentDialogue == null || _currentDialogue.Lines == null || _currentDialogue.Lines.Length == 0)
             {
                 Debug.LogError("Dialogue data is invalid or empty!");
                 EndDialogue();
@@ -91,14 +91,14 @@ namespace MoonlitMixes.Dialogue
 
         public void DisplayNextDialogue()
         {
-            if (_dialogueIndex >= _currentDialogue.lines.Length)
+            if (_dialogueIndex >= _currentDialogue.Lines.Length)
             {
                 EndDialogue();
                 return;
             }
 
-            DialogueLineData line = _currentDialogue.lines[_dialogueIndex];
-            int speakerIndex = line._speakerIndex;
+            DialogueLineData line = _currentDialogue.Lines[_dialogueIndex];
+            int speakerIndex = line.SpeakerIndex;
 
             if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
             {
@@ -108,11 +108,11 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            _imageSpeakers[speakerIndex].sprite = line._speakerSprite;
+            _imageSpeakers[speakerIndex].sprite = line.SpeakerSprite;
 
-            WriteText(line._text, _textBoxes[speakerIndex]);
+            WriteText(line.Text, _textBoxes[speakerIndex]);
 
-            StartCoroutine(TypeText(line._text, _textBoxes[speakerIndex]));
+            StartCoroutine(TypeText(line.Text, _textBoxes[speakerIndex]));
 
             _dialogueIndex++;
         }
