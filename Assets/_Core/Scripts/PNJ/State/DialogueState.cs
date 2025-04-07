@@ -15,9 +15,9 @@ public class DialogueState : IPNJState
 
         PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
 
-        if (DialogueController.Instance != null && pnjStateMachine.dialogueData != null)
+        if (DialogueController.Instance != null && pnjStateMachine._beginDialogueData != null)
         {
-            DialogueController.Instance.StartDialogue(pnjStateMachine.dialogueData);
+            DialogueController.Instance.StartDialogue(pnjStateMachine._beginDialogueData);
             DialogueController.OnDialogueFinished += OnDialogueEnd;
         }
         else

@@ -14,7 +14,7 @@ namespace MoonlitMixes.Dialogue
         public static event System.Action OnDialogueFinished;
 
         [SerializeField] private GameObject _panelDialogue;
-        [SerializeField] private float _letterDelay = 0.05f;
+        [SerializeField] private float _letterDelay;
         [SerializeField] private TMP_Text[] _textBoxes;
         [SerializeField] private Image[] _imageSpeakers;
         [SerializeField] private SpeakerEffect[] _allSpeakers;
@@ -148,6 +148,15 @@ namespace MoonlitMixes.Dialogue
             _panelDialogue.SetActive(false);
             _inputActionAsset.FindActionMap("Dialogue")?.Disable();
             _originalActionMap?.Enable();
+
+            foreach (var textBox in _textBoxes)
+            {
+                if (textBox != null)
+                {
+                    textBox.text = "";
+                    textBox.maxVisibleCharacters = 0;
+                }
+            }
 
             OnDialogueFinished?.Invoke();
         }

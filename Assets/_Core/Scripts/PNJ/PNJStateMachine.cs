@@ -15,7 +15,12 @@ namespace MoonlitMixes.AI.PNJ
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
         [SerializeField] private PotionListData _potionList;
-        [SerializeField] public DialogueData dialogueData;
+
+        [Header("Dialogue system :")]
+        [SerializeField] public DialogueData _beginDialogueData;
+        [SerializeField] public DialogueData _successDialogueData;
+        [SerializeField] public DialogueData _failureDialogueData;
+        [SerializeField] public DialogueData _noPotionDialogueData;
 
         private NavMeshAgent _agent;
         private Animator _animator;
