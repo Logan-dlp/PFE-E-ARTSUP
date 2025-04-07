@@ -38,11 +38,13 @@ namespace MoonlitMixes.Animation
         {
             if(isMoving)
             {
-                _animator.SetTrigger("Run");
+                _animator.SetBool("Idle", false);
+                _animator.SetBool("Run", true);
             }
             else
             {
-                _animator.SetTrigger("Idle");
+                _animator.SetBool("Run", false);
+                _animator.SetBool("Idle", true);
             }
         }
     }

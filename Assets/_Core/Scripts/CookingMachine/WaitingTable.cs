@@ -80,37 +80,38 @@ namespace MoonlitMixes.CookingMachine
 
             _scriptableItemEvent.SendObject(_itemGameObjectArray[_indexSelectedItem]);
             Destroy(_itemGameObjectArray[_indexSelectedItem]);
-            QuitWaitingTable();
+            QuitWaitingTable(true);
         }
 
         private void Cancel(InputAction.CallbackContext context)
         {
             if(!context.started) return;
-            QuitWaitingTable();
+            QuitWaitingTable(false);
         }
 
-        private void QuitWaitingTable()
+        private void QuitWaitingTable(bool hasItem)
         {
             FindFirstObjectByType<PlayerInteraction>().QuitInteraction(); 
             _isActive = false;
             UpdateHighlight();
-            UpdatePlayerAnimation();
+            UpdatePlayerAnimation(hasItem);
         }
 
-        private void UpdatePlayerAnimation()
+        private void UpdatePlayerAnimation(bool hasItem)
         {
+            Debug.Log(hasItem);
             if (_animationPotionManager == null) return;
 
-            bool isHoldingItem = FindFirstObjectByType<PlayerHoldItem>().ItemHold != null;
-
-            if (isHoldingItem)
+            if (hasItem)
             {
-                _animationPotionManager.SetPerformingActionHolding(true);
-                _animationPotionManager.SetPerformingActionIdle(false);
+                Debug.Log("Item");
+                
+                _animationPotionManager.QuitInteractWithItem();
             }
             else
             {
-                _animationPotionManager.QuitInteractWithItem();
+                Debug.Log("NoItem");
+                _animationPotionManager.QuitInteractWithoutItem();
             }
         }
 

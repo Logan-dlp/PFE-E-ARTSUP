@@ -121,33 +121,29 @@ namespace MoonlitMixes.Player
                             PlayerHoldItem.RemoveItem();
                             ItemInHand = null;
 
-                            _animator.SetBool("isPut", true);
-                            Invoke(nameof(ResetPutAnimation), 0.5f);
+                            _animator.SetTrigger("Put");
+                            
                             if (PlayerHoldItem.ItemHold == null)
                             {
-                                _animationPotionManager.SetPerformingActionIdle(true);
+                                _animationPotionManager.QuitInteractWithoutItem();
                             }
                             else
                             {
-                                _animationPotionManager.SetPerformingActionHolding(true);
+                                _animationPotionManager.QuitInteractWithItem();
                             }
                         }
                         else if (hit.transform.TryGetComponent(out Trashcan trashcan))
                         {
                             trashcan.DiscardItem();
                             PlayerHoldItem.RemoveItem();
-                            _animator.SetBool("isThrow", true);
-                            Invoke(nameof(ResetThrowAnimation), 0.5f);
-                            _animationPotionManager.SetPerformingActionHolding(false);
+                            _animationPotionManager.TrashItem();
                         }
                     }
 
                     if (_currentCookingMachine != null && ItemInHand.Usage == _currentCookingMachine.TransformType)
                     {
                         InputManager.Instance.SwitchActionMap(_actionMapQTE);
-                        Debug.Log("PlayerInteract");
-                        _animationPotionManager.SetPerformingActionHolding(false);
-                        _animationPotionManager.SetPerformingActionIdle(false);
+                        _animationPotionManager.QuitInteractWithoutItem();
 
                         if (ItemInHand.Usage == ItemUsage.Cut)
                         {
@@ -167,7 +163,7 @@ namespace MoonlitMixes.Player
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
 
-                            _animationPotionManager.SetPerformingActionIdle(true);
+                            _animationPotionManager.InteractCauldronWithoutMix();
                         }
                     }
                 }
@@ -180,7 +176,6 @@ namespace MoonlitMixes.Player
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
                             _animationPotionManager.OpenInventory();
-                            _animationPotionManager.SetPerformingActionIdle(false);
 
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
@@ -202,30 +197,11 @@ namespace MoonlitMixes.Player
             }
         }
 
-        private void ResetPutAnimation()
-        {
-            _animator.SetBool("isPut", false);
-            _animator.SetBool("isHoldingIdle", true);
-            _animationPotionManager.SetPerformingActionHolding(false);
-        }
-
-        private void ResetThrowAnimation()
-        {
-            _animator.SetBool("isThrow", false);
-            _animator.SetBool("isHoldingIdle", true);
-            _animationPotionManager.SetPerformingActionHolding(false);
-        }
-
         public void QuitInteraction()
         {
             InputManager.Instance.SwitchActionMap(_actionMapPlayer);
+
             _animationPotionManager.CloseInventory();
-
-            _animationPotionManager.SetPerformingActionHolding(false);
-            _animationPotionManager.SetPerformingActionIdle(false);
-
-            //Invoke(nameof(UpdatePlayerMovementState), 0.5f);
-
             _animationPotionManager.FinishedInteractCut();
             _animationPotionManager.FinishedInteractCrush();
             _animationPotionManager.FinishedInteractMix();

@@ -23,117 +23,124 @@ namespace MoonlitMixes.Animation
             bool isHoldingItem = _playerHoldItem.ItemHold != null;
             _isPerformingActionHolding = isHoldingItem && !_isCut && !_isMix && !_isCrush;
 
+            if(_isPerformingActionHolding)
+            {
+                if(isMoving)
+                {
+                    _animator.SetBool("HoldingIdle", false);
+                    _animator.SetBool("HoldingWalk", true);
+                }
+                else
+                {
+                    _animator.SetBool("HoldingWalk", false);
+                    _animator.SetBool("HoldingIdle", true);
+                }
+            }
 
-            if(_isPerformingActionHolding || _isInventoryOpen || _isPerformingActionIdle)
+            if(_isPerformingActionHolding || _isInventoryOpen || _isPerformingActionIdle || _isCut || _isCrush || _isMix)
             {
                 _otherRestrictingAnim = true;
-                
-                _animator.SetBool("isHoldingIdle", _isPerformingActionHolding && !isMoving);
-                _animator.SetBool("isHoldingRun", _isPerformingActionHolding && isMoving);
-                
-                //_animator.SetBool("isRun", false);
-                //_animator.SetBool("isIdle", false);
             }
             else
             {
                 _otherRestrictingAnim = false;
+                _animator.SetBool("HoldingWalk", false);
+                _animator.SetBool("HoldingIdle", false);
             }
         }
 
         public void OpenInventory()
         {
             _isInventoryOpen = true;
-            _animator.SetTrigger("LongIdle");
+            EndAllIdleNRunAnim();
+            _animator.SetBool("LongIdle", true);
+
         }
 
         public void CloseInventory()
         {
             _isInventoryOpen = false;
+            _animator.SetBool("LongIdle", false);
         }
 
         public void InteractCut()
         {
             _isCut = true;
-            _animator.SetBool("isCut", true);
+            EndAllIdleNRunAnim();
+            _animator.SetBool("Cut", true);
+            _isPerformingActionHolding = true;
         }
 
         public void FinishedInteractCut()
         {
             _isCut = false;
-            _animator.SetBool("isCut", false);
+            _animator.SetBool("Cut", false);
+        }
+
+        public void InteractCauldronWithoutMix()
+        {
+            EndAllIdleNRunAnim();
+            _animator.SetTrigger("Put");
         }
 
         public void InteractMix()
         {
             _isMix = true;
-            _animator.SetBool("isMix", true);
-            _isPerformingActionHolding = false;
-            _animator.SetBool("isHoldingRun", false);
+            EndAllIdleNRunAnim();
+            _animator.SetBool("Mix", true);
         }
 
         public void FinishedInteractMix()
         {
             _isMix = false;
-            _animator.SetBool("isMix", false);
+            _animator.SetBool("Mix", false);
         }
 
         public void InteractCrush()
         {
             _isCrush = true;
-            _animator.SetBool("isCrush", true);
+            EndAllIdleNRunAnim();
+            _animator.SetBool("Crush", true);
         }
 
         public void FinishedInteractCrush()
         {
             _isCrush = false;
-            _animator.SetBool("isCrush", false);
+            _animator.SetBool("Crush", false);
+        }
+
+        public void TrashItem()
+        {
+            _animator.SetTrigger("Throw");
+            QuitInteractWithoutItem();
+        }
+
+        public void PutItem()
+        {
+            EndAllIdleNRunAnim();
+            _animator.SetTrigger("Put");
         }
 
         public void QuitInteractWithoutItem()
         {
+            EndAllIdleNRunAnim();
             _isPerformingActionIdle = false;
             _isPerformingActionHolding = false;
         }
 
         public void QuitInteractWithItem()
         {
+            EndAllIdleNRunAnim();
             _isPerformingActionIdle = false;
             _isPerformingActionHolding = true;
         }
 
-        public void SetPerformingActionHolding(bool state)
+        private void EndAllIdleNRunAnim()
         {
-            _isPerformingActionHolding = state;
-            _isPerformingActionIdle = !state;
-
-            _animator.SetBool("isIdle", false);
-            _animator.SetBool("isHoldingIdle", false);
-            _animator.SetBool("isRun", false);
-            _animator.SetBool("isHoldingRun", false);
-
-            if (state)
-            {
-                _animator.SetBool("isHoldingIdle", true);
-                _animator.SetBool("isHoldingRun", true);
-            }
-        }
-
-        public void SetPerformingActionIdle(bool state)
-        {
-            Debug.Log("SetPerformingActionIdle");
-            _isPerformingActionIdle = state;
-            _isPerformingActionHolding = !state;
-
-            _animator.SetBool("isHoldingIdle", false);
-            _animator.SetBool("isHoldingRun", false);
-            _animator.SetBool("isRun", false);
-
-            if (state)
-            {
-                Debug.Log("SetPerformingActionIdleState");
-                _animator.SetBool("isIdle", true);
-                _isPerformingActionIdle = false;
-            }
+            _animator.SetBool("Idle", false);
+            _animator.SetBool("HoldingIdle", false);
+            _animator.SetBool("Run", false);
+            _animator.SetBool("HoldingWalk", false);
         }
     }
 }
