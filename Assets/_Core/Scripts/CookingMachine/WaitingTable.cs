@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using MoonlitMixes.Events;
 using MoonlitMixes.Events.Inputs;
 using MoonlitMixes.Player;
+using MoonlitMixes.Animation;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -16,7 +17,7 @@ namespace MoonlitMixes.CookingMachine
 
         private GameObject[] _itemGameObjectArray = new GameObject[10];
         private Light[] _lightArray = new Light[10];
-        private PlayerMovement _playerMovement;
+        private AnimationPotionManager _animationPotionManager;
         private int _indexSelectedItem = 0;
         private bool _isActive = false; 
 
@@ -42,7 +43,7 @@ namespace MoonlitMixes.CookingMachine
                 _lightArray[i] = _pivotWaitingItemsArray[i].GetComponent<Light>();
             }
 
-            _playerMovement = FindFirstObjectByType<PlayerMovement>();
+            _animationPotionManager = FindAnyObjectByType<AnimationPotionManager>();
         }
 
         public void PlaceItem(GameObject itemGameObject)
@@ -98,14 +99,18 @@ namespace MoonlitMixes.CookingMachine
 
         private void UpdatePlayerAnimation()
         {
-            if (_playerMovement == null) return;
+            if (_animationPotionManager == null) return;
 
             bool isHoldingItem = FindFirstObjectByType<PlayerHoldItem>().ItemHold != null;
 
             if (isHoldingItem)
             {
-                _playerMovement.SetPerformingActionHolding(true);
-                _playerMovement.SetPerformingActionIdle(false);
+                _animationPotionManager.SetPerformingActionHolding(true);
+                _animationPotionManager.SetPerformingActionIdle(false);
+            }
+            else
+            {
+                _animationPotionManager.QuitInteractWithItem();
             }
         }
 
