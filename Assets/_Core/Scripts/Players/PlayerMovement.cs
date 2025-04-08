@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,10 +15,11 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
         [SerializeField] private bool _canSprint = false;
+        [SerializeField] private float _floorDistance;
+        [SerializeField, MaxValue(0)] private float _maxDownVelocity;
 
         private CharacterController _characterController;
-        private Animator _animator;
-
+  
         private Vector3 _knockbackMovement = Vector3.zero;
         private Vector3 _velocity;
         private Vector2 _movement;
@@ -25,7 +27,6 @@ namespace MoonlitMixes.Player
 
         private float _currentSpeed;
         private float _currentStamina;
-        private float _meshScale;
 
         public Vector2 TargetMovement
         {
@@ -37,8 +38,6 @@ namespace MoonlitMixes.Player
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
-            _meshScale = GetComponentInChildren<SkinnedMeshRenderer>().transform.localScale.y;
-            _animator = GetComponent<Animator>();
         }
 
         private void FixedUpdate()
@@ -60,17 +59,18 @@ namespace MoonlitMixes.Player
             }
         }
 
+        
         private void UpdateGravity(float deltaTime)
         {
-            Debug.DrawRay(transform.position, -transform.up * (_meshScale + .5f), Color.red);
+            Debug.DrawRay(transform.position, -transform.up * _floorDistance, Color.red);
 
-            if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, _meshScale) && hit.transform == transform)
+            if (Physics.Raycast(transform.position, -transform.up, _floorDistance))
             {
-                _velocity.y = 0;
+                _velocity.y = -2;
             }
             else
-            {
-                _velocity.y += Physics.gravity.y * deltaTime;
+            {   
+                _velocity.y = Mathf.Max(_velocity.y + Physics.gravity.y * deltaTime, _maxDownVelocity); 
                 _characterController.Move(_velocity * deltaTime);
             }
         }
