@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3996172013888856025
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SG_Lava_Rock
+  m_Shader: {fileID: -6465566751694194690, guid: 8f73d94623fb2d644a2f7210ba3dc210, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _OFF_ON_MOVEMENT_FOR_ROCK_ON
+  - _TEXTURE_OR_SHADER_TEXTURE
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Alpha_Rock:
+        m_Texture: {fileID: 2800000, guid: 23f76c8baf97c3742955ef66cecaf468, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Rock:
+        m_Texture: {fileID: 2800000, guid: f78e9a8d7af98704baf1e27a080bef3b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Alpha_Rock:
+        m_Texture: {fileID: 2800000, guid: 3d27d1a696504254ba0dc37d5120d765, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Base_Color:
+        m_Texture: {fileID: 2800000, guid: 07bbd0c70a6bdd24a8f2d4a817deeb24, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Emissive_Texture:
+        m_Texture: {fileID: 2800000, guid: 19b2304c6d6afbd4b9039574b9f75238, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: 7be9405f43d5da34e82acde0420cd29b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Rock:
+        m_Texture: {fileID: 2800000, guid: e2e48cb4d701e5648a35351ba2e93652, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _T_Specular_Texture:
+        m_Texture: {fileID: 2800000, guid: 135af5c225b70df4aa326cc024f1211b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _base_lava:
+        m_Texture: {fileID: 2800000, guid: 3e16b3805da23004cacfa5cc6d16b4a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Distortion_Lava: 0.5
+    - _Emissive: -0.5
+    - _OFF_ON_MOVEMENT_FOR_ROCK: 1
+    - _Power_Distortion: 50
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Rock_OFF_ON: 1
+    - _Scrool_Speed: 0.05
+    - _Speed_appearing_rock: 0
+    - _TEXTURE_OR_SHADER: 0
+    - _Twirl_Strenght: 0
+    m_Colors:
+    - _Background_Color: {r: 0.62352943, g: 0.43137258, b: 0.19215685, a: 0}
+    - _Background_Color_Rock: {r: 0.21698102, g: 0.078809164, b: 0.078809164, a: 0}
+    - _Base_color: {r: 0.32156855, g: 0.078431346, b: 0, a: 0}
+    - _Distortion_Lava: {r: 0.16, g: 0.16, b: 0, a: 0}
+    - _Middle_Color: {r: 1, g: 0.5215686, b: 0.27843136, a: 0}
+    - _Middle_Color_Rock: {r: 0.35849056, g: 0.18385836, b: 0.02198292, a: 0}
+    - _Tilling: {r: 1, g: 1, b: 0, a: 0}
+    - _Top_Color_Rock: {r: 0.51886785, g: 0.28353658, b: 0.12971696, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
