@@ -124,7 +124,6 @@ namespace AssetUsageDetectorNamespace
 
 		private readonly TreeType treeType;
 		private readonly bool hideDuplicateRows;
-		private readonly bool hideReduntantPrefabVariantLinks;
 
 		private bool isSearching;
 
@@ -164,13 +163,12 @@ namespace AssetUsageDetectorNamespace
 		[System.Obsolete] private new string searchString { get; }
 		[System.Obsolete] private new bool hasSearch { get; }
 
-		public SearchResultTreeView( SearchResultTreeViewState state, List<ReferenceNode> references, TreeType treeType, HashSet<Object> usedObjectsSet, bool hideDuplicateRows, bool hideReduntantPrefabVariantLinks, bool usesExternalScrollView ) : base( state )
+		public SearchResultTreeView( SearchResultTreeViewState state, List<ReferenceNode> references, TreeType treeType, HashSet<Object> usedObjectsSet, bool hideDuplicateRows, bool usesExternalScrollView ) : base( state )
 		{
 			this.state = state;
 			this.references = references;
 			this.treeType = treeType;
 			this.hideDuplicateRows = hideDuplicateRows;
-			this.hideReduntantPrefabVariantLinks = hideReduntantPrefabVariantLinks;
 
 			highlightedSearchTextColor = "<color=#" + ColorUtility.ToHtmlStringRGBA( AssetUsageDetectorSettings.SearchMatchingTextColor ) + ">";
 
@@ -200,6 +198,13 @@ namespace AssetUsageDetectorNamespace
 
 			if( HasSelection() )
 				RefreshSelectedNodes( GetSelection() );
+		}
+
+		public void ClearSearch()
+		{
+			string prevSearchTerm = state.searchTerm;
+			state.searchTerm = "";
+			RefreshSearch( prevSearchTerm );
 		}
 
 		public void RefreshSearch( string prevSearchTerm )
@@ -993,7 +998,7 @@ namespace AssetUsageDetectorNamespace
 				return referenceNodes.Contains( GetDataFromId( item.id ).node );
 		}
 
-		private void HideItems( IList<int> ids )
+		public void HideItems( IList<int> ids )
 		{
 			if( ids.Count > 0 )
 			{
@@ -1158,7 +1163,7 @@ namespace AssetUsageDetectorNamespace
 
 			if( selectedNodes.Count > 0 )
 			{
-				SearchResultTreeView isolatedTreeView = new SearchResultTreeView( new SearchResultTreeViewState(), selectedNodes, TreeType.IsolatedView, null, hideDuplicateRows, hideReduntantPrefabVariantLinks, false );
+				SearchResultTreeView isolatedTreeView = new SearchResultTreeView( new SearchResultTreeViewState(), selectedNodes, TreeType.IsolatedView, null, hideDuplicateRows, false );
 				isolatedTreeView.ExpandMainReferences();
 
 				SearchResultTreeViewIsolatedView.Show( new Vector2( EditorWindow.focusedWindow.position.width, Mathf.Max( isolatedTreeView.totalHeight, EditorGUIUtility.singleLineHeight * 5f ) + 1f ), isolatedTreeView, new GUIContent( selectedNodes[0].Label + ( selectedNodes.Count <= 1 ? "" : ( " (and " + ( selectedNodes.Count - 1 ) + " more)" ) ) ) );

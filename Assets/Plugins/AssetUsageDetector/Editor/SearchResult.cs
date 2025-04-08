@@ -23,6 +23,7 @@ namespace AssetUsageDetectorNamespace
 			public SearchResultGroup.GroupType type;
 			public bool isExpanded;
 			public bool pendingSearch;
+			public int redundantReferences;
 			public SearchResultTreeViewState treeViewState;
 
 			public List<int> initialSerializedNodes;
@@ -576,6 +577,9 @@ namespace AssetUsageDetectorNamespace
 		public int NumberOfReferences { get { return references.Count; } }
 		public ReferenceNode this[int index] { get { return references[index]; } }
 
+		public int NumberOfRedundantReferences { get; internal set; }
+		public bool AnyReferencesFound { get { return NumberOfReferences > 0 || NumberOfRedundantReferences > 0; } }
+
 		public SearchResultGroup( string title, GroupType type, bool isExpanded = true, bool pendingSearch = false )
 		{
 			Title = title.StartsWith( "<b>" ) ? title : string.Concat( "<b>", title, "</b>" );
@@ -778,28 +782,48 @@ namespace AssetUsageDetectorNamespace
 							IsExpanded = true;
 						} );
 
-						if( searchResult != null && searchResult.NumberOfGroups > 1 && !string.IsNullOrEmpty( treeViewState.searchTerm ) )
+						if( !string.IsNullOrEmpty( treeViewState.searchTerm ) )
 						{
 							if( contextMenu.GetItemCount() > 0 )
 								contextMenu.AddSeparator( "" );
 
-							contextMenu.AddItem( new GUIContent( "Apply Search to All Results" ), false, () =>
+							if( searchResult != null && searchResult.NumberOfGroups > 1 )
 							{
-								for( int i = 0; i < searchResult.NumberOfGroups; i++ )
+								contextMenu.AddItem( new GUIContent( "Apply Search to All Results" ), false, () =>
 								{
-									if( searchResult[i].treeView == null )
-										continue;
+									for( int i = 0; i < searchResult.NumberOfGroups; i++ )
+									{
+										if( searchResult[i].treeView == null )
+											continue;
 
-									string previousSearchTerm = searchResult[i].treeViewState.searchTerm ?? "";
-									SearchResultTreeView.SearchMode previousSearchMode = searchResult[i].treeViewState.searchMode;
+										string previousSearchTerm = searchResult[i].treeViewState.searchTerm ?? "";
+										SearchResultTreeView.SearchMode previousSearchMode = searchResult[i].treeViewState.searchMode;
 
-									searchResult[i].treeViewState.searchTerm = treeViewState.searchTerm ?? "";
-									searchResult[i].treeViewState.searchMode = treeViewState.searchMode;
+										searchResult[i].treeViewState.searchTerm = treeViewState.searchTerm ?? "";
+										searchResult[i].treeViewState.searchMode = treeViewState.searchMode;
 
-									if( treeViewState.searchTerm != previousSearchTerm || treeViewState.searchMode != previousSearchMode )
-										searchResult[i].treeView.RefreshSearch( previousSearchTerm );
-								}
-							} );
+										if( treeViewState.searchTerm != previousSearchTerm || treeViewState.searchMode != previousSearchMode )
+											searchResult[i].treeView.RefreshSearch( previousSearchTerm );
+									}
+								} );
+							}
+
+							IList<TreeViewItem> treeViewRows = treeView.GetRows();
+							if( treeViewRows.Count > 1 ) // References are at depth 1 so if there are any references, at least 2 rows must exist
+							{
+								contextMenu.AddItem( new GUIContent( "Hide Search Results" ), false, () =>
+								{
+									List<int> removedRows = new List<int>( treeViewRows.Count );
+									for( int i = treeViewRows.Count - 1; i >= 0; i-- )
+									{
+										if( treeViewRows[i].depth > 0 )
+											removedRows.Add( treeViewRows[i].id );
+									}
+
+									treeView.ClearSearch();
+									treeView.HideItems( removedRows );
+								} );
+							}
 						}
 					}
 
@@ -849,6 +873,9 @@ namespace AssetUsageDetectorNamespace
 
 			if( IsExpanded )
 			{
+				if( NumberOfRedundantReferences > 0 )
+					EditorGUILayout.HelpBox( string.Concat( NumberOfRedundantReferences.ToString(), " redundant prefab reference(s) were skipped. Disable \"Hide redundant prefab references in ", ( Type == GroupType.Scene || Type == GroupType.DontDestroyOnLoad ) ? "Scenes" : "Assets", "\" to see them." ), MessageType.Info );
+
 				if( PendingSearch )
 					GUILayout.Box( "Lazy Search: this scene potentially has some references, hit Refresh to find them", Utilities.BoxGUIStyle );
 				else if( references.Count == 0 )
@@ -881,7 +908,7 @@ namespace AssetUsageDetectorNamespace
 						if( shouldUpdateInitialTreeViewNodeId )
 							treeViewState.initialNodeId = searchResult.nextTreeViewId;
 
-						treeView = new SearchResultTreeView( treeViewState, references, ( Type == GroupType.UnusedObjects ) ? SearchResultTreeView.TreeType.UnusedObjects : SearchResultTreeView.TreeType.Normal, searchResult != null ? searchResult.UsedObjects : null, searchResult != null && searchResult.SearchParameters.hideDuplicateRows, searchResult != null && searchResult.SearchParameters.hideReduntantPrefabVariantLinks, true );
+						treeView = new SearchResultTreeView( treeViewState, references, ( Type == GroupType.UnusedObjects ) ? SearchResultTreeView.TreeType.UnusedObjects : SearchResultTreeView.TreeType.Normal, searchResult != null ? searchResult.UsedObjects : null, searchResult != null && searchResult.SearchParameters.hideDuplicateRows, true );
 
 						if( isFirstInitialization )
 						{
@@ -1045,6 +1072,7 @@ namespace AssetUsageDetectorNamespace
 				type = Type,
 				isExpanded = IsExpanded,
 				pendingSearch = PendingSearch,
+				redundantReferences = NumberOfRedundantReferences,
 				treeViewState = treeViewState
 			};
 
@@ -1062,6 +1090,7 @@ namespace AssetUsageDetectorNamespace
 		// Deserialize this result group from the serialized data
 		internal void Deserialize( SearchResult.SerializableResultGroup serializedResultGroup, List<ReferenceNode> allNodes )
 		{
+			NumberOfRedundantReferences = serializedResultGroup.redundantReferences;
 			treeViewState = serializedResultGroup.treeViewState;
 
 			if( serializedResultGroup.initialSerializedNodes != null )
