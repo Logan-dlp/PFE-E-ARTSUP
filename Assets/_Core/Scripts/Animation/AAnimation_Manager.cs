@@ -24,6 +24,8 @@ namespace MoonlitMixes.Animation
         {
             isMoving = _playerMovement.TargetMovement.magnitude > 0.1f;
             
+            Debug.Log(isMoving);
+            
             UpdateOtherAnimations();
             
             if(!_otherRestrictingAnim)
@@ -34,16 +36,8 @@ namespace MoonlitMixes.Animation
 
         private void UpdateBaseAnimations()
         {
-            if(isMoving)
-            {
-                _animator.SetBool("Idle", !isMoving);
-                _animator.SetBool("Run", isMoving);
-            }
-            else
-            {
-                _animator.SetBool("Run", !isMoving);
-                _animator.SetBool("Idle", isMoving);
-            }
+            _animator.SetBool("Idle", !isMoving);
+            _animator.SetBool("Run", isMoving);
         }
     }
 }
