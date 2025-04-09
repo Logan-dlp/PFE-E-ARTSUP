@@ -5,6 +5,7 @@ using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
+using MoonlitMixes.Animation;
 
 namespace MoonlitMixes.Player
 {
@@ -20,7 +21,7 @@ namespace MoonlitMixes.Player
         private ACookingMachine _currentCookingMachine;
         private CauldronRecipeChecker _currentCauldron;
         private Animator _animator;
-        private PlayerMovement _playerMovement;
+        private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
 
         public ItemData ItemInHand { get; set; }
@@ -30,7 +31,7 @@ namespace MoonlitMixes.Player
         {
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _animator = GetComponent<Animator>();
-            _playerMovement = GetComponent<PlayerMovement>();
+            _animationPotionManager = GetComponent<AnimationPotionManager>();
         }
 
         private void Update()
@@ -120,41 +121,37 @@ namespace MoonlitMixes.Player
                             PlayerHoldItem.RemoveItem();
                             ItemInHand = null;
 
-                            _animator.SetBool("isPut", true);
-                            Invoke(nameof(ResetPutAnimation), 0.5f);
+                            _animator.SetTrigger("Put");
+                            
                             if (PlayerHoldItem.ItemHold == null)
                             {
-                                _playerMovement.SetPerformingActionIdle(true);
+                                _animationPotionManager.QuitInteractWithoutItem();
                             }
                             else
                             {
-                                _playerMovement.SetPerformingActionHolding(true);
+                                _animationPotionManager.QuitInteractWithItem();
                             }
                         }
                         else if (hit.transform.TryGetComponent(out Trashcan trashcan))
                         {
                             trashcan.DiscardItem();
                             PlayerHoldItem.RemoveItem();
-                            _animator.SetBool("isThrow", true);
-                            Invoke(nameof(ResetThrowAnimation), 0.5f);
-                            _playerMovement.SetPerformingActionHolding(false);
+                            _animationPotionManager.TrashItem();
                         }
                     }
 
                     if (_currentCookingMachine != null && ItemInHand.Usage == _currentCookingMachine.TransformType)
                     {
                         InputManager.Instance.SwitchActionMap(_actionMapQTE);
-
-                        _playerMovement.SetPerformingActionHolding(false);
-                        _playerMovement.SetPerformingActionIdle(false);
+                        _animationPotionManager.QuitInteractWithoutItem();
 
                         if (ItemInHand.Usage == ItemUsage.Cut)
                         {
-                            _playerMovement.InteractCut();
+                            _animationPotionManager.InteractCut();
                         }
                         else if (ItemInHand.Usage == ItemUsage.Crush)
                         {
-                            _playerMovement.InteractCrush();
+                            _animationPotionManager.InteractCrush();
                         }
 
                         _currentCookingMachine.ConvertItem(ItemInHand, this);
@@ -166,7 +163,7 @@ namespace MoonlitMixes.Player
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
 
-                            _playerMovement.SetPerformingActionIdle(true);
+                            _animationPotionManager.InteractCauldronWithoutStir();
                         }
                     }
                 }
@@ -178,8 +175,8 @@ namespace MoonlitMixes.Player
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
-                            _playerMovement.OpenInventory();
-                            _playerMovement.SetPerformingActionIdle(false);
+                            _animationPotionManager.OpenInventory();
+
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
@@ -193,52 +190,21 @@ namespace MoonlitMixes.Player
                             InputManager.Instance.SwitchActionMap(_actionMapQTE);
                             cauldron.Mix(this);
 
-                            _playerMovement.InteractMix();
+                            _animationPotionManager.InteractStir();
                         }
                     }
                 }
             }
         }
 
-        private void ResetPutAnimation()
-        {
-            _animator.SetBool("isPut", false);
-            _animator.SetBool("isHoldingIdle", true);
-            _playerMovement.SetPerformingActionHolding(false);
-        }
-
-        private void ResetThrowAnimation()
-        {
-            _animator.SetBool("isThrow", false);
-            _animator.SetBool("isHoldingIdle", true);
-            _playerMovement.SetPerformingActionHolding(false);
-        }
-
         public void QuitInteraction()
         {
             InputManager.Instance.SwitchActionMap(_actionMapPlayer);
-            _playerMovement.CloseInventory();
 
-            _playerMovement.SetPerformingActionHolding(false);
-            _playerMovement.SetPerformingActionIdle(false);
-
-            Invoke(nameof(UpdatePlayerMovementState), 0.5f);
-
-            _playerMovement.FinishedInteractCut();
-            _playerMovement.FinishedInteractCrush();
-            _playerMovement.FinishedInteractMix();
-        }
-
-        private void UpdatePlayerMovementState()
-        {
-            if (PlayerHoldItem.ItemHold == null)
-            {
-                _playerMovement.SetPerformingActionIdle(true);
-            }
-            else
-            {
-                _playerMovement.SetPerformingActionHolding(true);
-            }
+            _animationPotionManager.CloseInventory();
+            _animationPotionManager.FinishedInteractCut();
+            _animationPotionManager.FinishedInteractCrush();
+            _animationPotionManager.FinishedInteractStir();
         }
     }
 }

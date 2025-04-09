@@ -1,6 +1,5 @@
 using System.Collections;
 using MoonlitMixes.Events;
-using MoonlitMixes.Player;
 using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine

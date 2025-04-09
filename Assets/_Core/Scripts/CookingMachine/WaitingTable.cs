@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using MoonlitMixes.Events;
 using MoonlitMixes.Events.Inputs;
 using MoonlitMixes.Player;
+using MoonlitMixes.Animation;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -16,7 +17,7 @@ namespace MoonlitMixes.CookingMachine
 
         private GameObject[] _itemGameObjectArray = new GameObject[10];
         private Light[] _lightArray = new Light[10];
-        private PlayerMovement _playerMovement;
+        private AnimationPotionManager _animationPotionManager;
         private int _indexSelectedItem = 0;
         private bool _isActive = false; 
 
@@ -42,7 +43,7 @@ namespace MoonlitMixes.CookingMachine
                 _lightArray[i] = _pivotWaitingItemsArray[i].GetComponent<Light>();
             }
 
-            _playerMovement = FindFirstObjectByType<PlayerMovement>();
+            _animationPotionManager = FindAnyObjectByType<AnimationPotionManager>();
         }
 
         public void PlaceItem(GameObject itemGameObject)
@@ -79,33 +80,38 @@ namespace MoonlitMixes.CookingMachine
 
             _scriptableItemEvent.SendObject(_itemGameObjectArray[_indexSelectedItem]);
             Destroy(_itemGameObjectArray[_indexSelectedItem]);
-            QuitWaitingTable();
+            QuitWaitingTable(true);
         }
 
         private void Cancel(InputAction.CallbackContext context)
         {
             if(!context.started) return;
-            QuitWaitingTable();
+            QuitWaitingTable(false);
         }
 
-        private void QuitWaitingTable()
+        private void QuitWaitingTable(bool hasItem)
         {
             FindFirstObjectByType<PlayerInteraction>().QuitInteraction(); 
             _isActive = false;
             UpdateHighlight();
-            UpdatePlayerAnimation();
+            UpdatePlayerAnimation(hasItem);
         }
 
-        private void UpdatePlayerAnimation()
+        private void UpdatePlayerAnimation(bool hasItem)
         {
-            if (_playerMovement == null) return;
+            Debug.Log(hasItem);
+            if (_animationPotionManager == null) return;
 
-            bool isHoldingItem = FindFirstObjectByType<PlayerHoldItem>().ItemHold != null;
-
-            if (isHoldingItem)
+            if (hasItem)
             {
-                _playerMovement.SetPerformingActionHolding(true);
-                _playerMovement.SetPerformingActionIdle(false);
+                Debug.Log("Item");
+                
+                _animationPotionManager.QuitInteractWithItem();
+            }
+            else
+            {
+                Debug.Log("NoItem");
+                _animationPotionManager.QuitInteractWithoutItem();
             }
         }
 

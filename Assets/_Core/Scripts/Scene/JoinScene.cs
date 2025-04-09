@@ -1,17 +1,14 @@
-using MoonlitMixes.DayNightCycle;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class JoinScene : MonoBehaviour
+namespace MoonlitMixes.Scene
 {
-    [SerializeField] private string _sceneToLoad;
-
-    private void OnTriggerEnter(Collider other)
+    public class JoinScene : MonoBehaviour
     {
-        if (other.CompareTag("Player"))
+        [SerializeField] private string _sceneToLoad;
+
+        public void ChangeScene()
         {
-            SceneManager.LoadScene(_sceneToLoad);
-            GetComponent<UpdateDayCycle>().UpdateDayPhase();
+            FindAnyObjectByType<SceneStarter>().ChangeScene(_sceneToLoad);
         }
     }
 }

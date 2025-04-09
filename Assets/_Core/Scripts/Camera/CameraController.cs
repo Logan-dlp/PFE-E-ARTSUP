@@ -15,12 +15,12 @@ namespace MoonlitMixes.Camera
 
         private void Awake()
         {
-            if (_baseCamera.TryGetComponent<CinemachineFollowZoom>(out CinemachineFollowZoom followZoom))
+            if (_baseCamera.TryGetComponent(out CinemachineFollowZoom followZoom))
             {
                 _baseFollowZoom = followZoom;
+                BaseZoom = _baseFollowZoom.Width;
             }
 
-            BaseZoom = _baseFollowZoom.Width;
         }
     }
 }
