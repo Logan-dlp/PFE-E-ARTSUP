@@ -1,4 +1,5 @@
 using MoonlitMixes.Inputs;
+using MoonlitMixes.UI;
 using UnityEngine;
 
 namespace MoonlitMixes.Scene

@@ -11,7 +11,7 @@ namespace MoonlitMixes.Animation
         private bool _isInventoryOpen;
         private bool _isCut;
         private bool _isCrush;
-        private bool _isMix;
+        private bool _isStir;
 
         protected override void GetRequiredComponent()
         {
@@ -21,7 +21,7 @@ namespace MoonlitMixes.Animation
         protected override void UpdateOtherAnimations()
         {
             bool isHoldingItem = _playerHoldItem.ItemHold != null;
-            _isPerformingActionHolding = isHoldingItem && !_isCut && !_isMix && !_isCrush;
+            _isPerformingActionHolding = isHoldingItem && !_isCut && !_isStir && !_isCrush;
 
             if(_isPerformingActionHolding)
             {
@@ -37,7 +37,7 @@ namespace MoonlitMixes.Animation
                 }
             }
 
-            if(_isPerformingActionHolding || _isInventoryOpen || _isPerformingActionIdle || _isCut || _isCrush || _isMix)
+            if(_isPerformingActionHolding || _isInventoryOpen || _isPerformingActionIdle || _isCut || _isCrush || _isStir)
             {
                 _otherRestrictingAnim = true;
             }
@@ -77,22 +77,22 @@ namespace MoonlitMixes.Animation
             _animator.SetBool("Cut", false);
         }
 
-        public void InteractCauldronWithoutMix()
+        public void InteractCauldronWithoutStir()
         {
             EndAllIdleNRunAnim();
             _animator.SetTrigger("Put");
         }
 
-        public void InteractMix()
+        public void InteractStir()
         {
-            _isMix = true;
+            _isStir = true;
             EndAllIdleNRunAnim();
             _animator.SetBool("Mix", true);
         }
 
-        public void FinishedInteractMix()
+        public void FinishedInteractStir()
         {
-            _isMix = false;
+            _isStir = false;
             _animator.SetBool("Mix", false);
         }
 

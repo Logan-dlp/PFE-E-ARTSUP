@@ -11,6 +11,12 @@ namespace MoonlitMixes.Player
     {
         public event Action<float> OnStaminaChanged;
 
+        private Vector2 _targetMovement;
+        public Vector2 TargetMovement
+        {
+            get => _targetMovement;
+        }
+        
         [SerializeField] private float _walkSpeed = 2;
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
@@ -23,15 +29,11 @@ namespace MoonlitMixes.Player
         private Vector3 _knockbackMovement = Vector3.zero;
         private Vector3 _velocity;
         private Vector2 _movement;
-        private Vector2 _targetMovement;
 
         private float _currentSpeed;
         private float _currentStamina;
 
-        public Vector2 TargetMovement
-        {
-            get => _targetMovement;
-        }
+        
         
         private void Awake()
         {

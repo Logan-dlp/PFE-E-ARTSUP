@@ -12,7 +12,6 @@ namespace MoonlitMixes.Animation
         protected bool isMoving;
         
         protected abstract void UpdateOtherAnimations();
-
         protected abstract void GetRequiredComponent();
         
         private void Awake()
@@ -31,20 +30,19 @@ namespace MoonlitMixes.Animation
             {
                 UpdateBaseAnimations();
             }
-
         }
 
         private void UpdateBaseAnimations()
         {
             if(isMoving)
             {
-                _animator.SetBool("Idle", false);
-                _animator.SetBool("Run", true);
+                _animator.SetBool("Idle", !isMoving);
+                _animator.SetBool("Run", isMoving);
             }
             else
             {
-                _animator.SetBool("Run", false);
-                _animator.SetBool("Idle", true);
+                _animator.SetBool("Run", !isMoving);
+                _animator.SetBool("Idle", isMoving);
             }
         }
     }

@@ -163,7 +163,7 @@ namespace MoonlitMixes.Player
                             _currentCauldron.AddIngredient(ItemInHand);
                             PlayerHoldItem.RemoveItem();
 
-                            _animationPotionManager.InteractCauldronWithoutMix();
+                            _animationPotionManager.InteractCauldronWithoutStir();
                         }
                     }
                 }
@@ -190,7 +190,7 @@ namespace MoonlitMixes.Player
                             InputManager.Instance.SwitchActionMap(_actionMapQTE);
                             cauldron.Mix(this);
 
-                            _animationPotionManager.InteractMix();
+                            _animationPotionManager.InteractStir();
                         }
                     }
                 }
@@ -204,7 +204,7 @@ namespace MoonlitMixes.Player
             _animationPotionManager.CloseInventory();
             _animationPotionManager.FinishedInteractCut();
             _animationPotionManager.FinishedInteractCrush();
-            _animationPotionManager.FinishedInteractMix();
+            _animationPotionManager.FinishedInteractStir();
         }
     }
 }
