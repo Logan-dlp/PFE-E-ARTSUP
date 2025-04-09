@@ -1,5 +1,4 @@
 using MoonlitMixes.Player;
-using UnityEngine;
 
 namespace MoonlitMixes.Animation
 {

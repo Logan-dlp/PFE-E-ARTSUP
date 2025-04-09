@@ -23,9 +23,7 @@ namespace MoonlitMixes.Animation
         private void FixedUpdate()
         {
             isMoving = _playerMovement.TargetMovement.magnitude > 0.1f;
-            
-            Debug.Log(isMoving);
-            
+                     
             UpdateOtherAnimations();
             
             if(!_otherRestrictingAnim)
