@@ -4,7 +4,7 @@ namespace MoonlitMixes.Item
     {
         Crush,
         Cut,
-        Mix,
+        Stir,
         Whole
     }
 }
