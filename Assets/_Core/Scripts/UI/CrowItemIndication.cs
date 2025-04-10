@@ -19,6 +19,8 @@ namespace MoonlitMixes.UI
 
         private Vector3 _rectTransformBubblePosition;
         private Vector2 _rectTransformBubbleSize;
+        private bool _isInAnim;
+        private bool _hasAnotherItem;
 
         private void OnEnable()
         {
@@ -42,19 +44,46 @@ namespace MoonlitMixes.UI
 
         private void OpenUIAnim(ItemUsage itemUsage)
         {
-            _animatorBubble.gameObject.SetActive(true);
-            StartCoroutine(ChangeIndication(itemUsage));
+            if (_isInAnim)
+            {
+                _hasAnotherItem = true;
+                ChangeIndicationWithoutDelay(itemUsage);
+                StopCoroutine(ChangeIndicationWithDelay(itemUsage));
+            }
+            else
+            {
+                _animatorBubble.gameObject.SetActive(true);
+                _isInAnim = true;
+                StartCoroutine(ChangeIndicationWithDelay(itemUsage));
+            }
         }
 
-        private IEnumerator ChangeIndication(ItemUsage itemUsage)
+        private IEnumerator ChangeIndicationWithDelay(ItemUsage itemUsage)
         {
             yield return new WaitForSeconds(1);
+            Debug.Log("Delay");
             _animatorImage.gameObject.SetActive(true);
             _animatorImage.SetTrigger(itemUsage.ToString());
         }
 
+        private void ChangeIndicationWithoutDelay(ItemUsage itemUsage)
+        {
+            Debug.Log("Reload");
+            _animatorBubble.SetTrigger("Reload");
+            _animatorImage.SetTrigger("Reload");
+            _animatorImage.SetTrigger(itemUsage.ToString());
+        }
+        
+
         private void CloseUIAnim()
         {
+            if(_hasAnotherItem)
+            {
+                _hasAnotherItem = false;
+                return;
+            }
+
+            _isInAnim = false;
             _imageAction.sprite = _baseSprite;
             _animatorImage.gameObject.SetActive(false);
             _animatorBubble.SetTrigger("Close");
@@ -62,6 +91,8 @@ namespace MoonlitMixes.UI
 
         private void DesactivateUI()
         {
+            
+
             _animatorBubble.gameObject.SetActive(false);
             
             _rectTransformBubble.localPosition = _rectTransformBubblePosition; 
