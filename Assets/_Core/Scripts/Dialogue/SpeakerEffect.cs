@@ -141,6 +141,9 @@ namespace MoonlitMixes.Dialogue.Effect
             if (_image != null)
             {
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.5f); // Sprite semi-transparent
+
+                RectTransform rectTransform = _image.rectTransform;
+                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * 0.8f, rectTransform.sizeDelta.y * 0.8f);
             }
 
             if (_linkedText != null)
@@ -155,6 +158,9 @@ namespace MoonlitMixes.Dialogue.Effect
             if (_image != null)
             {
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 1f); // Sprite opaque
+
+                RectTransform rectTransform = _image.rectTransform;
+                rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
             }
 
             if (_linkedText != null)
