@@ -1,5 +1,4 @@
 using System.Collections;
-using MoonlitMixes.Events;
 using UnityEngine;
 
 namespace MoonlitMixes.CookingMachine
@@ -7,7 +6,6 @@ namespace MoonlitMixes.CookingMachine
     public class Trashcan : MonoBehaviour
     {
         [SerializeField] private float _idleChangeTimer;
-        [SerializeField] private ScriptableBoolEvent _scriptableBoolEvent;
 
         private AnimatorControllerParameter[] _animatorControllerParameterArray;
         private Animator _animator;
