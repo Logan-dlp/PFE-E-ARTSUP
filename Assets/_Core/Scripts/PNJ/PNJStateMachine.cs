@@ -1,26 +1,33 @@
+using MoonlitMixes.AI.PNJ.StateMachine.States;
+using MoonlitMixes.Datas;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
-using MoonlitMixes.AI.PNJ.StateMachine.States;
 
-namespace MoonlitMixes.AI.PNJ
+namespace MoonlitMixes.AI.PNJ.StateMachine
 {
     public class PNJStateMachine : MonoBehaviour
     {
         public event System.Action OnDespawn;
+
         public string SelectedPotionName { get; private set; }
         public int FailedAttempts => _failedAttempts;
+        public DialogueData BeginDialogueData => _beginDialogueData;
+        public DialogueData SuccessDialogueData => _successDialogueData;
+        public DialogueData FailureDialogueData => _failureDialogueData;
+        public DialogueData NoPotionDialogueData => _noPotionDialogueData;
 
+        [Header("Configuration")]
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
         [SerializeField] private float _spawnDelay = 2f;
         [SerializeField] private PotionListData _potionList;
 
-        [Header("Dialogue system :")]
-        [SerializeField] public DialogueData _beginDialogueData;
-        [SerializeField] public DialogueData _successDialogueData;
-        [SerializeField] public DialogueData _failureDialogueData;
-        [SerializeField] public DialogueData _noPotionDialogueData;
+        [Header("Dialogue Settings")]
+        [SerializeField] private DialogueData _beginDialogueData;
+        [SerializeField] private DialogueData _successDialogueData;
+        [SerializeField] private DialogueData _failureDialogueData;
+        [SerializeField] private DialogueData _noPotionDialogueData;
 
         private NavMeshAgent _agent;
         private Animator _animator;

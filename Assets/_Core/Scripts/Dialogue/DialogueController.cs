@@ -1,3 +1,5 @@
+﻿using MoonlitMixes.Datas;
+using MoonlitMixes.Dialogue.Effect;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -17,7 +19,8 @@ namespace MoonlitMixes.Dialogue
         [SerializeField] private float _letterDelay;
         [SerializeField] private TMP_Text[] _textBoxes;
         [SerializeField] private Image[] _imageSpeakers;
-        [SerializeField] private SpeakerEffect[] _allSpeakers;
+        [SerializeField] private SpeakerEffect[] _textSpeakerEffects;
+        [SerializeField] private SpeakerEffect[] _spriteSpeakerEffects;
 
         private DialogueData _currentDialogue;
         private int _dialogueIndex = 0;
@@ -38,39 +41,34 @@ namespace MoonlitMixes.Dialogue
             _instance = this;
 
             _playerInput = FindFirstObjectByType<PlayerInput>();
-            if (_playerInput == null)
+            _inputActionAsset = _playerInput?.actions;
+
+            if (_playerInput == null || _inputActionAsset == null)
             {
-                Debug.LogError("PlayerInput not found in the scene!");
-                return;
+                Debug.LogError("PlayerInput or InputActionAsset is missing in DialogueController!");
             }
 
-            _inputActionAsset = _playerInput.actions;
-            if (_inputActionAsset == null)
+            // Lier les textes aux sprites
+            for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
-                Debug.LogError("InputActionAsset is missing in PlayerInput!");
-                return;
+                if (i < _textBoxes.Length && _spriteSpeakerEffects[i] != null)
+                {
+                    _spriteSpeakerEffects[i].SetLinkedText(_textBoxes[i]);
+                }
             }
         }
 
         public void StartDialogue(DialogueData dialogue)
         {
             if (_inputActionAsset == null)
-            {
-                Debug.LogError("InputActionAsset is not assigned!");
                 return;
-            }
 
             _originalActionMap = _inputActionAsset.FindActionMap("Player");
-            if (_originalActionMap == null)
-            {
-                Debug.LogError("The 'Player' ActionMap was not found!");
-                return;
-            }
-
             var dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
-            if (dialogueActionMap == null)
+
+            if (_originalActionMap == null || dialogueActionMap == null)
             {
-                Debug.LogError("The 'Dialogue' ActionMap was not found!");
+                Debug.LogError("Missing ActionMap: 'Player' or 'Dialogue'");
                 return;
             }
 
@@ -78,7 +76,7 @@ namespace MoonlitMixes.Dialogue
             dialogueActionMap.Enable();
 
             _currentDialogue = dialogue;
-            if (_currentDialogue == null || _currentDialogue.Lines == null || _currentDialogue.Lines.Length == 0)
+            if (_currentDialogue?.Lines == null || _currentDialogue.Lines.Length == 0)
             {
                 Debug.LogError("Dialogue data is invalid or empty!");
                 EndDialogue();
@@ -104,17 +102,58 @@ namespace MoonlitMixes.Dialogue
             {
                 Debug.LogWarning($"SpeakerIndex {speakerIndex} is out of bounds!");
                 _dialogueIndex++;
-                DisplayNextDialogue();
+                if (_dialogueIndex >= _currentDialogue.Lines.Length)
+                {
+                    EndDialogue();
+                }
+                else
+                {
+                    StartCoroutine(DisplayNextDialogueWithDelay());
+                }
                 return;
             }
 
-            _imageSpeakers[speakerIndex].sprite = line.SpeakerSprite;
+            if (_spriteSpeakerEffects != null && _textSpeakerEffects != null)
+            {
+                for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
+                {
+                    var spriteEffect = _spriteSpeakerEffects[i];
+                    var textEffect = _textSpeakerEffects[i];
+
+                    if (spriteEffect != null && textEffect != null)
+                    {
+                        spriteEffect.SetDialogueLineData(line);
+                        textEffect.SetDialogueLineData(line);
+
+                        if (i == speakerIndex)
+                        {
+                            // Quand le personnage parle, on réinitialise (opaque) son texte et son sprite
+                            spriteEffect.ResetEffect();
+                            textEffect.ResetEffect();
+
+                            ApplyEffect(line.Effect, spriteEffect);
+                            ApplyEffect(line.Effect, textEffect);
+                        }
+                        else
+                        {
+                            // Les autres sont en dim
+                            spriteEffect.DimEffect();
+                            textEffect.DimEffect();
+                        }
+                    }
+                }
+            }
 
             WriteText(line.Text, _textBoxes[speakerIndex]);
-
             StartCoroutine(TypeText(line.Text, _textBoxes[speakerIndex]));
 
             _dialogueIndex++;
+        }
+
+        private IEnumerator DisplayNextDialogueWithDelay()
+        {
+            yield return null;
+            DisplayNextDialogue();
         }
 
         private void WriteText(string text, TMP_Text textBox)
@@ -125,14 +164,14 @@ namespace MoonlitMixes.Dialogue
 
         private IEnumerator TypeText(string text, TMP_Text textBox)
         {
-            for (int i = 0; i < textBox.text.Length; ++i)
+            for (int i = 0; i < text.Length; ++i)
             {
                 textBox.maxVisibleCharacters++;
                 _isTyping = true;
 
                 if (_isSkipText)
                 {
-                    textBox.maxVisibleCharacters = textBox.text.Length;
+                    textBox.maxVisibleCharacters = text.Length;
                     _isSkipText = false;
                     break;
                 }
@@ -141,6 +180,28 @@ namespace MoonlitMixes.Dialogue
             }
 
             _isTyping = false;
+        }
+
+        private void ApplyEffect(SpeakerEffectType effectType, SpeakerEffect speaker)
+        {
+            Debug.Log($"Applying effect {effectType} to speaker: {speaker}");
+
+            switch (effectType)
+            {
+                case SpeakerEffectType.Tremble:
+                    Debug.Log("Applying Tremble effect");
+                    speaker.ApplyEffect(effectType);
+                    break;
+
+                case SpeakerEffectType.Jump:
+                    Debug.Log("Applying Jump effect");
+                    speaker.ApplyEffect(effectType);
+                    break;
+
+                default:
+                    Debug.Log("No valid effect specified");
+                    break;
+            }
         }
 
         public void EndDialogue()

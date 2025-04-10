@@ -1,3 +1,4 @@
+using MoonlitMixes.Dialogue;
 using UnityEngine;
 
 namespace MoonlitMixes.AI.PNJ.StateMachine.States
@@ -10,7 +11,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void EnterState(PNJData data)
         {
-            _potionChoice = GameObject.FindObjectOfType<PotionChoiceController>();
+            _potionChoice = Object.FindFirstObjectByType<PotionChoiceController>();
 
             _potionChoice.ShowPotionChoices();
 

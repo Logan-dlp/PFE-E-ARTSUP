@@ -1,3 +1,5 @@
+using MoonlitMixes.Datas;
+using MoonlitMixes.Dialogue;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,7 +23,7 @@ namespace MoonlitMixes.Potion
 
         private void Start()
         {
-            _potionChoiceController = FindObjectOfType<PotionChoiceController>();
+            _potionChoiceController = FindFirstObjectByType<PotionChoiceController>();
 
             if (_potionChoiceController == null)
             {

@@ -1,21 +1,21 @@
+using MoonlitMixes.AI.PNJ.Spawner;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
-using MoonlitMixes.Player;
 
 namespace MoonlitMixes.AI.PNJ
 {
     public class CloseOrOpenShop : MonoBehaviour
     {
+        public static event Action<bool> OnShopToggled;
+        public bool HasShopBeenOpened => _hasShopBeenOpened;
+
         [SerializeField] private CustomerSpawner _customerSpawner;
         [SerializeField] private InteractionButton _interactionButton;
 
         private bool _isPlayerInTrigger = false;
         private bool _isShopOpen = false;
         private bool _hasShopBeenOpened = false;
-
-        public static event Action<bool> OnShopToggled;
-        public bool HasShopBeenOpened => _hasShopBeenOpened;
 
         private void Start()
         {

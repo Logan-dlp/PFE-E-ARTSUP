@@ -1,41 +1,42 @@
-using MoonlitMixes.AI.PNJ.StateMachine.States;
-using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Dialogue;
 using UnityEngine;
 
-public class DialogueState : IPNJState
+namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
-    private PNJData _pnjData;
-
-    public void EnterState(PNJData data)
+    public class DialogueState : IPNJState
     {
-        _pnjData = data;
-        data.Agent.isStopped = true;
-        data.Animator.SetBool("isWalking", false);
+        private PNJData _pnjData;
 
-        PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
+        public void EnterState(PNJData data)
+        {
+            _pnjData = data;
+            data.Agent.isStopped = true;
+            data.Animator.SetBool("isWalking", false);
 
-        if (DialogueController.Instance != null && pnjStateMachine._beginDialogueData != null)
-        {
-            DialogueController.Instance.StartDialogue(pnjStateMachine._beginDialogueData);
-            DialogueController.OnDialogueFinished += OnDialogueEnd;
+            PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
+
+            if (DialogueController.Instance != null && pnjStateMachine.BeginDialogueData != null)
+            {
+                DialogueController.Instance.StartDialogue(pnjStateMachine.BeginDialogueData);
+                DialogueController.OnDialogueFinished += OnDialogueEnd;
+            }
+            else
+            {
+                Debug.LogWarning("DialogueController ou DialogueData est nul");
+            }
         }
-        else
+
+        private void OnDialogueEnd()
         {
-            Debug.LogWarning("DialogueController ou DialogueData est nul");
+            DialogueController.OnDialogueFinished -= OnDialogueEnd;
+
+            if (_pnjData != null)
+            {
+                _pnjData.PNJGameObject.GetComponent<PNJStateMachine>().NextState();
+            }
         }
+
+        public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
+        public void ExitState(PNJData data) { }
     }
-
-    private void OnDialogueEnd()
-    {
-        DialogueController.OnDialogueFinished -= OnDialogueEnd;
-
-        if (_pnjData != null)
-        {
-            _pnjData.PNJGameObject.GetComponent<PNJStateMachine>().NextState();
-        }
-    }
-
-    public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
-    public void ExitState(PNJData data) { }
 }
