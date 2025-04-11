@@ -7,6 +7,6 @@ namespace MoonlitMixes.Datas
     public class ToolListData : ScriptableObject
     {
         [SerializeField] private List<ToolData> _ToolListData;
-        public List<ToolData> ToolList => _ToolListData;
+        public List<ToolData> ToolList => _ToolListData; 
     }
 }

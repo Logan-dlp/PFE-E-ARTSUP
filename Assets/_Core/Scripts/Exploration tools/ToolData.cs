@@ -28,6 +28,6 @@ namespace MoonlitMixes.Datas
         public GameObject ToolPrefab
         {
             get => _toolPrefab;
-        }
+        } 
     }
 }

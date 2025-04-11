@@ -45,5 +45,5 @@ namespace MoonlitMixes.Datas.Inventory
             get => _items;
             set => _items = value;
         }
-    }
+    } 
 }
