@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class ToolListData : ScriptableObject
 {
     [SerializeField] private List<ToolData> _ToolListData;
-
+    
     public List<ToolData> ToolList => _ToolListData;
 }

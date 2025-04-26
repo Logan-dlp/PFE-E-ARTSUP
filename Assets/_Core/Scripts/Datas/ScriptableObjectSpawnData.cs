@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace MoonlitMixes.Datas
 {
     [CreateAssetMenu(fileName = "ObjectSpawnScriptableData", menuName = "Scriptable Objects/ObjectSpawnScriptableData")]

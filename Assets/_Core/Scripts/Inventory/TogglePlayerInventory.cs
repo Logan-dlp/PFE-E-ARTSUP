@@ -13,7 +13,7 @@ public class TogglePlayerInventory : MonoBehaviour
             _canvaInventory.SetActive(isActive);
         }
     }
-
+    
     public void Toggle(InputAction.CallbackContext context)
     {
         if (context.performed)

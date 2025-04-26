@@ -112,15 +112,11 @@ public class UseTools : MonoBehaviour
                         if (randomValue < chance)
                         {
                             itemToAdd = itemList.Items[1];
+                            _inventory?.AddItem(itemToAdd);
                         }
-                        else
-                        {
-                            itemToAdd = itemList.Items[0];
-                        }
-
-                        _inventory?.AddItem(itemToAdd);
 
                         _brokenRock++;
+
                         if (_brokenRock >= 3)
                         {
                             _brokenRock = 0;

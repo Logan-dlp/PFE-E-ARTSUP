@@ -10,7 +10,7 @@ namespace MoonlitMixes.Datas
         [SerializeField] private InventoryMode _inventoryMode = InventoryMode.InventoryPlayer;
         [SerializeField] private int _maxSlots = 20;
         [SerializeField] private List<ItemData> _items = new List<ItemData>();
-
+        
         public enum InventoryMode
         {
             InventoryPlayer,

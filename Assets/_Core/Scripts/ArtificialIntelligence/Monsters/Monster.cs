@@ -6,7 +6,6 @@ namespace MoonlitMixes.AI
 {
     using StateMachine;
     using StateMachine.States;
-    using Player;
     using MoonlitMixes.Health;
 
     public class Monster : MonoBehaviour

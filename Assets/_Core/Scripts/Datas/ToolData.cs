@@ -13,7 +13,7 @@ public class ToolData : ScriptableObject
     {
         get => _obejectName;
     }
-
+    
     public Sprite ItemSprite
     {
         get => _sprite;
