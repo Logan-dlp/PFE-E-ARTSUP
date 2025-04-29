@@ -1,53 +1,38 @@
 using MoonlitMixes.AI.PNJ.StateMachine.States;
-using System.Collections.Generic;
+using MoonlitMixes.Datas;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
-namespace MoonlitMixes.AI.PNJ
+namespace MoonlitMixes.AI.PNJ.StateMachine
 {
     public class PNJStateMachine : MonoBehaviour
     {
-        public DialogueController DialogueControllerNoPotion => _dialogueControllerNoPotion;
-        public DialogueController DialogueController => _dialogueController;
-        public DialogueController DialogueControllerSuccess => _dialogueControllerSuccess;
-        public DialogueController DialogueControllerFailure => _dialogueControllerFailure;
-        public int FailedAttempts => _failedAttempts;
-        public string SelectedPotionName { get; private set; }
         public event System.Action OnDespawn;
 
+        public string SelectedPotionName { get; private set; }
+        public int FailedAttempts => _failedAttempts;
+        public DialogueData BeginDialogueData => _beginDialogueData;
+        public DialogueData SuccessDialogueData => _successDialogueData;
+        public DialogueData FailureDialogueData => _failureDialogueData;
+        public DialogueData NoPotionDialogueData => _noPotionDialogueData;
+
+        [Header("Configuration")]
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
-        [SerializeField] private float _spawnDelay = 2f;
         [SerializeField] private PotionListData _potionList;
-        [SerializeField] private DialogueController _dialogueController;
-        [SerializeField] private DialogueController _dialogueControllerSuccess;
-        [SerializeField] private DialogueController _dialogueControllerFailure;
-        [SerializeField] private DialogueController _dialogueControllerNoPotion;
+
+        [Header("Dialogue Settings")]
+        [SerializeField] private DialogueData _beginDialogueData;
+        [SerializeField] private DialogueData _successDialogueData;
+        [SerializeField] private DialogueData _failureDialogueData;
+        [SerializeField] private DialogueData _noPotionDialogueData;
 
         private NavMeshAgent _agent;
         private Animator _animator;
         private PNJData _pnjData;
         private IPNJState _currentState;
-        private List<IPNJState> _states;
         private int _failedAttempts = 0;
-
-        public void IncrementFailedAttempts()
-        {
-            _failedAttempts++;
-        }
-
-
-        public void ResetFailedAttempts()
-        {
-            _failedAttempts = 0;
-        }
-
-
-        public void InvokeOnDespawn()
-        {
-            OnDespawn?.Invoke();
-        }
-
 
         private void Awake()
         {
@@ -56,7 +41,7 @@ namespace MoonlitMixes.AI.PNJ
             DisablePNJ();
         }
 
-        private void Start()
+        public void Initialize()
         {
             List<Transform> waypoints = new List<Transform>();
             foreach (Transform child in _waypointsParent)
@@ -64,44 +49,48 @@ namespace MoonlitMixes.AI.PNJ
                 waypoints.Add(child);
             }
 
-            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration, _potionList);
+            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration, _potionList, this);
 
-            _states = new List<IPNJState>
-            {
-                new SpawnState(),
-                new MoveToEndState(),
-                new DialogueState(),
-                new ChoosePotionState(),
-                new ChoiceDialogueState(),
-                new MoveToStartState(),
-                new DespawnState()
-            };
+            SetState(new SpawnState());
         }
 
         private void Update()
         {
-            _currentState?.UpdateState(_pnjData, this);
+            if (_currentState != null)
+            {
+                IPNJState nextState = _currentState.UpdateState(_pnjData);
+                if (nextState != null && nextState != _currentState)
+                {
+                    SetState(nextState);
+                }
+            }
         }
 
-        public void TransitionToState(int stateIndex)
+        public void SetState(IPNJState newState)
         {
-            if (_currentState == _states[stateIndex]) return;
-
-            if (stateIndex < 0 || stateIndex >= _states.Count) return;
-
             _currentState?.ExitState(_pnjData);
-            _currentState = _states[stateIndex];
+            _currentState = newState;
             _currentState.EnterState(_pnjData);
         }
 
-
-        public void NextState()
+        public void InvokeOnDespawn()
         {
-            int nextIndex = _states.IndexOf(_currentState) + 1;
-            if (nextIndex < _states.Count)
-            {
-                TransitionToState(nextIndex);
-            }
+            OnDespawn?.Invoke();
+        }
+
+        public void SetSelectedPotion(string potionName)
+        {
+            SelectedPotionName = potionName;
+        }
+
+        public void IncrementFailedAttempts()
+        {
+            _failedAttempts++;
+        }
+
+        public void ResetFailedAttempts()
+        {
+            _failedAttempts = 0;
         }
 
         private void DisablePNJ()
@@ -110,9 +99,10 @@ namespace MoonlitMixes.AI.PNJ
             _animator.enabled = false;
         }
 
-        public void SetSelectedPotion(string potionName)
+        public void EnablePNJ()
         {
-            SelectedPotionName = potionName;
+            _agent.enabled = true;
+            _animator.enabled = true;
         }
     }
 }

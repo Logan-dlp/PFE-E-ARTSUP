@@ -2,14 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 using MoonlitMixes.Potion;
 
-[CreateAssetMenu(fileName = "PotionListData", menuName = "Scriptable Objects/PotionListData")]
-public class PotionListData : ScriptableObject
+namespace MoonlitMixes.Datas
 {
-    [SerializeField] private List<PotionResult> potionResults = new List<PotionResult>();
-
-    public List<PotionResult> PotionResults
+    [CreateAssetMenu(fileName = "PotionListData", menuName = "Scriptable Objects/PotionListData")]
+    public class PotionListData : ScriptableObject
     {
-        get => potionResults;
-        set => potionResults = value;
+        [SerializeField] private List<PotionResult> potionResults = new List<PotionResult>();
+
+        public List<PotionResult> PotionResults
+        {
+            get => potionResults;
+            set => potionResults = value;
+        }
     }
 }

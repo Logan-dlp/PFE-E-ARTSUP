@@ -4,17 +4,15 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
     {
         public void EnterState(PNJData data)
         {
-            data.PNJGameObject.SetActive(true);
-            data.PNJGameObject.transform.position = data.Waypoints[0].position;
             data.Agent.enabled = true;
             data.Animator.enabled = true;
         }
 
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine)
+        public IPNJState UpdateState(PNJData data)
         {
-            stateMachine.NextState();
+            return new MoveToEndState();
         }
 
-        public void ExitState(PNJData data) { }
+        public void ExitState(PNJData data){}
     }
 }

@@ -1,29 +1,29 @@
+using MoonlitMixes.Datas;
+using MoonlitMixes.Dialogue;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using MoonlitMixes.Shop.PotionChoice;
 
-namespace MoonlitMixes.Potion.Inventory
+namespace MoonlitMixes.Potion
 {
     public class PotionInventory : MonoBehaviour
     {
-        public List<PotionResult> PotionList => potionResultListData.PotionResults;
-
         [SerializeField] private PotionListData potionResultListData;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _slotContainer;
         [SerializeField] private GameObject _specialButtonPrefab;
 
-        private string _noPotionName = "No Potion";
+        private string noPotionName = "No Potion";
         private PotionChoiceController _potionChoiceController;
         private bool _isSelectionInProgress = false;
         private List<Button> _potionButtons = new List<Button>();
 
+        public List<PotionResult> PotionList => potionResultListData.PotionResults;
 
-        private void Awake()
+        private void Start()
         {
-            _potionChoiceController = Object.FindFirstObjectByType<PotionChoiceController>();
+            _potionChoiceController = FindFirstObjectByType<PotionChoiceController>();
 
             if (_potionChoiceController == null)
             {
@@ -72,7 +72,7 @@ namespace MoonlitMixes.Potion.Inventory
 
             GameObject specialButton = Instantiate(_specialButtonPrefab, _slotContainer);
             TextMeshProUGUI specialNameText = specialButton.GetComponentInChildren<TextMeshProUGUI>();
-            specialNameText.text = _noPotionName;
+            specialNameText.text = noPotionName;
 
             Button specialBtn = specialButton.GetComponent<Button>();
             _potionButtons.Add(specialBtn);

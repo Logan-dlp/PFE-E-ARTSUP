@@ -1,23 +1,23 @@
 using MoonlitMixes.Potion;
-using MoonlitMixes.Potion.Inventory;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MoonlitMixes.Shop.PotionChoice
+namespace MoonlitMixes.Dialogue
 {
     public class PotionChoiceController : MonoBehaviour
     {
-        public string SelectedPotionName => _selectedPotionName;
-        public static event Action<string> OnPotionChoiceSelected;
-
         [SerializeField] private GameObject _potionChoicePanel;
         [SerializeField] private PotionInventory _potionInventory;
-        [SerializeField] private DialogueController _dialogueController;
 
         private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
         private PotionPriceCalculate _potionPriceCalculated;
+
+
         private string _selectedPotionName;
+        public string SelectedPotionName => _selectedPotionName;
+
+        public static event Action<string> OnPotionChoiceSelected;
 
         private void Awake()
         {
@@ -40,7 +40,7 @@ namespace MoonlitMixes.Shop.PotionChoice
 
                 if (_potionPrices.TryGetValue(_selectedPotionName, out int price))
                 {
-                    Debug.Log($"Potion confirmée: {_selectedPotionName}, Prix: {price}");
+                    Debug.Log($"Potion confirmï¿½e: {_selectedPotionName}, Prix: {price}");
                     _potionPrices.Remove(_selectedPotionName);
 
                     if (_potionPriceCalculated != null)

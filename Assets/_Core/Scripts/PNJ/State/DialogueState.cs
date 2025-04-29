@@ -1,42 +1,44 @@
+using MoonlitMixes.Dialogue;
+using UnityEngine;
+
 namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class DialogueState : IPNJState
     {
-        private DialogueController _dialogueController;
-        private PNJData _pnjData;
+        private bool _dialogueFinished = false;
 
         public void EnterState(PNJData data)
         {
-            _pnjData = data;
             data.Agent.isStopped = true;
             data.Animator.SetBool("isWalking", false);
 
-            PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
-
-            if (pnjStateMachine != null)
+            if (DialogueController.Instance != null && data.StateMachine.BeginDialogueData != null)
             {
-                _dialogueController = pnjStateMachine.DialogueController;
-            }
-
-            if (_dialogueController != null)
-            {
-                _dialogueController.StartDialogue();
+                DialogueController.Instance.StartDialogue(data.StateMachine.BeginDialogueData);
                 DialogueController.OnDialogueFinished += OnDialogueEnd;
             }
+            else
+            {
+                _dialogueFinished = true;
+            }
         }
+
+        public IPNJState UpdateState(PNJData data)
+        {
+            if (_dialogueFinished)
+            {
+                DialogueController.OnDialogueFinished -= OnDialogueEnd;
+                return new ChoosePotionState();
+            }
+
+            return null;
+        }
+
+        public void ExitState(PNJData data) { }
 
         private void OnDialogueEnd()
         {
-            DialogueController.OnDialogueFinished -= OnDialogueEnd;
-
-            if (_pnjData != null)
-            {
-                _pnjData.PNJGameObject.GetComponent<PNJStateMachine>().NextState();
-            }
+            _dialogueFinished = true;
         }
-
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
-
-        public void ExitState(PNJData data) { }
     }
 }
