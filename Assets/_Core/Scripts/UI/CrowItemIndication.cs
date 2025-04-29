@@ -61,19 +61,16 @@ namespace MoonlitMixes.UI
         private IEnumerator ChangeIndicationWithDelay(ItemUsage itemUsage)
         {
             yield return new WaitForSeconds(1);
-            Debug.Log("Delay");
             _animatorImage.gameObject.SetActive(true);
             _animatorImage.SetTrigger(itemUsage.ToString());
         }
 
         private void ChangeIndicationWithoutDelay(ItemUsage itemUsage)
         {
-            Debug.Log("Reload");
             _animatorBubble.SetTrigger("Reload");
             _animatorImage.SetTrigger("Reload");
             _animatorImage.SetTrigger(itemUsage.ToString());
         }
-        
 
         private void CloseUIAnim()
         {
@@ -91,10 +88,7 @@ namespace MoonlitMixes.UI
 
         private void DesactivateUI()
         {
-            
-
             _animatorBubble.gameObject.SetActive(false);
-            
             _rectTransformBubble.localPosition = _rectTransformBubblePosition; 
             _rectTransformBubble.sizeDelta = _rectTransformBubbleSize;
         }

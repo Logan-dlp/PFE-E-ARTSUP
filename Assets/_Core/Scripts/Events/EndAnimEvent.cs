@@ -4,7 +4,7 @@ namespace MoonlitMixes.Events
 {
     public class EndAnimEvent : StateMachineBehaviour
     {
-        [SerializeField] private ScriptableEvent scriptableEvent;
+        [SerializeField] private ScriptableEvent _scriptableEvent;
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         //{
@@ -20,7 +20,7 @@ namespace MoonlitMixes.Events
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-           scriptableEvent.SendEvent();
+           _scriptableEvent.SendEvent();
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove()
