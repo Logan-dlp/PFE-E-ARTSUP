@@ -25,8 +25,6 @@ namespace MoonlitMixes.Dialogue.Effect
             {
                 _originalColor = _image.color;
             }
-
-            Debug.Log($"Image is null: {_image == null}, TMP_Text is null: {_linkedText == null}");
         }
 
         public void SetDialogueLineData(DialogueLineData dialogueLineData)

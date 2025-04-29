@@ -7,26 +7,34 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
     {
         private PotionChoiceController _potionChoice;
         private bool _isWaitingForChoice = true;
-        private string _potionNameSelect;
+        private string _potionNameSelected;
 
         public void EnterState(PNJData data)
         {
             _potionChoice = Object.FindFirstObjectByType<PotionChoiceController>();
 
-            _potionChoice.ShowPotionChoices();
-
-            _isWaitingForChoice = true;
-            PotionChoiceController.OnPotionChoiceSelected += OnPotionSelected;
+            if (_potionChoice != null)
+            {
+                _potionChoice.ShowPotionChoices();
+                _isWaitingForChoice = true;
+                PotionChoiceController.OnPotionChoiceSelected += OnPotionSelected;
+            }
+            else
+            {
+                _isWaitingForChoice = false;
+            }
         }
 
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine)
+        public IPNJState UpdateState(PNJData data)
         {
             if (!_isWaitingForChoice)
             {
-                stateMachine.SetSelectedPotion(_potionNameSelect);
+                data.StateMachine.SetSelectedPotion(_potionNameSelected);
 
-                stateMachine.NextState();
+                return new ChoiceDialogueState();
             }
+
+            return null; 
         }
 
         public void ExitState(PNJData data)
@@ -36,7 +44,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         private void OnPotionSelected(string potionName)
         {
-            _potionNameSelect = potionName;
+            _potionNameSelected = potionName;
             _isWaitingForChoice = false;
             Debug.Log("Potion choisie: " + potionName);
         }

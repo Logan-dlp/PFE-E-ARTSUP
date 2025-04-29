@@ -1,5 +1,7 @@
 using MoonlitMixes.AI.PNJ.StateMachine;
+using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.Player;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +9,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
 {
     public class CustomerSpawner : MonoBehaviour
     {
-        public event System.Action OnAllCustomersGone;
+        public static event Action OnStartSpawningRequested;
 
         [SerializeField] private List<GameObject> _pnjPrefabs;
         [SerializeField] private Transform _spawnPoint;
@@ -16,8 +18,6 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         [SerializeField] private PlayerMovement _playerMovement;
 
         private int _currentPNJIndex = 0;
-        private int _pnjsDespawned = 0;
-        private int _activeCustomers = 0;
         private bool _isSpawning = false;
 
         public void StartSpawning()
@@ -26,24 +26,9 @@ namespace MoonlitMixes.AI.PNJ.Spawner
             {
                 _isSpawning = true;
                 _currentPNJIndex = 0;
-                _activeCustomers = 0;
                 _playerMovement.BlockMovement(true);
-                StartCoroutine(SpawnCustomers());
-            }
-        }
 
-        private IEnumerator<WaitForSeconds> SpawnCustomers()
-        {
-            while (_currentPNJIndex < _pnjPrefabs.Count && _activeCustomers < _maxCustomers)
-            {
                 SpawnNextPNJ();
-
-                while (_activeCustomers > 0)
-                {
-                    yield return null;
-                }
-
-                yield return new WaitForSeconds(_timeBetweenSpawns);
             }
         }
 
@@ -51,28 +36,50 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         {
             if (_currentPNJIndex < _pnjPrefabs.Count)
             {
-                GameObject pnj = _pnjPrefabs[_currentPNJIndex];
-                pnj.SetActive(true);
-                pnj.transform.position = _spawnPoint.position;
+                GameObject pnjInstance = _pnjPrefabs[_currentPNJIndex];
+                pnjInstance.transform.position = _spawnPoint.position;
+                pnjInstance.SetActive(true);
 
-                PNJStateMachine pnjStateMachine = pnj.GetComponent<PNJStateMachine>();
+                PNJStateMachine pnjStateMachine = pnjInstance.GetComponent<PNJStateMachine>();
                 if (pnjStateMachine != null)
                 {
-                    pnjStateMachine.TransitionToState(0);
+                    pnjStateMachine.Initialize();
+                    pnjStateMachine.SetState(new SpawnState());
                     pnjStateMachine.OnDespawn += OnPNJDespawned;
                 }
 
-                _activeCustomers++;
                 _currentPNJIndex++;
             }
         }
 
+        private void OnEnable()
+        {
+            OnStartSpawningRequested += StartSpawning;
+        }
+
+        private void OnDisable()
+        {
+            OnStartSpawningRequested -= StartSpawning;
+        }
+
+        public static void RequestSpawning()
+        {
+            OnStartSpawningRequested?.Invoke();
+        }
+
+        private IEnumerator<WaitForSeconds> WaitAndSpawnNext()
+        {
+            yield return new WaitForSeconds(_timeBetweenSpawns);
+            SpawnNextPNJ();
+        }
+
         private void OnPNJDespawned()
         {
-            _activeCustomers--;
-            _pnjsDespawned++;
-
-            if (_pnjsDespawned >= _maxCustomers)
+            if (_currentPNJIndex < _pnjPrefabs.Count)
+            {
+                StartCoroutine(WaitAndSpawnNext());
+            }
+            else
             {
                 NotifyAllCustomersGone();
             }
@@ -81,7 +88,6 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         private void NotifyAllCustomersGone()
         {
             _playerMovement.BlockMovement(false);
-
             _isSpawning = false;
         }
     }

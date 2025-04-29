@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b8f1a72ed537af148b3d055eab313b81, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1169443
+      value: -0.83
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b8f1a72ed537af148b3d055eab313b81, type: 3}
       propertyPath: m_LocalPosition.y
@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3853268898807207900, guid: b8f1a72ed537af148b3d055eab313b81, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 27c1afdeb7ccf3f499e2a3f0f6d8a419, type: 2}
+    - target: {fileID: 6148737315974723067, guid: b8f1a72ed537af148b3d055eab313b81, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 27c1afdeb7ccf3f499e2a3f0f6d8a419, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -90,9 +98,10 @@ MonoBehaviour:
   _waypointsParent: {fileID: 0}
   _dialogueDuration: 3
   _potionList: {fileID: 11400000, guid: 66dc7d06323c3ff4c8ba46dba43958bd, type: 2}
-  _dialogueController: {fileID: 0}
-  _dialogueControllerSuccess: {fileID: 0}
-  _dialogueControllerFailure: {fileID: 0}
+  _beginDialogueData: {fileID: 11400000, guid: e783a055390a69a438e7adc4335ae538, type: 2}
+  _successDialogueData: {fileID: 11400000, guid: eb3649538ef7a8e4080c6c41caf66e33, type: 2}
+  _failureDialogueData: {fileID: 11400000, guid: ae96da5633fa2334eb933f175b35dcc7, type: 2}
+  _noPotionDialogueData: {fileID: 11400000, guid: b8ed2814f0eed0842b7d08b953190ac5, type: 2}
 --- !u!95 &4122090355615486211
 Animator:
   serializedVersion: 7

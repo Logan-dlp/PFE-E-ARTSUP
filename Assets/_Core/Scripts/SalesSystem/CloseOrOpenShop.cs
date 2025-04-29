@@ -10,7 +10,6 @@ namespace MoonlitMixes.AI.PNJ
         public static event Action<bool> OnShopToggled;
         public bool HasShopBeenOpened => _hasShopBeenOpened;
 
-        [SerializeField] private CustomerSpawner _customerSpawner;
         [SerializeField] private InteractionButton _interactionButton;
 
         private bool _isPlayerInTrigger = false;
@@ -49,7 +48,7 @@ namespace MoonlitMixes.AI.PNJ
                     _isShopOpen = true;
                     _hasShopBeenOpened = true;
                     OnShopToggled?.Invoke(true);
-                    _customerSpawner.StartSpawning();
+                    CustomerSpawner.RequestSpawning();
                     _interactionButton.DeactivateButtonUI();
                 }
             }

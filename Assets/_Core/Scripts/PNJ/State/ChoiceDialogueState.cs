@@ -6,27 +6,26 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class ChoiceDialogueState : IPNJState
     {
-        private PNJData _pnjData;
-        private PNJStateMachine _pnjStateMachine;
         private PotionInventory _potionInventory;
         private PotionPriceCalculate _potionPriceCalculated;
         private PotionChoiceController _potionChoiceController;
+        private bool _isDialogueFinished = false;
+        private bool _isSuccess = false;
+        private bool _isNoPotion = false;
 
         public void EnterState(PNJData data)
         {
-            _pnjData = data;
-            _pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
             _potionInventory = Object.FindFirstObjectByType<PotionInventory>();
             _potionPriceCalculated = Object.FindFirstObjectByType<PotionPriceCalculate>();
             _potionChoiceController = Object.FindFirstObjectByType<PotionChoiceController>();
 
-            _pnjData.Agent.isStopped = true;
-            _pnjData.Animator.SetBool("isWalking", false);
+            data.Agent.isStopped = true;
+            data.Animator.SetBool("isWalking", false);
 
             int potionPrice = 100;
             if (_potionInventory != null)
             {
-                PotionResult selectedPotion = _potionInventory.PotionList.Find(p => p.Recipe.RecipeName == _pnjStateMachine.SelectedPotionName);
+                PotionResult selectedPotion = _potionInventory.PotionList.Find(p => p.Recipe.RecipeName == data.StateMachine.SelectedPotionName);
                 if (selectedPotion != null)
                 {
                     potionPrice = selectedPotion.Price;
@@ -35,53 +34,63 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
             DialogueController.OnDialogueFinished += OnDialogueEnd;
 
-            if (_potionChoiceController.SelectedPotionName == _pnjStateMachine.SelectedPotionName)
+            if (_potionChoiceController.SelectedPotionName == data.StateMachine.SelectedPotionName)
             {
-                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _pnjStateMachine.FailedAttempts);
-                DialogueController.Instance.StartDialogue(_pnjStateMachine.SuccessDialogueData);
+                _isSuccess = true;
+                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.StateMachine.FailedAttempts);
+                DialogueController.Instance.StartDialogue(data.StateMachine.SuccessDialogueData);
             }
-            else if (string.IsNullOrEmpty(_pnjStateMachine.SelectedPotionName))
+            else if (string.IsNullOrEmpty(data.StateMachine.SelectedPotionName))
             {
-                _pnjStateMachine.ResetFailedAttempts();
+                _isNoPotion = true;
+                data.StateMachine.ResetFailedAttempts();
                 _potionPriceCalculated?.CalculatePotionPrice(0, 0);
-                DialogueController.Instance.StartDialogue(_pnjStateMachine.NoPotionDialogueData);
+                DialogueController.Instance.StartDialogue(data.StateMachine.NoPotionDialogueData);
             }
             else
             {
-                _pnjStateMachine.IncrementFailedAttempts();
-                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _pnjStateMachine.FailedAttempts);
-                DialogueController.Instance.StartDialogue(_pnjStateMachine.FailureDialogueData);
+                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.StateMachine.FailedAttempts);
+                data.StateMachine.IncrementFailedAttempts();
+                DialogueController.Instance.StartDialogue(data.StateMachine.FailureDialogueData);
             }
         }
 
-        private void OnDialogueEnd()
+        public IPNJState UpdateState(PNJData data)
         {
-            DialogueController.OnDialogueFinished -= OnDialogueEnd;
+            if (_isDialogueFinished)
+            {
+                DialogueController.OnDialogueFinished -= OnDialogueEnd;
 
-            if (_potionChoiceController.SelectedPotionName == _pnjStateMachine.SelectedPotionName ||
-                string.IsNullOrEmpty(_pnjStateMachine.SelectedPotionName))
-            {
-                _pnjStateMachine.ResetFailedAttempts();
-                _pnjStateMachine.NextState();
-            }
-            else
-            {
-                if (_pnjStateMachine.FailedAttempts < 3)
+                if (_isSuccess || _isNoPotion)
                 {
-                    _pnjStateMachine.TransitionToState(3);
+                    data.StateMachine.ResetFailedAttempts();
+                    return new MoveToStartState();
                 }
                 else
                 {
-                    _pnjStateMachine.NextState();
+                    if (data.StateMachine.FailedAttempts < 3)
+                    {
+                        return new ChoosePotionState();
+                    }
+                    else
+                    {
+                        return new MoveToStartState();
+                    }
                 }
             }
-        }
 
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
+            return null;
+        }
 
         public void ExitState(PNJData data)
         {
             data.Agent.isStopped = false;
+            DialogueController.OnDialogueFinished -= OnDialogueEnd;
+        }
+
+        private void OnDialogueEnd()
+        {
+            _isDialogueFinished = true;
         }
     }
 }

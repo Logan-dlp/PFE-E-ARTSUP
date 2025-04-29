@@ -5,38 +5,40 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class DialogueState : IPNJState
     {
-        private PNJData _pnjData;
+        private bool _dialogueFinished = false;
 
         public void EnterState(PNJData data)
         {
-            _pnjData = data;
             data.Agent.isStopped = true;
             data.Animator.SetBool("isWalking", false);
 
-            PNJStateMachine pnjStateMachine = data.PNJGameObject.GetComponent<PNJStateMachine>();
-
-            if (DialogueController.Instance != null && pnjStateMachine.BeginDialogueData != null)
+            if (DialogueController.Instance != null && data.StateMachine.BeginDialogueData != null)
             {
-                DialogueController.Instance.StartDialogue(pnjStateMachine.BeginDialogueData);
+                DialogueController.Instance.StartDialogue(data.StateMachine.BeginDialogueData);
                 DialogueController.OnDialogueFinished += OnDialogueEnd;
             }
             else
             {
-                Debug.LogWarning("DialogueController ou DialogueData est nul");
+                _dialogueFinished = true;
             }
         }
+
+        public IPNJState UpdateState(PNJData data)
+        {
+            if (_dialogueFinished)
+            {
+                DialogueController.OnDialogueFinished -= OnDialogueEnd;
+                return new ChoosePotionState();
+            }
+
+            return null;
+        }
+
+        public void ExitState(PNJData data) { }
 
         private void OnDialogueEnd()
         {
-            DialogueController.OnDialogueFinished -= OnDialogueEnd;
-
-            if (_pnjData != null)
-            {
-                _pnjData.PNJGameObject.GetComponent<PNJStateMachine>().NextState();
-            }
+            _dialogueFinished = true;
         }
-
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine) { }
-        public void ExitState(PNJData data) { }
     }
 }

@@ -1,3 +1,4 @@
+using MoonlitMixes.AI.PNJ.StateMachine;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Potion;
 using System.Collections.Generic;
@@ -17,8 +18,9 @@ namespace MoonlitMixes.AI.PNJ
 
         public PotionListData RequestPotionList { get; }
         public PotionResult RequestPotion { get; }
+        public PNJStateMachine StateMachine { get; }
 
-        public PNJData(GameObject pnj, NavMeshAgent agent, Animator animator, List<Transform> waypoints, float dialogueDuration, PotionListData potionList)
+        public PNJData(GameObject pnj, NavMeshAgent agent, Animator animator, List<Transform> waypoints, float dialogueDuration, PotionListData potionList, PNJStateMachine stateMachine)
         {
             PNJGameObject = pnj;
             Agent = agent;
@@ -26,6 +28,7 @@ namespace MoonlitMixes.AI.PNJ
             Waypoints = waypoints;
             DialogueDuration = dialogueDuration;
             RequestPotionList = potionList;
+            StateMachine = stateMachine;
         }
     }
 }

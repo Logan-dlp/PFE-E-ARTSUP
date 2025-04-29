@@ -184,22 +184,17 @@ namespace MoonlitMixes.Dialogue
 
         private void ApplyEffect(SpeakerEffectType effectType, SpeakerEffect speaker)
         {
-            Debug.Log($"Applying effect {effectType} to speaker: {speaker}");
-
             switch (effectType)
             {
                 case SpeakerEffectType.Tremble:
-                    Debug.Log("Applying Tremble effect");
                     speaker.ApplyEffect(effectType);
                     break;
 
                 case SpeakerEffectType.Jump:
-                    Debug.Log("Applying Jump effect");
                     speaker.ApplyEffect(effectType);
                     break;
 
                 default:
-                    Debug.Log("No valid effect specified");
                     break;
             }
         }

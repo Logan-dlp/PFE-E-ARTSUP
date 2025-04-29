@@ -4,24 +4,28 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class MoveToEndState : IPNJState
     {
+        private bool _hasArrived = false;
+
         public void EnterState(PNJData data)
         {
             data.Animator.SetBool("isWalking", true);
             data.Agent.SetDestination(data.Waypoints[data.Waypoints.Count - 1].position);
         }
 
-        public void UpdateState(PNJData data, PNJStateMachine stateMachine)
+        public IPNJState UpdateState(PNJData data)
         {
-            if (!data.Agent.pathPending && data.Agent.remainingDistance <= data.Agent.stoppingDistance)
+            if (!_hasArrived && !data.Agent.pathPending && data.Agent.remainingDistance <= data.Agent.stoppingDistance)
             {
+                _hasArrived = true;
                 data.Animator.SetBool("isWalking", false);
-
                 data.Agent.updateRotation = false;
 
                 RotateLeft(data);
 
-                stateMachine.NextState();
+                return new DialogueState();
             }
+
+            return null;
         }
 
         public void ExitState(PNJData data)
