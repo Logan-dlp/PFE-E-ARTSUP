@@ -12,6 +12,7 @@ namespace MoonlitMixes.Player
         
         [SerializeField] private GameObject _itemHoldPivot;
         [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
+        [SerializeField] private ScriptableItemUsageEvent _scriptableItemUsageEvent;
         
         private void OnEnable()
         {
@@ -48,6 +49,7 @@ namespace MoonlitMixes.Player
 
             Item = ItemHold.GetComponent<ItemDataHolder>().ItemData;
             DisplayItemHold();
+            _scriptableItemUsageEvent.SendEvent(Item.Usage);
             GetComponent<PlayerInteraction>().ItemInHand = Item;
         }
 
