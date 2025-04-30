@@ -25,16 +25,16 @@ namespace MoonlitMixes.Player
         [SerializeField, MaxValue(0)] private float _maxDownVelocity;
 
         private CharacterController _characterController;
-  
+        
         private Vector3 _knockbackMovement = Vector3.zero;
         private Vector3 _velocity;
         private Vector2 _movement;
-
+        
         private float _currentSpeed;
         private float _currentStamina;
 
-        
-        
+        private bool _isMovementBlocked = false;
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
@@ -44,9 +44,12 @@ namespace MoonlitMixes.Player
 
         private void FixedUpdate()
         {
-            UpdateStamina(Time.fixedDeltaTime);
-            UpdateMovement(Time.fixedDeltaTime);
-            UpdateGravity(Time.fixedDeltaTime);
+            if (!_isMovementBlocked)
+            {
+                UpdateStamina(Time.fixedDeltaTime);
+                UpdateMovement(Time.fixedDeltaTime);
+                UpdateGravity(Time.fixedDeltaTime);
+            }
         }
 
         private void UpdateMovement(float deltaTime)
@@ -60,7 +63,6 @@ namespace MoonlitMixes.Player
                 gameObject.transform.forward = move;
             }
         }
-
         
         private void UpdateGravity(float deltaTime)
         {
@@ -116,6 +118,11 @@ namespace MoonlitMixes.Player
             {
                 _currentSpeed = _walkSpeed;
             }
+        }
+
+        public void BlockMovement(bool block)
+        {
+            _isMovementBlocked = block;
         }
         
         public IEnumerator Knockback(Vector3 direction, float force, float duration)
