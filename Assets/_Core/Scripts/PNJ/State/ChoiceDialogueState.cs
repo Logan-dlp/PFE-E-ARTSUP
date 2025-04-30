@@ -49,8 +49,8 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             }
             else
             {
-                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.StateMachine.FailedAttempts);
                 data.StateMachine.IncrementFailedAttempts();
+                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.StateMachine.FailedAttempts);
                 DialogueController.Instance.StartDialogue(data.StateMachine.FailureDialogueData);
             }
         }
