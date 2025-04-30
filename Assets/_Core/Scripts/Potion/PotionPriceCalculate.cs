@@ -18,21 +18,23 @@ namespace MoonlitMixes.Potion
 
         public void CalculatePotionPrice(int basePrice, int failedAttempts)
         {
+            int calculatedPrice = 0;
+
             if (basePrice <= 0)
             {
                 Debug.Log("Aucune potion ou prix. Le prix est à 0.");
-                UpdateTotalPriceUI();
-                return;
+            }
+            else
+            {
+                float multiplier = GetMultiplier(failedAttempts);
+                calculatedPrice = Mathf.FloorToInt(basePrice * multiplier);
+                totalPotionPrice += calculatedPrice;
+
+                Debug.Log($"Prix calculé avec multiplicateur {multiplier}: {calculatedPrice}, Total accumulé: {totalPotionPrice}");
             }
 
-            float multiplier = GetMultiplier(failedAttempts);
-            int calculatedPrice = Mathf.FloorToInt(basePrice * multiplier);
-
-            totalPotionPrice += calculatedPrice;
-
+            // Toujours mettre à jour l'UI, même si basePrice est 0
             UpdateTotalPriceUI();
-
-            Debug.Log($"Prix calculé avec multiplicateur {multiplier}: {calculatedPrice}, Total accumulé: {totalPotionPrice}");
         }
 
         private void UpdateTotalPriceUI()

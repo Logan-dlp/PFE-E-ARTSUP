@@ -8,6 +8,7 @@ namespace MoonlitMixes.AI.PNJ
 {
     public class CloseOrOpenShop : MonoBehaviour
     {
+        public static event Action OnShopUIShouldDeactivate;
         public static event Action<bool> OnShopToggled;
         public bool HasShopBeenOpened => _hasShopBeenOpened;
 
@@ -50,7 +51,7 @@ namespace MoonlitMixes.AI.PNJ
                     _hasShopBeenOpened = true;
                     OnShopToggled?.Invoke(true);
                     CustomerSpawner.RequestSpawning();
-                    _interactionButton.DeactivateButtonUI();
+                    OnShopUIShouldDeactivate?.Invoke();
                 }
             }
         }

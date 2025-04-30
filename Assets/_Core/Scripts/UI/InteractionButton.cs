@@ -7,7 +7,6 @@ namespace MoonlitMixes.Player.Interaction
     public class InteractionButton : MonoBehaviour
     {
         [SerializeField] private Image _buttonImage;
-        [SerializeField] private CloseOrOpenShop _closeOrOpenShop;
 
         private void Start()
         {
@@ -19,12 +18,9 @@ namespace MoonlitMixes.Player.Interaction
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!_closeOrOpenShop.HasShopBeenOpened)
+            if (_buttonImage != null)
             {
-                if (_buttonImage != null)
-                {
-                    _buttonImage.gameObject.SetActive(true);
-                }
+                _buttonImage.gameObject.SetActive(true);
             }
         }
 
@@ -36,7 +32,17 @@ namespace MoonlitMixes.Player.Interaction
             }
         }
 
-        public void DeactivateButtonUI()
+        private void OnEnable()
+        {
+            CloseOrOpenShop.OnShopUIShouldDeactivate += DeactivateButtonUI;
+        }
+
+        private void OnDisable()
+        {
+            CloseOrOpenShop.OnShopUIShouldDeactivate -= DeactivateButtonUI;
+        }
+
+        private void DeactivateButtonUI()
         {
             if (_buttonImage != null)
             {
