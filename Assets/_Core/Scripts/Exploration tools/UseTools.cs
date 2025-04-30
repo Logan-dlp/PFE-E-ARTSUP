@@ -1,4 +1,5 @@
 ﻿using MoonlitMixes.AI;
+using MoonlitMixes.ExplorationTools;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;

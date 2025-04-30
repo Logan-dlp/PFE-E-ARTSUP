@@ -13,6 +13,7 @@ namespace MoonlitMixes.Health
 
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegeneration;
+        [SerializeField] private PlayerHealthData _playerHealthData;
 
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
@@ -21,6 +22,12 @@ namespace MoonlitMixes.Health
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
+        }
+
+        private void Start()
+        {
+            _maxHealth = _playerHealthData.MaxHealth;
+            _currentHealth = _playerHealthData.CurrentHealth;
         }
 
         private void FixedUpdate()
@@ -70,29 +77,23 @@ namespace MoonlitMixes.Health
             _timeBeforeOutOfFight = _timeBeforeGettingOutOfFight;
         }
 
-        private void Start()
-        {
-            _maxHealth = playerHealthData.MaxHealth;
-            _currentHealth = playerHealthData.CurrentHealth;
-        }
-
         protected override void CheckHealth()
         {
             if (_currentHealth <= 0)
-            if (_currentHealth <= 0)
             {
-                if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
+                Debug.Log("PlayerDeath");
+                /*if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
                 {
                     OnPlayerRespawnInScene?.Invoke();
                 }
                 else
                 {
                     OnPlayerRespawnInOtherScene?.Invoke();
-                }
+                }*/
             }
 
-            playerHealthData.CurrentHealth = _currentHealth;
-            playerHealthData.MaxHealth = _maxHealth;
+            _playerHealthData.CurrentHealth = _currentHealth;
+            _playerHealthData.MaxHealth = _maxHealth;
 
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }

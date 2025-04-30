@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using MoonlitMixes.Datas;
-using MoonlitMixes.Datas.QTE;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;

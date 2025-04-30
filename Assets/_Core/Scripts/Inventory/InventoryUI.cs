@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MoonlitMixes.Datas;
-using MoonlitMixes.Datas.Inventory;
 using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.UI;

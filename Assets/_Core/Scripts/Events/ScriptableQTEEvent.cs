@@ -1,6 +1,5 @@
 using System;
 using MoonlitMixes.Datas;
-using MoonlitMixes.Datas.QTE;
 using UnityEngine;
 
 namespace MoonlitMixes.Events

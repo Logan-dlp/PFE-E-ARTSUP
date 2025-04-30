@@ -1,3 +1,4 @@
+using MoonlitMixes.ExplorationTools;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Tool", menuName = "Scriptable Objects/Tool")]

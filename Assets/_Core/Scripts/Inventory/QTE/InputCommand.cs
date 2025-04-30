@@ -1,4 +1,4 @@
-﻿namespace MoonlitMixes.Datas.QTE
+﻿namespace MoonlitMixes.Datas
 {
     public enum InputCommand
     {

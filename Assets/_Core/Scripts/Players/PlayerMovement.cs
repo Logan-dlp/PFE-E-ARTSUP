@@ -28,7 +28,6 @@ namespace MoonlitMixes.Player
         
         private Vector3 _knockbackMovement = Vector3.zero;
         private Vector3 _velocity;
-        private Vector3 _knockbackMovement = Vector3.zero;
 
         private Vector2 _movement;
         
@@ -41,7 +40,6 @@ namespace MoonlitMixes.Player
             _characterController = GetComponent<CharacterController>();
             _currentSpeed = _walkSpeed;
             _currentStamina = _maxStamina;
-            _animator = GetComponent<Animator>();
         }
 
         private void FixedUpdate()

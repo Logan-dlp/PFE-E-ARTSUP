@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MoonlitMixes.Datas.QTE
+namespace MoonlitMixes.Datas
 {
     public class CustomQTEButton
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using MoonlitMixes.Item;
 
-namespace MoonlitMixes.Datas.Inventory
+namespace MoonlitMixes.Datas
 {
     [CreateAssetMenu(fileName = "Inventory", menuName = "Scriptable Objects/Inventory")]
     public class InventoryData : ScriptableObject

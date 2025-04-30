@@ -1,4 +1,4 @@
-﻿namespace MoonlitMixes.Datas.Inventory
+﻿namespace MoonlitMixes.Datas
 {
     public enum InventoryMode
     {

@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using MoonlitMixes.Datas;
-using MoonlitMixes.Datas.QTE;
-using MoonlitMixes.Events;
 using MoonlitMixes.Player;
 using Random = UnityEngine.Random;
 

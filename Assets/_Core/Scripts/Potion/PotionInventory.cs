@@ -3,6 +3,7 @@ using MoonlitMixes.Dialogue;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace MoonlitMixes.Potion
@@ -23,6 +24,11 @@ namespace MoonlitMixes.Potion
 
         private void Start()
         {
+            if(SceneManager.GetActiveScene().name == "S_Labo")
+            {
+                return;
+            }
+            
             _potionChoiceController = FindFirstObjectByType<PotionChoiceController>();
 
             if (_potionChoiceController == null)
@@ -88,7 +94,7 @@ namespace MoonlitMixes.Potion
         {
             if (_isSelectionInProgress) return;
 
-            Debug.Log($"Potion sélectionnée: {potion.Recipe.RecipeName}, affichage du panneau de confirmation.");
+            Debug.Log($"Potion sï¿½lectionnï¿½e: {potion.Recipe.RecipeName}, affichage du panneau de confirmation.");
 
             _isSelectionInProgress = true;
             TogglePotionButtons(false);
@@ -131,7 +137,7 @@ namespace MoonlitMixes.Potion
             else
             {
                 _potionChoiceController.SelectPotion("");
-                Debug.Log("Aucune potion sélectionnée (No Potion).");
+                Debug.Log("Aucune potion sï¿½lectionnï¿½e (No Potion).");
             }
 
             UpdatePotionCanvas();

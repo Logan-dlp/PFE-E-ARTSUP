@@ -1,5 +1,4 @@
 using MoonlitMixes.Datas;
-using MoonlitMixes.Datas.Inventory;
 using MoonlitMixes.Inventory;
 using UnityEditor;
 
