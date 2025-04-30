@@ -6,7 +6,13 @@ namespace MoonlitMixes.Health
     public class HealthBarDisplay : MonoBehaviour
     {
         [SerializeField] private HealthBarScriptableInt _healthBarScriptableInt;
-        [SerializeField] private Image _healthBar;
+        
+        private Image _healthBar;
+
+        private void Awake()
+        {
+            _healthBar = GetComponent<Image>();
+        }
 
         private void OnEnable()
         {

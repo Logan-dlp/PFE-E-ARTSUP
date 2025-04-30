@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using MoonlitMixes.Events;
-
-namespace MoonlitMixes.Datas.QTE
+ 
+namespace MoonlitMixes.Datas
 {
     [CreateAssetMenu(fileName = "ScriptableQTEConfig", menuName = "Scriptable Objects/ScriptableQTEConfig")]
     public class ScriptableQTEConfig : ScriptableObject
