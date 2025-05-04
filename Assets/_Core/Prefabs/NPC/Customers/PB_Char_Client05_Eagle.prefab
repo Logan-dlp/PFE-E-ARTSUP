@@ -1224,6 +1224,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 536956738140869163}
+  - component: {fileID: -1679480531504217161}
+  - component: {fileID: -5643499700535351910}
+  - component: {fileID: 7518038782187109158}
   m_Layer: 0
   m_Name: PB_Char_Client05_Eagle
   m_TagString: Untagged
@@ -1248,6 +1251,69 @@ Transform:
   - {fileID: 368304111656970529}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &-1679480531504217161
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719446392700662560}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 9272ec4a8f82d404796b847c3e9862a8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-5643499700535351910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719446392700662560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4812d89ffab4c4285b9df51567e243, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waypointsParent: {fileID: 0}
+  _dialogueDuration: 3
+  _potionList: {fileID: 0}
+  _beginDialogueData: {fileID: 0}
+  _successDialogueData: {fileID: 0}
+  _failureDialogueData: {fileID: 0}
+  _noPotionDialogueData: {fileID: 0}
+--- !u!195 &7518038782187109158
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719446392700662560}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &2918699787546263412
 GameObject:
   m_ObjectHideFlags: 0
