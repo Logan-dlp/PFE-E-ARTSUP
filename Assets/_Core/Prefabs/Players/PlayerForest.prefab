@@ -150,19 +150,7 @@ MonoBehaviour:
     m_ActionId: 10eb79df-d88c-408b-8d53-7e6812a3e67d
     m_ActionName: 'Player/Sprint[/Keyboard/ctrl]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerInteraction, Assembly-CSharp
-        m_MethodName: Interact
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 4740dbaf-b023-4d55-998d-565fec3660fe
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
@@ -229,6 +217,50 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0fa7b7ba-d4d6-4b4e-bbc0-a008b3a862e7
     m_ActionName: 'Player/Open Inventory[/Keyboard/y]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a10bb0d2-fe8e-4504-99d1-3bda19270d71
+    m_ActionName: Player/OpenCloseCanvas
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 915df8cb-4c50-4a55-84f0-b5369b44fa82
+    m_ActionName: QTE/ButtonNorth
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9068b628-098e-4fd6-a8e0-e3aaf3ad8911
+    m_ActionName: QTE/ButtonSouth
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bb48bc42-12e9-4a75-b74e-c6cf483b34d5
+    m_ActionName: QTE/ButtonEast
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cca0bdf1-73eb-4592-967c-56fdcbb295f7
+    m_ActionName: QTE/ButtonWest
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9c3c050e-f820-47cd-8a55-9ca2cc6f7e71
+    m_ActionName: QTE/RightStick
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 010ed930-3a23-4b15-9da3-f94629845b59
+    m_ActionName: UI/Navigate
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eaf4d6a5-6adb-4d51-90ff-fbd66c96f70e
+    m_ActionName: UI/Submit
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 079c0808-31e7-4e25-b140-124ae63daf4b
+    m_ActionName: UI/Cancel
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cf74f6c1-d60c-4703-b565-2a4a1ab1ab97
+    m_ActionName: 'Dialogue/NextDialogue[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b0ae578a-f3d1-45fc-bec8-768089fe53a6
+    m_ActionName: Recipe/CloseRecipe
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -250,6 +282,8 @@ MonoBehaviour:
   _sprintSpeed: 4
   _maxStamina: 5
   _canSprint: 0
+  _floorDistance: 0
+  _maxDownVelocity: 0
 --- !u!114 &6894724841770898245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,8 +310,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventory: {fileID: 6429860975592195495}
-  _brokenRock: 0
+  _attackDistance: 0
   _attackDamage: 25
+  _attackForce: 0
 --- !u!1 &297515898432214994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,7 +1750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1bfb8549f2400499cea53e15625543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toolListData: {fileID: 11400000, guid: a86bad44aedcc4e4d9befb3ac288f8f2, type: 2}
   _toolSlots:
   - {fileID: 4916017449424488085}
   - {fileID: 5842600558698094160}
