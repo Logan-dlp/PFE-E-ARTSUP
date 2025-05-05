@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Datas;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
@@ -15,6 +16,7 @@ namespace MoonlitMixes.Potion
         [SerializeField] private ParticleSystem _burnPot;
         [SerializeField] private List<Recipe> _allRecipes;
         [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
+        [SerializeField] private PotionListData _potionListData;
 
         private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
@@ -146,8 +148,9 @@ namespace MoonlitMixes.Potion
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();
-            _potionInventory.PotionList.Add(recipe.Potion);
-            _potionInventory.UpdatePotionCanvas();
+
+            _potionListData.PotionResults.Add(recipe.Potion);
+
             _currentIngredients.Clear();
             _ingredentToAdd = null;
         }
