@@ -92,15 +92,6 @@ namespace MoonlitMixes.UI
             Vector2 viewportLocalPosition = (Vector2)content.InverseTransformPoint(viewport.position);
 
             float difference = localPosition.y - viewportLocalPosition.y;
-
-            if (difference > viewport.rect.height || difference < 0)
-            {
-                float scrollHeight = content.rect.height - viewport.rect.height;
-                if (scrollHeight <= 0) return;
-
-                float normalizedPos = Mathf.Clamp01(_scrollRect.verticalNormalizedPosition + (_scrollSpeed * difference) / scrollHeight);
-                _scrollRect.verticalNormalizedPosition = normalizedPos;
-            }
         }
     }
 }
