@@ -5532,7 +5532,6 @@ GameObject:
   - component: {fileID: 5387007603050281900}
   - component: {fileID: 176136304233135956}
   - component: {fileID: 8171506437572305494}
-  - component: {fileID: 7855766533216230340}
   - component: {fileID: 541981251971043464}
   - component: {fileID: 5156862079788679200}
   - component: {fileID: 5276825449993329770}
@@ -5621,7 +5620,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7855766533216230340}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerMovement, Assembly-CSharp
         m_MethodName: SetTargetMovement
         m_Mode: 0
@@ -5768,24 +5767,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7855766533216230340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6682728787243280857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0135a207c05a14a824ee45b45968b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _walkSpeed: 2
-  _sprintSpeed: 4
-  _maxStamina: 5
-  _canSprint: 0
-  _floorDistance: 0
-  _maxDownVelocity: 0
 --- !u!95 &541981251971043464
 Animator:
   serializedVersion: 7
