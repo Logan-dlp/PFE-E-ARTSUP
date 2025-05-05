@@ -36,6 +36,8 @@ namespace MoonlitMixes.Animation
         {
             _animator.SetBool("Idle", !isMoving);
             _animator.SetBool("Run", isMoving);
+        
+            _animator.SetFloat("Speed", _playerMovement.CurrentSpeed);
         }
     }
 }

@@ -32,6 +32,11 @@ namespace MoonlitMixes.Player
         private Vector2 _movement;
         
         private float _currentSpeed;
+        public float CurrentSpeed
+        {
+            get => _currentSpeed;
+        }
+        
         private float _currentStamina;
         private bool _isMovementBlocked = false;
 
