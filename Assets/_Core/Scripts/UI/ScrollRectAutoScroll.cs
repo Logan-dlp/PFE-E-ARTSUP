@@ -43,7 +43,6 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
             nextScrollPosition = scrollRect.normalizedPosition;
         }
 
-        // Empêcher le scroll si on n'a pas changé de sélection
         GameObject current = EventSystem.current.currentSelectedGameObject;
         if (current != lastSelected)
         {
@@ -59,11 +58,8 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
 
         Vector2 inputDir = context.ReadValue<Vector2>();
 
-        // On ignore le scroll horizontal si on ne veut que le vertical
         if (Mathf.Abs(inputDir.x) > 0.5f || Mathf.Abs(inputDir.y) < 0.1f)
             return;
-
-        // Navigation se fait dans Update quand la sélection change
     }
 
     private Selectable m_PreviousSelected;
@@ -80,21 +76,19 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
         RectTransform currentRect = current.GetComponent<RectTransform>();
         RectTransform viewport = scrollRect.viewport;
 
-        // Comparaison avec la sélection précédente (pour vérifier le changement de ligne)
         bool sameLine = false;
         if (m_PreviousSelected != null && m_PreviousSelected != current)
         {
             RectTransform previousRect = m_PreviousSelected.GetComponent<RectTransform>();
             float verticalDistance = Mathf.Abs(currentRect.position.y - previousRect.position.y);
-            sameLine = verticalDistance < 1f; // tolérance pour dire "même ligne"
+            sameLine = verticalDistance < 1f;
         }
 
         m_PreviousSelected = current;
 
         if (sameLine)
-            return; // Ne rien faire si c’est un changement horizontal sur la même ligne
+            return;
 
-        // Calcul du positionnement vertical
         Vector3[] itemCorners = new Vector3[4];
         Vector3[] viewportCorners = new Vector3[4];
         currentRect.GetWorldCorners(itemCorners);
@@ -106,9 +100,8 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
         float viewportBottom = viewportCorners[0].y;
 
         if (itemTop <= viewportTop && itemBottom >= viewportBottom)
-            return; // L'élément est déjà entièrement visible, pas de scroll
+            return;
 
-        // Calcul du scroll vertical basé sur l'index
         int index = selectables.IndexOf(current);
         float normalizedY = 1f - (index / (float)(selectables.Count - 1));
         Vector2 targetPos = new Vector2(0, normalizedY);
