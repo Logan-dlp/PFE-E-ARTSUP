@@ -10,89 +10,115 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
     public float scrollSpeed = 10f;
     private bool mouseOver = false;
 
-    private List<Selectable> m_Selectables = new List<Selectable>();
-    private ScrollRect m_ScrollRect;
+    private ScrollRect scrollRect;
+    private List<Selectable> selectables = new List<Selectable>();
+    private Vector2 nextScrollPosition = Vector2.up;
 
-    private Vector2 m_NextScrollPosition = Vector2.up;
+    private GameObject lastSelected = null;
 
     private void Awake()
     {
-        m_ScrollRect = GetComponent<ScrollRect>();
+        scrollRect = GetComponent<ScrollRect>();
     }
 
     private void Start()
     {
-        if (m_ScrollRect)
-        {
-            m_ScrollRect.content.GetComponentsInChildren(m_Selectables);
-        }
+        scrollRect.content.GetComponentsInChildren(selectables);
+        lastSelected = EventSystem.current.currentSelectedGameObject;
         ScrollToSelected(true);
-    }
-
-    private void OnEnable()
-    {
-        var inputAction = new InputAction("Navigate", binding: "<Gamepad>/leftStick");
-        inputAction.performed += ctx => InputScroll(ctx);
-        inputAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        // Unsubscribe when the script is disabled
-        var inputAction = new InputAction("Navigate", binding: "<Gamepad>/leftStick");
-        inputAction.performed -= ctx => InputScroll(ctx);
-        inputAction.Disable();
     }
 
     private void Update()
     {
-        // If the mouse is not over the scroll area, perform lerping scrolling.
         if (!mouseOver)
         {
-            m_ScrollRect.normalizedPosition = Vector2.Lerp(m_ScrollRect.normalizedPosition, m_NextScrollPosition, scrollSpeed * Time.unscaledDeltaTime);
+            scrollRect.normalizedPosition = Vector2.Lerp(
+                scrollRect.normalizedPosition,
+                nextScrollPosition,
+                scrollSpeed * Time.unscaledDeltaTime
+            );
         }
         else
         {
-            m_NextScrollPosition = m_ScrollRect.normalizedPosition;
+            nextScrollPosition = scrollRect.normalizedPosition;
+        }
+
+        // Empêcher le scroll si on n'a pas changé de sélection
+        GameObject current = EventSystem.current.currentSelectedGameObject;
+        if (current != lastSelected)
+        {
+            lastSelected = current;
+            ScrollToSelected(false);
         }
     }
 
     public void InputScroll(InputAction.CallbackContext context)
     {
-        if (m_Selectables.Count > 0)
-        {
-            // Read the joystick input value from the Input System (vertical movement)
-            Vector2 direction = context.ReadValue<Vector2>();
+        if (!context.performed || selectables.Count == 0)
+            return;
 
-            if (Mathf.Abs(direction.y) > 0.1f)  // Simple threshold to avoid too small joystick movements
-            {
-                ScrollToSelected(false);
-            }
-        }
+        Vector2 inputDir = context.ReadValue<Vector2>();
+
+        // On ignore le scroll horizontal si on ne veut que le vertical
+        if (Mathf.Abs(inputDir.x) > 0.5f || Mathf.Abs(inputDir.y) < 0.1f)
+            return;
+
+        // Navigation se fait dans Update quand la sélection change
     }
 
-    private void ScrollToSelected(bool quickScroll)
+    private Selectable m_PreviousSelected;
+
+    private void ScrollToSelected(bool instant)
     {
-        int selectedIndex = -1;
-        Selectable selectedElement = EventSystem.current.currentSelectedGameObject ? EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>() : null;
+        if (EventSystem.current.currentSelectedGameObject == null)
+            return;
 
-        if (selectedElement)
+        Selectable current = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+        if (current == null || !selectables.Contains(current))
+            return;
+
+        RectTransform currentRect = current.GetComponent<RectTransform>();
+        RectTransform viewport = scrollRect.viewport;
+
+        // Comparaison avec la sélection précédente (pour vérifier le changement de ligne)
+        bool sameLine = false;
+        if (m_PreviousSelected != null && m_PreviousSelected != current)
         {
-            selectedIndex = m_Selectables.IndexOf(selectedElement);
+            RectTransform previousRect = m_PreviousSelected.GetComponent<RectTransform>();
+            float verticalDistance = Mathf.Abs(currentRect.position.y - previousRect.position.y);
+            sameLine = verticalDistance < 1f; // tolérance pour dire "même ligne"
         }
 
-        if (selectedIndex > -1)
+        m_PreviousSelected = current;
+
+        if (sameLine)
+            return; // Ne rien faire si c’est un changement horizontal sur la même ligne
+
+        // Calcul du positionnement vertical
+        Vector3[] itemCorners = new Vector3[4];
+        Vector3[] viewportCorners = new Vector3[4];
+        currentRect.GetWorldCorners(itemCorners);
+        viewport.GetWorldCorners(viewportCorners);
+
+        float itemTop = itemCorners[1].y;
+        float itemBottom = itemCorners[0].y;
+        float viewportTop = viewportCorners[1].y;
+        float viewportBottom = viewportCorners[0].y;
+
+        if (itemTop <= viewportTop && itemBottom >= viewportBottom)
+            return; // L'élément est déjà entièrement visible, pas de scroll
+
+        // Calcul du scroll vertical basé sur l'index
+        int index = selectables.IndexOf(current);
+        float normalizedY = 1f - (index / (float)(selectables.Count - 1));
+        Vector2 targetPos = new Vector2(0, normalizedY);
+
+        if (instant)
         {
-            if (quickScroll)
-            {
-                m_ScrollRect.normalizedPosition = new Vector2(0, 1 - (selectedIndex / ((float)m_Selectables.Count - 1)));
-                m_NextScrollPosition = m_ScrollRect.normalizedPosition;
-            }
-            else
-            {
-                m_NextScrollPosition = new Vector2(0, 1 - (selectedIndex / ((float)m_Selectables.Count - 1)));
-            }
+            scrollRect.normalizedPosition = targetPos;
         }
+
+        nextScrollPosition = targetPos;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
