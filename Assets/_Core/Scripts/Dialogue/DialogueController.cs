@@ -57,7 +57,7 @@ namespace MoonlitMixes.Dialogue
                 }
             }
         }
-        
+
         public void StartDialogue(DialogueData dialogue)
         {
             if (_inputActionAsset == null)
@@ -96,10 +96,8 @@ namespace MoonlitMixes.Dialogue
             }
 
             DialogueLineData line = _currentDialogue.Lines[_dialogueIndex];
-            int speakerIndex = line.SpeakerIndex;
-            _imageSpeakers[speakerIndex].sprite = line.SpeakerSprite;
-            _imageSpeakers[speakerIndex].preserveAspect = true;
-            
+            int speakerIndex = ((int)line.SpeakerSlot);
+
             if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
             {
                 Debug.LogWarning($"SpeakerIndex {speakerIndex} is out of bounds!");
