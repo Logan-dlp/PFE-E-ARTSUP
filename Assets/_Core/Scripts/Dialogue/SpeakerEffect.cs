@@ -8,7 +8,9 @@ namespace MoonlitMixes.Dialogue.Effect
 {
     public class SpeakerEffect : MonoBehaviour
     {
-        private Vector3 _originalScale;
+        [SerializeField] RectTransform _rectTransform;
+
+        private Vector2 _originalWidthNHeight;
         private Color _originalColor;
         private Image _image;
         private TMP_Text _linkedText;
@@ -17,10 +19,10 @@ namespace MoonlitMixes.Dialogue.Effect
 
         private void Awake()
         {
-            _originalScale = transform.localScale;
             _image = GetComponent<Image>();
+            _originalWidthNHeight = _rectTransform.sizeDelta;
+            
             _linkedText = GetComponent<TMP_Text>();
-
             if (_image != null)
             {
                 _originalColor = _image.color;
@@ -76,14 +78,14 @@ namespace MoonlitMixes.Dialogue.Effect
             float intensityX = _dialogueLineData.TrembleIntensityX;
             float intensityY = _dialogueLineData.TrembleIntensityY;
 
-            // Début du tremblement
+            // Dï¿½but du tremblement
             for (int i = 0; i < 20; i++)
             {
-                // Applique une variation aléatoire à la position de l'image
+                // Applique une variation alï¿½atoire ï¿½ la position de l'image
                 Vector3 offset = new Vector3(Random.Range(-intensityX, intensityX), Random.Range(-intensityY, intensityY), 0);
                 transform.localPosition = originalPosition + offset;
 
-                // Applique un tremblement à la position du texte
+                // Applique un tremblement ï¿½ la position du texte
                 if (_linkedText)
                 {
                     RectTransform textRect = _linkedText.rectTransform;
@@ -91,7 +93,7 @@ namespace MoonlitMixes.Dialogue.Effect
                     textRect.localPosition = textOriginalPosition + textOffset;
                 }
 
-                // Variation légère de la rotation de l'image pour un effet de tremblement
+                // Variation lï¿½gï¿½re de la rotation de l'image pour un effet de tremblement
                 float trembleAmount = Random.Range(-5f, 5f);
                 transform.rotation = originalRotation * Quaternion.Euler(0, 0, trembleAmount);
 
@@ -139,9 +141,12 @@ namespace MoonlitMixes.Dialogue.Effect
             if (_image != null)
             {
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.5f); // Sprite semi-transparent
-
+                
                 RectTransform rectTransform = _image.rectTransform;
-                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * 0.8f, rectTransform.sizeDelta.y * 0.8f);
+                if(rectTransform.sizeDelta != _originalWidthNHeight * .8f)
+                {
+                    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * 0.8f, rectTransform.sizeDelta.y * 0.8f);
+                }
             }
 
             if (_linkedText != null)
@@ -158,7 +163,8 @@ namespace MoonlitMixes.Dialogue.Effect
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 1f); // Sprite opaque
 
                 RectTransform rectTransform = _image.rectTransform;
-                rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
+                //rectTransform.sizeDelta = new Vector2(_originalScale.x * 1000, _originalScale.y * 1000);
+                rectTransform.sizeDelta = _originalWidthNHeight;
             }
 
             if (_linkedText != null)
