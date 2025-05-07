@@ -286,6 +286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4316158061235824428}
   - component: {fileID: 9124157888839695659}
+  - component: {fileID: 5821363631031860477}
   m_Layer: 0
   m_Name: SceneLoader
   m_TagString: Untagged
@@ -321,4 +322,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02ec96f30d89b6449c2a5f44914225c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1094707656088935589}
+  _animator: {fileID: 1094707656088935589}
+--- !u!114 &5821363631031860477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8602448135224740562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037296bd621fbd5418f84b6b4d80db30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _lastSceneNameData: {fileID: 11400000, guid: 5c649f994966cb642b7a3d827aa571cd, type: 2}
+  _spawnPositionsArray:
+  - transform: {fileID: 0}
+    sceneNameLinked: S_Cave
+  - transform: {fileID: 0}
+    sceneNameLinked: S_Hub
