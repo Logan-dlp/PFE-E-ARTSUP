@@ -9,12 +9,11 @@ using UnityEngine.UI;
 public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private float _scrollSpeed = 10f;
-    private bool _mouseOver = false;
 
+    private bool _mouseOver = false;
     private ScrollRect _scrollRect;
     private List<Selectable> _selectables = new List<Selectable>();
     private Vector2 _nextScrollPosition = Vector2.up;
-
     private Selectable _previousSelected;
     private GameObject _lastSelected = null;
 

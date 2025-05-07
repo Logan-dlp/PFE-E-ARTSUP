@@ -6,6 +6,7 @@ public class ScrollArrowVisibility : MonoBehaviour
 {
     [SerializeField] private GameObject _topArrow;
     [SerializeField] private GameObject _bottomArrow;
+
     private ScrollRect _scrollRect;
 
     private void Start()
