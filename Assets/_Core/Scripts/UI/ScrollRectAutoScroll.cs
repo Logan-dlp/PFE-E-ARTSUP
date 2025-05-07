@@ -2,58 +2,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(ScrollRect))]
 public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public float scrollSpeed = 10f;
-    private bool mouseOver = false;
+    [SerializeField] private float _scrollSpeed = 10f;
+    private bool _mouseOver = false;
 
-    private ScrollRect scrollRect;
-    private List<Selectable> selectables = new List<Selectable>();
-    private Vector2 nextScrollPosition = Vector2.up;
+    private ScrollRect _scrollRect;
+    private List<Selectable> _selectables = new List<Selectable>();
+    private Vector2 _nextScrollPosition = Vector2.up;
 
-    private GameObject lastSelected = null;
+    private Selectable _previousSelected;
+    private GameObject _lastSelected = null;
 
     private void Awake()
     {
-        scrollRect = GetComponent<ScrollRect>();
+        _scrollRect = GetComponent<ScrollRect>();
     }
 
     private void Start()
     {
-        scrollRect.content.GetComponentsInChildren(selectables);
-        lastSelected = EventSystem.current.currentSelectedGameObject;
-        ScrollToSelected(true);
+        _scrollRect.content.GetComponentsInChildren(_selectables);
+        _lastSelected = EventSystem.current.currentSelectedGameObject;
+        ScrollToSelected(false);
     }
 
     private void Update()
     {
-        if (!mouseOver)
+        if (!_mouseOver)
         {
-            scrollRect.normalizedPosition = Vector2.Lerp(
-                scrollRect.normalizedPosition,
-                nextScrollPosition,
-                scrollSpeed * Time.unscaledDeltaTime
+            _scrollRect.normalizedPosition = Vector2.Lerp(
+                _scrollRect.normalizedPosition,
+                _nextScrollPosition,
+                _scrollSpeed * Time.unscaledDeltaTime
             );
         }
         else
         {
-            nextScrollPosition = scrollRect.normalizedPosition;
+            _nextScrollPosition = _scrollRect.normalizedPosition;
         }
 
         GameObject current = EventSystem.current.currentSelectedGameObject;
-        if (current != lastSelected)
+        if (current != _lastSelected)
         {
-            lastSelected = current;
+            _lastSelected = current;
             ScrollToSelected(false);
         }
     }
 
     public void InputScroll(InputAction.CallbackContext context)
     {
-        if (!context.performed || selectables.Count == 0)
+        if (!context.performed || _selectables.Count == 0)
             return;
 
         Vector2 inputDir = context.ReadValue<Vector2>();
@@ -62,7 +64,6 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
             return;
     }
 
-    private Selectable m_PreviousSelected;
 
     private void ScrollToSelected(bool instant)
     {
@@ -70,21 +71,22 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
             return;
 
         Selectable current = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
-        if (current == null || !selectables.Contains(current))
+        if (current == null || !_selectables.Contains(current))
             return;
 
         RectTransform currentRect = current.GetComponent<RectTransform>();
-        RectTransform viewport = scrollRect.viewport;
+        RectTransform viewport = _scrollRect.viewport;
 
         bool sameLine = false;
-        if (m_PreviousSelected != null && m_PreviousSelected != current)
+        
+        if (_previousSelected != null && _previousSelected != current)
         {
-            RectTransform previousRect = m_PreviousSelected.GetComponent<RectTransform>();
+            RectTransform previousRect = _previousSelected.GetComponent<RectTransform>();
             float verticalDistance = Mathf.Abs(currentRect.position.y - previousRect.position.y);
-            sameLine = verticalDistance < 1f;
+            sameLine = verticalDistance == 0;
         }
 
-        m_PreviousSelected = current;
+        _previousSelected = current;
 
         if (sameLine)
             return;
@@ -102,26 +104,36 @@ public class ScrollRectAutoScroll : MonoBehaviour, IPointerEnterHandler, IPointe
         if (itemTop <= viewportTop && itemBottom >= viewportBottom)
             return;
 
-        int index = selectables.IndexOf(current);
-        float normalizedY = 1f - (index / (float)(selectables.Count - 1));
+        float index = _selectables.IndexOf(current) / 5 + 1;
+        float normalizedY = 1 - ((index - 1) / 5);
+        
+        if (normalizedY < .5f)
+        {
+            normalizedY = .17f;
+        }
+        else
+        {
+            normalizedY = 1;
+        }
+        
         Vector2 targetPos = new Vector2(0, normalizedY);
 
         if (instant)
         {
-            scrollRect.normalizedPosition = targetPos;
+            _scrollRect.normalizedPosition = targetPos;
         }
 
-        nextScrollPosition = targetPos;
+        _nextScrollPosition = targetPos;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mouseOver = true;
+        _mouseOver = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        mouseOver = false;
+        _mouseOver = false;
         ScrollToSelected(false);
     }
 }

@@ -1,15 +1,16 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ScrollArrowVisibility : MonoBehaviour
 {
-    [SerializeField] private GameObject topArrow;
-    [SerializeField] private GameObject bottomArrow;
-    private ScrollRect scrollRect;
+    [SerializeField] private GameObject _topArrow;
+    [SerializeField] private GameObject _bottomArrow;
+    private ScrollRect _scrollRect;
 
     private void Start()
     {
-        scrollRect = GetComponentInParent<ScrollRect>();
+        _scrollRect = GetComponentInParent<ScrollRect>();
         UpdateArrowVisibility();
     }
 
@@ -20,22 +21,22 @@ public class ScrollArrowVisibility : MonoBehaviour
 
     private void UpdateArrowVisibility()
     {
-        float normalizedPosition = scrollRect.verticalNormalizedPosition;
+        float normalizedPosition = _scrollRect.verticalNormalizedPosition;
 
         if (normalizedPosition >= 0.9f)
         {
-            topArrow.SetActive(false);
-            bottomArrow.SetActive(true);
+            _topArrow.SetActive(false);
+            _bottomArrow.SetActive(true);
         }
         else if (normalizedPosition <= 0.2f)
         {
-            topArrow.SetActive(true);
-            bottomArrow.SetActive(false);
+            _topArrow.SetActive(true);
+            _bottomArrow.SetActive(false);
         }
         else
         {
-            topArrow.SetActive(true);
-            bottomArrow.SetActive(true);
+            _topArrow.SetActive(true);
+            _bottomArrow.SetActive(true);
         }
     }
 }
