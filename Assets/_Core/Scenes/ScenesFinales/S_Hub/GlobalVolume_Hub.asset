@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   components:
   - {fileID: 5321760540236099390}
+  - {fileID: 7491762716306682740}
 --- !u!114 &5321760540236099390
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -32,19 +33,19 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1.11
+    m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 5.18
+    m_Value: 24.76
   scatter:
     m_OverrideState: 1
     m_Value: 0
   clamp:
     m_OverrideState: 1
-    m_Value: 65474.63
+    m_Value: 1.7
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.73931867, g: 0.6839622, b: 1, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
@@ -61,3 +62,49 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &7491762716306682740
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
+  gaussianStart:
+    m_OverrideState: 1
+    m_Value: 0.12
+  gaussianEnd:
+    m_OverrideState: 1
+    m_Value: 25.3
+  gaussianMaxRadius:
+    m_OverrideState: 1
+    m_Value: 0.82
+  highQualitySampling:
+    m_OverrideState: 1
+    m_Value: 0
+  focusDistance:
+    m_OverrideState: 1
+    m_Value: 13.78
+  aperture:
+    m_OverrideState: 1
+    m_Value: 9.6
+  focalLength:
+    m_OverrideState: 1
+    m_Value: 148
+  bladeCount:
+    m_OverrideState: 1
+    m_Value: 5
+  bladeCurvature:
+    m_OverrideState: 1
+    m_Value: 0.373
+  bladeRotation:
+    m_OverrideState: 1
+    m_Value: -23
