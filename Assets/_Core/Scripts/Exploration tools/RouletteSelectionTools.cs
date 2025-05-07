@@ -75,6 +75,7 @@ public class RouletteSelectionTools : MonoBehaviour
                 int toolIndex = (_currentToolIndex + i) % _tools.Count;
                 _toolSlots[i].sprite = _tools[toolIndex].ItemSprite;
                 _toolSlots[i].gameObject.SetActive(true);
+                _toolSlots[i].preserveAspect = true;
             }
             else
             {

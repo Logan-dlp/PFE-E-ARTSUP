@@ -52,6 +52,7 @@ namespace MoonlitMixes.Inventory
                         Image itemImage = itemObj.AddComponent<Image>();
                         itemImage.sprite = item.ItemSprite;
                         itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
+                        itemImage.preserveAspect = true;
 
                         ItemDataHolder itemDataHolder = itemObj.AddComponent<ItemDataHolder>();
                         itemDataHolder.ItemData = item;
