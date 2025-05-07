@@ -4,7 +4,7 @@ namespace MoonlitMixes.ExplorationTools
     {
         Pickaxe,
         Machete,
-        Septer,
+        Staff,
         Hand
     }
 }

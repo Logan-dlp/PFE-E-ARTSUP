@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using MoonlitMixes.Inputs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +19,10 @@ namespace MoonlitMixes.Player
         }
         
         [SerializeField] private float _walkSpeed = 2;
+        public float WalkSpeed
+        {
+            get => _walkSpeed;
+        }
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
         [SerializeField] private bool _canSprint = false;
@@ -32,6 +37,11 @@ namespace MoonlitMixes.Player
         private Vector2 _movement;
         
         private float _currentSpeed;
+        public float CurrentSpeed
+        {
+            get => _currentSpeed;
+        }
+        
         private float _currentStamina;
         private bool _isMovementBlocked = false;
 
@@ -112,6 +122,7 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started && _currentStamina > 0 && _canSprint)
             {
+                Debug.Log("");
                 _currentSpeed = _sprintSpeed;
             }
             else if (ctx.canceled)

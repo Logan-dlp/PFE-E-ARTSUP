@@ -4358,6 +4358,9 @@ GameObject:
   - component: {fileID: 8171506437572305494}
   - component: {fileID: 7855766533216230340}
   - component: {fileID: 541981251971043464}
+  - component: {fileID: 4778079118650074921}
+  - component: {fileID: 5668235411028434330}
+  - component: {fileID: 1908046367248245318}
   m_Layer: 0
   m_Name: Player_Hub
   m_TagString: Untagged
@@ -4373,7 +4376,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6682728787243280857}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9618425, y: 0, z: -6.4769263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4403,13 +4406,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 0
-  m_Radius: 0.6
+  m_Height: 1.5
+  m_Radius: 0.27
   m_SlopeLimit: 45
   m_StepOffset: 0
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.6, z: 0}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!114 &8171506437572305494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4464,7 +4467,19 @@ MonoBehaviour:
     m_ActionId: 10eb79df-d88c-408b-8d53-7e6812a3e67d
     m_ActionName: Player/Sprint
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1908046367248245318}
+        m_TargetAssemblyTypeName: PlayerInteractionHub, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4740dbaf-b023-4d55-998d-565fec3660fe
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
@@ -4512,11 +4527,35 @@ MonoBehaviour:
     m_ActionId: 010ed930-3a23-4b15-9da3-f94629845b59
     m_ActionName: UI/Navigate
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MoonlitMixes.UI.ChangeSceneUI, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: eaf4d6a5-6adb-4d51-90ff-fbd66c96f70e
     m_ActionName: UI/Submit
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ChangeSceneUI, Assembly-CSharp
+        m_MethodName: CloseCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 079c0808-31e7-4e25-b140-124ae63daf4b
     m_ActionName: UI/Cancel
   - m_PersistentCalls:
@@ -4548,12 +4587,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0135a207c05a14a824ee45b45968b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 2
+  _walkSpeed: 3
   _sprintSpeed: 4
   _maxStamina: 5
-  _canSprint: 0
-  _floorDistance: 0
-  _maxDownVelocity: 0
+  _canSprint: 1
+  _floorDistance: 0.1
+  _maxDownVelocity: -8.64
 --- !u!95 &541981251971043464
 Animator:
   serializedVersion: 7
@@ -4576,6 +4615,48 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4778079118650074921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682728787243280857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d3824d2aeb40847bf8fb776e592931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 541981251971043464}
+--- !u!114 &5668235411028434330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682728787243280857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb3e2209421fd749ab680534983bafa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseCamera: {fileID: 0}
+--- !u!114 &1908046367248245318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682728787243280857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1967c0edc734e41b07bd12ef96c3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionDistance: 1
+  _layerHitable:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1 &6805368269751491600
 GameObject:
   m_ObjectHideFlags: 0

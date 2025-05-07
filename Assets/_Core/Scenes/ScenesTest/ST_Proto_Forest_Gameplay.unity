@@ -5090,7 +5090,7 @@ PrefabInstance:
       objectReference: {fileID: 1083551953}
     - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 18
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
       propertyPath: m_ActionEvents.Array.data[10].m_ActionId
@@ -5125,6 +5125,10 @@ PrefabInstance:
       value: 079c0808-31e7-4e25-b140-124ae63daf4b
       objectReference: {fileID: 0}
     - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
+      value: a10bb0d2-fe8e-4504-99d1-3bda19270d71
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
       propertyPath: m_ActionEvents.Array.data[10].m_ActionName
       value: QTE/ButtonNorth
       objectReference: {fileID: 0}
@@ -5157,6 +5161,10 @@ PrefabInstance:
       value: 'UI/Cancel[/Keyboard/b]'
       objectReference: {fileID: 0}
     - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
+      value: Player/OpenCloseCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -5185,6 +5193,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1083551953}
     - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145565693841064749, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnInteract
       objectReference: {fileID: 0}
@@ -5208,8 +5220,7 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6894724841770898245, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2690756563214304249, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
     - {fileID: 3234851498755827915, guid: 5fbc77656ebd6f24fba1b4e3f266a933, type: 3}
@@ -5263,6 +5274,7 @@ MonoBehaviour:
   healthBarScriptableInt: {fileID: 11400000, guid: 5c3881731ba56f145bacba2d4e9b0a81, type: 2}
   _timeBeforeGettingOutOfFight: 3
   _healthRegeneration: 1
+  _playerHealthData: {fileID: 11400000, guid: e09a0c07a5e93c24f8faa762d0ac326e, type: 2}
 --- !u!114 &1505040443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76480,7 +76492,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.14999999
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 3f1055d186af0504b8befd9ddd4ca545, type: 2}
   m_BuildHeightMesh: 0
@@ -77077,7 +77089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e18450ce1888049a9776fa383a7cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toolData: {fileID: 11400000, guid: 3ac8a248b59d6474cacdfeea2a39d7f9, type: 2}
+  _toolData: {fileID: 11400000, guid: 0633dccda6b1e13488ea6af7cda173c3, type: 2}
   _toolPrefab: {fileID: 1053502224}
   _rouletteSelectionTools: {fileID: 1217001163}
 --- !u!4 &8496241776733785580
@@ -77153,7 +77165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e18450ce1888049a9776fa383a7cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toolData: {fileID: 11400000, guid: 13ebc58ea6dfc354c86454ef3318bad8, type: 2}
+  _toolData: {fileID: 11400000, guid: 9a7c576f296dbe2459ad53fca2234205, type: 2}
   _toolPrefab: {fileID: 274799398}
   _rouletteSelectionTools: {fileID: 1217001163}
 --- !u!1660057539 &9223372036854775807

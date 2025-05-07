@@ -1,4 +1,5 @@
 ﻿using MoonlitMixes.AI;
+using MoonlitMixes.Animation;
 using MoonlitMixes.ExplorationTools;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
@@ -11,13 +12,16 @@ public class UseTools : MonoBehaviour
     [SerializeField] private float _attackDistance;
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackForce;
+    [SerializeField] private LayerMask _layerHitable;
 
     private int _brokenRock = 0;
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
+    private AnimationExplorationManager _animationExplorationManager;
 
     private void Awake()
     {
+        _animationExplorationManager = GetComponent<AnimationExplorationManager>();
         _rouletteSelection = FindFirstObjectByType<RouletteSelectionTools>();
         if (_rouletteSelection == null)
         {
@@ -29,6 +33,8 @@ public class UseTools : MonoBehaviour
     {
         if (ctx.performed)
         {
+            if(_rouletteSelection.ToolGameObjects.Count == 0) return;
+            
             if (CanUseHand())
             {
                 UseHand();
@@ -45,7 +51,7 @@ public class UseTools : MonoBehaviour
                 case ToolType.Pickaxe:
                     UsePickaxe();
                     break;
-                case ToolType.Septer:
+                case ToolType.Staff:
                     UseSepter();
                     break;
             }
@@ -72,7 +78,7 @@ public class UseTools : MonoBehaviour
     private void UseMachete()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
 
@@ -85,6 +91,7 @@ public class UseTools : MonoBehaviour
                     if (_inventory != null)
                     {
                         _inventory.AddItem(itemToAdd);
+                        _animationExplorationManager.UseMachete();
                     }
                 }
             }
@@ -95,7 +102,7 @@ public class UseTools : MonoBehaviour
     private void UsePickaxe()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
 
@@ -122,6 +129,8 @@ public class UseTools : MonoBehaviour
                         {
                             _brokenRock = 0;
                         }
+
+                        _animationExplorationManager.UsePickaxe();
                     }
                 }
             }
@@ -141,6 +150,8 @@ public class UseTools : MonoBehaviour
 
     private void UseSepter()
     {
+        _animationExplorationManager.UseStaff();
+        
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, _attackDistance))
         {
@@ -154,7 +165,7 @@ public class UseTools : MonoBehaviour
     private bool CanUseHand()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
             return itemList != null && itemList.ToolType == ToolType.Hand;
@@ -165,7 +176,7 @@ public class UseTools : MonoBehaviour
     private void UseHand()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
 
@@ -177,7 +188,9 @@ public class UseTools : MonoBehaviour
 
                     if (_inventory != null)
                     {
+                        Debug.Log("Interact");
                         _inventory.AddItem(itemToAdd);
+                        _animationExplorationManager.Interaction();
                     }
                 }
                 Destroy(hit.collider.gameObject);

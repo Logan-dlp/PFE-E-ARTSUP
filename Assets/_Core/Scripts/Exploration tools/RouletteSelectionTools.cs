@@ -7,7 +7,15 @@ using MoonlitMixes.ExplorationTools;
 public class RouletteSelectionTools : MonoBehaviour
 {
     [SerializeField] private Image[] _toolSlots;
+    public Image[] ToolSlots
+    {
+        get => _toolSlots;
+    }
     [SerializeField] private List<GameObject> _toolGameObjects;
+    public List<GameObject> ToolGameObjects
+    {
+        get => _toolGameObjects;
+    }
 
     private int _currentToolIndex = 0;
     private List<ToolData> _tools;
@@ -67,6 +75,7 @@ public class RouletteSelectionTools : MonoBehaviour
                 int toolIndex = (_currentToolIndex + i) % _tools.Count;
                 _toolSlots[i].sprite = _tools[toolIndex].ItemSprite;
                 _toolSlots[i].gameObject.SetActive(true);
+                _toolSlots[i].preserveAspect = true;
             }
             else
             {
