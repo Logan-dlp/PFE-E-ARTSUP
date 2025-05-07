@@ -153,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &748327597024837012
 RectTransform:
   m_ObjectHideFlags: 0
@@ -300,13 +300,14 @@ GameObject:
   - component: {fileID: 3824696051268389547}
   - component: {fileID: 2377915285297216772}
   - component: {fileID: 4082976295753447134}
+  - component: {fileID: 4482382361091316008}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: PB_UI_SceneChange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2793414902785791933
 RectTransform:
   m_ObjectHideFlags: 0
@@ -390,3 +391,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4482382361091316008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3905134766720496915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ced96380e567e2b47b2f5e35424ce2d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _panel: {fileID: 1486448017778599401}
+  _lastSceneNameData: {fileID: 0}

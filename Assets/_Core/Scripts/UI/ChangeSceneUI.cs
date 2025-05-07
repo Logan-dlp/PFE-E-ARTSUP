@@ -1,7 +1,9 @@
+using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace MoonlitMixes.UI
 {
@@ -9,6 +11,7 @@ namespace MoonlitMixes.UI
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _panel;
+        [SerializeField] private LastSceneNameData _lastSceneNameData;
         private string _sceneName;
 
         public Animator AnimatorUI => _animator;
@@ -35,6 +38,7 @@ namespace MoonlitMixes.UI
         {
             if(callbackContext.started)
             {
+                _lastSceneNameData.sceneName = SceneManager.GetActiveScene().name;
                 SceneLoader.LoadAsyncScene(_sceneName, _animator);
             }
         }
