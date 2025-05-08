@@ -4358,9 +4358,9 @@ GameObject:
   - component: {fileID: 8171506437572305494}
   - component: {fileID: 7855766533216230340}
   - component: {fileID: 541981251971043464}
-  - component: {fileID: 4778079118650074921}
-  - component: {fileID: 5668235411028434330}
-  - component: {fileID: 1908046367248245318}
+  - component: {fileID: 7117041296449598508}
+  - component: {fileID: 3177385537338463190}
+  - component: {fileID: 1152767541677846207}
   m_Layer: 0
   m_Name: Player_Hub
   m_TagString: Untagged
@@ -4468,7 +4468,7 @@ MonoBehaviour:
     m_ActionName: Player/Sprint
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1908046367248245318}
+      - m_Target: {fileID: 1152767541677846207}
         m_TargetAssemblyTypeName: PlayerInteractionHub, Assembly-CSharp
         m_MethodName: Interact
         m_Mode: 0
@@ -4570,6 +4570,42 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b0ae578a-f3d1-45fc-bec8-768089fe53a6
     m_ActionName: Recipe/CloseRecipe
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 430d9fd0-03b9-4123-8ac3-ac337b708860
+    m_ActionName: 'ChangeScene/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MoonlitMixes.UI.ChangeSceneUI, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cbea3ec9-4b1f-4f99-aa67-ccd3f82ffb1b
+    m_ActionName: 'ChangeScene/Submit[/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MoonlitMixes.UI.ChangeSceneUI, Assembly-CSharp
+        m_MethodName: CloseCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fe59328c-bc52-48e9-80de-d9cb5ad94e1d
+    m_ActionName: 'ChangeScene/Cancel[/XInputControllerWindows/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -4587,7 +4623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0135a207c05a14a824ee45b45968b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 3
+  _walkSpeed: 5
   _sprintSpeed: 4
   _maxStamina: 5
   _canSprint: 1
@@ -4615,7 +4651,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4778079118650074921
+--- !u!114 &7117041296449598508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4628,7 +4664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 541981251971043464}
---- !u!114 &5668235411028434330
+--- !u!114 &3177385537338463190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4641,7 +4677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseCamera: {fileID: 0}
---- !u!114 &1908046367248245318
+--- !u!114 &1152767541677846207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
