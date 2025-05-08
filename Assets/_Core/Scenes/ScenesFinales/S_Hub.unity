@@ -82920,6 +82920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1805615119}
   _panel: {fileID: 908260146}
+  _lastSceneNameData: {fileID: 0}
 --- !u!1 &281849164
 GameObject:
   m_ObjectHideFlags: 0
@@ -224847,7 +224848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579188d2a7781d84bba0bc0e1d5eac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 281799778}
   _sceneName: S_Forest
 --- !u!1 &743535692
 GameObject:
@@ -302797,6 +302797,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009573398}
   m_Mesh: {fileID: -9016127370015185471, guid: f1058a802430e4147bbf672ba15b7186, type: 3}
+--- !u!1 &1009832170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1009832171}
+  m_Layer: 0
+  m_Name: ShopSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1009832171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009832170}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.44, y: 1.16, z: 24.532}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1010454940
 GameObject:
   m_ObjectHideFlags: 0
@@ -559667,6 +559698,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843390905}
   m_Mesh: {fileID: -9016127370015185471, guid: f1058a802430e4147bbf672ba15b7186, type: 3}
+--- !u!1 &1843664577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1843664578}
+  m_Layer: 0
+  m_Name: ForestSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1843664578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843664577}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -24.48, y: 0.198, z: 27.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1843779087
 GameObject:
   m_ObjectHideFlags: 0
@@ -648686,3 +648748,5 @@ SceneRoots:
   - {fileID: 7051844511326133291}
   - {fileID: 1297621753}
   - {fileID: 1136642797}
+  - {fileID: 1009832171}
+  - {fileID: 1843664578}
