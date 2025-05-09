@@ -31,13 +31,13 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 2.06
+    m_Value: 0.89
   contrast:
-    m_OverrideState: 0
-    m_Value: -11
+    m_OverrideState: 1
+    m_Value: 14.5
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0.90861326, b: 0.8509433, a: 1}
+    m_Value: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   hueShift:
     m_OverrideState: 0
     m_Value: 0
@@ -58,10 +58,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   shadows:
-    m_OverrideState: 1
-    m_Value: {x: 0.79423237, y: 1, z: 0.99265856, w: 0.0000000037252903}
+    m_OverrideState: 0
+    m_Value: {x: 0.95206404, y: 1, z: 0.95677954, w: 0.0000000037252903}
   midtones:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0.7294469, y: 1, z: 0.720096, w: 0.058116425}
   highlights:
     m_OverrideState: 0
@@ -159,14 +159,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   lift:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0.88992375, y: 0.98345363, z: 1, w: -0.020715985}
   gamma:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0.9564048, y: 0.99246, z: 1, w: 0.100200415}
   gain:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 0.76246196, z: 0.75240713, w: -0.0007505031}
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 0.002208595, z: 0, w: -0.19779487}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,19 +209,19 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.53
   intensity:
     m_OverrideState: 1
-    m_Value: 7.78
+    m_Value: 12.65
   scatter:
     m_OverrideState: 1
-    m_Value: 0.83
+    m_Value: 0.228
   clamp:
-    m_OverrideState: 0
-    m_Value: 65472
+    m_OverrideState: 1
+    m_Value: 0
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.9701502, g: 1, b: 0.9641509, a: 1}
+    m_Value: {r: 1, g: 0.9865984, b: 0.6839622, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
@@ -250,10 +250,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70afe9e12c7a7ed47911bb608a23a8ff, type: 3}
   m_Name: SplitToning
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.5144162, g: 0.5622641, b: 0.4784549, a: 1}
+    m_Value: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
   highlights:
     m_OverrideState: 1
     m_Value: {r: 0.14508364, g: 0.2679245, b: 0.2631385, a: 1}
@@ -275,28 +275,28 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 16
+    m_Value: 0
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 114.1
+    m_Value: 0
   gaussianMaxRadius:
     m_OverrideState: 1
-    m_Value: 0.95
+    m_Value: 1.098
   highQualitySampling:
     m_OverrideState: 0
     m_Value: 0
   focusDistance:
     m_OverrideState: 1
-    m_Value: 4.54
+    m_Value: 4.64
   aperture:
     m_OverrideState: 1
-    m_Value: 3.6
+    m_Value: 8
   focalLength:
     m_OverrideState: 1
-    m_Value: 113
+    m_Value: 101
   bladeCount:
     m_OverrideState: 1
     m_Value: 4
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_Value: 0.704
   bladeRotation:
     m_OverrideState: 1
-    m_Value: -65
+    m_Value: -88
 --- !u!114 &5951552512769115137
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   color:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
@@ -346,10 +346,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
   m_Name: WhiteBalance
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   temperature:
     m_OverrideState: 1
-    m_Value: -5
+    m_Value: -12.6
   tint:
     m_OverrideState: 1
     m_Value: 0
@@ -365,13 +365,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   type:
     m_OverrideState: 1
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.39
+    m_Value: 0.211
   response:
     m_OverrideState: 0
     m_Value: 0.8
