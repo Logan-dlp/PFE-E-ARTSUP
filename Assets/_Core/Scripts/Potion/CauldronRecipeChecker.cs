@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Datas;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
@@ -11,9 +12,11 @@ namespace MoonlitMixes.Potion
     public class CauldronRecipeChecker : MonoBehaviour
     {
         [SerializeField] private GameObject _interactUI;
-        [SerializeField] private GameObject _bubbleVFX;
+        [SerializeField] private ParticleSystem _bubbleVFX;
+        [SerializeField] private ParticleSystem _burnPot;
         [SerializeField] private List<Recipe> _allRecipes;
         [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
+        [SerializeField] private PotionListData _potionListData;
 
         private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
@@ -58,27 +61,32 @@ namespace MoonlitMixes.Potion
 
         public void AddIngredient(ItemData ingredient)
         {
-            if(!_currentIngredients.Any())
-            {
-                _cauldronTimer.TimerIsActive = true;
-                
-                foreach (Recipe recipe in _allRecipes)
-                {
-                    if(recipe.RequiredIngredients[0] == ingredient)
-                    {
-                        _currentRecipe = recipe;
-                        _currentRecipeIndex = 0;
-                        break;
-                    }
-                }
-            } 
-
             if (ingredient == null)
             {
                 return;
             }
-            
-            if(_currentRecipe == null || ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex]) 
+
+            if (!_currentIngredients.Any())
+            {
+                foreach (Recipe recipe in _allRecipes)
+                {
+                    if (recipe.RequiredIngredients[0] == ingredient)
+                    {
+                        _currentRecipe = recipe;
+                        _currentRecipeIndex = 0;
+                        _cauldronTimer.TimerIsActive = true;
+                        break;
+                    }
+                }
+
+                if (_currentRecipe == null)
+                {
+                    TriggerBurnPot();
+                    return;
+                }
+            }
+
+            if (_currentRecipe == null || ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex])
             {
                 HandleFailedPotion();
                 return;
@@ -140,8 +148,9 @@ namespace MoonlitMixes.Potion
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();
-            _potionInventory.PotionList.Add(recipe.Potion);
-            _potionInventory.UpdatePotionCanvas();
+
+            _potionListData.PotionResults.Add(recipe.Potion);
+
             _currentIngredients.Clear();
             _ingredentToAdd = null;
         }
@@ -158,12 +167,29 @@ namespace MoonlitMixes.Potion
             _ingredentToAdd = null;
         }
 
+        private void TriggerBurnPot()
+        {
+            if (_burnPot != null)
+            {
+                _burnPot.Play();
+                Invoke(nameof(DisableBurnPot), _burnPot.main.duration);
+            }
+        }
+
+        private void DisableBurnPot()
+        {
+            if (_burnPot != null)
+            {
+                _burnPot.Stop();
+            }
+        }
+
         private void TriggerBubbleVFX()
         {
             if (_bubbleVFX != null)
             {
-                _bubbleVFX.SetActive(true);
-                Invoke(nameof(DisableBubbleVFX), _cauldronTimer.RemainingTime);
+                _bubbleVFX.Play();
+                Invoke(nameof(DisableBubbleVFX), _bubbleVFX.main.duration);
             }
         }
 
@@ -171,7 +197,7 @@ namespace MoonlitMixes.Potion
         {
             if (_bubbleVFX != null)
             {
-                _bubbleVFX.SetActive(false);
+                _bubbleVFX.Stop();
             }
         }
 
