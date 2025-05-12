@@ -18,7 +18,7 @@ namespace MoonlitMixes.Potion
         [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
         [SerializeField] private PotionListData _potionListData;
 
-        private CauldronTimer _cauldronTimer;
+        //private CauldronTimer _cauldronTimer;
         private bool _isActive = false;
         private PotionInventory _potionInventory;
         private CauldronMixing _cauldronMixing;
@@ -44,12 +44,12 @@ namespace MoonlitMixes.Potion
         private void Awake()
         {
             _cauldronMixing = GetComponent<CauldronMixing>();
-            _cauldronTimer = GetComponent<CauldronTimer>();
+            //_cauldronTimer = GetComponent<CauldronTimer>();
             _potionInventory = FindFirstObjectByType<PotionInventory>();
 
-            if (_cauldronTimer == null)
+            //if (_cauldronTimer == null)
             {
-                Debug.LogError("CauldronTimer n'est pas attach� au chaudron !");
+                //Debug.LogError("CauldronTimer n'est pas attach� au chaudron !");
             }
         }
 
@@ -74,7 +74,7 @@ namespace MoonlitMixes.Potion
                     {
                         _currentRecipe = recipe;
                         _currentRecipeIndex = 0;
-                        _cauldronTimer.TimerIsActive = true;
+                        //_cauldronTimer.TimerIsActive = true;
                         break;
                     }
                 }
@@ -93,7 +93,7 @@ namespace MoonlitMixes.Potion
             }
 
             _ingredentToAdd = ingredient;
-            _cauldronTimer.ResetCooldown();
+            //_cauldronTimer.ResetCooldown();
             TriggerBubbleVFX();
             _needItem = false;
             _needMix = true;
@@ -112,7 +112,7 @@ namespace MoonlitMixes.Potion
                 _currentIngredients.Add(ingredient);
                 _needMix = false;
                 _currentRecipeIndex++;
-                _cauldronTimer.ResetCooldown();
+                //_cauldronTimer.ResetCooldown();
                 CheckRecipeCompletion();
             }
         
@@ -147,7 +147,7 @@ namespace MoonlitMixes.Potion
         {
             _needItem = true;
             _currentRecipe = null;
-            _cauldronTimer.StopCooldown();
+            //_cauldronTimer.StopCooldown();
 
             _potionListData.PotionResults.Add(recipe.Potion);
 
@@ -159,7 +159,7 @@ namespace MoonlitMixes.Potion
         {
             _needItem = true;
             _currentRecipe = null;
-            _cauldronTimer.StopCooldown();
+            //_cauldronTimer.StopCooldown();
 
             _cauldronMixing.DesactiveQTE();
             
