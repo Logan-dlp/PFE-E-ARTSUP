@@ -1,5 +1,6 @@
 using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
+using MoonlitMixes.Item;
 using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +12,11 @@ namespace MoonlitMixes.UI
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _panel;
+        [SerializeField] private GameObject _panelNoChestItem;
         [SerializeField] private LastSceneNameData _lastSceneNameData;
+        [SerializeField] private string _sceneTransfereItem;
+
+        private bool _hasPopup;
         private string _sceneName;
 
         public Animator AnimatorUI => _animator;
@@ -23,14 +28,12 @@ namespace MoonlitMixes.UI
             _sceneName = sceneName;
         }
 
-        public void OpenCanvas()
-        {
-            
-        }
+        public void OpenCanvas(){}
 
         public void CloseCanvas()
         {
             _panel.SetActive(false);
+            _panelNoChestItem.SetActive(false);
             InputManager.Instance.SwitchActionMap("Player");
         }
 
@@ -38,9 +41,40 @@ namespace MoonlitMixes.UI
         {
             if(callbackContext.started)
             {
-                _lastSceneNameData.sceneName = SceneManager.GetActiveScene().name;
-                SceneLoader.LoadAsyncScene(_sceneName, _animator);
+                if(!_hasPopup)
+                {
+                    _lastSceneNameData.sceneName = SceneManager.GetActiveScene().name;
+
+                    if(_sceneName == _sceneTransfereItem)
+                    {
+                        TryGetComponent(out SendItemExit sendItemExit);
+                        if(sendItemExit.SendItems())
+                        {
+                            SceneLoader.LoadAsyncScene(_sceneName, _animator);
+                        }
+                        else
+                        {
+                            _hasPopup = true;
+                            _panelNoChestItem.SetActive(true);
+                            _panel.SetActive(false);
+
+                        }
+                    }
+                    else
+                    {
+                        SceneLoader.LoadAsyncScene(_sceneName, _animator);
+                    }
+                }
+                else
+                {
+                    ForceChangeScene();
+                }
             }
+        }
+
+        private void ForceChangeScene()
+        {
+            SceneLoader.LoadAsyncScene(_sceneName, _animator);
         }
     }
 }

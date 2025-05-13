@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using MoonlitMixes.Inputs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -122,7 +121,6 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started && _currentStamina > 0 && _canSprint)
             {
-                Debug.Log("");
                 _currentSpeed = _sprintSpeed;
             }
             else if (ctx.canceled)

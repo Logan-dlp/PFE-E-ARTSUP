@@ -34,10 +34,10 @@ RectTransform:
   - {fileID: 8855514182597826089}
   m_Father: {fileID: 7210320146243272848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3579915464769814596
 CanvasRenderer:
@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 8855514182597826089}
   - component: {fileID: 3474946863321680567}
   - component: {fileID: 813865633920380197}
+  - component: {fileID: 3963584952428794910}
   m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
@@ -126,15 +127,15 @@ RectTransform:
   m_GameObject: {fileID: 3202950233563739382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 851011875813846514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.24568753, y: 0}
-  m_AnchorMax: {x: 0.77747923, y: 0.94525915}
+  m_AnchorMin: {x: 0.9034792, y: 0.1415185}
+  m_AnchorMax: {x: 0.9034792, y: 0.1415185}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1021, y: 1021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3474946863321680567
 CanvasRenderer:
@@ -164,9 +165,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -315924628, guid: e5427022460d54849bac828e5b779700, type: 3}
+  m_Sprite: {fileID: 975304059, guid: 5505572c139cf9f49821dd92e588be6a, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -174,6 +175,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &3963584952428794910
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3202950233563739382}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 303617ebc92a5ad4f83f2fccaa00cfef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7694938291797732585
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +346,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1094707656088935589}
+  _transitionBG: {fileID: 1405567054266304054}
+  _transitionGIF: {fileID: 813865633920380197}
 --- !u!114 &5821363631031860477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +364,6 @@ MonoBehaviour:
   _lastSceneNameData: {fileID: 11400000, guid: 5c649f994966cb642b7a3d827aa571cd, type: 2}
   _spawnPositionsArray:
   - transform: {fileID: 0}
-    sceneNameLinked: S_Cave
+    sceneNameLinked: S_Forest
   - transform: {fileID: 0}
-    sceneNameLinked: S_Hub
+    sceneNameLinked: S_Shop

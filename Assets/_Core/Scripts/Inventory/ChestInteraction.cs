@@ -1,28 +1,43 @@
 using MoonlitMixes.Datas;
+using MoonlitMixes.Inputs;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-public class ChestInteraction : MonoBehaviour
+namespace MoonlitMixes.Inventory
 {
-    [SerializeField] private GameObject _filledItemUI;
-    [SerializeField] private GameObject _emptyItemUI;
-    [SerializeField] private InventoryData _inventory;
-    
-    private TriggerButtonUI _triggerZone;
-
-    private void Awake()
+    public class ChestInteraction : MonoBehaviour
     {
-        _triggerZone = FindAnyObjectByType<TriggerButtonUI>();
-    }
+        [SerializeField] private GameObject _filledItemUI;
+        [SerializeField] private Button _filledItemButton;
+        [SerializeField] private GameObject _emptyItemUI;
+        [SerializeField] private Button _emptyItemButton;
+        [SerializeField] private InventoryData _inventory;
 
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        if (context.performed && _triggerZone != null && _triggerZone.isPlayerInTrigger)
+        private TriggerButtonUI _triggerZone;
+
+        private void Awake()
         {
-            bool hasEmptyItem = _inventory.Items.Count == 0;
+            _triggerZone = FindAnyObjectByType<TriggerButtonUI>();
+        }
 
-            _emptyItemUI.SetActive(hasEmptyItem);
-            _filledItemUI.SetActive(!hasEmptyItem);
+        public void OpenChest()
+        {
+            if (_triggerZone != null && _triggerZone.isPlayerInTrigger)
+            {
+                bool hasEmptyItem = _inventory.Items.Count == 0;
+                FindFirstObjectByType<InputManager>().SwitchActionMap("UI");
+
+                if(hasEmptyItem)
+                {
+                    _emptyItemUI.SetActive(true);
+                    _emptyItemButton.Select();
+                }
+                else
+                {
+                    _filledItemUI.SetActive(true);
+                    _filledItemButton.Select();
+                }
+            }
         }
     }
 }
