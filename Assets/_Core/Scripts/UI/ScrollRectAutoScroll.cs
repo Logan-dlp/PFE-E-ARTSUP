@@ -10,15 +10,22 @@ namespace MoonlitMixes.UI
     [RequireComponent(typeof(ScrollRect))]
     public class ScrollRectAutoScroll : MonoBehaviour
     {
-        private const int _maxItemPerVue = 15;
+        [SerializeField] private int _maxItemPerVue = 15;
+        [SerializeField] private float _transitionSpeed = 0.005f;
         
         private ScrollRect _scrollRect;
+        private RectTransform _contentRect;
+        private GridLayoutGroup _gridLayoutGroup;
         private List<GameObject> _cellarItemList = new();
         private GameObject _currentSelectedItem;
+
+        private float _currentScrollBarValue = 0;
 
         private void Awake()
         {
             _scrollRect = GetComponent<ScrollRect>();
+            _gridLayoutGroup = GetComponentInChildren<GridLayoutGroup>();
+            _contentRect = _gridLayoutGroup.GetComponent<RectTransform>();
         }
 
         private void Update()
@@ -28,20 +35,27 @@ namespace MoonlitMixes.UI
                 _currentSelectedItem = EventSystem.current.currentSelectedGameObject;
                 UpdateScroller();
             }
+            
+            _scrollRect.verticalScrollbar.value = Mathf.Lerp(_scrollRect.verticalScrollbar.value, _currentScrollBarValue, Time.unscaledTime * _transitionSpeed);
         }
         
         private void UpdateScroller()
         {
             RefreshCellarItems();
+
+            float maxVue = _cellarItemList.Count / (float)_maxItemPerVue;
+            if (maxVue % 1 > 0)
+            {
+                maxVue = maxVue + 1 - maxVue % 1;
+            }
             
-            float maxVueNumber = _cellarItemList.Count / (float)(_maxItemPerVue - 1);
-            maxVueNumber -= maxVueNumber % 1;
+            float currentVue = (_cellarItemList.IndexOf(_currentSelectedItem) + 1) / (float)_maxItemPerVue;
+            if (currentVue % 1 > 0)
+            {
+                currentVue = currentVue + 1 - currentVue % 1;
+            }
             
-            float currentVueNumber = (float)(_cellarItemList.IndexOf(_currentSelectedItem) + 1) / _maxItemPerVue;
-            currentVueNumber -= currentVueNumber % 1;
-            
-            _scrollRect.verticalScrollbar.value = 1 - (currentVueNumber / maxVueNumber);
-            // _scrollRect.normalizedPosition = new Vector2(_scrollRect.normalizedPosition.x, (currentVueNumber / maxVueNumber) + 1);
+            _currentScrollBarValue = 1 - ((currentVue - 1) / (maxVue - 1));
         }
 
         /// <summary>
@@ -57,6 +71,14 @@ namespace MoonlitMixes.UI
             {
                 _cellarItemList.Add(children.gameObject);
             }
+            
+            float maxVue = _cellarItemList.Count / (float)_maxItemPerVue;
+            if (maxVue % 1 > 0)
+            {
+                maxVue = maxVue + 1 - maxVue % 1;
+            }
+            
+            _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, (_gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y) * maxVue + _gridLayoutGroup.spacing.y);
         }
     }
 }
