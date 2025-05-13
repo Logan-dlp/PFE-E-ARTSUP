@@ -1,6 +1,5 @@
 using MoonlitMixes.Inputs;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Inventory
 {
@@ -20,16 +19,13 @@ namespace MoonlitMixes.Inventory
             }
         }
 
-        public void Toggle(InputAction.CallbackContext context)
+        public void Toggle(bool state)
         {
-            if (context.performed)
-            {
-                isActive = !isActive;
-                _canvaInventory.SetActive(isActive);
-
-                if(isActive) _inputManager.SwitchActionMap("UI");
-                else _inputManager.SwitchActionMap("Player");
-            }
+            
+            if(state) _inputManager.SwitchActionMap("UI");
+            else if(_canvaInventory.activeInHierarchy) _inputManager.SwitchActionMap("Player");
+            
+            _canvaInventory.SetActive(state);
         }
     }
 }
