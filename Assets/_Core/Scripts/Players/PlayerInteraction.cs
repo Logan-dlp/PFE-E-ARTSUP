@@ -11,6 +11,10 @@ namespace MoonlitMixes.Player
 {
     public class PlayerInteraction : MonoBehaviour
     {
+        public ItemData ItemInHand { get; set; }
+        public PlayerHoldItem PlayerHoldItem { get; private set; }
+        public PlayerInput CurrentPlayerInput { get; private set; }
+
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private string _actionMapPlayer;
@@ -23,12 +27,11 @@ namespace MoonlitMixes.Player
         private Animator _animator;
         private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
-
-        public ItemData ItemInHand { get; set; }
-        public PlayerHoldItem PlayerHoldItem { get; private set; }
+      
 
         private void Awake()
         {
+            CurrentPlayerInput = GetComponent<PlayerInput>();
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _animator = GetComponent<Animator>();
             _animationPotionManager = GetComponent<AnimationPotionManager>();
@@ -185,12 +188,9 @@ namespace MoonlitMixes.Player
                         }
                         else if (hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
                         {
-                            if (!cauldron.NeedMix) return;
-                            
                             InputManager.Instance.SwitchActionMap(_actionMapQTE);
-                            cauldron.Mix(this);
-
-                            _animationPotionManager.InteractStir();
+                            //cauldron.Mix(this);
+                            //_animationPotionManager.InteractStir();
                         }
                     }
                 }

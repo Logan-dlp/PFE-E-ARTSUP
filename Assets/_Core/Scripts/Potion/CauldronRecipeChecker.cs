@@ -6,6 +6,7 @@ using MoonlitMixes.Item;
 using MoonlitMixes.Player;
 using MoonlitMixes.Potion;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Potion
 {
@@ -29,11 +30,11 @@ namespace MoonlitMixes.Potion
         private bool _needItem = true;
         private ItemData _ingredentToAdd;
         
-        public bool NeedMix
-        {
-            get => _needMix;
-            set => _needMix = value;
-        }
+        //public bool NeedMix
+        //{
+        //    get => _needMix;
+        //    set => _needMix = value;
+        //}
 
         public bool NeedItem
         {
@@ -62,9 +63,7 @@ namespace MoonlitMixes.Potion
         public void AddIngredient(ItemData ingredient)
         {
             if (ingredient == null)
-            {
                 return;
-            }
 
             if (!_currentIngredients.Any())
             {
@@ -74,7 +73,6 @@ namespace MoonlitMixes.Potion
                     {
                         _currentRecipe = recipe;
                         _currentRecipeIndex = 0;
-                        //_cauldronTimer.TimerIsActive = true;
                         break;
                     }
                 }
@@ -93,10 +91,23 @@ namespace MoonlitMixes.Potion
             }
 
             _ingredentToAdd = ingredient;
-            //_cauldronTimer.ResetCooldown();
             TriggerBubbleVFX();
             _needItem = false;
-            _needMix = true;
+
+            // Lancer automatiquement le QTE de mélange
+            if (ingredient.CanBeStirred)
+            {
+                PlayerInteraction playerInteraction = FindFirstObjectByType<PlayerInteraction>();
+
+                // Activer l’action map QTE avant de mélanger
+                PlayerInput input = playerInteraction.GetComponent<PlayerInput>();
+                if (input != null)
+                {
+                    input.SwitchCurrentActionMap("QTE");
+                }
+
+                _cauldronMixing.ConvertItem(playerInteraction);
+            }
         }
 
         private void ValidateIngredientAddition(ItemData ingredient)
@@ -207,9 +218,9 @@ namespace MoonlitMixes.Potion
             ValidateIngredientAddition(_ingredentToAdd);
         }
 
-        public void Mix(PlayerInteraction playerInteraction)
-        {
-            _cauldronMixing.ConvertItem(playerInteraction);
-        }
+        //public void Mix(PlayerInteraction playerInteraction)
+        //{
+        //    _cauldronMixing.ConvertItem(playerInteraction);
+        //}
     }
 }

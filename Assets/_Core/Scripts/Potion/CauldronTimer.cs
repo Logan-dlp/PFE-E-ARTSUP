@@ -94,7 +94,7 @@ namespace MoonlitMixes.Potion
                 _canAction = false;
                 _timerIsActive = false;
                 _timerFinished = true;
-                _cauldronRecipeChecker.NeedMix = false;
+                //_cauldronRecipeChecker.NeedMix = false;
                 _cauldronRecipeChecker.CheckQTE(false);
     
                 if(!_isBurnVFXUp)
