@@ -186,12 +186,6 @@ namespace MoonlitMixes.Player
                             InputManager.Instance.SwitchActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
                         }
-                        else if (hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
-                        {
-                            InputManager.Instance.SwitchActionMap(_actionMapQTE);
-                            //cauldron.Mix(this);
-                            //_animationPotionManager.InteractStir();
-                        }
                     }
                 }
             }

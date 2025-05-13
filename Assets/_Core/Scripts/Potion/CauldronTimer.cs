@@ -6,9 +6,14 @@ namespace MoonlitMixes.Potion
 {
     public class CauldronTimer : MonoBehaviour
     {
+        [Header("Cooldown Durations")]
         [SerializeField] private float _itemCooldown = 60f;
+
+        [Header("Images Of Progress Bar")]
         [SerializeField] private Image _fillBarFront;
         [SerializeField] private Image _fillBarBack;
+
+        [Header("VFX")]
         [SerializeField] private ParticleSystem _bubbleVFX;
         [SerializeField] private ParticleSystem _smokeVFX;
         [SerializeField] private ParticleSystem _burnedVFX;
@@ -94,7 +99,6 @@ namespace MoonlitMixes.Potion
                 _canAction = false;
                 _timerIsActive = false;
                 _timerFinished = true;
-                //_cauldronRecipeChecker.NeedMix = false;
                 _cauldronRecipeChecker.CheckQTE(false);
     
                 if(!_isBurnVFXUp)
@@ -105,9 +109,27 @@ namespace MoonlitMixes.Potion
                 //Debug.Log("Le cooldown est termin�. Vous pouvez ajouter un nouvel �l�ment !");
             }
         }
-    
+
+        public void StartCooldown()
+        {
+            _remainingTime = _itemCooldown;
+            _fillBarBack.fillAmount = 1f;
+            _fillBarFront.fillAmount = 1f;
+            _fillBarFrontValue = _remainingTime * 0.5f;
+            _fillBarBackValue = _remainingTime * 0.5f;
+
+            _isSmokeVFXUp = false;
+            _isBurnVFXUp = false;
+            _isBubbleVFXUp = false;
+            _isFireVFXUp = false;
+
+            _timerIsActive = true;
+            _canAction = false;
+        }
+
         public void ResetCooldown()
         {
+            _timerFinished = false;
             _remainingTime = _itemCooldown;
             _fillBarBack.fillAmount = 1;
             _fillBarFront.fillAmount = 1;
@@ -117,7 +139,7 @@ namespace MoonlitMixes.Potion
             _isBurnVFXUp = false;
             _isBubbleVFXUp = false;
         }
-    
+
         public void StopCooldown()
         {
             _remainingTime = _itemCooldown;

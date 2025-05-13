@@ -15036,7 +15036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 869431238012741829, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Name
-      value: TimerFront
+      value: progressBarFront
       objectReference: {fileID: 0}
     - target: {fileID: 1045760451643515370, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_LocalScale.y
@@ -15100,7 +15100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1517845104003434308, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Name
-      value: TimerBack
+      value: progressBar
       objectReference: {fileID: 0}
     - target: {fileID: 1760985450580553861, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15154,6 +15154,18 @@ PrefabInstance:
       propertyPath: m_FillOrigin
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2679293524524011747, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679293524524011747, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679293524524011747, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.29
+      objectReference: {fileID: 0}
     - target: {fileID: 3245894849006132105, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _smokeVFX
       value: 
@@ -15166,6 +15178,10 @@ PrefabInstance:
       propertyPath: _burnedVFX
       value: 
       objectReference: {fileID: 574584865}
+    - target: {fileID: 3245894849006132105, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: _notStirCooldown
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3245894849006132105, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _fireVFXArray.Array.size
       value: 3
@@ -15185,6 +15201,10 @@ PrefabInstance:
     - target: {fileID: 3427428850582740811, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427428850582740811, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5647863267903835745, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16331,12 +16351,16 @@ PrefabInstance:
       value: -0.173
       objectReference: {fileID: 0}
     - target: {fileID: 8218548788836043756, guid: 3d70d69aab85a7b4eadd8c08af44e816, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8218548788836043756, guid: 3d70d69aab85a7b4eadd8c08af44e816, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8218548788836043756, guid: 3d70d69aab85a7b4eadd8c08af44e816, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8218548788836043756, guid: 3d70d69aab85a7b4eadd8c08af44e816, type: 3}
       propertyPath: m_AnchoredPosition.x
