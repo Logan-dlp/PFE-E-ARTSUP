@@ -1,12 +1,10 @@
+using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Datas;
+using MoonlitMixes.Item;
+using MoonlitMixes.Player;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MoonlitMixes.CookingMachine;
-using MoonlitMixes.Datas;
-using MoonlitMixes.Inputs;
-using MoonlitMixes.Item;
-using MoonlitMixes.Player;
-using MoonlitMixes.Potion;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,23 +12,34 @@ namespace MoonlitMixes.Potion
 {
     public class CauldronRecipeChecker : MonoBehaviour
     {
-        [SerializeField] private GameObject _interactUI;
-        [SerializeField] private ParticleSystem _bubbleVFX;
-        [SerializeField] private ParticleSystem _burnPot;
+        [Header("Recipe Configuration")]
+        [Tooltip("Liste de toutes les recettes possibles à vérifier.")]
         [SerializeField] private List<Recipe> _allRecipes;
+
+        [Tooltip("Liste des ingrédients actuellement dans le chaudron.")]
         [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
+
+        [Tooltip("Référence à l'objet Scriptable contenant les potions que le player peut créer.")]
         [SerializeField] private PotionListData _potionListData;
 
         private CauldronTimer _cauldronTimer;
-        private bool _isActive = false;
-        private PotionInventory _potionInventory;
         private CauldronMixing _cauldronMixing;
+        private CauldronVFXController _cauldronVFXController;
+
+
+        private bool _isActive = false;
         private bool _qteSuccess;
-        public bool _qteInProgress = false;
+        private bool _qteInProgress = false;
         private Recipe _currentRecipe;
         private int _currentRecipeIndex;
         private bool _needItem = true;
-        private ItemData _ingredentToAdd;
+        private ItemData _ingredientToAdd;
+
+        public bool QteInProgress
+        {
+            get => _qteInProgress;
+            set => _qteInProgress = value;
+        }
 
         public bool NeedItem
         {
@@ -42,18 +51,21 @@ namespace MoonlitMixes.Potion
         {
             _cauldronMixing = GetComponent<CauldronMixing>();
             _cauldronTimer = GetComponent<CauldronTimer>();
-            _potionInventory = FindFirstObjectByType<PotionInventory>();
+            _cauldronVFXController = GetComponent<CauldronVFXController>();
 
             if (_cauldronTimer == null)
             {
                 Debug.LogError("CauldronTimer n'est pas attaché au chaudron !");
             }
+            if (_cauldronVFXController == null)
+            {
+                Debug.LogError("CauldronVFXController n'est pas attaché au chaudron !");
+            }
         }
 
-        public void TogleShowInteractivity()
+        public void ToggleShowInteractivity()
         {
             _isActive = !_isActive;
-            //_interactUI.SetActive(_isActive);
         }
 
         public void AddIngredient(ItemData ingredient)
@@ -63,22 +75,7 @@ namespace MoonlitMixes.Potion
 
             if (!_currentIngredients.Any())
             {
-                foreach (Recipe recipe in _allRecipes)
-                {
-                    if (recipe.RequiredIngredients[0] == ingredient)
-                    {
-                        _currentRecipe = recipe;
-                        _currentRecipeIndex = 0;
-                        break;
-                    }
-                }
-
-                if (_currentRecipe == null)
-                {
-                    Debug.Log("Recipe is null");
-                    TriggerBurnPot();
-                    return;
-                }
+                InitializeRecipeWithFirstIngredient(ingredient);
             }
 
             if (_currentRecipe == null || ingredient != _currentRecipe.RequiredIngredients[_currentRecipeIndex])
@@ -87,22 +84,13 @@ namespace MoonlitMixes.Potion
                 return;
             }
 
-            _ingredentToAdd = ingredient;
-            TriggerBubbleVFX();
+            _ingredientToAdd = ingredient;
             _needItem = false;
+            _cauldronVFXController.PlayBubble();
 
             if (ingredient.CanBeStirred)
             {
-                _qteInProgress = true;
-                PlayerInteraction playerInteraction = FindFirstObjectByType<PlayerInteraction>();
-
-                PlayerInput input = playerInteraction.GetComponent<PlayerInput>();
-                if (input != null)
-                {
-                    input.SwitchCurrentActionMap("QTE");
-                }
-
-                _cauldronMixing.ConvertItem(playerInteraction);
+                StartQTEForStirring(ingredient);
             }
             else
             {
@@ -110,15 +98,41 @@ namespace MoonlitMixes.Potion
             }
         }
 
+        private void InitializeRecipeWithFirstIngredient(ItemData ingredient)
+        {
+            foreach (Recipe recipe in _allRecipes)
+            {
+                if (recipe.RequiredIngredients[0] == ingredient)
+                {
+                    _currentRecipe = recipe;
+                    _currentRecipeIndex = 0;
+                    break;
+                }
+            }
+
+            if (_currentRecipe == null)
+            {
+                Debug.Log("Recipe is null");
+                _cauldronVFXController.PlayBurned();
+            }
+        }
+
+        private void StartQTEForStirring(ItemData ingredient)
+        {
+            QteInProgress = true;
+            PlayerInteraction playerInteraction = FindFirstObjectByType<PlayerInteraction>();
+            PlayerInput input = playerInteraction.GetComponent<PlayerInput>();
+            input?.SwitchCurrentActionMap("QTE");
+
+            _cauldronMixing.ConvertItem(playerInteraction);
+        }
+
         private IEnumerator HandleIngredientWithoutStir(ItemData ingredient)
         {
             _cauldronTimer.PotionSuccessExpected = true;
-
             Recipe localRecipe = _currentRecipe;
 
             _cauldronTimer.StartCooldown();
-            Debug.Log("StartCooldown");
-
             yield return new WaitForSeconds(_cauldronTimer.RemainingTime);
 
             if (_currentRecipe != localRecipe)
@@ -143,16 +157,13 @@ namespace MoonlitMixes.Potion
             {
                 _currentIngredients.Add(ingredient);
                 _currentRecipeIndex++;
-
                 _cauldronTimer.ResetCooldown();
                 _cauldronTimer.TimerIsActive = true;
-                Debug.Log("Success without QTE");
 
                 CheckRecipeCompletion();
             }
             else
             {
-                Debug.Log("Failed without QTE");
                 HandleFailedPotion();
             }
         }
@@ -168,7 +179,6 @@ namespace MoonlitMixes.Potion
 
             if (!_qteSuccess)
             {
-                Debug.Log("Failed QTE");
                 HandleFailedPotion();
                 return;
             }
@@ -177,16 +187,13 @@ namespace MoonlitMixes.Potion
             {
                 _currentIngredients.Add(ingredient);
                 _currentRecipeIndex++;
-
                 _cauldronTimer.ResetCooldown();
                 _cauldronTimer.TimerIsActive = true;
-                Debug.Log("Success with QTE");
 
                 CheckRecipeCompletion();
             }
             else
             {
-                Debug.Log("Failed QTE logic");
                 HandleFailedPotion();
             }
         }
@@ -195,7 +202,6 @@ namespace MoonlitMixes.Potion
         {
             if (IsRecipeComplete(_currentRecipe))
             {
-                Debug.Log("Succes");
                 HandleSuccessfulPotion(_currentRecipe);
             }
             else
@@ -214,72 +220,33 @@ namespace MoonlitMixes.Potion
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();
-
             _potionListData.PotionResults.Add(recipe.Potion);
-
             _currentIngredients.Clear();
-            _ingredentToAdd = null;
+            _ingredientToAdd = null;
         }
 
         private void HandleFailedPotion()
         {
+            _cauldronVFXController.PlayBurned();
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();
-
             _cauldronMixing.DesactiveQTE();
-
             _currentIngredients.Clear();
-            _ingredentToAdd = null;
-        }
-
-        private void TriggerBurnPot()
-        {
-            if (_burnPot != null)
-            {
-                _burnPot.Play();
-                Invoke(nameof(DisableBurnPot), _burnPot.main.duration);
-            }
-        }
-
-        private void DisableBurnPot()
-        {
-            if (_burnPot != null)
-            {
-                _burnPot.Stop();
-            }
-        }
-
-        private void TriggerBubbleVFX()
-        {
-            if (_bubbleVFX != null)
-            {
-                _bubbleVFX.Play();
-                Invoke(nameof(DisableBubbleVFX), _bubbleVFX.main.duration);
-            }
-        }
-
-        private void DisableBubbleVFX()
-        {
-            if (_bubbleVFX != null)
-            {
-                _bubbleVFX.Stop();
-            }
+            _ingredientToAdd = null;
         }
 
         public void CheckQTE(bool state)
         {
-            _qteInProgress = false;
-
+            QteInProgress = false;
             _qteSuccess = state;
 
             if (state)
             {
-                ValidateIngredientAddition(_ingredentToAdd);
+                ValidateIngredientAddition(_ingredientToAdd);
             }
             else
             {
-                Debug.Log("Failed QTE");
                 HandleFailedPotion();
             }
         }

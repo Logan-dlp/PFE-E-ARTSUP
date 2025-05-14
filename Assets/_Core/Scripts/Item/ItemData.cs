@@ -14,7 +14,6 @@ namespace MoonlitMixes.Item
         [SerializeField] private ItemData _itemToConvert;
         [SerializeField] private string _description;
         [SerializeField] private GameObject _itemPrefab;
-        [SerializeField] private ItemUsage _state;
 
         public bool CanBeStirred
         {
@@ -40,11 +39,6 @@ namespace MoonlitMixes.Item
         public ItemUsage Usage
         {
             get => _itemUsage;
-        }
-
-        public ItemUsage State
-        {
-            get => _state;
         }
 
         public Sprite ItemSprite

@@ -84,9 +84,9 @@ namespace MoonlitMixes.Player
         {
             if (_currentCauldron != null)
             {
-                _currentCauldron.TogleShowInteractivity();
+                _currentCauldron.ToggleShowInteractivity();
             }
-            newCauldron.TogleShowInteractivity();
+            newCauldron.ToggleShowInteractivity();
             _currentCauldron = newCauldron;
             _currentCookingMachine = null;
         }
@@ -95,18 +95,18 @@ namespace MoonlitMixes.Player
         {
             if (_currentCookingMachine != null)
             {
-                _currentCookingMachine.TogleShowInteractivity();
+                _currentCookingMachine.ToggleShowInteractivity();
             }
-            newCookingMachine.TogleShowInteractivity();
+            newCookingMachine.ToggleShowInteractivity();
             _currentCookingMachine = newCookingMachine;
             _currentCauldron = null;
         }
 
         private void ResetInteractionTargets()
         {
-            if (_currentCauldron != null) _currentCauldron.TogleShowInteractivity();
+            if (_currentCauldron != null) _currentCauldron.ToggleShowInteractivity();
             _currentCauldron = null;
-            if (_currentCookingMachine != null) _currentCookingMachine.TogleShowInteractivity();
+            if (_currentCookingMachine != null) _currentCookingMachine.ToggleShowInteractivity();
             _currentCookingMachine = null;
         }
 
