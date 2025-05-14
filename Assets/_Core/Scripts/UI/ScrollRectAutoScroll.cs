@@ -76,7 +76,7 @@ namespace MoonlitMixes.UI
                 maxVue = maxVue + 1 - maxVue % 1;
             }
             
-            _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, (280 * _maxLinePerVue) * maxVue + 80);
+            _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, ((_gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y) * _maxLinePerVue) * maxVue + _gridLayoutGroup.spacing.y);
         }
     }
 }
