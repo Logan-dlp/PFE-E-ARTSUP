@@ -25,7 +25,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _ENUM_B
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -43,6 +44,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Emissive:
         m_Texture: {fileID: 2800000, guid: 501e8d1c469fe3748b420732e82abcae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Opacity:
@@ -63,8 +68,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ENUM: 1
+    - _Emissive_Intensity: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Step: 0.999999
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
