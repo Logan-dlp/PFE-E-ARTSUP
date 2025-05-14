@@ -6,7 +6,9 @@ namespace MoonlitMixes.Potion
 {
     public class CauldronTimer : MonoBehaviour
     {
-        [Header("Cooldown Durations")]
+        public bool PotionSuccessExpected { get; set; }
+
+        [Header("Cooldown Duration")]
         [SerializeField] private float _itemCooldown = 60f;
 
         [Header("Images Of Progress Bar")]
@@ -81,27 +83,31 @@ namespace MoonlitMixes.Potion
                 //Debug.Log($"Cooldown restant: {_remainingTime:F2} secondes");
             }
             else if (_remainingTime >= 0)
-            {   
+            {
                 _remainingTime -= Time.fixedDeltaTime;
                 _canAction = true;
                 _fillBarBackValue = _remainingTime / _itemCooldown * 2;
                 _fillBarBack.fillAmount = _fillBarBackValue;
-                
-                if(!_isSmokeVFXUp)
+
+                if (!_isSmokeVFXUp && !PotionSuccessExpected)
                 {
                     _smokeVFX.Play();
                     _isSmokeVFXUp = true;
                 }
                 //Debug.Log($"Cooldown restant avant cramé: {_remainingTime:F2} secondes");
             }
-            else if(!_timerFinished)
+            else if (!_timerFinished)
             {
                 _canAction = false;
                 _timerIsActive = false;
                 _timerFinished = true;
-                _cauldronRecipeChecker.CheckQTE(false);
-    
-                if(!_isBurnVFXUp)
+
+                if (_cauldronRecipeChecker._qteInProgress)
+                {
+                    _cauldronRecipeChecker.CheckQTE(false);
+                }
+
+                if (!_isBurnVFXUp && !PotionSuccessExpected)
                 {
                     _burnedVFX.Play();
                     _isBurnVFXUp = true;
