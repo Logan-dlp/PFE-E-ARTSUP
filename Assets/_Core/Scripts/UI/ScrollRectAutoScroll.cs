@@ -10,6 +10,7 @@ namespace MoonlitMixes.UI
     [RequireComponent(typeof(ScrollRect))]
     public class ScrollRectAutoScroll : MonoBehaviour
     {
+        [SerializeField] private int _maxLinePerVue = 3;
         [SerializeField] private int _maxItemPerVue = 15;
         [SerializeField] private float _transitionSpeed = 0.005f;
         
@@ -57,11 +58,8 @@ namespace MoonlitMixes.UI
             
             _currentScrollBarValue = 1 - ((currentVue - 1) / (maxVue - 1));
         }
-
-        /// <summary>
-        /// Refresh element to make Auto Scroll
-        /// </summary>
-        public void RefreshCellarItems()
+        
+        private void RefreshCellarItems()
         {
             if (_cellarItemList != null || _cellarItemList.Count > 0) 
                 _cellarItemList.Clear();
@@ -78,7 +76,7 @@ namespace MoonlitMixes.UI
                 maxVue = maxVue + 1 - maxVue % 1;
             }
             
-            _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, (_gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y) * maxVue + _gridLayoutGroup.spacing.y);
+            _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, (280 * _maxLinePerVue) * maxVue + 80);
         }
     }
 }
