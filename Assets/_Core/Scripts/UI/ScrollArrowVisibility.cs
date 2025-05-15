@@ -1,43 +1,41 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ScrollArrowVisibility : MonoBehaviour
+namespace MoonlitMixes.UI
 {
-    [SerializeField] private GameObject _topArrow;
-    [SerializeField] private GameObject _bottomArrow;
-
-    private ScrollRect _scrollRect;
-
-    private void Start()
+    public class ScrollArrowVisibility : MonoBehaviour
     {
-        _scrollRect = GetComponentInParent<ScrollRect>();
-        UpdateArrowVisibility();
-    }
+        [SerializeField] private GameObject _topArrow;
+        [SerializeField] private GameObject _bottomArrow;
 
-    private void Update()
-    {
-        UpdateArrowVisibility();
-    }
+        private ScrollRect _scrollRect;
 
-    private void UpdateArrowVisibility()
-    {
-        float normalizedPosition = _scrollRect.verticalNormalizedPosition;
-
-        if (normalizedPosition >= 0.9f)
+        private void Awake()
         {
+            _scrollRect = GetComponentInParent<ScrollRect>();
+            _scrollRect.verticalScrollbar.onValueChanged.AddListener(UpdateArrowVisibility);
+
             _topArrow.SetActive(false);
-            _bottomArrow.SetActive(true);
-        }
-        else if (normalizedPosition <= 0.2f)
-        {
-            _topArrow.SetActive(true);
             _bottomArrow.SetActive(false);
         }
-        else
+
+        private void UpdateArrowVisibility(float scrollBarValue)
         {
-            _topArrow.SetActive(true);
-            _bottomArrow.SetActive(true);
+            if (scrollBarValue > .9f)
+            {
+                _topArrow.SetActive(false);
+                _bottomArrow.SetActive(true);
+            }
+            else if (scrollBarValue < .1f)
+            {
+                _topArrow.SetActive(true);
+                _bottomArrow.SetActive(false);
+            }
+            else
+            {
+                _topArrow.SetActive(true);
+                _bottomArrow.SetActive(true);
+            }
         }
     }
 }
