@@ -1,45 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7766937110325413837
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdfbdbb87d3286943a057f7791b43141, type: 3}
-  m_Name: ChannelMixer
-  m_EditorClassIdentifier: 
-  active: 1
-  redOutRedIn:
-    m_OverrideState: 1
-    m_Value: 67
-  redOutGreenIn:
-    m_OverrideState: 0
-    m_Value: 0
-  redOutBlueIn:
-    m_OverrideState: 1
-    m_Value: 60
-  greenOutRedIn:
-    m_OverrideState: 1
-    m_Value: -4
-  greenOutGreenIn:
-    m_OverrideState: 1
-    m_Value: 96
-  greenOutBlueIn:
-    m_OverrideState: 0
-    m_Value: 0
-  blueOutRedIn:
-    m_OverrideState: 1
-    m_Value: 24
-  blueOutGreenIn:
-    m_OverrideState: 1
-    m_Value: -35
-  blueOutBlueIn:
-    m_OverrideState: 0
-    m_Value: 100
 --- !u!114 &-6634463868379616728
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -70,13 +30,13 @@ MonoBehaviour:
     m_Value: 0
   focusDistance:
     m_OverrideState: 1
-    m_Value: 2.4
+    m_Value: 6.38
   aperture:
     m_OverrideState: 1
-    m_Value: 5.5
+    m_Value: 3.2
   focalLength:
     m_OverrideState: 1
-    m_Value: 141
+    m_Value: 88
   bladeCount:
     m_OverrideState: 1
     m_Value: 8
@@ -86,6 +46,40 @@ MonoBehaviour:
   bladeRotation:
     m_OverrideState: 1
     m_Value: -41
+--- !u!114 &-6440135455610534873
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.95549256, z: 0.8891485, w: 0.027972028}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.013986014}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.33566433}
+  shadowsStart:
+    m_OverrideState: 1
+    m_Value: 0.22
+  shadowsEnd:
+    m_OverrideState: 1
+    m_Value: 0.59
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+  highlightsEnd:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &-5259990449992849410
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -101,7 +95,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.08
+    m_Value: 0.017
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,11 +110,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   components:
   - {fileID: 3818597981473982464}
-  - {fileID: -7766937110325413837}
   - {fileID: 6071903493478296668}
   - {fileID: -6634463868379616728}
   - {fileID: -5259990449992849410}
   - {fileID: 6910247853433925875}
+  - {fileID: -6440135455610534873}
 --- !u!114 &3818597981473982464
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -136,10 +130,10 @@ MonoBehaviour:
   active: 1
   temperature:
     m_OverrideState: 1
-    m_Value: 40
+    m_Value: 11.4
   tint:
     m_OverrideState: 1
-    m_Value: -10
+    m_Value: -15.1
 --- !u!114 &6071903493478296668
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -158,10 +152,10 @@ MonoBehaviour:
     m_Value: {x: 0.8882366, y: 0.8678023, z: 1, w: 0.015473801}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.94698364, z: 0.8847491, w: -0.10125568}
+    m_Value: {x: 1, y: 0.9676632, z: 0.95277035, w: -0.18517177}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8637483, z: 0.69945145, w: 0.30947766}
+    m_Value: {x: 1, y: 0.8427483, z: 0.8558122, w: 0.15384614}
 --- !u!114 &6910247853433925875
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -177,7 +171,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1.35
+    m_Value: 1
   contrast:
     m_OverrideState: 1
     m_Value: 10
@@ -189,4 +183,4 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: -12
+    m_Value: -10.3
