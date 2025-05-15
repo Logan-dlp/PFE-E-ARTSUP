@@ -2,6 +2,7 @@ using MoonlitMixes.CookingMachine;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,9 @@ namespace MoonlitMixes.Potion
 {
     public class CauldronRecipeChecker : MonoBehaviour
     {
+        public event Action OnStirStarted;
+        public event Action OnStirEnded;
+
         [Header("Recipe Configuration")]
         [Tooltip("Liste de toutes les recettes possibles à vérifier.")]
         [SerializeField] private List<Recipe> _allRecipes;
@@ -19,7 +23,7 @@ namespace MoonlitMixes.Potion
         [Tooltip("Liste des ingrédients actuellement dans le chaudron.")]
         [SerializeField] private List<ItemData> _currentIngredients = new List<ItemData>();
 
-        [Tooltip("Référence à l'objet Scriptable contenant les potions que le player peut créer.")]
+        [Tooltip("Référence à l'objet Scriptable contenant les potions que le player a.")]
         [SerializeField] private PotionListData _potionListData;
 
         private CauldronTimer _cauldronTimer;
@@ -120,8 +124,12 @@ namespace MoonlitMixes.Potion
         private void StartQTEForStirring(ItemData ingredient)
         {
             QteInProgress = true;
+
+            OnStirStarted?.Invoke();
+            
             PlayerInteraction playerInteraction = FindFirstObjectByType<PlayerInteraction>();
             PlayerInput input = playerInteraction.GetComponent<PlayerInput>();
+
             input?.SwitchCurrentActionMap("QTE");
 
             _cauldronMixing.ConvertItem(playerInteraction);
@@ -240,6 +248,8 @@ namespace MoonlitMixes.Potion
         {
             QteInProgress = false;
             _qteSuccess = state;
+
+            OnStirEnded?.Invoke();
 
             if (state)
             {

@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using MoonlitMixes.Animation;
 using MoonlitMixes.CookingMachine;
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
-using MoonlitMixes.Animation;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Player
 {
@@ -27,7 +27,7 @@ namespace MoonlitMixes.Player
         private Animator _animator;
         private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
-      
+
 
         private void Awake()
         {
@@ -125,7 +125,7 @@ namespace MoonlitMixes.Player
                             ItemInHand = null;
 
                             _animator.SetTrigger("Put");
-                            
+
                             if (PlayerHoldItem.ItemHold == null)
                             {
                                 _animationPotionManager.QuitInteractWithoutItem();
@@ -172,7 +172,7 @@ namespace MoonlitMixes.Player
                 }
                 else
                 {
-                    if (Physics.Raycast(transform.position, transform.forward  + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
+                    if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {

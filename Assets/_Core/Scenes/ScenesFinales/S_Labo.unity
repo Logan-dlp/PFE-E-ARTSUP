@@ -930,7 +930,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 66dc7d06323c3ff4c8ba46dba43958bd, type: 2}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _allRecipes.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: '_allRecipes.Array.data[0]'
@@ -944,6 +944,10 @@ PrefabInstance:
       propertyPath: '_allRecipes.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: ba6bfc1161455a649a1424d7be7c50da, type: 2}
+    - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: '_allRecipes.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e29245140ea56b4e8f59f6c79996861, type: 2}
     - target: {fileID: 8589104317660538512, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -3586,8 +3590,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 917227033}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: _potionListData
+      value: 
+      objectReference: {fileID: 11400000, guid: 66dc7d06323c3ff4c8ba46dba43958bd, type: 2}
+    - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _allRecipes.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: '_allRecipes.Array.data[0]'
@@ -3601,6 +3609,10 @@ PrefabInstance:
       propertyPath: '_allRecipes.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: ba6bfc1161455a649a1424d7be7c50da, type: 2}
+    - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: '_allRecipes.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e29245140ea56b4e8f59f6c79996861, type: 2}
     - target: {fileID: 8589104317660538512, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -7632,6 +7644,17 @@ MonoBehaviour:
   - {fileID: 296057233}
   - {fileID: 296057232}
   - {fileID: 296057231}
+--- !u!114 &840341587 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+  m_PrefabInstance: {fileID: 114074174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840341580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8b7bc593b245641b2bc08c2297e26d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &847042680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7708,6 +7731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 867545600}
   - component: {fileID: 867545599}
+  - component: {fileID: 867545601}
   m_Layer: 0
   m_Name: Cinemachine Cauldron_002
   m_TagString: Untagged
@@ -7773,6 +7797,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 730403641}
   m_LocalEulerAnglesHint: {x: 46.831, y: -90, z: 0}
+--- !u!114 &867545601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867545598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bba27206841f44438773a97cb3bc996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CauldronRecipeChecker: {fileID: 2026038725}
+  _baseCameraController: {fileID: 273686542}
+  _basePriority: 12
+  _stirPriority: 10
 --- !u!1001 &868215298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13313,6 +13353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1918393679}
   - component: {fileID: 1918393678}
+  - component: {fileID: 1918393680}
   m_Layer: 0
   m_Name: Cinemachine Cauldron_003
   m_TagString: Untagged
@@ -13378,6 +13419,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 730403641}
   m_LocalEulerAnglesHint: {x: 46.831, y: -90, z: 0}
+--- !u!114 &1918393680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918393677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bba27206841f44438773a97cb3bc996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CauldronRecipeChecker: {fileID: 840341587}
+  _baseCameraController: {fileID: 273686542}
+  _basePriority: 12
+  _stirPriority: 11
 --- !u!1001 &1921106688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14406,6 +14463,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1976132362}
   - component: {fileID: 1976132361}
+  - component: {fileID: 1976132363}
   m_Layer: 0
   m_Name: Cinemachine Cauldron_001
   m_TagString: Untagged
@@ -14471,6 +14529,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 730403641}
   m_LocalEulerAnglesHint: {x: 46.831, y: -90, z: 0}
+--- !u!114 &1976132363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976132360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bba27206841f44438773a97cb3bc996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CauldronRecipeChecker: {fileID: 967855118879278572}
+  _baseCameraController: {fileID: 273686542}
+  _basePriority: 12
+  _stirPriority: 9
 --- !u!4 &1984760749 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4927425342343652053, guid: d2e8a8986bbac4447875e95039ef9a07, type: 3}
@@ -14671,6 +14745,17 @@ MonoBehaviour:
   - {fileID: 1892623086}
   - {fileID: 1892623085}
   - {fileID: 1892623084}
+--- !u!114 &2026038725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+  m_PrefabInstance: {fileID: 415029658}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026038718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8b7bc593b245641b2bc08c2297e26d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2029365755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15768,6 +15853,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1685075996}
   m_SourcePrefab: {fileID: 100100000, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+--- !u!114 &967855118879278572 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+  m_PrefabInstance: {fileID: 967855118879278569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540568288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8b7bc593b245641b2bc08c2297e26d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2668268833387748728
 PrefabInstance:
   m_ObjectHideFlags: 0

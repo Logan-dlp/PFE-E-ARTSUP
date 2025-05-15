@@ -1,9 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -24,9 +24,9 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] protected Image _imageProgressBar;
 
         protected PlayerInteraction _playerInteraction;
-        
+
         private ItemData _itemData;
-        
+
         public abstract void ToggleShowInteractivity();
 
         protected void Activate()
@@ -41,7 +41,7 @@ namespace MoonlitMixes.CookingMachine
 
         public virtual void CheckItem(bool boolValue)
         {
-            if(boolValue)
+            if (boolValue)
             {
                 SuccesItem();
             }
