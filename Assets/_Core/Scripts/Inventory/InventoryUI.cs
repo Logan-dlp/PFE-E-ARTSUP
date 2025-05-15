@@ -20,7 +20,7 @@ namespace MoonlitMixes.Inventory
             RefreshInventory();
         }
 
-        private void RefreshInventory()
+        public void RefreshInventory()
         {
             foreach (Transform childTransform in transform)
             {
