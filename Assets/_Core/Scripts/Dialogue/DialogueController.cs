@@ -143,7 +143,8 @@ namespace MoonlitMixes.Dialogue
                     }
                 }
             }
-
+            
+            SetSprite(line.SpeakerSprite, _imageSpeakers[speakerIndex]);
             WriteText(line.Text, _textBoxes[speakerIndex]);
             StartCoroutine(TypeText(line.Text, _textBoxes[speakerIndex]));
 
@@ -154,6 +155,12 @@ namespace MoonlitMixes.Dialogue
         {
             yield return null;
             DisplayNextDialogue();
+        }
+
+        private void SetSprite(Sprite sprite, Image image)
+        {
+            image.sprite = sprite;
+            image.preserveAspect = true;
         }
 
         private void WriteText(string text, TMP_Text textBox)

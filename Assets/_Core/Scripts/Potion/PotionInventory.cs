@@ -10,7 +10,7 @@ namespace MoonlitMixes.Potion
 {
     public class PotionInventory : MonoBehaviour
     {
-        [SerializeField] private PotionListData potionResultListData;
+        [SerializeField] private PotionListData _potionResultListData;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _slotContainer;
         [SerializeField] private GameObject _specialButtonPrefab;
@@ -20,7 +20,7 @@ namespace MoonlitMixes.Potion
         private bool _isSelectionInProgress = false;
         private List<Button> _potionButtons = new List<Button>();
 
-        public List<PotionResult> PotionList => potionResultListData.PotionResults;
+        public List<PotionResult> PotionList => _potionResultListData.PotionResults;
 
         private void Start()
         {
@@ -70,6 +70,7 @@ namespace MoonlitMixes.Potion
                 PotionResult potion = PotionList[i];
                 nameText.text = potion.Recipe.RecipeName;
                 potionImage.sprite = potion.Recipe.PotionSprite;
+                potionImage.preserveAspect = true;
 
                 Button btn = newSlot.GetComponent<Button>();
                 _potionButtons.Add(btn);
