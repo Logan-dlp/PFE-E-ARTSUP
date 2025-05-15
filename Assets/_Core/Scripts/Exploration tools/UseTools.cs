@@ -17,6 +17,11 @@ public class UseTools : MonoBehaviour
     private int _brokenRock = 0;
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
+    public ToolType CurrentTool
+    {
+        get => _currentTool;
+    }
+
     private AnimationExplorationManager _animationExplorationManager;
 
     private void Awake()
