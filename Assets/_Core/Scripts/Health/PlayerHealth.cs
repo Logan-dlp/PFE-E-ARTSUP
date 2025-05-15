@@ -1,8 +1,7 @@
-using MoonlitMixes.Respawn;
 using System;
 using MoonlitMixes.Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using MoonlitMixes.Animation;
 
 namespace MoonlitMixes.Health
 {
@@ -18,10 +17,12 @@ namespace MoonlitMixes.Health
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
         private PlayerMovement _playerMovement;
+        private AnimationExplorationManager _animationExplorationManager;
 
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
+            _animationExplorationManager = GetComponent<AnimationExplorationManager>();
         }
 
         private void Start()
@@ -65,6 +66,7 @@ namespace MoonlitMixes.Health
         {
             _currentHealth -= damage;
             _currentHealth = Mathf.Max(_currentHealth, 0);
+            _animationExplorationManager.Hit();
 
             EnterFightMode();
             CheckHealth();
@@ -82,6 +84,7 @@ namespace MoonlitMixes.Health
             if (_currentHealth <= 0)
             {
                 Debug.Log("PlayerDeath");
+                _animationExplorationManager.Death();
                 /*if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
                 {
                     OnPlayerRespawnInScene?.Invoke();

@@ -33,19 +33,19 @@ namespace MoonlitMixes.AI
             _enemyHealth = GetComponent<EnemyHealth>();
             if (_enemyHealth == null)
             {
-                Debug.LogError("EnemyHealth non trouvé sur " + gameObject.name);
+                Debug.LogError("EnemyHealth non trouvï¿½ sur " + gameObject.name);
             }
 
             _rigidbody = GetComponent<Rigidbody>();
             if (_rigidbody == null)
             {
-                Debug.LogError("Rigidbody non trouvé sur " + gameObject.name);
+                Debug.LogError("Rigidbody non trouvï¿½ sur " + gameObject.name);
             }
 
             _playerReference = FindFirstObjectByType<PlayerHealth>()?.gameObject;
             if (_playerReference == null)
             {
-                Debug.LogError("PlayerHealth non trouvé dans la scène.");
+                Debug.LogError("PlayerHealth non trouvï¿½ dans la scï¿½ne.");
             }
 
             _monsterData = new MonsterData()
@@ -67,7 +67,7 @@ namespace MoonlitMixes.AI
         private void Update()
         {
             if (_comportement == MonsterComportement.Aggressive
-                && Vector3.Distance(_playerReference.transform.position, _monsterData.InitialPosition) < _monsterData.AttackRadius)
+                && Vector3.Distance(_playerReference.transform.position, _monsterData.InitialPosition) < _monsterData.DetectionStop)
             {
                 _monsterData.PlayerReference = _playerReference;
             }
@@ -116,7 +116,7 @@ namespace MoonlitMixes.AI
         {
             if (Physics.Raycast(transform.position + _attackRayOffset, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
             {
-                if (hit.transform.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+                if (hit.transform.TryGetComponent(out PlayerHealth playerHealth))
                 {
                     playerHealth.AddDamage(_attackDamage, transform.forward, _attackForce, _attackDuration);
                 }
