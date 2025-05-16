@@ -107,7 +107,7 @@ namespace MoonlitMixes.Inventory
             return _inventory.Items.Contains(item);
         }
 
-        public void SendItems(InventoryData inventoryData)
+        public void SendItems()
         {
             try
             {

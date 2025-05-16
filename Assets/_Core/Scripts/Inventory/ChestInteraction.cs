@@ -13,30 +13,20 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private Button _emptyItemButton;
         [SerializeField] private InventoryData _inventory;
 
-        private TriggerButtonUI _triggerZone;
-
-        private void Awake()
-        {
-            _triggerZone = FindAnyObjectByType<TriggerButtonUI>();
-        }
-
         public void OpenChest()
         {
-            if (_triggerZone != null && _triggerZone.isPlayerInTrigger)
-            {
-                bool hasEmptyItem = _inventory.Items.Count == 0;
-                FindFirstObjectByType<InputManager>().SwitchActionMap("UI");
+            bool hasEmptyItem = _inventory.Items.Count == 0;
+            InputManager.Instance.SwitchActionMap("UI");
 
-                if(hasEmptyItem)
-                {
-                    _emptyItemUI.SetActive(true);
-                    _emptyItemButton.Select();
-                }
-                else
-                {
-                    _filledItemUI.SetActive(true);
-                    _filledItemButton.Select();
-                }
+            if (hasEmptyItem)
+            {
+                _emptyItemUI.SetActive(true);
+                _emptyItemButton.Select();
+            }
+            else
+            {
+                _filledItemUI.SetActive(true);
+                _filledItemButton.Select();
             }
         }
     }

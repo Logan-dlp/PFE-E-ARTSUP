@@ -23,6 +23,7 @@ namespace MoonlitMixes.Editor
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(inventoryProperty);
+            EditorGUILayout.PropertyField(slotPrefabProperty);
 
             InventoryData inventory = inventoryProperty.objectReferenceValue as InventoryData;
 

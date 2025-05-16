@@ -1,5 +1,6 @@
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Scene;
+using MoonlitMixes.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,16 +23,19 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
+                if (_hasChest)
+                {
+                    Debug.Log("");
+                    _chestInteraction.OpenChest();
+                }
+
                 if (_useTools.CanUseHand())
                 {
                     _useTools.UseHand();
                     return;
                 }
 
-                if (_hasChest == true)
-                {
-                    _chestInteraction.OpenChest();
-                }
+
                 else if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                 {
                     if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
@@ -44,7 +48,7 @@ namespace MoonlitMixes.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out TriggerButtonUI _))
+            if (other.tag == "Chest")
             {
                 _hasChest = true;
             }
@@ -52,7 +56,7 @@ namespace MoonlitMixes.Player
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out TriggerButtonUI _))
+            if (other.tag == "Chest")
             {
                 _hasChest = false;
             }
