@@ -33,13 +33,7 @@ public class UseTools : MonoBehaviour
     {
         if (ctx.performed)
         {
-            if(_rouletteSelection.ToolGameObjects.Count == 0) return;
-            
-            if (CanUseHand())
-            {
-                UseHand();
-                return;
-            }
+            if (_rouletteSelection.ToolGameObjects.Count == 0) return;
 
             _currentTool = _rouletteSelection.CurrentToolType;
 
@@ -162,7 +156,7 @@ public class UseTools : MonoBehaviour
         }
     }
 
-    private bool CanUseHand()
+    public bool CanUseHand()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
@@ -173,7 +167,7 @@ public class UseTools : MonoBehaviour
         return false;
     }
 
-    private void UseHand()
+    public void UseHand()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))

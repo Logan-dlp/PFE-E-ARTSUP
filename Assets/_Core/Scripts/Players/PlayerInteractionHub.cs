@@ -11,13 +11,24 @@ namespace MoonlitMixes.Player
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private ChestInteraction _chestInteraction;
 
+        private UseTools _useTools;
         private bool _hasChest;
 
+        private void Start()
+        {
+            _useTools = GetComponent<UseTools>();
+        }
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
-                if(_hasChest == true)
+                if (_useTools.CanUseHand())
+                {
+                    _useTools.UseHand();
+                    return;
+                }
+
+                if (_hasChest == true)
                 {
                     _chestInteraction.OpenChest();
                 }
