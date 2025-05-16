@@ -96366,7 +96366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2093546564846275042, guid: 74e42bf5718340846b79fb141f125d96, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9217215851249040841, guid: 74e42bf5718340846b79fb141f125d96, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -119737,6 +119737,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 742752074}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1219794749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219794750}
+  - component: {fileID: 1219794751}
+  m_Layer: 0
+  m_Name: ColliderCAVE
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1219794750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219794749}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0013571513, y: 0.9615002, z: 0.00031102382, w: 0.27480063}
+  m_LocalPosition: {x: 22.34, y: 1.09, z: 24.46}
+  m_LocalScale: {x: 5.976089, y: 2.9605334, z: 2.0530744}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2119358992}
+  m_LocalEulerAnglesHint: {x: 0.008, y: -211.9, z: 0.159}
+--- !u!65 &1219794751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219794749}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1220549623
 GameObject:
   m_ObjectHideFlags: 0
@@ -139454,7 +139507,7 @@ PrefabInstance:
       objectReference: {fileID: 1592813698}
     - target: {fileID: 6668651819965719258, guid: e248176cfb62867439d85f1c7c13cdbc, type: 3}
       propertyPath: _sceneName
-      value: SF_CrowIndication
+      value: SF_Hub
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -174952,7 +175005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2698391391362430520, guid: 5ff002e4ffd14e640966b21a381dcae0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3330776966085307522, guid: 5ff002e4ffd14e640966b21a381dcae0, type: 3}
       propertyPath: m_LocalScale.x
@@ -207904,6 +207957,7 @@ Transform:
   - {fileID: 472853462}
   - {fileID: 1601516588}
   - {fileID: 1141203571}
+  - {fileID: 1219794750}
   - {fileID: 1777683865}
   - {fileID: 526051217}
   - {fileID: 2040294946}
@@ -210996,6 +211050,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Env_RockPath1
       objectReference: {fileID: 0}
+    - target: {fileID: 2698391391362430520, guid: 5ff002e4ffd14e640966b21a381dcae0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3330776966085307522, guid: 5ff002e4ffd14e640966b21a381dcae0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.739
@@ -211455,6 +211513,10 @@ PrefabInstance:
     - target: {fileID: 1252824653579613933, guid: 71a862545c387d044952ac5534f9d546, type: 3}
       propertyPath: m_Name
       value: Env_Rockpath4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252824653579613933, guid: 71a862545c387d044952ac5534f9d546, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1885105877774937175, guid: 71a862545c387d044952ac5534f9d546, type: 3}
       propertyPath: m_LocalPosition.x

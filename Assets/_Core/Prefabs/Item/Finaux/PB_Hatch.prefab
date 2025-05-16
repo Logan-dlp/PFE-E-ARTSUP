@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6597915185667773545}
   - component: {fileID: 1969815767831801449}
   - component: {fileID: 1880792456585933400}
+  - component: {fileID: 6873937679417036049}
   m_Layer: 0
   m_Name: PB_Hatch
   m_TagString: Untagged
@@ -28,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362781041850959571}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0.01999998, y: -0.108, z: 1.1599998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &5991880302505547914
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c5a84831238e42742bc67dbadad8e5ab, type: 2}
+  - {fileID: 2100000, guid: 6dbb9f652e603f043b47355c0b68730b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,8 +108,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1388149, y: 0.1494724, z: 1.2217704}
-  m_Center: {x: 0, y: 0, z: 0.6108852}
+  m_Size: {x: 1.3814864, y: 1.2383763, z: 1.4885368}
+  m_Center: {x: 0.121335745, y: 0.5444519, z: 0.7442684}
 --- !u!114 &1880792456585933400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,3 +123,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buttonImage: {fileID: 0}
+--- !u!114 &6873937679417036049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362781041850959571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579188d2a7781d84bba0bc0e1d5eac4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneName: S_Labo

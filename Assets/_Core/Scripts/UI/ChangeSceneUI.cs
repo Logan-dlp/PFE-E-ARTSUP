@@ -32,9 +32,10 @@ namespace MoonlitMixes.UI
 
         public void CloseCanvas()
         {
+            Debug.Log("test");
             _panel.SetActive(false);
-            _panelNoChestItem.SetActive(false);
             InputManager.Instance.SwitchActionMap("Player");
+            if(_sceneName == "S_Forest") Debug.Log("_panelNoChestItem.SetActive(false)");
         }
 
         public void ChangeScene(InputAction.CallbackContext callbackContext)

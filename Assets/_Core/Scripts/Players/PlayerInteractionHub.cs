@@ -17,23 +17,30 @@ namespace MoonlitMixes.Player
 
         private void Start()
         {
-            _useTools = GetComponent<UseTools>();
+            TryGetComponent(out UseTools useTools);
+            _useTools = useTools;
         }
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
-                if (_hasChest)
+
+                if(_useTools != null)
                 {
-                    Debug.Log("");
-                    _chestInteraction.OpenChest();
+                    if (_useTools.CanUseHand())
+                    {
+                        _useTools.UseHand();
+                        return;
+                    }
+                
+                    if (_hasChest)
+                    {
+                        Debug.Log("");
+                        _chestInteraction.OpenChest();
+                    }
                 }
 
-                if (_useTools.CanUseHand())
-                {
-                    _useTools.UseHand();
-                    return;
-                }
+                
 
 
                 else if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))

@@ -6,6 +6,7 @@ using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
 using MoonlitMixes.Animation;
+using MoonlitMixes.Scene;
 
 namespace MoonlitMixes.Player
 {
@@ -191,6 +192,10 @@ namespace MoonlitMixes.Player
                             cauldron.Mix(this);
 
                             _animationPotionManager.InteractStir();
+                        }
+                        else if(hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
+                        {
+                            doorSceneChange.OpenCanvas();
                         }
                     }
                 }
