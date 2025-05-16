@@ -1,8 +1,9 @@
-using MoonlitMixes.Respawn;
 using System;
 using MoonlitMixes.Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using MoonlitMixes.Animation;
+using MoonlitMixes.Inputs;
+using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Health
 {
@@ -18,10 +19,13 @@ namespace MoonlitMixes.Health
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
         private PlayerMovement _playerMovement;
+        private AnimationExplorationManager _animationExplorationManager;
+        private bool _isDead;
 
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
+            _animationExplorationManager = GetComponent<AnimationExplorationManager>();
         }
 
         private void Start()
@@ -65,6 +69,7 @@ namespace MoonlitMixes.Health
         {
             _currentHealth -= damage;
             _currentHealth = Mathf.Max(_currentHealth, 0);
+            _animationExplorationManager.Hit();
 
             EnterFightMode();
             CheckHealth();
@@ -79,29 +84,29 @@ namespace MoonlitMixes.Health
 
         protected override void CheckHealth()
         {
-            if (_currentHealth <= 0)
+            if (_currentHealth <= 0 && !_isDead)
             {
-                Debug.Log("PlayerDeath");
-                /*if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
-                {
-                    OnPlayerRespawnInScene?.Invoke();
-                }
-                else
-                {
-                    OnPlayerRespawnInOtherScene?.Invoke();
-                }*/
+                _isDead = true;
+                _animationExplorationManager.Death();
+                GetComponent<PlayerInput>().DeactivateInput();
             }
-
-            _playerHealthData.CurrentHealth = _currentHealth;
-            _playerHealthData.MaxHealth = _maxHealth;
 
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }
 
         public void ResetHealth()
         {
+            GetComponent<PlayerInput>().ActivateInput();
+            _animationExplorationManager.DefaultState();
+            _isDead = false;
             _currentHealth = _maxHealth;
             CheckHealth();
+        }
+
+        private void Death()
+        {
+            ResetHealth();
+            OnPlayerRespawnInScene?.Invoke();
         }
     }
 }

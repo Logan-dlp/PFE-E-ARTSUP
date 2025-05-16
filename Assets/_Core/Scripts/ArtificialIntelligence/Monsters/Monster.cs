@@ -27,25 +27,27 @@ namespace MoonlitMixes.AI
         private EnemyHealth _enemyHealth;
         private Rigidbody _rigidbody;
         private Vector3 _attackRayOffset = new(0, .5f, 0);
+        private Animator _animator;
 
         private void Start()
         {
+            _animator = GetComponent<Animator>();
             _enemyHealth = GetComponent<EnemyHealth>();
             if (_enemyHealth == null)
             {
-                Debug.LogError("EnemyHealth non trouvé sur " + gameObject.name);
+                Debug.LogError("EnemyHealth non trouvï¿½ sur " + gameObject.name);
             }
 
             _rigidbody = GetComponent<Rigidbody>();
             if (_rigidbody == null)
             {
-                Debug.LogError("Rigidbody non trouvé sur " + gameObject.name);
+                Debug.LogError("Rigidbody non trouvï¿½ sur " + gameObject.name);
             }
 
             _playerReference = FindFirstObjectByType<PlayerHealth>()?.gameObject;
             if (_playerReference == null)
             {
-                Debug.LogError("PlayerHealth non trouvé dans la scène.");
+                Debug.LogError("PlayerHealth non trouvï¿½ dans la scï¿½ne.");
             }
 
             _monsterData = new MonsterData()
@@ -67,7 +69,7 @@ namespace MoonlitMixes.AI
         private void Update()
         {
             if (_comportement == MonsterComportement.Aggressive
-                && Vector3.Distance(_playerReference.transform.position, _monsterData.InitialPosition) < _monsterData.AttackRadius)
+                && Vector3.Distance(_playerReference.transform.position, _monsterData.InitialPosition) < _monsterData.DetectionStop)
             {
                 _monsterData.PlayerReference = _playerReference;
             }
@@ -116,7 +118,7 @@ namespace MoonlitMixes.AI
         {
             if (Physics.Raycast(transform.position + _attackRayOffset, transform.forward, out RaycastHit hit, _monsterData.StopDistanceToAttack))
             {
-                if (hit.transform.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+                if (hit.transform.TryGetComponent(out PlayerHealth playerHealth))
                 {
                     playerHealth.AddDamage(_attackDamage, transform.forward, _attackForce, _attackDuration);
                 }
@@ -143,8 +145,8 @@ namespace MoonlitMixes.AI
 
             if (_enemyHealth._currentHealth <= 0)
             {
-                StartCoroutine(Death());
-
+                Debug.Log("test");
+                _animator.SetTrigger("Death");
                 player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
             }
         }
@@ -162,9 +164,8 @@ namespace MoonlitMixes.AI
             _rigidbody.isKinematic = true;
         }
 
-        private IEnumerator Death()
+        private void Death()
         {
-            yield return new WaitForSeconds(.5f);
             Destroy(gameObject);
         }
     }
