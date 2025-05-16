@@ -31,7 +31,7 @@ namespace MoonlitMixes.Dialogue
 
         public void ShowPotionChoices()
         {
-            _potionChoicePanel.SetActive(true);
+            _potionChoicePanel.SetActive(true);            
 
             if (_potionInventory.PotionList.Count > 0)
             {

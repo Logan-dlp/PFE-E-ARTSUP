@@ -1,5 +1,6 @@
 ﻿using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue.Effect;
+using MoonlitMixes.Inputs;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -63,17 +64,8 @@ namespace MoonlitMixes.Dialogue
             if (_inputActionAsset == null)
                 return;
 
-            _originalActionMap = _inputActionAsset.FindActionMap("Player");
-            var dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
-
-            if (_originalActionMap == null || dialogueActionMap == null)
-            {
-                Debug.LogError("Missing ActionMap: 'Player' or 'Dialogue'");
-                return;
-            }
-
             _panelDialogue.SetActive(true);
-            dialogueActionMap.Enable();
+            InputManager.Instance.SwitchActionMap("Dialogue");
 
             _currentDialogue = dialogue;
             if (_currentDialogue?.Lines == null || _currentDialogue.Lines.Length == 0)
@@ -96,7 +88,7 @@ namespace MoonlitMixes.Dialogue
             }
 
             DialogueLineData line = _currentDialogue.Lines[_dialogueIndex];
-            int speakerIndex = line.SpeakerIndex;
+            int speakerIndex = ((int)line.SpeakerSlot);
 
             if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
             {
@@ -143,7 +135,8 @@ namespace MoonlitMixes.Dialogue
                     }
                 }
             }
-
+            
+            SetSprite(line.SpeakerSprite, _imageSpeakers[speakerIndex]);
             WriteText(line.Text, _textBoxes[speakerIndex]);
             StartCoroutine(TypeText(line.Text, _textBoxes[speakerIndex]));
 
@@ -154,6 +147,12 @@ namespace MoonlitMixes.Dialogue
         {
             yield return null;
             DisplayNextDialogue();
+        }
+
+        private void SetSprite(Sprite sprite, Image image)
+        {
+            image.sprite = sprite;
+            image.preserveAspect = true;
         }
 
         private void WriteText(string text, TMP_Text textBox)
@@ -202,8 +201,7 @@ namespace MoonlitMixes.Dialogue
         public void EndDialogue()
         {
             _panelDialogue.SetActive(false);
-            _inputActionAsset.FindActionMap("Dialogue")?.Disable();
-            _originalActionMap?.Enable();
+            InputManager.Instance.SwitchActionMap("Player");
 
             foreach (var textBox in _textBoxes)
             {
