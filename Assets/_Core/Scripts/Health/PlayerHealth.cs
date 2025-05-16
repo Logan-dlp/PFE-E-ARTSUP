@@ -18,6 +18,7 @@ namespace MoonlitMixes.Health
         private float _timeBeforeOutOfFight;
         private PlayerMovement _playerMovement;
         private AnimationExplorationManager _animationExplorationManager;
+        private bool _isDead;
 
         private void Awake()
         {
@@ -81,30 +82,28 @@ namespace MoonlitMixes.Health
 
         protected override void CheckHealth()
         {
-            if (_currentHealth <= 0)
+            if (_currentHealth <= 0 && !_isDead)
             {
+                _isDead = true;
                 Debug.Log("PlayerDeath");
                 _animationExplorationManager.Death();
-                /*if (SceneManager.GetActiveScene().name == respawnData.RespawnScene)
-                {
-                    OnPlayerRespawnInScene?.Invoke();
-                }
-                else
-                {
-                    OnPlayerRespawnInOtherScene?.Invoke();
-                }*/
             }
-
-            _playerHealthData.CurrentHealth = _currentHealth;
-            _playerHealthData.MaxHealth = _maxHealth;
 
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }
 
         public void ResetHealth()
         {
+            _animationExplorationManager.DefaultState();
+            _isDead = false;
             _currentHealth = _maxHealth;
             CheckHealth();
+        }
+
+        private void Death()
+        {
+            ResetHealth();
+            OnPlayerRespawnInScene?.Invoke();
         }
     }
 }

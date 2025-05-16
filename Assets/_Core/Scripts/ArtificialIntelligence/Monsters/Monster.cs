@@ -27,9 +27,11 @@ namespace MoonlitMixes.AI
         private EnemyHealth _enemyHealth;
         private Rigidbody _rigidbody;
         private Vector3 _attackRayOffset = new(0, .5f, 0);
+        private Animator _animator;
 
         private void Start()
         {
+            _animator = GetComponent<Animator>();
             _enemyHealth = GetComponent<EnemyHealth>();
             if (_enemyHealth == null)
             {
@@ -73,7 +75,6 @@ namespace MoonlitMixes.AI
             }
 
             IMonsterState nextMonsterState = _currentMonsterState?.Update(_monsterData);
-            Debug.Log(_currentMonsterState);
             if (nextMonsterState != null)
             {
                 TransitionTo(nextMonsterState);
@@ -126,7 +127,6 @@ namespace MoonlitMixes.AI
 
         public void FinishAnimationAttack()
         {
-            Debug.Log("ok");
             _monsterData.FinishedAttacking = true;
         }
 
@@ -145,8 +145,8 @@ namespace MoonlitMixes.AI
 
             if (_enemyHealth._currentHealth <= 0)
             {
-                StartCoroutine(Death());
-
+                Debug.Log("test");
+                _animator.SetTrigger("Death");
                 player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
             }
         }
@@ -164,9 +164,8 @@ namespace MoonlitMixes.AI
             _rigidbody.isKinematic = true;
         }
 
-        private IEnumerator Death()
+        private void Death()
         {
-            yield return new WaitForSeconds(.5f);
             Destroy(gameObject);
         }
     }

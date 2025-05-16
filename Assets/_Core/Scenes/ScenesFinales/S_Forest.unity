@@ -835,6 +835,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.64
       objectReference: {fileID: 0}
+    - target: {fileID: 3739072669642871169, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_Center.y
+      value: 0.31
+      objectReference: {fileID: 0}
     - target: {fileID: 6991942069690656143, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
       propertyPath: m_Name
       value: PB_Willowraith_Air
@@ -13856,6 +13860,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.66
       objectReference: {fileID: 0}
+    - target: {fileID: 944338037511947857, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
+      propertyPath: m_Center.y
+      value: 0.44
+      objectReference: {fileID: 0}
     - target: {fileID: 1257710152535497085, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.53
@@ -24005,7 +24013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1772810194118110088, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
       propertyPath: m_Center.y
-      value: 0.81
+      value: 0.39
       objectReference: {fileID: 0}
     - target: {fileID: 7292055771892540023, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
       propertyPath: m_Name
@@ -57815,6 +57823,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6682728786630397078}
+    - targetCorrespondingSourceObject: {fileID: 6682728787243280857, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6682728786630397086}
   m_SourcePrefab: {fileID: 100100000, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
 --- !u!1 &614322945
 GameObject:
@@ -69406,7 +69417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &742752074
 Transform:
   m_ObjectHideFlags: 0
@@ -207189,6 +207200,19 @@ MonoBehaviour:
   _emptyItemUI: {fileID: 1616770639}
   _emptyItemButton: {fileID: 2032341513}
   _inventory: {fileID: 11400000, guid: cc39ff8a71f4c194d97487b527970f72, type: 2}
+--- !u!114 &6682728786630397086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682728786630397077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f19a54b80cbd54ba94b7a109cf6c12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _respawnPoint: {fileID: 54462810}
 --- !u!1 &6729401357697324549
 GameObject:
   m_ObjectHideFlags: 0
