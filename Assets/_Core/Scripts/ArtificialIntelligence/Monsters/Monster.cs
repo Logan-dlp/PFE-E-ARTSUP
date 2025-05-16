@@ -73,6 +73,7 @@ namespace MoonlitMixes.AI
             }
 
             IMonsterState nextMonsterState = _currentMonsterState?.Update(_monsterData);
+            Debug.Log(_currentMonsterState);
             if (nextMonsterState != null)
             {
                 TransitionTo(nextMonsterState);
@@ -125,6 +126,7 @@ namespace MoonlitMixes.AI
 
         public void FinishAnimationAttack()
         {
+            Debug.Log("ok");
             _monsterData.FinishedAttacking = true;
         }
 

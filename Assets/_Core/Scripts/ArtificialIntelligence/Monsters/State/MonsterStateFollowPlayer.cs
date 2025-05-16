@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 
 namespace MoonlitMixes.AI.StateMachine.States
@@ -24,10 +25,8 @@ namespace MoonlitMixes.AI.StateMachine.States
             {
                 return new MonsterStateIdle();
             }
-            else
-            {
-                monsterData.NavMeshAgent.SetDestination(monsterData.PlayerReference.transform.position);
-            }
+            
+            monsterData.NavMeshAgent.SetDestination(monsterData.PlayerReference.transform.position);
             
             if (Vector3.Distance(monsterData.PlayerReference.transform.position, monsterData.InitialPosition) > monsterData.DetectionStop)
             {
@@ -40,7 +39,10 @@ namespace MoonlitMixes.AI.StateMachine.States
                     monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, 0);
                     monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, 0);
 
-                    monsterData.NavMeshAgent.ResetPath();
+                    if (monsterData.NavMeshAgent.hasPath)
+                    {
+                        monsterData.NavMeshAgent.ResetPath();
+                    }
                     
                     return new MonsterStateAttack();
                 }
