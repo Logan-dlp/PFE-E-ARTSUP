@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
-using MoonlitMixes.Inputs;
 using MoonlitMixes.Player;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MoonlitMixes.Inventory
@@ -44,7 +41,7 @@ namespace MoonlitMixes.Inventory
         {
             yield return new WaitForEndOfFrame();
             //FindFirstObjectByType<EventSystem>().firstSelectedGameObject = FindFirstObjectByType<InventoryUI>()._slots[0].GetComponent<Button>().gameObject;
-            FindFirstObjectByType<InventoryUI>()._slots[0].GetComponent<Button>().Select();
+            FindFirstObjectByType<InventoryUI>().FirstSelected.GetComponent<Button>().Select();
         }
     }
 }

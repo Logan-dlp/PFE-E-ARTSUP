@@ -9,85 +9,47 @@ namespace MoonlitMixes.Inventory
 {
     public class InventoryUI : MonoBehaviour
     {
-        public List<GameObject> _slots = new List<GameObject>();
+        public GameObject FirstSelected { get; private set; }
         
         [SerializeField] private InventoryData _inventory;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
 
-        private int _initialSlotsPerRow = 5;
-
         private void OnEnable()
         {
-            RefreshUI();
+            RefreshInventory();
         }
 
-        public void RefreshUI()
+        public void RefreshInventory()
         {
-            int itemCount = _inventory.Items.Count;
-            int slotCount = transform.childCount;
-
-            while (slotCount < itemCount)
+            foreach (Transform childTransform in transform)
             {
-                AddNewRowOfSlots();
-                slotCount = transform.childCount;
+                Destroy(childTransform.gameObject);
             }
-
-            for (int i = 0; i < slotCount; i++)
+            
+            List<GameObject> currentItemList = new();
+            
+            foreach (ItemData currentItemData in _inventory.Items)
             {
-                Transform slot = transform.GetChild(i);
+                GameObject itemCase = Instantiate(_slotPrefab, transform);
+                currentItemList.Add(itemCase);
+                itemCase.name = $"Slot_{currentItemList.IndexOf(itemCase)}";
 
-                if (i < itemCount)
-                {
-                    ItemData item = _inventory.Items[i];
-                    Transform itemTransform = slot.Find("Item");
+                GameObject item = new GameObject("Item");
+                item.transform.SetParent(itemCase.transform);
+                
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localScale = Vector3.one;
+                item.transform.localRotation = Quaternion.identity;
+                Image itemImage = item.AddComponent<Image>();
+                itemImage.sprite = currentItemData.ItemSprite;
+                itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
 
-                    if (itemTransform == null)
-                    {
-                        GameObject itemObj = new GameObject("Item");
-                        itemObj.transform.SetParent(slot);
-                        itemObj.transform.localPosition = Vector3.zero;
-                        itemObj.transform.localScale = Vector3.one;
-                        itemObj.transform.localRotation = Quaternion.identity;
-                        Image itemImage = itemObj.AddComponent<Image>();
-                        itemImage.sprite = item.ItemSprite;
-                        itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
-                        itemImage.preserveAspect = true;
-
-                        ItemDataHolder itemDataHolder = itemObj.AddComponent<ItemDataHolder>();
-                        itemDataHolder.ItemData = item;
-                    }
-                    else
-                    {
-                        Image itemImage = itemTransform.GetComponent<Image>();
-                        if (itemImage != null)
-                        {
-                            itemImage.sprite = item.ItemSprite;
-                        }
-
-                        itemTransform.localRotation = Quaternion.identity;
-                        itemTransform.localScale = Vector3.one;
-                    }
-                }
-                else
-                {
-                    Transform itemTransform = slot.Find("Item");
-                    if (itemTransform != null)
-                    {
-                        Destroy(itemTransform.gameObject);
-                    }
-                }
+                ItemDataHolder itemDataHolder = item.AddComponent<ItemDataHolder>();
+                itemDataHolder.ItemData = currentItemData;
             }
-        }
-
-        private void AddNewRowOfSlots()
-        {
-            for (int i = 0; i < _initialSlotsPerRow; i++)
-            {
-                GameObject newSlot = Instantiate(_slotPrefab, transform);
-                newSlot.name = "Slot_" + (transform.childCount + 1);
-                _slots.Add(newSlot);
-            }
+            
+            FirstSelected = currentItemList.First();
         }
 
         public void AddItem(ItemData item)
@@ -106,7 +68,7 @@ namespace MoonlitMixes.Inventory
 
             _inventory.Items.Add(item);
             SortInventory();
-            RefreshUI();
+            RefreshInventory();
             Debug.Log($"{item.name} ajout� avec succ�s !");
         }
 
@@ -121,7 +83,7 @@ namespace MoonlitMixes.Inventory
             if (_inventory.Items.Contains(item))
             {
                 _inventory.Items.Remove(item);
-                RefreshUI();
+                RefreshInventory();
                 Debug.Log($"{item.name} d�truit avec succ�s !");
             }
             else
@@ -145,7 +107,7 @@ namespace MoonlitMixes.Inventory
             return _inventory.Items.Contains(item);
         }
 
-        public void SendItems()
+        public void SendItems(InventoryData inventoryData)
         {
             try
             {
@@ -171,7 +133,7 @@ namespace MoonlitMixes.Inventory
                 Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
             }
 
-            RefreshUI();
+            RefreshInventory();
         }
     }
 }
