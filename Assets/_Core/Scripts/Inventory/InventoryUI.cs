@@ -49,8 +49,8 @@ namespace MoonlitMixes.Inventory
                 ItemDataHolder itemDataHolder = item.AddComponent<ItemDataHolder>();
                 itemDataHolder.ItemData = currentItemData;
             }
-            
-            FirstSelected = currentItemList.First();
+
+            FirstSelected = currentItemList.FirstOrDefault();
         }
 
         public void AddItem(ItemData item)
