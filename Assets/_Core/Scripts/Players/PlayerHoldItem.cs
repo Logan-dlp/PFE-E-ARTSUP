@@ -1,7 +1,6 @@
 using UnityEngine;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
-using System.Collections;
 
 namespace MoonlitMixes.Player
 {

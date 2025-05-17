@@ -31,6 +31,10 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
         private NavMeshAgent _agent;
         private Animator _animator;
         private PNJData _pnjData;
+        public PNJData pnjData
+        {
+            get => _pnjData;
+        }
         private IPNJState _currentState;
         private int _failedAttempts = 0;
 
@@ -50,6 +54,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
             }
 
             _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration, _potionList, this);
+
 
             SetState(new SpawnState());
         }

@@ -9,6 +9,7 @@ namespace MoonlitMixes.Dialogue
     {
         [SerializeField] private GameObject _potionChoicePanel;
         [SerializeField] private PotionInventory _potionInventory;
+        [SerializeField] private ScriptablePotionResultEvent _scriptablePotionResultEvent;
 
         private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
         private PotionPriceCalculate _potionPriceCalculated;
@@ -18,6 +19,16 @@ namespace MoonlitMixes.Dialogue
         public string SelectedPotionName => _selectedPotionName;
 
         public static event Action<string> OnPotionChoiceSelected;
+
+        private void OnEnable()
+        {
+            _scriptablePotionResultEvent.OnPotionResultEvent += SetSelectedPotion;
+        }
+
+        private void OnDisable()
+        {
+            _scriptablePotionResultEvent.OnPotionResultEvent -= SetSelectedPotion;
+        }
 
         private void Awake()
         {
@@ -31,11 +42,10 @@ namespace MoonlitMixes.Dialogue
 
         public void ShowPotionChoices()
         {
-            _potionChoicePanel.SetActive(true);            
+            _potionChoicePanel.SetActive(true);
 
             if (_potionInventory.PotionList.Count > 0)
             {
-                _selectedPotionName = _potionInventory.PotionList[0].Recipe.RecipeName;
                 Debug.Log($"Potion choisie par le PNJ : {_selectedPotionName}");
 
                 if (_potionPrices.TryGetValue(_selectedPotionName, out int price))
@@ -67,6 +77,11 @@ namespace MoonlitMixes.Dialogue
 
             OnPotionChoiceSelected?.Invoke(potionName);
             _potionChoicePanel.SetActive(false);
+        }
+
+        private void SetSelectedPotion(PotionResult potionResult)
+        {
+            _selectedPotionName = potionResult.Recipe.RecipeName;
         }
     }
 }

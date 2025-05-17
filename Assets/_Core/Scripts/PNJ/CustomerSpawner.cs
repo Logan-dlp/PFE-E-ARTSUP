@@ -16,6 +16,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         [SerializeField] private float _timeBetweenSpawns = 2f;
         [SerializeField] private int _maxCustomers = 3;
         [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private ScriptablePotionResultEvent _scriptablePotionResultEvent;
 
         private int _currentPNJIndex = 0;
         private bool _isSpawning = false;
@@ -48,6 +49,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
                     pnjStateMachine.OnDespawn += OnPNJDespawned;
                 }
 
+                _scriptablePotionResultEvent.OnPotionResultEvent(pnjStateMachine.pnjData.RequestPotionList.PotionResults[_currentPNJIndex]);
                 _currentPNJIndex++;
             }
         }
