@@ -2885,6 +2885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 369995862}
   - component: {fileID: 369995864}
+  - component: {fileID: 369995865}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -2937,6 +2938,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &369995865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369995861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3453eb84e2f13f845bd72fe456d0cdea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _potionListData: {fileID: 11400000, guid: 980e327af7488dd4987d76fa55ff98f8, type: 2}
+  _slotPrefab: {fileID: 7400195189864738404, guid: 27a0cdd4a9b9b8d4b95d93fba52acb54, type: 3}
 --- !u!1001 &370346989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14538,7 +14553,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2086326919}
-  - component: {fileID: 2086326918}
   m_Layer: 0
   m_Name: PotionHolder
   m_TagString: Untagged
@@ -14546,22 +14560,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2086326918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086326917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ca5572a77d4eb940a4ad991bce773b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _potionResultListData: {fileID: 0}
-  _slotPrefab: {fileID: 0}
-  _slotContainer: {fileID: 0}
-  _specialButtonPrefab: {fileID: 0}
 --- !u!4 &2086326919
 Transform:
   m_ObjectHideFlags: 0
@@ -15063,6 +15061,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: _burnPot
+      value: 
+      objectReference: {fileID: 574584865}
+    - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: _bubbleVFX
+      value: 
+      objectReference: {fileID: 1482530589}
+    - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _potionListData
       value: 
       objectReference: {fileID: 11400000, guid: 980e327af7488dd4987d76fa55ff98f8, type: 2}
@@ -15082,6 +15088,10 @@ PrefabInstance:
       propertyPath: '_allRecipes.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: ba6bfc1161455a649a1424d7be7c50da, type: 2}
+    - target: {fileID: 6692937067275826550, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: '_allRecipes.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e29245140ea56b4e8f59f6c79996861, type: 2}
     - target: {fileID: 8589104317660538512, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Sprite
       value: 
