@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MoonlitMixes.Events
 {
-    [CreateAssetMenu(fileName = "ItemEvent", menuName = "Scriptable Objects/ItemEvent")]
+    [CreateAssetMenu(fileName = "ItemEvent", menuName = "Scriptable Objects/Event/ItemEvent")]
     public class ScriptableItemEvent : ScriptableObject
     {
         public event Action<GameObject> ItemDataAction;

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ScriptableCloseCanvasEvent", menuName = "Scriptable Objects/ScriptableCloseCanvasEvent")]
+[CreateAssetMenu(fileName = "ScriptableCloseCanvasEvent", menuName = "Scriptable Objects/Event/ScriptableCloseCanvasEvent")]
 public class ScriptableCloseCanvasEvent : ScriptableObject
 {
     public event Action CloseCanvasAction;

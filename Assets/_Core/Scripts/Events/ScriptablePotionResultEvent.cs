@@ -2,7 +2,7 @@ using System;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ScriptablePotionResultEvent", menuName = "Scriptable Objects/ScriptablePotionResultEvent")]
+[CreateAssetMenu(fileName = "ScriptablePotionResultEvent", menuName = "Scriptable Objects/Event/ScriptablePotionResultEvent")]
 public class ScriptablePotionResultEvent : ScriptableObject
 {
     public Action<PotionResult> OnPotionResultEvent;

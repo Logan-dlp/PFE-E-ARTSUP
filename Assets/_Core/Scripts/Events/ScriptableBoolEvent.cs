@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MoonlitMixes.Events
 {
-    [CreateAssetMenu(fileName = "BoolEvent", menuName = "Scriptable Objects/BoolEvent")]
+    [CreateAssetMenu(fileName = "BoolEvent", menuName = "Scriptable Objects/Event/BoolEvent")]
     public class ScriptableBoolEvent : ScriptableObject
     {
         public event Action<bool> BoolAction;

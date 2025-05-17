@@ -43,13 +43,14 @@ namespace MoonlitMixes.Inventory
                 item.transform.localRotation = Quaternion.identity;
                 Image itemImage = item.AddComponent<Image>();
                 itemImage.sprite = currentItemData.ItemSprite;
+                itemImage.preserveAspect = true;
                 itemImage.rectTransform.sizeDelta = new Vector2(100, 100);
 
                 ItemDataHolder itemDataHolder = item.AddComponent<ItemDataHolder>();
                 itemDataHolder.ItemData = currentItemData;
             }
             
-            FirstSelected = currentItemList.First();
+            //FirstSelected = currentItemList.First();
         }
 
         public void AddItem(ItemData item)

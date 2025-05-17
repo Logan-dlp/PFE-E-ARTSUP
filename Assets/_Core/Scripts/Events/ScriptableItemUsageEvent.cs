@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MoonlitMixes.Events
 {
-    [CreateAssetMenu(fileName = "ScriptableItemUsageEvent", menuName = "Scriptable Objects/ScriptableItemUsageEvent")]
+    [CreateAssetMenu(fileName = "ScriptableItemUsageEvent", menuName = "Scriptable Objects/Event/ScriptableItemUsageEvent")]
     public class ScriptableItemUsageEvent : ScriptableObject
     {
         public event Action<ItemUsage> OnItemUsageEvent;

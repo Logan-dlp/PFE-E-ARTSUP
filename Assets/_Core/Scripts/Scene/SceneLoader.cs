@@ -16,6 +16,7 @@ namespace MoonlitMixes.Scene
             _animFinished = false;
             EndTransitionEvent.OnAnimEndAction += OnAnimEnd;
             _sceneToLoad = SceneManager.LoadSceneAsync(sceneName);
+            SceneManager.LoadSceneAsync("S_Menu_UI", LoadSceneMode.Additive);
             _sceneToLoad.allowSceneActivation = false;
             animator.SetTrigger("Start");
             StaticCoroutine.Start(LoadingScene());

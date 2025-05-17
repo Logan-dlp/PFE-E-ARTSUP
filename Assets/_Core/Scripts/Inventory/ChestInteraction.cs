@@ -16,8 +16,7 @@ namespace MoonlitMixes.Inventory
         public void OpenChest()
         {
             bool hasEmptyItem = _inventory.Items.Count == 0;
-            InputManager.Instance.SwitchActionMap("UI");
-
+            
             if (hasEmptyItem)
             {
                 _emptyItemUI.SetActive(true);
