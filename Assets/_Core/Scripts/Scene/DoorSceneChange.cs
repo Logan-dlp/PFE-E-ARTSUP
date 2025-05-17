@@ -7,6 +7,10 @@ namespace MoonlitMixes.Scene
     public class DoorSceneChange : MonoBehaviour
     {
         [SerializeField] private string _sceneName;
+        public string SceneName
+        {
+            get => _sceneName;
+        }
 
         public void OpenCanvas()
         {

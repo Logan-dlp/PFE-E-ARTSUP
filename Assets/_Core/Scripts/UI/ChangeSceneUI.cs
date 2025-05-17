@@ -18,6 +18,7 @@ namespace MoonlitMixes.UI
 
         private bool _hasPopup;
         private string _sceneName;
+        private InputActionMap inputActions;
 
         public Animator AnimatorUI => _animator;
         public GameObject Panel => _panel;
@@ -32,7 +33,6 @@ namespace MoonlitMixes.UI
 
         public void CloseCanvas()
         {
-            Debug.Log("test");
             _panel.SetActive(false);
             InputManager.Instance.SwitchActionMap("Player");
             if(_sceneName == "S_Forest") Debug.Log("_panelNoChestItem.SetActive(false)");
@@ -40,16 +40,16 @@ namespace MoonlitMixes.UI
 
         public void ChangeScene(InputAction.CallbackContext callbackContext)
         {
-            if(callbackContext.started)
+            if (callbackContext.started)
             {
-                if(!_hasPopup)
+                if (!_hasPopup)
                 {
                     _lastSceneNameData.sceneName = SceneManager.GetActiveScene().name;
 
-                    if(_sceneName == _sceneTransfereItem)
+                    if (_sceneName == _sceneTransfereItem)
                     {
                         TryGetComponent(out SendItemExit sendItemExit);
-                        if(sendItemExit.SendItems())
+                        if (sendItemExit.SendItems())
                         {
                             SceneLoader.LoadAsyncScene(_sceneName, _animator);
                         }

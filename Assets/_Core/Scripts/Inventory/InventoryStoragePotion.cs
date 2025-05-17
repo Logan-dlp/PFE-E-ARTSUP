@@ -33,8 +33,11 @@ namespace MoonlitMixes.Inventory
 
         public void CloseInventory()
         {
-            _inventoryUI.SetActive(false);
-            FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
+            if (_inventoryUI.activeInHierarchy)
+            {
+                _inventoryUI.SetActive(false);
+                FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
+            }
         }
 
         private IEnumerator FirstSelected()

@@ -1,6 +1,5 @@
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Scene;
-using MoonlitMixes.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,8 +23,16 @@ namespace MoonlitMixes.Player
         {
             if (ctx.started)
             {
+                if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
+                {
+                    Debug.Log("");
+                    if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
+                    {
+                        doorSceneChange.OpenCanvas();
+                    }
+                }
 
-                if(_useTools != null)
+                else if(_useTools != null)
                 {
                     if (_useTools.CanUseHand())
                     {
@@ -37,17 +44,6 @@ namespace MoonlitMixes.Player
                     {
                         Debug.Log("");
                         _chestInteraction.OpenChest();
-                    }
-                }
-
-                
-
-
-                else if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
-                {
-                    if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
-                    {
-                        doorSceneChange.OpenCanvas();
                     }
                 }
             }

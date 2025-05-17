@@ -7,7 +7,7 @@ namespace MoonlitMixes.DayNightCycle
     {
         [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
 
-        public void UpdateDayPhase()
+        public void Start()
         {
             _dayNightCycleInfo.ActualTimePhase++;
         }

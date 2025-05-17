@@ -115,7 +115,7 @@ namespace MoonlitMixes.Inventory
                 {
                     ItemData item = _inventory.Items[i];
 
-                    if (_inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
+                    if (_inventoryReceives.Items.Count + _inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
                     {
                         _inventoryReceives.Items.Add(item);
                         _inventory.Items.RemoveAt(i);

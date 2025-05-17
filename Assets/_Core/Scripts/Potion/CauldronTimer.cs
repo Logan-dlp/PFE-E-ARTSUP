@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using MoonlitMixes.CookingMachine;
+using MoonlitMixes.Events;
 
 namespace MoonlitMixes.Potion
 {
@@ -13,6 +13,7 @@ namespace MoonlitMixes.Potion
         [SerializeField] private ParticleSystem _smokeVFX;
         [SerializeField] private ParticleSystem _burnedVFX;
         [SerializeField] private ParticleSystem[] _fireVFXArray;
+        [SerializeField] private ScriptableItemUsageEvent _scriptableItemUsageEvent;
     
         private float _fillBarFrontValue;
         private float _fillBarBackValue;
@@ -76,7 +77,7 @@ namespace MoonlitMixes.Potion
                 //Debug.Log($"Cooldown restant: {_remainingTime:F2} secondes");
             }
             else if (_remainingTime >= 0)
-            {   
+            {
                 _remainingTime -= Time.fixedDeltaTime;
                 _canAction = true;
                 _fillBarBackValue = _remainingTime / _itemCooldown * 2;
@@ -84,6 +85,7 @@ namespace MoonlitMixes.Potion
                 
                 if(!_isSmokeVFXUp)
                 {
+                    _scriptableItemUsageEvent.SendEvent(Item.ItemUsage.Stir);
                     _smokeVFX.Play();
                     _isSmokeVFXUp = true;
                 }

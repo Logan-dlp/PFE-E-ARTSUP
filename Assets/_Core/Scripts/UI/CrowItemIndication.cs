@@ -60,6 +60,7 @@ namespace MoonlitMixes.UI
 
         private IEnumerator ChangeIndicationWithDelay(ItemUsage itemUsage)
         {
+            Debug.Log(itemUsage.ToString());
             yield return new WaitForSeconds(1);
             _animatorImage.gameObject.SetActive(true);
             _animatorImage.SetTrigger(itemUsage.ToString());

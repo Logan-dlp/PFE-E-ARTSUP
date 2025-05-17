@@ -40,7 +40,7 @@ namespace MoonlitMixes.Datas
         public int ActualTimePhase
         {
             get => _actualTimePhase;
-            set => _actualTimePhase = Mathf.Clamp(value, 0, 5);
+            set => _actualTimePhase = Mathf.Clamp(value, 0, 3);
         }
     }
 }
