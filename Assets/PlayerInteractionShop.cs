@@ -29,7 +29,7 @@ namespace MoonlitMixes.Player
                         Debug.Log($"Touched door with scene: {doorSceneChange.SceneName}");
                         Debug.Log($"Phase actuelle : {_dayNightCycleInfo.ActualTimePhase}");
 
-                        if (doorSceneChange.SceneName == "S_Labo" && (_dayNightCycleInfo.ActualTimePhase == 0 || _dayNightCycleInfo.ActualTimePhase == 1))
+                        if (doorSceneChange.SceneName == "S_Labo")
                         {
                             doorSceneChange.OpenCanvas();
                         }

@@ -44,11 +44,11 @@ namespace MoonlitMixes.UI
         {
             if (callbackContext.started)
             {
-                if (_isLoading)
-                {
-                    Debug.LogWarning("Une scène est déjà en cours de chargement.");
-                    return; // Empêche le chargement multiple
-                }
+                //if (_isLoading)
+                //{
+                //    Debug.LogWarning("Une scène est déjà en cours de chargement.");
+                //    return; 
+                //}
 
                 if (!_hasPopup)
                 {
@@ -84,11 +84,11 @@ namespace MoonlitMixes.UI
 
         private void ForceChangeScene()
         {
-            if (_isLoading)
-            {
-                Debug.LogWarning("Une scène est déjà en cours de chargement.");
-                return;
-            }
+            //if (_isLoading)
+            //{
+            //    Debug.LogWarning("Une scène est déjà en cours de chargement.");
+            //    return;
+            //}
 
             _isLoading = true;
             SceneLoader.LoadAsyncScene(_sceneName, _animator);
