@@ -34,7 +34,6 @@ namespace MoonlitMixes.UI
             if (_currentSelectedItem == null || EventSystem.current.currentSelectedGameObject != _currentSelectedItem && _cellarItemList.Contains(EventSystem.current.currentSelectedGameObject))
             {
                 _currentSelectedItem = EventSystem.current.currentSelectedGameObject;
-                if(_cellarItemList.Count < 16) return;
                 UpdateScroller();
             }
             
