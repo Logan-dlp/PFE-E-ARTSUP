@@ -1,9 +1,14 @@
+using System;
+using System.Numerics;
+using MoonlitMixes.Extensions;
+using MoonlitMixes.SaveSystems;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 namespace MoonlitMixes.Item
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
-    public class ItemData : ScriptableObject
+    public class ItemData : ScriptableObject, ISerializable
     {
         [SerializeField] private string _obejctName;
         [SerializeField] private ElementType _elementType;
@@ -58,6 +63,58 @@ namespace MoonlitMixes.Item
         public GameObject ItemPrefab
         {
             get => _itemPrefab;
+        }
+        
+        private struct SerializeData
+        {
+            public string obejctName;
+            public ElementType elementType;
+            public int rarity;
+            public ItemUsage itemUsage;
+            public SerializeSpriteData sprite;
+            public string itemToConvert;
+            public string description;
+            public GameObject itemPrefab;
+            public ItemUsage state;
+        }
+        
+        private struct SerializeSpriteData
+        {
+            public Texture2D texture;
+            public Vector2 rectPosition;
+        }
+
+        public string Serialize()
+        {
+            SerializeData serializeData = new();
+
+            serializeData.obejctName = _obejctName;
+            serializeData.elementType = _elementType;
+            serializeData.rarity = _rarity;
+            serializeData.itemUsage = _itemUsage;
+            serializeData.sprite.texture = _sprite.texture;
+            serializeData.sprite.rectPosition = new(_sprite.rect.x, _sprite.rect.y);
+            serializeData.itemToConvert = _itemToConvert != null ? _itemToConvert.ItemToConvert.Serialize() : null;
+            serializeData.description = _description;
+            serializeData.itemPrefab = _itemPrefab != null ? _itemPrefab : null;
+            serializeData.state = _state;
+            
+            return SaveSystem.Instance.Serialize(serializeData);
+        }
+
+        public void Deserialize(string data)
+        {
+            SerializeData serializeData = SaveSystem.Instance.Deserialize<SerializeData>(data);
+            
+            _obejctName = serializeData.obejctName;
+            _elementType = serializeData.elementType;
+            _rarity = serializeData.rarity;
+            _itemUsage = serializeData.itemUsage;
+            _sprite = Sprite.Create(serializeData.sprite.texture, new Rect(new UnityEngine.Vector2(serializeData.sprite.rectPosition.X, serializeData.sprite.rectPosition.Y), UnityEngine.Vector2.one), UnityEngine.Vector2.zero);
+            _itemToConvert.Deserialize(serializeData.itemToConvert);
+            _description = serializeData.description;
+            _itemPrefab = serializeData.itemPrefab;
+            _state = serializeData.state;
         }
     }
 }
