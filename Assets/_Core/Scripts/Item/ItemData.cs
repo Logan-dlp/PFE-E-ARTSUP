@@ -71,17 +71,11 @@ namespace MoonlitMixes.Item
             public ElementType elementType;
             public int rarity;
             public ItemUsage itemUsage;
-            public SerializeSpriteData sprite;
+            public string sprite;
             public string itemToConvert;
             public string description;
             public GameObject itemPrefab;
             public ItemUsage state;
-        }
-        
-        private struct SerializeSpriteData
-        {
-            public Texture2D texture;
-            public Vector2 rectPosition;
         }
 
         public string Serialize()
@@ -92,8 +86,7 @@ namespace MoonlitMixes.Item
             serializeData.elementType = _elementType;
             serializeData.rarity = _rarity;
             serializeData.itemUsage = _itemUsage;
-            serializeData.sprite.texture = _sprite.texture;
-            serializeData.sprite.rectPosition = new(_sprite.rect.x, _sprite.rect.y);
+            serializeData.sprite = _sprite.Serialize();
             serializeData.itemToConvert = _itemToConvert != null ? _itemToConvert.ItemToConvert.Serialize() : null;
             serializeData.description = _description;
             serializeData.itemPrefab = _itemPrefab != null ? _itemPrefab : null;
@@ -110,7 +103,7 @@ namespace MoonlitMixes.Item
             _elementType = serializeData.elementType;
             _rarity = serializeData.rarity;
             _itemUsage = serializeData.itemUsage;
-            _sprite = Sprite.Create(serializeData.sprite.texture, new Rect(new UnityEngine.Vector2(serializeData.sprite.rectPosition.X, serializeData.sprite.rectPosition.Y), UnityEngine.Vector2.one), UnityEngine.Vector2.zero);
+            _sprite.Deserialize(serializeData.sprite);
             _itemToConvert.Deserialize(serializeData.itemToConvert);
             _description = serializeData.description;
             _itemPrefab = serializeData.itemPrefab;

@@ -25,7 +25,11 @@ namespace MoonlitMixes.SaveSystems
 
         public string Serialize<T>(T obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All
+            });
         }
         
         public T Deserialize<T>(string data)
