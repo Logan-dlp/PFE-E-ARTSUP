@@ -14,6 +14,8 @@ namespace MoonlitMixes.Dialogue.Effect
         private TMP_Text _linkedText;
 
         private DialogueLineData _dialogueLineData;
+        private bool _isDimmed = false;
+
 
         private void Awake()
         {
@@ -47,6 +49,14 @@ namespace MoonlitMixes.Dialogue.Effect
 
                 case SpeakerEffectType.Jump:
                     StartCoroutine(JumpEffect());
+                    break;
+
+                case SpeakerEffectType.FadeIn:
+                    StartCoroutine(FadeInEffect());
+                    break;
+
+                case SpeakerEffectType.FadeOut:
+                    StartCoroutine(FadeOutEffect());
                     break;
 
                 default:
@@ -136,6 +146,8 @@ namespace MoonlitMixes.Dialogue.Effect
 
         public void DimEffect()
         {
+            _isDimmed = true;
+
             if (_image != null)
             {
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.5f); // Sprite semi-transparent
@@ -149,6 +161,94 @@ namespace MoonlitMixes.Dialogue.Effect
                 var textColor = _linkedText.color;
                 _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 0.5f); // Texte semi-transparent
             }
+        }
+
+        private IEnumerator FadeInEffect()
+        {
+            _isDimmed = false;
+
+            if (_image)
+            {
+                _image.color = _originalColor;
+                RectTransform rectTransform = _image.rectTransform;
+                rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
+            }
+
+            if (_linkedText)
+            {
+                var textColor = _linkedText.color;
+                _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 0f);
+            }
+
+            float duration = _dialogueLineData != null ? _dialogueLineData.FadeInDuration : 0.5f;
+            float time = 0f;
+
+            while (time < duration)
+            {
+                float t = time / duration;
+                float alphaImage = Mathf.Lerp(0f, 1f, t);
+                float alphaText = Mathf.Lerp(0f, 1f, t);
+
+                if (_image)
+                {
+                    var color = _image.color;
+                    _image.color = new Color(color.r, color.g, color.b, alphaImage);
+                }
+
+                if (_linkedText)
+                {
+                    var color = _linkedText.color;
+                    _linkedText.color = new Color(color.r, color.g, color.b, alphaText);
+                }
+
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            if (_image)
+                _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 1f);
+
+            if (_linkedText)
+                _linkedText.color = new Color(_linkedText.color.r, _linkedText.color.g, _linkedText.color.b, 1f);
+        }
+
+        private IEnumerator FadeOutEffect()
+        {
+            _isDimmed = false;
+
+            float duration = _dialogueLineData != null ? _dialogueLineData.FadeOutDuration : 0.5f;
+            float time = 0f;
+
+            float startAlphaImage = _image ? _image.color.a : 1f;
+            float startAlphaText = _linkedText ? _linkedText.color.a : 1f;
+
+            while (time < duration)
+            {
+                float t = time / duration;
+                float alphaImage = Mathf.Lerp(startAlphaImage, 0f, t);
+                float alphaText = Mathf.Lerp(startAlphaText, 0f, t);
+
+                if (_image)
+                {
+                    var color = _image.color;
+                    _image.color = new Color(color.r, color.g, color.b, alphaImage);
+                }
+
+                if (_linkedText)
+                {
+                    var color = _linkedText.color;
+                    _linkedText.color = new Color(color.r, color.g, color.b, alphaText);
+                }
+
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            if (_image)
+                _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0f);
+
+            if (_linkedText)
+                _linkedText.color = new Color(_linkedText.color.r, _linkedText.color.g, _linkedText.color.b, 0f);
         }
 
         public void ResetEffect()

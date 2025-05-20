@@ -134,9 +134,8 @@ namespace MoonlitMixes.Dialogue
                             ApplyEffect(line.Effect, spriteEffect);
                             ApplyEffect(line.Effect, textEffect);
                         }
-                        else
+                        if (!line.IsFadeEffect)
                         {
-                            // Les autres sont en dim
                             spriteEffect.DimEffect();
                             textEffect.DimEffect();
                         }
@@ -191,6 +190,14 @@ namespace MoonlitMixes.Dialogue
                     break;
 
                 case SpeakerEffectType.Jump:
+                    speaker.ApplyEffect(effectType);
+                    break;
+
+                case SpeakerEffectType.FadeIn:
+                    speaker.ApplyEffect(effectType); 
+                    break;
+
+                case SpeakerEffectType.FadeOut: 
                     speaker.ApplyEffect(effectType);
                     break;
 
