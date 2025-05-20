@@ -48,7 +48,6 @@ namespace MoonlitMixes.Dialogue
                 Debug.LogError("PlayerInput or InputActionAsset is missing in DialogueController!");
             }
 
-            // Lier les textes aux sprites
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 if (i < _textBoxes.Length && _spriteSpeakerEffects[i] != null)
@@ -60,8 +59,7 @@ namespace MoonlitMixes.Dialogue
 
         public void StartDialogue(DialogueData dialogue)
         {
-            if (_inputActionAsset == null)
-                return;
+            if (_inputActionAsset == null) return;
 
             _originalActionMap = _inputActionAsset.FindActionMap("Player");
             var dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
@@ -113,40 +111,51 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            if (_spriteSpeakerEffects != null && _textSpeakerEffects != null)
+            for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
-                for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
+                var spriteEffect = _spriteSpeakerEffects[i];
+                var textEffect = _textSpeakerEffects[i];
+
+                if (spriteEffect != null && textEffect != null)
                 {
-                    var spriteEffect = _spriteSpeakerEffects[i];
-                    var textEffect = _textSpeakerEffects[i];
+                    spriteEffect.SetDialogueLineData(line);
+                    textEffect.SetDialogueLineData(line);
 
-                    if (spriteEffect != null && textEffect != null)
+                    if (i == speakerIndex)
                     {
-                        spriteEffect.SetDialogueLineData(line);
-                        textEffect.SetDialogueLineData(line);
+                        spriteEffect.ResetEffect();
+                        textEffect.ResetEffect();
 
-                        if (i == speakerIndex)
-                        {
-                            // Quand le personnage parle, on réinitialise (opaque) son texte et son sprite
-                            spriteEffect.ResetEffect();
-                            textEffect.ResetEffect();
-
-                            ApplyEffect(line.Effect, spriteEffect);
-                            ApplyEffect(line.Effect, textEffect);
-                        }
-                        if (!line.IsFadeEffect)
-                        {
-                            spriteEffect.DimEffect();
-                            textEffect.DimEffect();
-                        }
+                        // On applique FadeIn *avant* le texte
+                        StartCoroutine(PlayEffectsBeforeText(line, spriteEffect, textEffect, _textBoxes[speakerIndex]));
+                    }
+                    if (!line.IsFadeEffect)
+                    {
+                        spriteEffect.DimEffect();
+                        textEffect.DimEffect();
                     }
                 }
             }
 
-            WriteText(line.Text, _textBoxes[speakerIndex]);
-            StartCoroutine(TypeText(line.Text, _textBoxes[speakerIndex]));
-
             _dialogueIndex++;
+        }
+
+        private IEnumerator PlayEffectsBeforeText(DialogueLineData line, SpeakerEffect spriteEffect, SpeakerEffect textEffect, TMP_Text textBox)
+        {
+            if (line.Effect == SpeakerEffectType.FadeIn)
+            {
+                yield return spriteEffect.PlayEffect(line.Effect);
+                yield return textEffect.PlayEffect(line.Effect);
+            }
+
+            WriteText(line.Text, textBox);
+            yield return StartCoroutine(TypeText(line.Text, textBox));
+
+            if (line.Effect == SpeakerEffectType.FadeOut)
+            {
+                yield return spriteEffect.PlayEffect(line.Effect);
+                yield return textEffect.PlayEffect(line.Effect);
+            }
         }
 
         private IEnumerator DisplayNextDialogueWithDelay()
@@ -163,11 +172,9 @@ namespace MoonlitMixes.Dialogue
 
         private IEnumerator TypeText(string text, TMP_Text textBox)
         {
+            _isTyping = true;
             for (int i = 0; i < text.Length; ++i)
             {
-                textBox.maxVisibleCharacters++;
-                _isTyping = true;
-
                 if (_isSkipText)
                 {
                     textBox.maxVisibleCharacters = text.Length;
@@ -175,35 +182,10 @@ namespace MoonlitMixes.Dialogue
                     break;
                 }
 
+                textBox.maxVisibleCharacters++;
                 yield return new WaitForSeconds(_letterDelay);
             }
-
             _isTyping = false;
-        }
-
-        private void ApplyEffect(SpeakerEffectType effectType, SpeakerEffect speaker)
-        {
-            switch (effectType)
-            {
-                case SpeakerEffectType.Tremble:
-                    speaker.ApplyEffect(effectType);
-                    break;
-
-                case SpeakerEffectType.Jump:
-                    speaker.ApplyEffect(effectType);
-                    break;
-
-                case SpeakerEffectType.FadeIn:
-                    speaker.ApplyEffect(effectType); 
-                    break;
-
-                case SpeakerEffectType.FadeOut: 
-                    speaker.ApplyEffect(effectType);
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         public void EndDialogue()

@@ -39,29 +39,24 @@ namespace MoonlitMixes.Dialogue.Effect
             _linkedText = text;
         }
 
-        public void ApplyEffect(SpeakerEffectType effectType)
+        public IEnumerator PlayEffect(SpeakerEffectType effectType)
         {
             switch (effectType)
             {
                 case SpeakerEffectType.Tremble:
-                    StartCoroutine(TrembleEffect());
+                    yield return StartCoroutine(TrembleEffect());
                     break;
-
                 case SpeakerEffectType.Jump:
-                    StartCoroutine(JumpEffect());
+                    yield return StartCoroutine(JumpEffect());
                     break;
-
                 case SpeakerEffectType.FadeIn:
-                    StartCoroutine(FadeInEffect());
+                    yield return StartCoroutine(FadeInEffect());
                     break;
-
                 case SpeakerEffectType.FadeOut:
-                    StartCoroutine(FadeOutEffect());
+                    yield return StartCoroutine(FadeOutEffect());
                     break;
-
                 default:
-                    Debug.LogWarning("Unknown effect type");
-                    break;
+                    yield break;
             }
         }
 
