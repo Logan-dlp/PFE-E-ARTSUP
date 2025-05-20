@@ -38,6 +38,9 @@ namespace MoonlitMixes.Potion
         private int _currentRecipeIndex;
         private bool _needItem = true;
         private ItemData _ingredientToAdd;
+        private bool _cooldownCoroutineRunning = false;
+        private Coroutine _currentCooldownCoroutine;
+
 
         public bool QteInProgress
         {
@@ -88,6 +91,19 @@ namespace MoonlitMixes.Potion
                 return;
             }
 
+            // Si on est dans la phase attente, on relance le timer (phase validation)
+            if (_cauldronTimer.WaitingForNextIngredient)
+            {
+                _cauldronTimer.WaitingForNextIngredient = false;
+                _cauldronTimer.ResetCooldown();
+                _cauldronTimer.TimerIsActive = true;
+            }
+            else if (_currentCooldownCoroutine != null)
+            {
+                StopCoroutine(_currentCooldownCoroutine);
+                Debug.Log("Ancien timer interrompu.");
+            }
+
             _ingredientToAdd = ingredient;
             _needItem = false;
             _cauldronVFXController.PlayBubble();
@@ -98,7 +114,8 @@ namespace MoonlitMixes.Potion
             }
             else
             {
-                StartCoroutine(HandleIngredientWithoutStir(ingredient));
+                _cauldronTimer.PotionSuccessExpected = true;
+                _cauldronTimer.StartCooldown();
             }
         }
 
@@ -137,23 +154,35 @@ namespace MoonlitMixes.Potion
 
         private IEnumerator HandleIngredientWithoutStir(ItemData ingredient)
         {
+            _cooldownCoroutineRunning = true;
+
             _cauldronTimer.PotionSuccessExpected = true;
             Recipe localRecipe = _currentRecipe;
 
             _cauldronTimer.StartCooldown();
-            yield return new WaitForSeconds(_cauldronTimer.RemainingTime);
+            float duration = _cauldronTimer.RemainingTime;
+            float elapsed = 0f;
 
-            if (_currentRecipe != localRecipe)
+            while (elapsed < duration)
             {
-                Debug.LogWarning("Recette modifiée pendant le cooldown.");
-                yield break;
+                yield return null;
+                elapsed += Time.deltaTime;
             }
 
             ValidateIngredientWithoutQTE(ingredient);
+            _cooldownCoroutineRunning = false;
+            _currentCooldownCoroutine = null;
+
         }
 
         private void ValidateIngredientWithoutQTE(ItemData ingredient)
         {
+            Debug.Log($"VALIDATE WITHOUT QTE: Recipe = {_currentRecipe?.name}, Index = {_currentRecipeIndex}, Ingredient = {ingredient.name}, Expected = {_currentRecipe?.RequiredIngredients[_currentRecipeIndex].name}");
+
+            Debug.Log("Validate sans QTE");
+            _cooldownCoroutineRunning = false;
+            _currentCooldownCoroutine = null;
+
             if (_currentRecipe == null)
             {
                 Debug.LogWarning("ValidateIngredientAddition appelé sans recette active !");
@@ -163,10 +192,9 @@ namespace MoonlitMixes.Potion
 
             if (_currentRecipe.RequiredIngredients[_currentRecipeIndex] == ingredient)
             {
+                Debug.Log("ingédient good");
                 _currentIngredients.Add(ingredient);
                 _currentRecipeIndex++;
-                _cauldronTimer.ResetCooldown();
-                _cauldronTimer.TimerIsActive = true;
 
                 CheckRecipeCompletion();
             }
@@ -178,6 +206,7 @@ namespace MoonlitMixes.Potion
 
         private void ValidateIngredientAddition(ItemData ingredient)
         {
+            Debug.Log("Validate QTE");
             if (_currentRecipe == null)
             {
                 Debug.LogWarning("ValidateIngredientAddition appelé sans recette active !");
@@ -233,8 +262,13 @@ namespace MoonlitMixes.Potion
             _ingredientToAdd = null;
         }
 
-        private void HandleFailedPotion()
+        public void HandleFailedPotion()
         {
+            Debug.LogWarning("💥 Potion échouée — état courant: " +
+                 $"Recipe = {_currentRecipe?.name}, Index = {_currentRecipeIndex}, Ingredients = {_currentIngredients.Count}");
+
+            _cooldownCoroutineRunning = false;
+
             _cauldronVFXController.PlayBurned();
             _needItem = true;
             _currentRecipe = null;
@@ -242,6 +276,17 @@ namespace MoonlitMixes.Potion
             _cauldronMixing.DesactiveQTE();
             _currentIngredients.Clear();
             _ingredientToAdd = null;
+            _cauldronTimer.CanAction = true;
+            _cauldronTimer.TimerIsActive = false;
+            _cauldronTimer.PotionSuccessExpected = false;
+        }
+
+        public void ValidateIngredientAfterTimer()
+        {
+            if (_ingredientToAdd != null)
+            {
+                ValidateIngredientWithoutQTE(_ingredientToAdd);
+            }
         }
 
         public void CheckQTE(bool state)
