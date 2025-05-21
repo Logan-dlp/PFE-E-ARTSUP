@@ -196,7 +196,6 @@ namespace MoonlitMixes.Player
                         }
                         else if(hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                         {
-                            SaveSystem.Instance.SaveAllScene();
                             doorSceneChange.OpenCanvas();
                         }
                     }
