@@ -8,7 +8,7 @@ namespace MoonlitMixes.Camera.Event
     public class StirCameraTransition : MonoBehaviour
     {
         [Header("Cauldron Reference")]
-        [SerializeField] private CauldronRecipeChecker _CauldronRecipeChecker;
+        [SerializeField] private CauldronRecipeChecker _cauldronRecipeChecker;
 
         [Header("Camera Settings")]
         [SerializeField] private CinemachineCamera _baseCameraController;
@@ -22,15 +22,15 @@ namespace MoonlitMixes.Camera.Event
         {
             _stirCamera = GetComponent<CinemachineCamera>();
 
-            if (_CauldronRecipeChecker == null || _stirCamera == null || _baseCameraController == null)
+            if (_cauldronRecipeChecker == null || _stirCamera == null || _baseCameraController == null)
             {
                 Debug.LogError("Missing reference in StirCameraTransition.");
                 enabled = false;
                 return;
             }
 
-            _CauldronRecipeChecker.OnStirStarted += HandleStirStart;
-            _CauldronRecipeChecker.OnStirEnded += HandleStirEnd;
+            _cauldronRecipeChecker.OnStirStarted += HandleStirStart;
+            _cauldronRecipeChecker.OnStirEnded += HandleStirEnd;
         }
 
         private void HandleStirStart()
@@ -47,8 +47,8 @@ namespace MoonlitMixes.Camera.Event
 
         private void OnDestroy()
         {
-            _CauldronRecipeChecker.OnStirStarted -= HandleStirStart;
-            _CauldronRecipeChecker.OnStirEnded -= HandleStirEnd;
+            _cauldronRecipeChecker.OnStirStarted -= HandleStirStart;
+            _cauldronRecipeChecker.OnStirEnded -= HandleStirEnd;
         }
     }
 }

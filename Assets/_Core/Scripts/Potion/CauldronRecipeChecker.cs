@@ -30,7 +30,6 @@ namespace MoonlitMixes.Potion
         private CauldronMixing _cauldronMixing;
         private CauldronVFXController _cauldronVFXController;
 
-
         private bool _isActive = false;
         private bool _qteSuccess;
         private bool _qteInProgress = false;
@@ -40,7 +39,6 @@ namespace MoonlitMixes.Potion
         private ItemData _ingredientToAdd;
         private bool _cooldownCoroutineRunning = false;
         private Coroutine _currentCooldownCoroutine;
-
 
         public bool QteInProgress
         {
