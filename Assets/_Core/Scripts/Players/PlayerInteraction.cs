@@ -4,6 +4,7 @@ using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
+using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -185,6 +186,10 @@ namespace MoonlitMixes.Player
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
+                        }
+                        else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
+                        {
+                            doorSceneChange.OpenCanvas();
                         }
                     }
                 }
