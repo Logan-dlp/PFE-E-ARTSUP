@@ -55,6 +55,7 @@ namespace MoonlitMixes.CookingMachine
                     _itemGameObjectArray[i] = itemGameObject;
                     itemGameObject.transform.SetParent(_pivotWaitingItemsArray[i].transform);
                     itemGameObject.transform.localPosition = new Vector3(0, 0, 0);
+                    itemGameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
                     break;
                 }
             }

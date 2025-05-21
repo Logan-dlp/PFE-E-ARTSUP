@@ -252,6 +252,7 @@ namespace MoonlitMixes.Potion
 
         private void HandleSuccessfulPotion(Recipe recipe)
         {
+            Debug.Log("succès" + recipe);
             _needItem = true;
             _currentRecipe = null;
             _cauldronTimer.StopCooldown();

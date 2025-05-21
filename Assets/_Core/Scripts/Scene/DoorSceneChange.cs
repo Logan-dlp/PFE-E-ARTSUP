@@ -1,4 +1,4 @@
-using MoonlitMixes.Inputs;
+﻿using MoonlitMixes.Inputs;
 using MoonlitMixes.UI;
 using UnityEngine;
 
@@ -14,8 +14,16 @@ namespace MoonlitMixes.Scene
 
         public void OpenCanvas()
         {
-            FindFirstObjectByType<ChangeSceneUI>().OpenCanvas(_sceneName);
-            InputManager.Instance.SwitchActionMap("ChangeScene");
+            var canvasUI = FindFirstObjectByType<ChangeSceneUI>();
+            if (canvasUI != null)
+            {
+                canvasUI.OpenCanvas(_sceneName);
+                InputManager.Instance.SwitchActionMap("ChangeScene");
+            }
+            else
+            {
+                Debug.LogError("ChangeSceneUI est introuvable dans la scène !");
+            }
         }
     }
 }
