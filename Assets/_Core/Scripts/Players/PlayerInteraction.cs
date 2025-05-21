@@ -4,8 +4,8 @@ using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
-using MoonlitMixes.Animation;
-using MoonlitMixes.Scene;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Player
 {
