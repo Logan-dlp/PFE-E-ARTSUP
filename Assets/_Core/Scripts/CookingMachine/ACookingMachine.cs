@@ -1,29 +1,33 @@
-using UnityEngine;
-using UnityEngine.UI;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
 using MoonlitMixes.Player;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace MoonlitMixes.CookingMachine
 {
     public abstract class ACookingMachine : MonoBehaviour
     {
+        [Header("Conversion Settings")]
         [SerializeField] protected ItemUsage _transformType;
         public ItemUsage TransformType => _transformType;
-        
+
+        [Header("QTE Settings")]
         [SerializeField] protected ScriptableQTEConfig _scriptableQTEConfig;
         [SerializeField] protected QuickTimeEvent _qTE;
         [SerializeField] protected ScriptableQTEEvent _scriptableQTEEvent;
         [SerializeField] protected ScriptableBoolEvent _scriptableBoolEvent;
+
+        [Header("UI Elements")]
         [SerializeField] protected Image _imageQTE;
         [SerializeField] protected Image _imageProgressBar;
 
         protected PlayerInteraction _playerInteraction;
-        
+
         private ItemData _itemData;
-        
-        public abstract void TogleShowInteractivity();
+
+        public abstract void ToggleShowInteractivity();
 
         protected void Activate()
         {
@@ -37,7 +41,7 @@ namespace MoonlitMixes.CookingMachine
 
         public virtual void CheckItem(bool boolValue)
         {
-            if(boolValue)
+            if (boolValue)
             {
                 SuccesItem();
             }

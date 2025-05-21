@@ -1,116 +1,160 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using MoonlitMixes.Events;
+using MoonlitMixes.CookingMachine;
 
 namespace MoonlitMixes.Potion
 {
     public class CauldronTimer : MonoBehaviour
     {
+        public bool PotionSuccessExpected { get; set; }
+
+        [Header("Cooldown Duration")]
         [SerializeField] private float _itemCooldown = 60f;
+
+        [Header("Images Of Progress Bar")]
         [SerializeField] private Image _fillBarFront;
         [SerializeField] private Image _fillBarBack;
-        [SerializeField] private ParticleSystem _bubbleVFX;
-        [SerializeField] private ParticleSystem _smokeVFX;
-        [SerializeField] private ParticleSystem _burnedVFX;
-        [SerializeField] private ParticleSystem[] _fireVFXArray;
-        [SerializeField] private ScriptableItemUsageEvent _scriptableItemUsageEvent;
-    
+
         private float _fillBarFrontValue;
         private float _fillBarBackValue;
         private float _remainingTime;
-        
+
+        private CauldronVFXController _cauldronVFXController;
         private CauldronRecipeChecker _cauldronRecipeChecker;
         private bool _timerFinished;
         private bool _timerIsActive;
         private bool _canAction = true;
+        private bool _isBubbleVFXUp;
         private bool _isSmokeVFXUp;
         private bool _isBurnVFXUp;
-        private bool _isBubbleVFXUp;
         private bool _isFireVFXUp;
-        
+        public bool WaitingForNextIngredient = false;
+
         public bool CanAction
         {
             get => _canAction;
             set => _canAction = value;
         }
-        
+
         public bool TimerIsActive
         {
             get => _timerIsActive;
             set => _timerIsActive = value;
         }
-        
+
         public float RemainingTime
         {
             get => _remainingTime;
         }
-    
+
         private void Awake()
         {
             _cauldronRecipeChecker = GetComponent<CauldronRecipeChecker>();
+            _cauldronVFXController = GetComponent<CauldronVFXController>();
         }
-    
+
         private void FixedUpdate()
-        {        
-            if(!_timerIsActive) return;
-            
-            if (_remainingTime >= _itemCooldown/2)
+        {
+            if (!_timerIsActive) return;
+
+            if (!WaitingForNextIngredient)
             {
-                _remainingTime -= Time.fixedDeltaTime;
-                _fillBarFrontValue = _remainingTime / _itemCooldown * 2;
-                _fillBarFront.fillAmount = _fillBarFrontValue - 1;
-                _canAction = false;
-                
-                if(!_isBubbleVFXUp)
+                // Phase 1 : validation de l'item ajouté (première moitié du timer)
+                if (_remainingTime >= _itemCooldown / 2)
                 {
-                    _bubbleVFX.Play();
-                    _isBubbleVFXUp = true;
-                }
-                if(!_isFireVFXUp)
-                {
-                    foreach(ParticleSystem fireVFX in _fireVFXArray)
+                    _remainingTime -= Time.fixedDeltaTime;
+                    _fillBarFrontValue = _remainingTime / _itemCooldown * 2;
+                    _fillBarFront.fillAmount = _fillBarFrontValue - 1;
+                    _canAction = false;
+
+                    if (!_isBubbleVFXUp)
                     {
-                        fireVFX.Play();
+                        _cauldronVFXController.PlayBubble();
                     }
-                    _isFireVFXUp = true;
+                    if (!_isFireVFXUp)
+                    {
+                        _cauldronVFXController.PlayFire();
+                    }
                 }
-                //Debug.Log($"Cooldown restant: {_remainingTime:F2} secondes");
-            }
-            else if (_remainingTime >= 0)
-            {
-                _remainingTime -= Time.fixedDeltaTime;
-                _canAction = true;
-                _fillBarBackValue = _remainingTime / _itemCooldown * 2;
-                _fillBarBack.fillAmount = _fillBarBackValue;
-                
-                if(!_isSmokeVFXUp)
+                else
                 {
-                    _scriptableItemUsageEvent.SendEvent(Item.ItemUsage.Stir);
-                    _smokeVFX.Play();
-                    _isSmokeVFXUp = true;
+                    if (PotionSuccessExpected)
+                    {
+                        _cauldronRecipeChecker.ValidateIngredientAfterTimer();
+                        PotionSuccessExpected = false;
+                    }
+
+                    // Fin phase 1 → passer à la phase 2 (attente ingrédient)
+                    WaitingForNextIngredient = true;
+                    _remainingTime = _itemCooldown / 2;
+                    _canAction = true;
+
+                    if (_cauldronRecipeChecker != null)
+                        _cauldronRecipeChecker.NeedItem = true;
                 }
-                //Debug.Log($"Cooldown restant avant cramé: {_remainingTime:F2} secondes");
             }
-            else if(!_timerFinished)
+            else
             {
-                _canAction = false;
-                _timerIsActive = false;
-                _timerFinished = true;
-                _cauldronRecipeChecker.NeedMix = false;
-                _cauldronRecipeChecker.CheckQTE(false);
-    
-                if(!_isBurnVFXUp)
+                // Phase 2 : attente d'un nouvel ingrédient (seconde moitié)
+                if (_remainingTime > 0)
                 {
-                    _burnedVFX.Play();
-                    _isBurnVFXUp = true;
+                    _remainingTime -= Time.fixedDeltaTime;
+                    _fillBarBackValue = _remainingTime / (_itemCooldown / 2);
+                    _fillBarBack.fillAmount = _fillBarBackValue;
+
+                    if (!_isSmokeVFXUp && !PotionSuccessExpected)
+                    {
+                        _cauldronVFXController.PlaySmoke();
+                        _isSmokeVFXUp = true;
+                    }
                 }
-                //Debug.Log("Le cooldown est termin�. Vous pouvez ajouter un nouvel �l�ment !");
+                else
+                {
+                    // Timer fini en phase d'attente => potion ratée
+                    _timerIsActive = false;
+                    _timerFinished = true;
+
+                    if (_cauldronRecipeChecker.QteInProgress)
+                    {
+                        _cauldronRecipeChecker.CheckQTE(false);
+                    }
+                    else
+                    {
+                        _cauldronRecipeChecker.HandleFailedPotion();
+                    }
+
+                    if (!_isBurnVFXUp && !PotionSuccessExpected)
+                    {
+                        _cauldronVFXController.PlayBurned();
+                        _isBurnVFXUp = true;
+                    }
+                }
             }
         }
-    
+
+        public void StartCooldown()
+        {
+            _remainingTime = _itemCooldown;
+            _fillBarBack.fillAmount = 1f;
+            _fillBarFront.fillAmount = 1f;
+            _fillBarFrontValue = _remainingTime * 0.5f;
+            _fillBarBackValue = _remainingTime * 0.5f;
+
+            _isSmokeVFXUp = false;
+            _isBurnVFXUp = false;
+            _isBubbleVFXUp = true;
+            _isFireVFXUp = false;
+
+            _timerIsActive = true;
+            _canAction = false;
+        }
+
         public void ResetCooldown()
         {
             _remainingTime = _itemCooldown;
+            TimerIsActive = true;
+            CanAction = false;
+            _timerFinished = false;
             _fillBarBack.fillAmount = 1;
             _fillBarFront.fillAmount = 1;
             _fillBarFrontValue = _remainingTime * .5f;
@@ -119,7 +163,7 @@ namespace MoonlitMixes.Potion
             _isBurnVFXUp = false;
             _isBubbleVFXUp = false;
         }
-    
+
         public void StopCooldown()
         {
             _remainingTime = _itemCooldown;
@@ -127,11 +171,12 @@ namespace MoonlitMixes.Potion
             _fillBarBack.fillAmount = 0;
             _fillBarFront.fillAmount = 0;
             _canAction = true;
-            
-            foreach(ParticleSystem fireVFX in _fireVFXArray)
-            {
-                fireVFX.Stop();
-            }
+
+            _isFireVFXUp = false;
+            _isBubbleVFXUp = false;
+            _isSmokeVFXUp = false;
+            _isBurnVFXUp = true;
+            _cauldronVFXController.StopFire();
         }
     }
 }

@@ -1,17 +1,20 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using MoonlitMixes.Animation;
 using MoonlitMixes.CookingMachine;
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
-using MoonlitMixes.Animation;
-using MoonlitMixes.Scene;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Player
 {
     public class PlayerInteraction : MonoBehaviour
     {
+        public ItemData ItemInHand { get; set; }
+        public PlayerHoldItem PlayerHoldItem { get; private set; }
+        public PlayerInput CurrentPlayerInput { get; private set; }
+
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private string _actionMapPlayer;
@@ -25,11 +28,10 @@ namespace MoonlitMixes.Player
         private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
 
-        public ItemData ItemInHand { get; set; }
-        public PlayerHoldItem PlayerHoldItem { get; private set; }
 
         private void Awake()
         {
+            CurrentPlayerInput = GetComponent<PlayerInput>();
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _animator = GetComponent<Animator>();
             _animationPotionManager = GetComponent<AnimationPotionManager>();
@@ -82,9 +84,9 @@ namespace MoonlitMixes.Player
         {
             if (_currentCauldron != null)
             {
-                _currentCauldron.TogleShowInteractivity();
+                _currentCauldron.ToggleShowInteractivity();
             }
-            newCauldron.TogleShowInteractivity();
+            newCauldron.ToggleShowInteractivity();
             _currentCauldron = newCauldron;
             _currentCookingMachine = null;
         }
@@ -93,18 +95,18 @@ namespace MoonlitMixes.Player
         {
             if (_currentCookingMachine != null)
             {
-                _currentCookingMachine.TogleShowInteractivity();
+                _currentCookingMachine.ToggleShowInteractivity();
             }
-            newCookingMachine.TogleShowInteractivity();
+            newCookingMachine.ToggleShowInteractivity();
             _currentCookingMachine = newCookingMachine;
             _currentCauldron = null;
         }
 
         private void ResetInteractionTargets()
         {
-            if (_currentCauldron != null) _currentCauldron.TogleShowInteractivity();
+            if (_currentCauldron != null) _currentCauldron.ToggleShowInteractivity();
             _currentCauldron = null;
-            if (_currentCookingMachine != null) _currentCookingMachine.TogleShowInteractivity();
+            if (_currentCookingMachine != null) _currentCookingMachine.ToggleShowInteractivity();
             _currentCookingMachine = null;
         }
 
@@ -123,7 +125,7 @@ namespace MoonlitMixes.Player
                             ItemInHand = null;
 
                             _animator.SetTrigger("Put");
-                            
+
                             if (PlayerHoldItem.ItemHold == null)
                             {
                                 _animationPotionManager.QuitInteractWithoutItem();
@@ -170,7 +172,7 @@ namespace MoonlitMixes.Player
                 }
                 else
                 {
-                    if (Physics.Raycast(transform.position, transform.forward  + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
+                    if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
@@ -183,19 +185,6 @@ namespace MoonlitMixes.Player
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
-                        }
-                        else if (hit.transform.TryGetComponent(out CauldronRecipeChecker cauldron) && cauldron.GetComponent<CauldronTimer>().CanAction)
-                        {
-                            if (!cauldron.NeedMix) return;
-                            
-                            InputManager.Instance.SwitchActionMap(_actionMapQTE);
-                            cauldron.Mix(this);
-
-                            _animationPotionManager.InteractStir();
-                        }
-                        else if(hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
-                        {
-                            doorSceneChange.OpenCanvas();
                         }
                     }
                 }

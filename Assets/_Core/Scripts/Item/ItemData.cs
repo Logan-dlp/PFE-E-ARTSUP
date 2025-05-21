@@ -9,11 +9,17 @@ namespace MoonlitMixes.Item
         [SerializeField] private ElementType _elementType;
         [SerializeField, Range(1,4)] private int _rarity;
         [SerializeField] private ItemUsage _itemUsage;
+        [SerializeField] private bool _canBeStirred;
         [SerializeField] private Sprite _sprite;
         [SerializeField] private ItemData _itemToConvert;
         [SerializeField] private string _description;
         [SerializeField] private GameObject _itemPrefab;
-        [SerializeField] private ItemUsage _state;
+
+        public bool CanBeStirred
+        {
+            get => _canBeStirred;
+            set => _canBeStirred = value;
+        }
 
         public string ObjectName
         {
@@ -33,11 +39,6 @@ namespace MoonlitMixes.Item
         public ItemUsage Usage
         {
             get => _itemUsage;
-        }
-
-        public ItemUsage State
-        {
-            get => _state;
         }
 
         public Sprite ItemSprite
