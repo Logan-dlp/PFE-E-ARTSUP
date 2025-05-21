@@ -1,4 +1,4 @@
-using MoonlitMixes.Datas;
+ï»¿using MoonlitMixes.Datas;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -16,6 +16,7 @@ namespace MoonlitMixes.Dialogue.Effect
         private DialogueLineData _dialogueLineData;
         private bool _isDimmed = false;
 
+        public bool SkipEffectNow { get; set; } = false;
 
         private void Awake()
         {
@@ -41,6 +42,8 @@ namespace MoonlitMixes.Dialogue.Effect
 
         public IEnumerator PlayEffect(SpeakerEffectType effectType)
         {
+            SkipEffectNow = false;
+
             switch (effectType)
             {
                 case SpeakerEffectType.Tremble:
@@ -72,71 +75,70 @@ namespace MoonlitMixes.Dialogue.Effect
             Quaternion originalRotation = transform.rotation;
             Vector3 textOriginalPosition = _linkedText != null ? _linkedText.rectTransform.localPosition : Vector3.zero;
 
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = Vector3.one;
             if (_linkedText)
-            {
-                _linkedText.rectTransform.localScale = new Vector3(1f, 1f, 1f);
-            }
+                _linkedText.rectTransform.localScale = Vector3.one;
 
             float intensityX = _dialogueLineData.TrembleIntensityX;
             float intensityY = _dialogueLineData.TrembleIntensityY;
 
-            // Début du tremblement
+            // DÃ©but du tremblement
             for (int i = 0; i < 20; i++)
             {
-                // Applique une variation aléatoire à la position de l'image
+                if (SkipEffectNow) break;
+
+                // Applique une variation alÃ©atoire Ã  la position de l'image
                 Vector3 offset = new Vector3(Random.Range(-intensityX, intensityX), Random.Range(-intensityY, intensityY), 0);
                 transform.localPosition = originalPosition + offset;
 
-                // Applique un tremblement à la position du texte
+                // Applique un tremblement Ã  la position du texte
                 if (_linkedText)
                 {
-                    RectTransform textRect = _linkedText.rectTransform;
                     Vector3 textOffset = new Vector3(Random.Range(-intensityX, intensityX), Random.Range(-intensityY, intensityY), 0);
-                    textRect.localPosition = textOriginalPosition + textOffset;
+                    _linkedText.rectTransform.localPosition = textOriginalPosition + textOffset;
                 }
 
-                // Variation légère de la rotation de l'image pour un effet de tremblement
-                float trembleAmount = Random.Range(-5f, 5f);
-                transform.rotation = originalRotation * Quaternion.Euler(0, 0, trembleAmount);
+                // Variation lÃ©gÃ¨re de la rotation de l'image pour un effet de tremblement
+                transform.rotation = originalRotation * Quaternion.Euler(0, 0, Random.Range(-5f, 5f));
 
-                yield return new WaitForSeconds(0.05f);  // Pause avant le prochain tremblement
+                yield return new WaitForSeconds(0.05f);
             }
 
             transform.localPosition = originalPosition;
             transform.rotation = originalRotation;
 
             if (_linkedText)
-            {
                 _linkedText.rectTransform.localPosition = textOriginalPosition;
-            }
         }
 
         private IEnumerator JumpEffect()
         {
-            if (_image == null && _linkedText == null)
-                yield break;
+            if (_image == null && _linkedText == null) yield break;
 
             Vector3 originalPos = transform.localPosition;
             Vector3 textOriginalPos = _linkedText ? _linkedText.rectTransform.localPosition : Vector3.zero;
 
             for (int i = 0; i < 10; i++)
             {
-                Vector3 jump = new Vector3(0, 15f, 0);  // Saut de l'image
-                transform.localPosition = originalPos + jump;
+                if (SkipEffectNow) break;
 
+                Vector3 jump = new Vector3(0, 15f, 0);
+                transform.localPosition = originalPos + jump;
                 if (_linkedText)
                     _linkedText.rectTransform.localPosition = textOriginalPos + jump;
 
                 yield return new WaitForSeconds(0.1f);
 
                 transform.localPosition = originalPos;
-
                 if (_linkedText)
                     _linkedText.rectTransform.localPosition = textOriginalPos;
 
                 yield return new WaitForSeconds(0.1f);
             }
+
+            transform.localPosition = originalPos;
+            if (_linkedText)
+                _linkedText.rectTransform.localPosition = textOriginalPos;
         }
 
         public void DimEffect()
@@ -145,16 +147,14 @@ namespace MoonlitMixes.Dialogue.Effect
 
             if (_image != null)
             {
-                _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.5f); // Sprite semi-transparent
-
-                RectTransform rectTransform = _image.rectTransform;
-                rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * 0.8f, rectTransform.sizeDelta.y * 0.8f);
+                _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.5f);
+                _image.rectTransform.sizeDelta *= 0.8f;
             }
 
             if (_linkedText != null)
             {
                 var textColor = _linkedText.color;
-                _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 0.5f); // Texte semi-transparent
+                _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 0.5f);
             }
         }
 
@@ -162,38 +162,30 @@ namespace MoonlitMixes.Dialogue.Effect
         {
             _isDimmed = false;
 
-            if (_image)
-            {
-                _image.color = _originalColor;
-                RectTransform rectTransform = _image.rectTransform;
-                rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
-            }
-
+            if (_image) _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0f);
             if (_linkedText)
-            {
-                var textColor = _linkedText.color;
-                _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 0f);
-            }
+                _linkedText.color = new Color(_linkedText.color.r, _linkedText.color.g, _linkedText.color.b, 0f);
 
-            float duration = _dialogueLineData != null ? _dialogueLineData.FadeInDuration : 0.5f;
+            float duration = _dialogueLineData?.FadeInDuration ?? 0.5f;
             float time = 0f;
 
             while (time < duration)
             {
+                if (SkipEffectNow) break;
+
                 float t = time / duration;
-                float alphaImage = Mathf.Lerp(0f, 1f, t);
-                float alphaText = Mathf.Lerp(0f, 1f, t);
+                float alpha = Mathf.Lerp(0f, 1f, t);
 
                 if (_image)
                 {
                     var color = _image.color;
-                    _image.color = new Color(color.r, color.g, color.b, alphaImage);
+                    _image.color = new Color(color.r, color.g, color.b, alpha);
                 }
 
                 if (_linkedText)
                 {
                     var color = _linkedText.color;
-                    _linkedText.color = new Color(color.r, color.g, color.b, alphaText);
+                    _linkedText.color = new Color(color.r, color.g, color.b, alpha);
                 }
 
                 time += Time.deltaTime;
@@ -211,7 +203,7 @@ namespace MoonlitMixes.Dialogue.Effect
         {
             _isDimmed = false;
 
-            float duration = _dialogueLineData != null ? _dialogueLineData.FadeOutDuration : 0.5f;
+            float duration = _dialogueLineData?.FadeOutDuration ?? 0.5f;
             float time = 0f;
 
             float startAlphaImage = _image ? _image.color.a : 1f;
@@ -219,47 +211,42 @@ namespace MoonlitMixes.Dialogue.Effect
 
             while (time < duration)
             {
+                if (SkipEffectNow) break;
+
                 float t = time / duration;
-                float alphaImage = Mathf.Lerp(startAlphaImage, 0f, t);
-                float alphaText = Mathf.Lerp(startAlphaText, 0f, t);
+                float alpha = Mathf.Lerp(startAlphaImage, 0f, t);
 
                 if (_image)
                 {
                     var color = _image.color;
-                    _image.color = new Color(color.r, color.g, color.b, alphaImage);
+                    _image.color = new Color(color.r, color.g, color.b, alpha);
                 }
 
                 if (_linkedText)
                 {
                     var color = _linkedText.color;
-                    _linkedText.color = new Color(color.r, color.g, color.b, alphaText);
+                    _linkedText.color = new Color(color.r, color.g, color.b, alpha);
                 }
 
                 time += Time.deltaTime;
                 yield return null;
             }
-
-            if (_image)
-                _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0f);
-
-            if (_linkedText)
-                _linkedText.color = new Color(_linkedText.color.r, _linkedText.color.g, _linkedText.color.b, 0f);
         }
 
         public void ResetEffect()
         {
+            SkipEffectNow = false;
+
             if (_image != null)
             {
-                _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 1f); // Sprite opaque
-
-                RectTransform rectTransform = _image.rectTransform;
-                rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
+                _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 1f);
+                _image.rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
             }
 
             if (_linkedText != null)
             {
                 var textColor = _linkedText.color;
-                _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 1f); // Texte opaque
+                _linkedText.color = new Color(textColor.r, textColor.g, textColor.b, 1f);
             }
         }
     }

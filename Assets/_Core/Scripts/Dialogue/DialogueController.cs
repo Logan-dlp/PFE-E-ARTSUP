@@ -26,6 +26,8 @@ namespace MoonlitMixes.Dialogue
         private int _dialogueIndex = 0;
         private bool _isTyping = false;
         private bool _isSkipText = false;
+        private bool _isEffectRunning = false;
+        private bool _hasSkippedEffect = false;
 
         private PlayerInput _playerInput;
         private InputActionAsset _inputActionAsset;
@@ -62,7 +64,7 @@ namespace MoonlitMixes.Dialogue
             if (_inputActionAsset == null) return;
 
             _originalActionMap = _inputActionAsset.FindActionMap("Player");
-            var dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
+            InputActionMap dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
 
             if (_originalActionMap == null || dialogueActionMap == null)
             {
@@ -129,7 +131,7 @@ namespace MoonlitMixes.Dialogue
                         // On applique FadeIn *avant* le texte
                         StartCoroutine(PlayEffectsBeforeText(line, spriteEffect, textEffect, _textBoxes[speakerIndex]));
                     }
-                    if (!line.IsFadeEffect)
+                    if (i != speakerIndex && !line.IsFadeEffect)
                     {
                         spriteEffect.DimEffect();
                         textEffect.DimEffect();
@@ -194,7 +196,7 @@ namespace MoonlitMixes.Dialogue
             _inputActionAsset.FindActionMap("Dialogue")?.Disable();
             _originalActionMap?.Enable();
 
-            foreach (var textBox in _textBoxes)
+            foreach (TMP_Text textBox in _textBoxes)
             {
                 if (textBox != null)
                 {
@@ -208,17 +210,36 @@ namespace MoonlitMixes.Dialogue
 
         public void OnNextDialoguePressed(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed)
+            if (!ctx.performed) return;
+
+            if (_isEffectRunning && !_hasSkippedEffect)
             {
-                if (_isTyping)
+                // Première pression pendant un effet : on skip l'effet
+                _hasSkippedEffect = true;
+
+                foreach (SpeakerEffect effect in _spriteSpeakerEffects)
                 {
-                    _isSkipText = true;
+                    if (effect != null)
+                        effect.SkipEffectNow = true;
                 }
-                else
+
+                foreach (SpeakerEffect effect in _textSpeakerEffects)
                 {
-                    DisplayNextDialogue();
+                    if (effect != null)
+                        effect.SkipEffectNow = true;
                 }
+
+                return; // ne passe pas à la ligne suivante tant que l’effet est en cours
             }
+
+            if (_isTyping)
+            {
+                _isSkipText = true;
+                return;
+            }
+
+            // Si pas d’effet en cours ou déjà skippé
+            DisplayNextDialogue();
         }
     }
 }
