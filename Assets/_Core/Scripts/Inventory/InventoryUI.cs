@@ -22,6 +22,8 @@ namespace MoonlitMixes.Inventory
 
         public void RefreshInventory()
         {
+            SortInventory();
+            
             foreach (Transform childTransform in transform)
             {
                 Destroy(childTransform.gameObject);
