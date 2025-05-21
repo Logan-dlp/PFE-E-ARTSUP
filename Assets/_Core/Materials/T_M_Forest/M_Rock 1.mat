@@ -61,6 +61,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 763588a56aceee64c8544b09a67c4ea5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 36a0a890243a8a34b95129532bd65cf8, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -79,7 +83,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Intensity: 1
+    - _Blend: 1
+    - _Emissive_Intensity: 0
     - _Float: 3
+    - _Luminosity: 3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _grass_fade: 0.5
@@ -88,7 +96,8 @@ Material:
     - _test: 0.15
     - _tiling: 0.4
     m_Colors:
-    - _Adjust: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 0}
+    - _Adjust: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0}
+    - _Emissive_Color: {r: 0, g: 0, b: 0, a: 0}
     - _grass_test: {r: 0.30452567, g: 0.8943396, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
