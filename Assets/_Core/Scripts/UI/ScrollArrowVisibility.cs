@@ -9,11 +9,14 @@ namespace MoonlitMixes.UI
         [SerializeField] private GameObject _bottomArrow;
 
         private ScrollRect _scrollRect;
+        private ScrollRectAutoScroll _autoScroll;
 
         private void Awake()
         {
             _scrollRect = GetComponentInParent<ScrollRect>();
             _scrollRect.verticalScrollbar.onValueChanged.AddListener(UpdateArrowVisibility);
+
+            _autoScroll = GetComponent<ScrollRectAutoScroll>();
 
             _topArrow.SetActive(false);
             _bottomArrow.SetActive(false);
@@ -21,20 +24,28 @@ namespace MoonlitMixes.UI
 
         private void UpdateArrowVisibility(float scrollBarValue)
         {
-            if (scrollBarValue > .9f)
+            if (_autoScroll.Scrollable)
             {
-                _topArrow.SetActive(false);
-                _bottomArrow.SetActive(true);
-            }
-            else if (scrollBarValue < .1f)
-            {
-                _topArrow.SetActive(true);
-                _bottomArrow.SetActive(false);
+                if (scrollBarValue > .9f)
+                {
+                    _topArrow.SetActive(false);
+                    _bottomArrow.SetActive(true);
+                }
+                else if (scrollBarValue < .1f)
+                {
+                    _topArrow.SetActive(true);
+                    _bottomArrow.SetActive(false);
+                }
+                else
+                {
+                    _topArrow.SetActive(true);
+                    _bottomArrow.SetActive(true);
+                }
             }
             else
             {
-                _topArrow.SetActive(true);
-                _bottomArrow.SetActive(true);
+                _topArrow.SetActive(false);
+                _bottomArrow.SetActive(false);
             }
         }
     }

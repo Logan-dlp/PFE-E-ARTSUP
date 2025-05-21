@@ -10,6 +10,8 @@ namespace MoonlitMixes.UI
     [RequireComponent(typeof(ScrollRect))]
     public class ScrollRectAutoScroll : MonoBehaviour
     {
+        public bool Scrollable { get; private set; }
+        
         [SerializeField] private int _maxLinePerVue = 3;
         [SerializeField] private int _maxItemPerVue = 15;
         [SerializeField] private float _transitionSpeed = 0.005f;
@@ -76,7 +78,12 @@ namespace MoonlitMixes.UI
                 maxVue = maxVue + 1 - maxVue % 1;
             }
             
-            _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, ((_gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y) * _maxLinePerVue) * maxVue + _gridLayoutGroup.spacing.y);
+            if (maxVue > 1)
+            {
+                _contentRect.sizeDelta = new Vector2(_contentRect.sizeDelta.x, (((_gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y) * _maxLinePerVue) * maxVue) + _gridLayoutGroup.spacing.y);
+            }
+            
+            Scrollable = maxVue > 1;
         }
     }
 }
