@@ -170,19 +170,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/Actions/Drop
   Guid:
-    Data1: 700667697
-    Data2: 1300738202
-    Data3: -1095000406
-    Data4: 165401651
+    Data1: -1320600747
+    Data2: 1166304673
+    Data3: 479272360
+    Data4: -981840617
   Banks:
   - {fileID: 8402513911184273116}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1600
+  Length: 0
 --- !u!114 &-6039255988507576534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +238,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 9.400001
   Length: 0
+--- !u!114 &-5655609532919176615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ClientBell
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ClientBell
+  Guid:
+    Data1: -626892011
+    Data2: 1131449532
+    Data3: -1487721074
+    Data4: -774548698
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-4688406969384709244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +307,7 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638833577853027433
+  lastModified: 638834277898406895
   FileSizes:
   - Name: Desktop
     Value: 2340
@@ -420,33 +447,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &-2699925182413713012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Client_Bell
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Client_Bell
-  Guid:
-    Data1: -626892011
-    Data2: 1131449532
-    Data3: -1487721074
-    Data4: -774548698
-  Banks:
-  - {fileID: 8402513911184273116}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-1311731856790467826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +555,6 @@ MonoBehaviour:
   - {fileID: -1311731856790467826}
   - {fileID: -8446950230692321841}
   - {fileID: -5874760184294858751}
-  - {fileID: -2699925182413713012}
   - {fileID: 8305943934108094116}
   - {fileID: -6532854335648163264}
   - {fileID: -7804188149046165718}
@@ -567,6 +566,7 @@ MonoBehaviour:
   - {fileID: 6147926216415220850}
   - {fileID: -4547102364647005440}
   - {fileID: 4992925698779801927}
+  - {fileID: -5655609532919176615}
   EditorParameters:
   - {fileID: -8657656229530395680}
   MasterBanks:
@@ -574,7 +574,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4686116279439584517}
   cacheVersion: 131847
-  cacheTime: 638833577885280032
+  cacheTime: 638834277903250315
   SerializableEventsDict:
   - key: event:/Dialogue/Dialogue_01
     index: 0
@@ -592,29 +592,29 @@ MonoBehaviour:
     index: 6
   - key: event:/SFX/Foosteps/Footsteps
     index: 7
-  - key: event:/SFX/Client_Bell
-    index: 8
   - key: event:/SFX/DoorOpen
-    index: 9
+    index: 8
   - key: event:/SFX/Actions/Drop
-    index: 10
+    index: 9
   - key: event:/SFX/Actions/Crush
-    index: 11
+    index: 10
   - key: event:/SFX/Actions/ThrowAway
-    index: 12
+    index: 11
   - key: event:/SFX/Ladder
-    index: 13
+    index: 12
   - key: event:/Enviro/Waterfall
-    index: 14
+    index: 13
   - key: event:/Ambience/AmbienceShop
-    index: 15
+    index: 14
   - key: event:/SFX/Actions/Cut
-    index: 16
+    index: 15
   - key: event:/SFX/Selling
-    index: 17
+    index: 16
   - key: event:/Ambience/AmbienceForest
-    index: 18
+    index: 17
   - key: event:/SFX/Actions/Stirr
+    index: 18
+  - key: event:/SFX/ClientBell
     index: 19
 --- !u!114 &204049650777227455
 MonoBehaviour:
@@ -657,7 +657,7 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638833577853003692
+  lastModified: 638834277898356671
   FileSizes:
   - Name: Desktop
     Value: 3192
@@ -885,8 +885,8 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638833577885280032
+  lastModified: 638834277903250315
   FileSizes:
   - Name: Desktop
-    Value: 8278144
+    Value: 8276960
   Exists: 1
