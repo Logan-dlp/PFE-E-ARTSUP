@@ -1,7 +1,6 @@
 using MoonlitMixes.Potion;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace MoonlitMixes.UI
 {
@@ -11,15 +10,15 @@ namespace MoonlitMixes.UI
         [SerializeField] private GameObject _recipeTemplate;
         [SerializeField] private Recipe[] _recipeArray;
         [SerializeField] private ScriptableCallbackContextEvent _scriptableCallbackContextEvent;
+        public RecipeTemplate recipeTemplate;
 
         private int _recipeIndex;
-        private Image _image;
 
         private void Start()
         {
-            _image = GetComponent<Image>();
+
         }
-        
+
         private void OnEnable()
         {
             _scriptableCallbackContextEvent.OnContextEvent += ChangeRecipe;
@@ -36,15 +35,42 @@ namespace MoonlitMixes.UI
             {
                 if (context.ReadValue<Vector2>().x > 0.5)
                 {
-
+                    if (_recipeIndex < _recipeArray.Length - 1)
+                    {
+                        _recipeIndex++;
+                    }
+                    else
+                    {
+                        _recipeIndex = 0;
+                    }
                 }
                 else if (context.ReadValue<Vector2>().x < -0.5)
                 {
-                    
+                    if (_recipeIndex > 0)
+                    {
+                        _recipeIndex--;
+                    }
+                    else
+                    {
+                        _recipeIndex = _recipeArray.Length - 1;
+                    }
                 }
 
-                _image.sprite = _recipeArray[_recipeIndex];
+                if (_recipeIndex == 0)
+                {
+                    _headerRecipe.SetActive(true);
+                    _recipeTemplate.SetActive(false);
+                }
+                else
+                {
+                    SetTempalateInfo(_recipeArray[_recipeIndex]);
+                }
             }
+        }
+
+        private void SetTempalateInfo(Recipe recipe)
+        {
+
         }
     }
 }
