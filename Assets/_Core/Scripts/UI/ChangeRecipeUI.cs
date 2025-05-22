@@ -1,3 +1,4 @@
+using MoonlitMixes.Potion;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -6,7 +7,9 @@ namespace MoonlitMixes.UI
 {
     public class ChangeRecipeUI : MonoBehaviour
     {
-        [SerializeField] private Sprite[] _recipeArray;
+        [SerializeField] private GameObject _headerRecipe;
+        [SerializeField] private GameObject _recipeTemplate;
+        [SerializeField] private Recipe[] _recipeArray;
         [SerializeField] private ScriptableCallbackContextEvent _scriptableCallbackContextEvent;
 
         private int _recipeIndex;
@@ -33,25 +36,11 @@ namespace MoonlitMixes.UI
             {
                 if (context.ReadValue<Vector2>().x > 0.5)
                 {
-                    if (_recipeIndex < _recipeArray.Length - 1)
-                    {
-                        _recipeIndex++;
-                    }
-                    else
-                    {
-                        _recipeIndex = 0;
-                    }
+
                 }
                 else if (context.ReadValue<Vector2>().x < -0.5)
                 {
-                    if (_recipeIndex > 0)
-                    {
-                        _recipeIndex--;
-                    }
-                    else
-                    {
-                        _recipeIndex = _recipeArray.Length - 1;
-                    }
+                    
                 }
 
                 _image.sprite = _recipeArray[_recipeIndex];
