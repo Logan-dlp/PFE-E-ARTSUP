@@ -25,7 +25,6 @@ namespace MoonlitMixes.Player
             {
                 if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                 {
-                    Debug.Log("");
                     if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                     {
                         doorSceneChange.OpenCanvas();
@@ -42,7 +41,6 @@ namespace MoonlitMixes.Player
                 
                     if (_hasChest)
                     {
-                        Debug.Log("");
                         _chestInteraction.OpenChest();
                     }
                 }

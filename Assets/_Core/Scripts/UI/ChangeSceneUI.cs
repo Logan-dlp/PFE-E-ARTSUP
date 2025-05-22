@@ -1,4 +1,4 @@
-using MoonlitMixes.Datas;
+ï»¿using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Item;
 using MoonlitMixes.Scene;
@@ -18,9 +18,8 @@ namespace MoonlitMixes.UI
 
         private bool _hasPopup;
         private string _sceneName;
-        private InputActionMap inputActions;
 
-        private static bool _isLoading = false;  // Variable statique pour blocage double chargement
+        private static bool _isLoading = false;
 
         public Animator AnimatorUI => _animator;
         public GameObject Panel => _panel;
@@ -36,19 +35,19 @@ namespace MoonlitMixes.UI
         public void CloseCanvas()
         {
             _panel.SetActive(false);
+            _panelNoChestItem.SetActive(false);
+            _hasPopup = false;
             InputManager.Instance.SwitchActionMap("Player");
-            if (_sceneName == "S_Forest") Debug.Log("_panelNoChestItem.SetActive(false)");
+
+            if (_sceneName == "S_Forest")
+                Debug.Log("_panelNoChestItem.SetActive(false)");
         }
 
         public void ChangeScene(InputAction.CallbackContext callbackContext)
         {
-            if (callbackContext.started)
+            if (callbackContext.started && !_isLoading)
             {
-                //if (_isLoading)
-                //{
-                //    Debug.LogWarning("Une scène est déjà en cours de chargement.");
-                //    return; 
-                //}
+                Debug.Log("ChangeScene triggered for: " + _sceneName);
 
                 if (!_hasPopup)
                 {
@@ -56,48 +55,68 @@ namespace MoonlitMixes.UI
 
                     if (_sceneName == _sceneTransfereItem)
                     {
-                        TryGetComponent(out SendItemExit sendItemExit);
-                        if (sendItemExit.SendItems())
+                        if (TryGetComponent(out SendItemExit sendItemExit))
                         {
-                            _isLoading = true;
-                            SceneLoader.LoadAsyncScene(_sceneName, _animator);
+                            if (sendItemExit.SendItems())
+                            {
+                                Debug.Log("Items sent successfully, loading scene...");
+                                _isLoading = true;
+                                SceneLoader.LoadAsyncScene(_sceneName, _animator);
+                            }
+                            else
+                            {
+                                Debug.Log("No items to send, showing popup.");
+                                _hasPopup = true;
+                                _panelNoChestItem.SetActive(true);
+                                _panel.SetActive(false);
+                            }
                         }
                         else
                         {
-                            _hasPopup = true;
-                            _panelNoChestItem.SetActive(true);
-                            _panel.SetActive(false);
+                            Debug.LogWarning("SendItemExit component not found.");
                         }
                     }
                     else
                     {
+                        Debug.Log("Scene does not require item transfer, loading scene...");
                         _isLoading = true;
                         SceneLoader.LoadAsyncScene(_sceneName, _animator);
                     }
                 }
                 else
                 {
-                    ForceChangeScene();
+                    Debug.Log("Popup already open, forcing scene change...");
+                    ConfirmForceChangeScene();
                 }
             }
         }
 
-        private void ForceChangeScene()
+        public void ConfirmForceChangeScene()
         {
-            //if (_isLoading)
-            //{
-            //    Debug.LogWarning("Une scène est déjà en cours de chargement.");
-            //    return;
-            //}
-
-            _isLoading = true;
-            SceneLoader.LoadAsyncScene(_sceneName, _animator);
+            Debug.Log("ConfirmForceChangeScene called.");
+            _panelNoChestItem.SetActive(false);
+            _hasPopup = false;
+            _isLoading = false;
+            ForceChangeScene();
         }
 
-        // Méthode à appeler à la fin du chargement pour réinitialiser le flag
-        public static void OnSceneLoadComplete()
+        private void ForceChangeScene()
         {
-            _isLoading = false;
+            if (_isLoading)
+            {
+                Debug.LogWarning("Scene already loading, skipping ForceChangeScene.");
+                return;
+            }
+
+            Debug.Log("ForceChangeScene: Loading " + _sceneName);
+            _isLoading = true;
+            if (string.IsNullOrEmpty(_sceneName))
+            {
+                Debug.LogError("No scene name set to load!");
+                _isLoading = false;
+                return;
+            }
+            SceneLoader.LoadAsyncScene(_sceneName, _animator);
         }
     }
 }
