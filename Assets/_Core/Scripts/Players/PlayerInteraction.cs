@@ -7,6 +7,7 @@ using MoonlitMixes.Potion;
 using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace MoonlitMixes.Player
 {
@@ -28,7 +29,6 @@ namespace MoonlitMixes.Player
         private Animator _animator;
         private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
-
 
         private void Awake()
         {
@@ -65,19 +65,13 @@ namespace MoonlitMixes.Player
 
                     if (hit.transform.TryGetComponent(out Trashcan trashcan))
                     {
-                        trashcan.AnimMouth(true);
                         _currentTrashcan = trashcan;
                     }
                 }
-            }
+}
             else if (_currentCookingMachine != null || _currentCauldron != null)
             {
                 ResetInteractionTargets();
-            }
-            else if (_currentTrashcan != null)
-            {
-                _currentTrashcan.AnimMouth(false);
-                _currentTrashcan = null;
             }
         }
 
@@ -103,6 +97,20 @@ namespace MoonlitMixes.Player
             _currentCauldron = null;
         }
 
+        public void SetCurrentTrashcan(Trashcan trashcan)
+        {
+            _currentTrashcan = trashcan;
+        }
+
+        public void ClearCurrentTrashcan(Trashcan trashcan)
+        {
+            if (_currentTrashcan == trashcan)
+            {
+                _currentTrashcan = null;
+            }
+        }
+
+
         private void ResetInteractionTargets()
         {
             if (_currentCauldron != null) _currentCauldron.ToggleShowInteractivity();
@@ -117,6 +125,13 @@ namespace MoonlitMixes.Player
             {
                 if (ItemInHand != null)
                 {
+                    if (_currentTrashcan != null)
+                    {
+                        _currentTrashcan.DiscardItem();
+                        PlayerHoldItem.RemoveItem();
+                        _animationPotionManager.TrashItem();
+                    }
+
                     if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
                         if (hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
@@ -136,7 +151,7 @@ namespace MoonlitMixes.Player
                                 _animationPotionManager.QuitInteractWithItem();
                             }
                         }
-                        else if (hit.transform.TryGetComponent(out Trashcan trashcan))
+                        if (hit.transform.TryGetComponent(out Trashcan trashcan))
                         {
                             trashcan.DiscardItem();
                             PlayerHoldItem.RemoveItem();

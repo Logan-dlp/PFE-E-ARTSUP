@@ -1,3 +1,4 @@
+using MoonlitMixes.Player;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace MoonlitMixes.CookingMachine
         private Animator _animator;
         private float _timer;
 
+        private PlayerInteraction _playerInside;
+        private bool _mouthOpen = false;
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();
@@ -20,40 +24,73 @@ namespace MoonlitMixes.CookingMachine
         private void Update()
         {
             _timer += Time.deltaTime;
-            if (_timer >= _idleChangeTimer)
+
+            // Animation idle uniquement si la bouche est fermée
+            if (_timer >= _idleChangeTimer && !_mouthOpen)
             {
                 _animator.SetInteger(_animatorControllerParameterArray[2].name, Random.Range(0, 2));
                 _animator.SetTrigger(_animatorControllerParameterArray[0].name);
                 _timer = 0;
             }
+
+            // Vérifie si le joueur a jeté l'objet sans sortir du trigger
+            if (_playerInside != null && _mouthOpen && _playerInside.ItemInHand == null)
+            {
+                CloseMouth();
+            }
         }
 
-        // void OnTriggerStay(Collider other)
-        // {
-        //     if(other.gameObject.layer == 10 && other.GetComponent<PlayerInteraction>().ItemInHand != null)
-        //     {
-        //         AnimMouth(true);
-        //     }
-        // }
-        //
-        // void OnTriggerExit(Collider other)
-        // {
-        //     if(other.gameObject.layer == 10)
-        //     {
-        //         AnimMouth(false);
-        //     }
-        // }
-
-        public void AnimMouth(bool state)
+        private void OnTriggerEnter(Collider other)
         {
-            if(state)
+            if (other.gameObject.layer != 10) return;
+
+            PlayerInteraction player = other.GetComponent<PlayerInteraction>();
+            if (player != null)
             {
-                _animator.SetBool(_animatorControllerParameterArray[3].name, true);
+                _playerInside = player;
+                if (player.ItemInHand != null)
+                {
+                    player.SetCurrentTrashcan(this);
+                    OpenMouth();
+                }
             }
-            else
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.layer != 10) return;
+
+            PlayerInteraction player = other.GetComponent<PlayerInteraction>();
+            if (player != null && player.ItemInHand != null && !_mouthOpen)
             {
-                _animator.SetBool(_animatorControllerParameterArray[3].name, false); 
+                OpenMouth();
             }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer != 10) return;
+
+            PlayerInteraction player = other.GetComponent<PlayerInteraction>();
+            if (player == _playerInside)
+            {
+                _playerInside = null;
+                player.ClearCurrentTrashcan(this);
+
+                CloseMouth();
+            }
+        }
+
+        private void OpenMouth()
+        {
+            _mouthOpen = true;
+            _animator.SetBool(_animatorControllerParameterArray[3].name, true);
+        }
+
+        private void CloseMouth()
+        {
+            _mouthOpen = false;
+            _animator.SetBool(_animatorControllerParameterArray[3].name, false);
         }
 
         public void DiscardItem()
@@ -64,8 +101,8 @@ namespace MoonlitMixes.CookingMachine
 
         private IEnumerator WaitAnim()
         {
-            yield return new WaitForSeconds(.1f);
-            AnimMouth(false);
+            yield return new WaitForSeconds(0.1f);
+            CloseMouth();
         }
     }
 }
