@@ -89,6 +89,11 @@ namespace MoonlitMixes.Dialogue
 
         public void DisplayNextDialogue()
         {
+            if (_isEffectRunning)
+            {
+                return;
+            }
+
             if (_dialogueIndex >= _currentDialogue.Lines.Length)
             {
                 EndDialogue();
@@ -113,6 +118,18 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
+            // 👉 DIM DES AUTRES immédiatement
+            for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
+            {
+                if (i == speakerIndex) continue;
+
+                var otherSprite = _spriteSpeakerEffects[i];
+                var otherText = _textSpeakerEffects[i];
+
+                otherSprite?.DimEffect();
+                otherText?.DimEffect();
+            }
+
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 var spriteEffect = _spriteSpeakerEffects[i];
@@ -128,13 +145,7 @@ namespace MoonlitMixes.Dialogue
                         spriteEffect.ResetEffect();
                         textEffect.ResetEffect();
 
-                        // On applique FadeIn *avant* le texte
                         StartCoroutine(PlayEffectsBeforeText(line, spriteEffect, textEffect, _textBoxes[speakerIndex]));
-                    }
-                    if (i != speakerIndex && !line.IsFadeEffect)
-                    {
-                        spriteEffect.DimEffect();
-                        textEffect.DimEffect();
                     }
                 }
             }
@@ -144,6 +155,8 @@ namespace MoonlitMixes.Dialogue
 
         private IEnumerator PlayEffectsBeforeText(DialogueLineData line, SpeakerEffect spriteEffect, SpeakerEffect textEffect, TMP_Text textBox)
         {
+            _isEffectRunning = true;
+
             if (line.Effect == SpeakerEffectType.FadeIn)
             {
                 yield return spriteEffect.PlayEffect(line.Effect);
@@ -157,6 +170,15 @@ namespace MoonlitMixes.Dialogue
             {
                 yield return spriteEffect.PlayEffect(line.Effect);
                 yield return textEffect.PlayEffect(line.Effect);
+            }
+
+            _isEffectRunning = false;
+
+            // Si on a skippé un effet, mais qu'on n’a pas encore avancé la ligne : on le fait maintenant
+            if (_hasSkippedEffect)
+            {
+                _hasSkippedEffect = false;
+                DisplayNextDialogue();
             }
         }
 
