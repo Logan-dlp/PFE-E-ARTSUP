@@ -46,13 +46,13 @@ MonoBehaviour:
     Data4: 675599508
   Banks:
   - {fileID: -7750191326046752551}
-  IsStream: 1
+  IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 115200
+  Length: 0
 --- !u!114 &-8436651625570033354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,10 +122,10 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638833577854140406
+  lastModified: 638836023791650119
   FileSizes:
   - Name: Desktop
-    Value: 9769440
+    Value: 3491232
   Exists: 1
 --- !u!114 &-7486414088547613576
 MonoBehaviour:
@@ -156,6 +156,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-7017961827621887704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/OptionSound
+  m_EditorClassIdentifier: 
+  Name: OptionSound
+  StudioPath: parameter:/OptionSound
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1713997188
+    data2: 889950844
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - SoundDown
+  - SoundUp
+  Exists: 1
 --- !u!114 &-6532854335648163264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +230,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -7750191326046752551}
   IsStream: 1
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
@@ -265,6 +291,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-5204326680967749991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/JournalClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/JournalClose
+  Guid:
+    Data1: -1286835125
+    Data2: 1218686964
+    Data3: 1325611922
+    Data4: -1365605209
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5020424483496962358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/OpenSign
+  m_EditorClassIdentifier: 
+  Path: event:/UI/OpenSign
+  Guid:
+    Data1: -409262350
+    Data2: 1154402270
+    Data3: -1213326713
+    Data4: -1941520474
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-4688406969384709244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,10 +387,10 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638834277898406895
+  lastModified: 638836023765626807
   FileSizes:
   - Name: Desktop
-    Value: 2340
+    Value: 2870
   Exists: 1
 --- !u!114 &-4547102364647005440
 MonoBehaviour:
@@ -340,6 +420,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 32000
+--- !u!114 &-4480562890504252270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/JournalOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/JournalOpen
+  Guid:
+    Data1: 346725463
+    Data2: 1324360301
+    Data3: 695836064
+    Data4: -1795892103
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4421308695217117603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Select
+  m_EditorClassIdentifier: 
+  Path: event:/UI/Select
+  Guid:
+    Data1: -1099949354
+    Data2: 1111551475
+    Data3: 1125427112
+    Data4: -1723136465
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-4121584680823939756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,11 +496,11 @@ MonoBehaviour:
   - {fileID: 8402513911184273116}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 460
+  Length: 261
 --- !u!114 &-3795012143754135576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +527,33 @@ MonoBehaviour:
   - Succes
   - Fail
   Exists: 1
+--- !u!114 &-3721226312005830800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/ClickMenu
+  m_EditorClassIdentifier: 
+  Path: event:/UI/ClickMenu
+  Guid:
+    Data1: -226328371
+    Data2: 1143421095
+    Data3: -2066200135
+    Data4: -1109918714
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-3162312862065782447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,13 +574,13 @@ MonoBehaviour:
     Data4: 2003801102
   Banks:
   - {fileID: -7750191326046752551}
-  IsStream: 1
+  IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 156000
+  Length: 0
 --- !u!114 &-2844773488817455571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,6 +608,60 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-2170538732779741789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enviro/WindAirMushRoom
+  m_EditorClassIdentifier: 
+  Path: event:/Enviro/WindAirMushRoom
+  Guid:
+    Data1: -1793382665
+    Data2: 1262434406
+    Data3: 109714578
+    Data4: 1053739383
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 126000
+--- !u!114 &-2158694205190898605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/PotionSelect
+  m_EditorClassIdentifier: 
+  Path: event:/UI/PotionSelect
+  Guid:
+    Data1: -94005107
+    Data2: 1118234818
+    Data3: 121288858
+    Data4: -641134136
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-1311731856790467826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,13 +682,13 @@ MonoBehaviour:
     Data4: -12518876
   Banks:
   - {fileID: -7750191326046752551}
-  IsStream: 1
+  IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 163200
+  Length: 0
 --- !u!114 &-1289135202678953686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,14 +782,26 @@ MonoBehaviour:
   - {fileID: -4547102364647005440}
   - {fileID: 4992925698779801927}
   - {fileID: -5655609532919176615}
+  - {fileID: 4611476857963580268}
+  - {fileID: 976121682271320629}
+  - {fileID: -5204326680967749991}
+  - {fileID: -4480562890504252270}
+  - {fileID: -2158694205190898605}
+  - {fileID: 6360623951040819779}
+  - {fileID: -3721226312005830800}
+  - {fileID: -4421308695217117603}
+  - {fileID: -5020424483496962358}
+  - {fileID: -2170538732779741789}
+  - {fileID: 8860877010616343493}
   EditorParameters:
   - {fileID: -8657656229530395680}
+  - {fileID: -7017961827621887704}
   MasterBanks:
   - {fileID: 671172459802024412}
   StringsBanks:
   - {fileID: -4686116279439584517}
   cacheVersion: 131847
-  cacheTime: 638834277903250315
+  cacheTime: 638836023822833071
   SerializableEventsDict:
   - key: event:/Dialogue/Dialogue_01
     index: 0
@@ -616,6 +843,28 @@ MonoBehaviour:
     index: 18
   - key: event:/SFX/ClientBell
     index: 19
+  - key: event:/UI/BackButton
+    index: 20
+  - key: event:/UI/TurnPage
+    index: 21
+  - key: event:/UI/JournalClose
+    index: 22
+  - key: event:/UI/JournalOpen
+    index: 23
+  - key: event:/UI/PotionSelect
+    index: 24
+  - key: event:/Ambience/AmbienceCave
+    index: 25
+  - key: event:/UI/ClickMenu
+    index: 26
+  - key: event:/UI/Select
+    index: 27
+  - key: event:/UI/OpenSign
+    index: 28
+  - key: event:/Enviro/WindAirMushRoom
+    index: 29
+  - key: event:/UI/OptionSound
+    index: 30
 --- !u!114 &204049650777227455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,10 +906,63 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638834277898356671
+  lastModified: 638836023765615777
   FileSizes:
   - Name: Desktop
-    Value: 3192
+    Value: 3372
+  Exists: 1
+--- !u!114 &976121682271320629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/TurnPage
+  m_EditorClassIdentifier: 
+  Path: event:/UI/TurnPage
+  Guid:
+    Data1: -1643875515
+    Data2: 1164018149
+    Data3: -351839334
+    Data4: -1055156107
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1090897514553235848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/OptionSound/OptionSound
+  m_EditorClassIdentifier: 
+  Name: OptionSound
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1713997188
+    data2: 889950844
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - SoundDown
+  - SoundUp
   Exists: 1
 --- !u!114 &2721578832093899031
 MonoBehaviour:
@@ -713,6 +1015,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 164006
+--- !u!114 &4611476857963580268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/BackButton
+  m_EditorClassIdentifier: 
+  Path: event:/UI/BackButton
+  Guid:
+    Data1: 1328857377
+    Data2: 1077430774
+    Data3: -342734706
+    Data4: -1681813816
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &4933953439267672695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,7 +1057,7 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638833577852921411
+  lastModified: 638836023765480791
   FileSizes:
   - Name: Desktop
     Value: 3940
@@ -816,6 +1145,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &6360623951040819779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/AmbienceCave
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/AmbienceCave
+  Guid:
+    Data1: 809462188
+    Data2: 1175977064
+    Data3: 963562419
+    Data4: 1244888654
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 118000
 --- !u!114 &6378109149061373337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -885,8 +1241,36 @@ MonoBehaviour:
   Path: ../../OneDrive - e-artsup/Documents/03-PFE/Fmod/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638834277903250315
+  lastModified: 638836023822833071
   FileSizes:
   - Name: Desktop
-    Value: 8276960
+    Value: 11141536
   Exists: 1
+--- !u!114 &8860877010616343493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/OptionSound
+  m_EditorClassIdentifier: 
+  Path: event:/UI/OptionSound
+  Guid:
+    Data1: -1219478533
+    Data2: 1234727978
+    Data3: 943886266
+    Data4: -386051770
+  Banks:
+  - {fileID: 8402513911184273116}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 1090897514553235848}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
