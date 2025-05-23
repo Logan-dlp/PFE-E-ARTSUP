@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MoonlitMixes.Singleton
 {
@@ -76,19 +75,8 @@ namespace MoonlitMixes.Singleton
                 DestroyImmediate(gameObject);
         }
 
-        protected virtual void OnMonoSingletonCreated()
-        {
-            Debug.Log($"MonoSingleton Created in {gameObject.name} !");
-        }
-
-        protected virtual void OnInitializing()
-        {
-            Debug.Log($"OnInitializing {gameObject.name} !");
-        }
-
-        protected virtual void OnInitialized()
-        {
-            Debug.Log($"OnInitialized {gameObject.name} !");
-        }
+        protected virtual void OnMonoSingletonCreated() { }
+        protected virtual void OnInitializing() { }
+        protected virtual void OnInitialized() { }
     }
 }

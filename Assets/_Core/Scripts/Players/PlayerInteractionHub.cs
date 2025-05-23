@@ -19,6 +19,7 @@ namespace MoonlitMixes.Player
             TryGetComponent(out UseTools useTools);
             _useTools = useTools;
         }
+        
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)

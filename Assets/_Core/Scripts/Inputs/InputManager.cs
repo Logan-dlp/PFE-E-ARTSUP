@@ -3,28 +3,16 @@ using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Inputs
 {
-    public class InputManager : MonoBehaviour
+    using Singleton;
+    
+    public class InputManager : MonoSingleton<InputManager>
     {
-        // Make Singleton !
-        private static InputManager _instance;
-        public static InputManager Instance => _instance;
-        
         private PlayerInput _currentPlayerInput;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-            
-            // Change current player input for change scenes
-            _instance._currentPlayerInput = FindFirstObjectByType<PlayerInput>();
+            base.Awake();
+            _currentPlayerInput = FindFirstObjectByType<PlayerInput>();
         }
 
         public void SwitchActionMap(string mappingName)
