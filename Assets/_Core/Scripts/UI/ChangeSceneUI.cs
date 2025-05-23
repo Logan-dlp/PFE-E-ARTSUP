@@ -28,6 +28,7 @@ namespace MoonlitMixes.UI
         {
             _panel.SetActive(true);
             _sceneName = sceneName;
+            _isLoading = false;
         }
 
         public void OpenCanvas() { }
