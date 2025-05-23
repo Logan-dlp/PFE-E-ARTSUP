@@ -53,7 +53,6 @@ namespace MoonlitMixes.UI
             if (callbackContext.started && !_isLoading)
             {
                 Debug.Log("ChangeScene triggered for: " + _sceneName);
-                InputManager.Instance.SwitchActionMap("UI");
 
                 if (!_hasPopup)
                 {
