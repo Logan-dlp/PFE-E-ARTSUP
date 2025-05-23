@@ -12,7 +12,7 @@ namespace MoonlitMixes.UI
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _panel;
-        [SerializeField] private GameObject _panelNoChestItem;
+        [SerializeField] private GameObject _panelNoChestItem; // facultatif selon la scène
         [SerializeField] private LastSceneNameData _lastSceneNameData;
         [SerializeField] private string _sceneTransfereItem;
 
@@ -35,8 +35,13 @@ namespace MoonlitMixes.UI
         public void CloseCanvas()
         {
             _panel.SetActive(false);
-            _panelNoChestItem.SetActive(false);
+
+            if (_panelNoChestItem != null)
+                _panelNoChestItem.SetActive(false);
+
             _hasPopup = false;
+            _isLoading = false;
+
             InputManager.Instance.SwitchActionMap("Player");
 
             if (_sceneName == "S_Forest")
@@ -48,6 +53,7 @@ namespace MoonlitMixes.UI
             if (callbackContext.started && !_isLoading)
             {
                 Debug.Log("ChangeScene triggered for: " + _sceneName);
+                InputManager.Instance.SwitchActionMap("UI");
 
                 if (!_hasPopup)
                 {
@@ -65,10 +71,19 @@ namespace MoonlitMixes.UI
                             }
                             else
                             {
-                                Debug.Log("No items to send, showing popup.");
-                                _hasPopup = true;
-                                _panelNoChestItem.SetActive(true);
-                                _panel.SetActive(false);
+                                if (_panelNoChestItem != null && SceneManager.GetActiveScene().name == "S_Forest")
+                                {
+                                    Debug.Log("No items to send, showing popup for S_Forest.");
+                                    _hasPopup = true;
+                                    _panelNoChestItem.SetActive(true);
+                                    _panel.SetActive(false);
+                                }
+                                else
+                                {
+                                    Debug.Log("No items to send, continuing without popup.");
+                                    _isLoading = true;
+                                    SceneLoader.LoadAsyncScene(_sceneName, _animator);
+                                }
                             }
                         }
                         else
@@ -94,9 +109,13 @@ namespace MoonlitMixes.UI
         public void ConfirmForceChangeScene()
         {
             Debug.Log("ConfirmForceChangeScene called.");
-            _panelNoChestItem.SetActive(false);
+
+            if (_panelNoChestItem != null)
+                _panelNoChestItem.SetActive(false);
+
             _hasPopup = false;
             _isLoading = false;
+
             ForceChangeScene();
         }
 
@@ -108,14 +127,14 @@ namespace MoonlitMixes.UI
                 return;
             }
 
-            Debug.Log("ForceChangeScene: Loading " + _sceneName);
-            _isLoading = true;
             if (string.IsNullOrEmpty(_sceneName))
             {
                 Debug.LogError("No scene name set to load!");
-                _isLoading = false;
                 return;
             }
+
+            Debug.Log("ForceChangeScene: Loading " + _sceneName);
+            _isLoading = true;
             SceneLoader.LoadAsyncScene(_sceneName, _animator);
         }
     }
