@@ -17,7 +17,7 @@ namespace MoonlitMixes.UI
 
         private void OnDisable()
         {
-            _scriptableCallbackContextEvent.OnContextEvent += ChangeChapter;
+            _scriptableCallbackContextEvent.OnContextEvent -= ChangeChapter;
         }
         
         public void ChangeChapter(InputAction.CallbackContext context)

@@ -1,6 +1,7 @@
 using MoonlitMixes.Potion;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace MoonlitMixes.UI
 {
@@ -8,16 +9,14 @@ namespace MoonlitMixes.UI
     {
         [SerializeField] private GameObject _headerRecipe;
         [SerializeField] private GameObject _recipeTemplate;
-        [SerializeField] private Recipe[] _recipeArray;
+        [SerializeField] private GameObject _recipeParent;
         [SerializeField] private ScriptableCallbackContextEvent _scriptableCallbackContextEvent;
-        public RecipeTemplate recipeTemplate;
+        [SerializeField] private Recipe[] _recipeArray;
+        [SerializeField] private Sprite[] _numberSpriteArray;
+        [SerializeField] private Sprite[] _actionSpriteArray;
+        [SerializeField] private RecipeTemplate recipeTemplate;
 
         private int _recipeIndex;
-
-        private void Start()
-        {
-
-        }
 
         private void OnEnable()
         {
@@ -26,13 +25,14 @@ namespace MoonlitMixes.UI
 
         private void OnDisable()
         {
-            _scriptableCallbackContextEvent.OnContextEvent += ChangeRecipe;
+            _scriptableCallbackContextEvent.OnContextEvent -= ChangeRecipe;
         }
 
         public void ChangeRecipe(InputAction.CallbackContext context)
         {
-            if (context.started && gameObject.activeInHierarchy)
+            if (context.started && _recipeParent.activeInHierarchy)
             {
+                Debug.Log("");
                 if (context.ReadValue<Vector2>().x > 0.5)
                 {
                     if (_recipeIndex < _recipeArray.Length - 1)
@@ -70,7 +70,7 @@ namespace MoonlitMixes.UI
 
         private void SetTempalateInfo(Recipe recipe)
         {
-
+            recipeTemplate.PotionImage.GetComponent<Image>().sprite = recipe.PotionSprite;
         }
     }
 }
