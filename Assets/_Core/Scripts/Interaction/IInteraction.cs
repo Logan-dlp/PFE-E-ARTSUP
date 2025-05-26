@@ -1,4 +1,6 @@
-﻿namespace MoonlitMixes.Interactions
+﻿using UnityEngine;
+
+namespace MoonlitMixes.Interactions
 {
     using ExplorationTools;
     
@@ -7,6 +9,6 @@
         public ToolType GetToolType();
         public void EnableUI();
         public void DisableUI();
-        public void Interact();
+        public GameObject Interact();
     }
 }

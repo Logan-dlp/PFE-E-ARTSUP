@@ -3,15 +3,18 @@ using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Interactions
 {
+    using Item;
     using ExplorationTools;
     
     public class InteractionTools : Interaction
     {
         private UseTools _useTools;
+        private RouletteSelectionTools _rouletteSelectionTools;
         
         private void Awake()
         {
             _useTools = FindFirstObjectByType<UseTools>();
+            _rouletteSelectionTools = FindFirstObjectByType<RouletteSelectionTools>();
         }
 
         protected override void CheckInteraction()
@@ -26,7 +29,7 @@ namespace MoonlitMixes.Interactions
                         {
                             CurrentInteraction.DisableUI();
                             
-                            if (interact.GetToolType() == _useTools.CurrentTool || interact.GetToolType() == ToolType.Hand)
+                            if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType || interact.GetToolType() == ToolType.Hand)
                             {
                                 CurrentInteraction = interact;
                                 CurrentInteraction.EnableUI();
@@ -39,7 +42,7 @@ namespace MoonlitMixes.Interactions
                     }
                     else
                     {
-                        if (interact.GetToolType() == _useTools.CurrentTool || interact.GetToolType() == ToolType.Hand)
+                        if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType || interact.GetToolType() == ToolType.Hand)
                         {
                             CurrentInteraction = interact;
                             CurrentInteraction.EnableUI();
@@ -59,7 +62,7 @@ namespace MoonlitMixes.Interactions
 
             if (CurrentInteraction != null)
             {
-                if (CurrentInteraction.GetToolType() != ToolType.Hand && CurrentInteraction.GetToolType() != _useTools.CurrentTool)
+                if (CurrentInteraction.GetToolType() != ToolType.Hand && CurrentInteraction.GetToolType() != _rouletteSelectionTools.CurrentToolType)
                 {
                     CurrentInteraction.DisableUI();
                     CurrentInteraction = null;
@@ -79,25 +82,8 @@ namespace MoonlitMixes.Interactions
                 {
                     if (CurrentInteraction.GetToolType() == ToolType.Hand)
                     {
-                        CurrentInteraction.Interact();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// As Interact with tool in UseTool Script.
-        /// </summary>
-        /// <param name="ctx">input</param>
-        public void InteractWithTool(InputAction.CallbackContext ctx)
-        {
-            if (ctx.started)
-            {
-                if (CurrentInteraction != null)
-                {
-                    if (CurrentInteraction.GetToolType() == _useTools.CurrentTool)
-                    {
-                        CurrentInteraction.Interact();
+                        _useTools.UseHand(CurrentInteraction.Interact().GetComponent<ItemListSource>());
+                        CurrentInteraction = null;
                     }
                 }
             }
