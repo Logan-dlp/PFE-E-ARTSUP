@@ -15,12 +15,12 @@ namespace MoonlitMixes.Extensions
                     objectList.Add(monoBehaviour.gameObject);
                 }
             }
-            
+
             if (objectList.Count > 0)
             {
                 return objectList.ToArray();
             }
-            
+
             return default(GameObject[]);
         }
     }
