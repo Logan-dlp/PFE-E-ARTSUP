@@ -1,6 +1,5 @@
 ﻿using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue.Effect;
-using MoonlitMixes.Inputs;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -27,6 +26,8 @@ namespace MoonlitMixes.Dialogue
         private int _dialogueIndex = 0;
         private bool _isTyping = false;
         private bool _isSkipText = false;
+        private bool _isEffectRunning = false;
+        private bool _hasSkippedEffect = false;
 
         private PlayerInput _playerInput;
         private InputActionAsset _inputActionAsset;
@@ -49,7 +50,6 @@ namespace MoonlitMixes.Dialogue
                 Debug.LogError("PlayerInput or InputActionAsset is missing in DialogueController!");
             }
 
-            // Lier les textes aux sprites
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 if (i < _textBoxes.Length && _spriteSpeakerEffects[i] != null)
@@ -61,11 +61,19 @@ namespace MoonlitMixes.Dialogue
 
         public void StartDialogue(DialogueData dialogue)
         {
-            if (_inputActionAsset == null)
+            if (_inputActionAsset == null) return;
+
+            _originalActionMap = _inputActionAsset.FindActionMap("Player");
+            InputActionMap dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
+
+            if (_originalActionMap == null || dialogueActionMap == null)
+            {
+                Debug.LogError("Missing ActionMap: 'Player' or 'Dialogue'");
                 return;
+            }
 
             _panelDialogue.SetActive(true);
-            InputManager.Instance.SwitchActionMap("Dialogue");
+            dialogueActionMap.Enable();
 
             _currentDialogue = dialogue;
             if (_currentDialogue?.Lines == null || _currentDialogue.Lines.Length == 0)
@@ -81,6 +89,11 @@ namespace MoonlitMixes.Dialogue
 
         public void DisplayNextDialogue()
         {
+            if (_isEffectRunning)
+            {
+                return;
+            }
+
             if (_dialogueIndex >= _currentDialogue.Lines.Length)
             {
                 EndDialogue();
@@ -88,7 +101,7 @@ namespace MoonlitMixes.Dialogue
             }
 
             DialogueLineData line = _currentDialogue.Lines[_dialogueIndex];
-            int speakerIndex = ((int)line.SpeakerSlot);
+            int speakerIndex = line.SpeakerIndex;
 
             if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
             {
@@ -105,54 +118,74 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            if (_spriteSpeakerEffects != null && _textSpeakerEffects != null)
+            // 👉 DIM DES AUTRES immédiatement
+            for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
-                for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
+                if (i == speakerIndex) continue;
+
+                var otherSprite = _spriteSpeakerEffects[i];
+                var otherText = _textSpeakerEffects[i];
+
+                otherSprite?.DimEffect();
+                otherText?.DimEffect();
+            }
+
+            for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
+            {
+                var spriteEffect = _spriteSpeakerEffects[i];
+                var textEffect = _textSpeakerEffects[i];
+
+                if (spriteEffect != null && textEffect != null)
                 {
-                    var spriteEffect = _spriteSpeakerEffects[i];
-                    var textEffect = _textSpeakerEffects[i];
+                    spriteEffect.SetDialogueLineData(line);
+                    textEffect.SetDialogueLineData(line);
 
-                    if (spriteEffect != null && textEffect != null)
+                    if (i == speakerIndex)
                     {
-                        spriteEffect.SetDialogueLineData(line);
-                        textEffect.SetDialogueLineData(line);
+                        spriteEffect.ResetEffect();
+                        textEffect.ResetEffect();
 
-                        if (i == speakerIndex)
-                        {
-                            // Quand le personnage parle, on réinitialise (opaque) son texte et son sprite
-                            spriteEffect.ResetEffect();
-                            textEffect.ResetEffect();
-
-                            ApplyEffect(line.Effect, spriteEffect);
-                            ApplyEffect(line.Effect, textEffect);
-                        }
-                        else
-                        {
-                            // Les autres sont en dim
-                            spriteEffect.DimEffect();
-                            textEffect.DimEffect();
-                        }
+                        StartCoroutine(PlayEffectsBeforeText(line, spriteEffect, textEffect, _textBoxes[speakerIndex]));
                     }
                 }
             }
-            
-            SetSprite(line.SpeakerSprite, _imageSpeakers[speakerIndex]);
-            WriteText(line.Text, _textBoxes[speakerIndex]);
-            StartCoroutine(TypeText(line.Text, _textBoxes[speakerIndex]));
 
             _dialogueIndex++;
+        }
+
+        private IEnumerator PlayEffectsBeforeText(DialogueLineData line, SpeakerEffect spriteEffect, SpeakerEffect textEffect, TMP_Text textBox)
+        {
+            _isEffectRunning = true;
+
+            if (line.Effect == SpeakerEffectType.FadeIn)
+            {
+                yield return spriteEffect.PlayEffect(line.Effect);
+                yield return textEffect.PlayEffect(line.Effect);
+            }
+
+            WriteText(line.Text, textBox);
+            yield return StartCoroutine(TypeText(line.Text, textBox));
+
+            if (line.Effect == SpeakerEffectType.FadeOut)
+            {
+                yield return spriteEffect.PlayEffect(line.Effect);
+                yield return textEffect.PlayEffect(line.Effect);
+            }
+
+            _isEffectRunning = false;
+
+            // Si on a skippé un effet, mais qu'on n’a pas encore avancé la ligne : on le fait maintenant
+            if (_hasSkippedEffect)
+            {
+                _hasSkippedEffect = false;
+                DisplayNextDialogue();
+            }
         }
 
         private IEnumerator DisplayNextDialogueWithDelay()
         {
             yield return null;
             DisplayNextDialogue();
-        }
-
-        private void SetSprite(Sprite sprite, Image image)
-        {
-            image.sprite = sprite;
-            image.preserveAspect = true;
         }
 
         private void WriteText(string text, TMP_Text textBox)
@@ -163,11 +196,9 @@ namespace MoonlitMixes.Dialogue
 
         private IEnumerator TypeText(string text, TMP_Text textBox)
         {
+            _isTyping = true;
             for (int i = 0; i < text.Length; ++i)
             {
-                textBox.maxVisibleCharacters++;
-                _isTyping = true;
-
                 if (_isSkipText)
                 {
                     textBox.maxVisibleCharacters = text.Length;
@@ -175,35 +206,19 @@ namespace MoonlitMixes.Dialogue
                     break;
                 }
 
+                textBox.maxVisibleCharacters++;
                 yield return new WaitForSeconds(_letterDelay);
             }
-
             _isTyping = false;
-        }
-
-        private void ApplyEffect(SpeakerEffectType effectType, SpeakerEffect speaker)
-        {
-            switch (effectType)
-            {
-                case SpeakerEffectType.Tremble:
-                    speaker.ApplyEffect(effectType);
-                    break;
-
-                case SpeakerEffectType.Jump:
-                    speaker.ApplyEffect(effectType);
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         public void EndDialogue()
         {
             _panelDialogue.SetActive(false);
-            InputManager.Instance.SwitchActionMap("Player");
+            _inputActionAsset.FindActionMap("Dialogue")?.Disable();
+            _originalActionMap?.Enable();
 
-            foreach (var textBox in _textBoxes)
+            foreach (TMP_Text textBox in _textBoxes)
             {
                 if (textBox != null)
                 {
@@ -217,17 +232,36 @@ namespace MoonlitMixes.Dialogue
 
         public void OnNextDialoguePressed(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed)
+            if (!ctx.performed) return;
+
+            if (_isEffectRunning && !_hasSkippedEffect)
             {
-                if (_isTyping)
+                // Première pression pendant un effet : on skip l'effet
+                _hasSkippedEffect = true;
+
+                foreach (SpeakerEffect effect in _spriteSpeakerEffects)
                 {
-                    _isSkipText = true;
+                    if (effect != null)
+                        effect.SkipEffectNow = true;
                 }
-                else
+
+                foreach (SpeakerEffect effect in _textSpeakerEffects)
                 {
-                    DisplayNextDialogue();
+                    if (effect != null)
+                        effect.SkipEffectNow = true;
                 }
+
+                return; // ne passe pas à la ligne suivante tant que l’effet est en cours
             }
+
+            if (_isTyping)
+            {
+                _isSkipText = true;
+                return;
+            }
+
+            // Si pas d’effet en cours ou déjà skippé
+            DisplayNextDialogue();
         }
     }
 }

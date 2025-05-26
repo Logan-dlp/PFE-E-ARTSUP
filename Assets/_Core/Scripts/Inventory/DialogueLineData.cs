@@ -14,6 +14,12 @@ namespace MoonlitMixes.Datas
         [SerializeField, HideInInspector] private float _trembleIntensityX = 5f;
         [SerializeField, HideInInspector] private float _trembleIntensityY = 5f;
 
+        [SerializeField, Range(0.1f, 5f), HideInInspector] private float _fadeInDuration = 0.5f;
+        [SerializeField, Range(0.1f, 5f), HideInInspector] private float _fadeOutDuration = 0.5f;
+
+        public float FadeInDuration => _fadeInDuration;
+        public float FadeOutDuration => _fadeOutDuration;
+
         public string Text => _text;
         public SpeakerSlot SpeakerSlot => _speakerSlot;
         public Sprite SpeakerSprite => _speakerSprite;
@@ -32,6 +38,7 @@ namespace MoonlitMixes.Datas
         }
 
         public bool IsTrembleEffect => _effect == SpeakerEffectType.Tremble;
+        public bool IsFadeEffect => _effect == SpeakerEffectType.FadeIn || _effect == SpeakerEffectType.FadeOut;
     }
 
     public enum SpeakerSlot
@@ -46,6 +53,8 @@ namespace MoonlitMixes.Datas
     {
         None,
         Tremble,
-        Jump
+        Jump,
+        FadeIn,
+        FadeOut
     }
 }
