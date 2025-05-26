@@ -6,7 +6,8 @@ using UnityEngine.UI;
 namespace MoonlitMixes.UI
 {
     using Inventory;
-    
+    using System.Collections;
+
     [RequireComponent(typeof(ScrollRect))]
     public class ScrollRectAutoScroll : MonoBehaviour
     {
@@ -41,26 +42,25 @@ namespace MoonlitMixes.UI
             
             _scrollRect.verticalScrollbar.value = Mathf.Lerp(_scrollRect.verticalScrollbar.value, _currentScrollBarValue, Time.unscaledTime * _transitionSpeed);
         }
-        
+
         private void UpdateScroller()
         {
+            StartCoroutine(DelayedUpdateScroller());
+        }
+
+        private IEnumerator DelayedUpdateScroller()
+        {
+            yield return null;
+
             RefreshCellarItems();
 
-            float maxVue = _cellarItemList.Count / (float)_maxItemPerVue;
-            if (maxVue % 1 > 0)
-            {
-                maxVue = maxVue + 1 - maxVue % 1;
-            }
-            
-            float currentVue = (_cellarItemList.IndexOf(_currentSelectedItem) + 1) / (float)_maxItemPerVue;
-            if (currentVue % 1 > 0)
-            {
-                currentVue = currentVue + 1 - currentVue % 1;
-            }
-            
-            _currentScrollBarValue = 1 - ((currentVue - 1) / (maxVue - 1));
+            float maxVue = Mathf.Ceil(_cellarItemList.Count / (float)_maxItemPerVue);
+            float currentVue = Mathf.Ceil((_cellarItemList.IndexOf(_currentSelectedItem) + 1) / (float)_maxItemPerVue);
+
+            _currentScrollBarValue = 1 - ((currentVue - 1) / Mathf.Max(1, (maxVue - 1)));
         }
-        
+
+
         private void RefreshCellarItems()
         {
             if (_cellarItemList != null || _cellarItemList.Count > 0) 
