@@ -1,4 +1,3 @@
- 
 using UnityEngine;
 
 namespace MoonlitMixes.Datas
@@ -7,7 +6,7 @@ namespace MoonlitMixes.Datas
     public class DialogueLineData : ScriptableObject
     {
         [SerializeField, TextArea] private string _text;
-        [SerializeField] private SpeakerSlot _speakerSlot;
+        [SerializeField] private int _speakerIndex;  // 0 pour le personnage 1, 1 pour le personnage 2, etc.
         [SerializeField] private Sprite _speakerSprite;
         [SerializeField] private SpeakerEffectType _effect;
 
@@ -21,7 +20,7 @@ namespace MoonlitMixes.Datas
         public float FadeOutDuration => _fadeOutDuration;
 
         public string Text => _text;
-        public SpeakerSlot SpeakerSlot => _speakerSlot;
+        public int SpeakerIndex => _speakerIndex;
         public Sprite SpeakerSprite => _speakerSprite;
         public SpeakerEffectType Effect => _effect;
 
@@ -39,14 +38,6 @@ namespace MoonlitMixes.Datas
 
         public bool IsTrembleEffect => _effect == SpeakerEffectType.Tremble;
         public bool IsFadeEffect => _effect == SpeakerEffectType.FadeIn || _effect == SpeakerEffectType.FadeOut;
-    }
-
-    public enum SpeakerSlot
-    {
-        Slot1 = 0,
-        Slot2 = 1,
-        Slot3 = 2,
-        Slot4 = 3
     }
 
     public enum SpeakerEffectType
