@@ -14,13 +14,13 @@ namespace MoonlitMixes.AI.PNJ
 
         public void OnToggleShop()
         {
-            if (_dayNightCycleInfo.ActualTimePhase == 2)
-            {
+            //if (_dayNightCycleInfo.ActualTimePhase == 0)
+            //{
                 OnShopToggled?.Invoke(true);
                 CustomerSpawner.RequestSpawning();
                 OnShopUIShouldDeactivate?.Invoke();
                 _dayNightCycleInfo.ActualTimePhase++;
-            }
+            //}
         }
     }
 }

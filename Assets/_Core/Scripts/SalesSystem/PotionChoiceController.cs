@@ -10,9 +10,9 @@ namespace MoonlitMixes.Dialogue
         [SerializeField] private GameObject _potionChoicePanel;
         [SerializeField] private PotionInventory _potionInventory;
 
-        private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
+        private PotionResult[] _requestedPotions;
+        private Dictionary<string, int> _potionPrices = new();
         private PotionPriceCalculate _potionPriceCalculated;
-
 
         private PotionResult _selectedPotionResult;
         public PotionResult SelectedPotionResult => _selectedPotionResult;
@@ -29,26 +29,37 @@ namespace MoonlitMixes.Dialogue
             _potionChoicePanel.SetActive(false);
         }
 
+        public void SetRequestedPotions(PotionResult[] requestedPotions)
+        {
+            _requestedPotions = requestedPotions;
+        }
+
         public void ShowPotionChoices()
         {
             _potionChoicePanel.SetActive(true);
 
-            if (_potionInventory.PotionList.Count > 0)
+            if (_requestedPotions != null && _requestedPotions.Length > 0)
             {
-                _selectedPotionResult = _potionInventory.PotionList[0];
-                Debug.Log($"Potion choisie par le PNJ : {_selectedPotionResult}");
+                _selectedPotionResult = _requestedPotions[0]; // 💡 Choix manuel depuis l’inspecteur
+                Debug.Log($"Potion assignée au PNJ : {_selectedPotionResult}");
 
                 if (_potionPrices.TryGetValue(_selectedPotionResult.Recipe.RecipeName, out int price))
                 {
-                    Debug.Log($"Potion confirm�e: {_selectedPotionResult}, Prix: {price}");
+                    Debug.Log($"Potion confirmée: {_selectedPotionResult}, Prix: {price}");
                     _potionPrices.Remove(_selectedPotionResult.Recipe.RecipeName);
 
                     if (_potionPriceCalculated != null)
                     {
                         _potionPriceCalculated.SetSelectedPotionPrice(price);
                     }
-                    _potionPrices[_selectedPotionResult.Recipe.RecipeName] = _potionInventory.PotionList[0].Price;
+
+                    _potionPrices[_selectedPotionResult.Recipe.RecipeName] = _selectedPotionResult.Price;
                 }
+            }
+            else
+            {
+                Debug.LogWarning("Aucune potion assignée au PNJ.");
+                _selectedPotionResult = null;
             }
 
             _potionInventory.UpdatePotionCanvas();

@@ -1,5 +1,6 @@
-using MoonlitMixes.AI.PNJ.StateMachine.States;
+﻿using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Dialogue;
 using MoonlitMixes.Potion;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
             };
 
             SetState(new SpawnState());
+
+            PotionChoiceController controller = FindFirstObjectByType<PotionChoiceController>();
+            if (controller != null)
+            {
+                controller.SetRequestedPotions(_requestPotionArray);
+            }
         }
 
         private void Update()
