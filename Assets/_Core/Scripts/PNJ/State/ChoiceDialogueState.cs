@@ -12,6 +12,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
         private bool _isDialogueFinished = false;
         private bool _isSuccess = false;
         private bool _isNoPotion = false;
+        private int _failedAttempt = 0;
 
         public void EnterState(PNJData data)
         {
@@ -19,13 +20,13 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             _potionPriceCalculated = Object.FindFirstObjectByType<PotionPriceCalculate>();
             _potionChoiceController = Object.FindFirstObjectByType<PotionChoiceController>();
 
-            data.Agent.isStopped = true;
-            data.Animator.SetBool("isWalking", false);
+            data.agent.isStopped = true;
+            data.animator.SetBool("isWalking", false);
 
             int potionPrice = 100;
             if (_potionInventory != null)
             {
-                PotionResult selectedPotion = _potionInventory.PotionList.Find(p => p.Recipe.RecipeName == data.StateMachine.SelectedPotionName);
+                PotionResult selectedPotion = _potionInventory.PotionList.Find(p => p == data.selectedPotionResult);
                 if (selectedPotion != null)
                 {
                     potionPrice = selectedPotion.Price;
@@ -34,25 +35,42 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
             DialogueController.OnDialogueFinished += OnDialogueEnd;
 
-            if (_potionChoiceController.SelectedPotionName == data.StateMachine.SelectedPotionName)
+            if (IsSelectedPotionValid(data))
             {
                 _isSuccess = true;
-                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.StateMachine.FailedAttempts);
-                DialogueController.Instance.StartDialogue(data.StateMachine.SuccessDialogueData);
+                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _failedAttempt);
+                DialogueController.Instance.StartDialogue(data.successDialogueData);
             }
-            else if (string.IsNullOrEmpty(data.StateMachine.SelectedPotionName))
-            {
-                _isNoPotion = true;
-                data.StateMachine.ResetFailedAttempts();
-                _potionPriceCalculated?.CalculatePotionPrice(0, 0);
-                DialogueController.Instance.StartDialogue(data.StateMachine.NoPotionDialogueData);
-            }
+            //else if (/*IsNullOrEmpty = si c'est 0 valid*/data.selectedPotionResult)
+            //{
+            //    _isNoPotion = true;
+            //    ResetFailedAttempts();
+            //    _potionPriceCalculated?.CalculatePotionPrice(0, 0);
+            //    DialogueController.Instance.StartDialogue(data.noPotionDialogueData);
+            //}
             else
             {
-                data.StateMachine.IncrementFailedAttempts();
-                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.StateMachine.FailedAttempts);
-                DialogueController.Instance.StartDialogue(data.StateMachine.FailureDialogueData);
+                IncrementFailedAttempts();
+                _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _failedAttempt);
+                DialogueController.Instance.StartDialogue(data.failureDialogueData);
             }
+        }
+
+        private bool IsSelectedPotionValid(PNJData data)
+        {
+            return System.Array.Exists(data.requestPotionArray, p => p == data.selectedPotionResult);
+        }
+
+
+        private void IncrementFailedAttempts()
+        {
+
+            _failedAttempt++;
+        }
+
+        private void ResetFailedAttempts()
+        {
+            _failedAttempt = 0;
         }
 
         public IPNJState UpdateState(PNJData data)
@@ -63,12 +81,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
                 if (_isSuccess || _isNoPotion)
                 {
-                    data.StateMachine.ResetFailedAttempts();
+                    ResetFailedAttempts();
                     return new MoveToStartState();
                 }
                 else
                 {
-                    if (data.StateMachine.FailedAttempts < 3)
+                    if (_failedAttempt < 3)
                     {
                         return new ChoosePotionState();
                     }
@@ -84,7 +102,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void ExitState(PNJData data)
         {
-            data.Agent.isStopped = false;
+            data.agent.isStopped = false;
             DialogueController.OnDialogueFinished -= OnDialogueEnd;
         }
 

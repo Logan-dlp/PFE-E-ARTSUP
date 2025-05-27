@@ -9,26 +9,15 @@ namespace MoonlitMixes.Dialogue
     {
         [SerializeField] private GameObject _potionChoicePanel;
         [SerializeField] private PotionInventory _potionInventory;
-        [SerializeField] private ScriptablePotionResultEvent _scriptablePotionResultEvent;
 
         private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
         private PotionPriceCalculate _potionPriceCalculated;
 
 
-        private string _selectedPotionName;
-        public string SelectedPotionName => _selectedPotionName;
+        private PotionResult _selectedPotionResult;
+        public PotionResult SelectedPotionResult => _selectedPotionResult;
 
-        public static event Action<string> OnPotionChoiceSelected;
-
-        private void OnEnable()
-        {
-            _scriptablePotionResultEvent.OnPotionResultEvent += SetSelectedPotion;
-        }
-
-        private void OnDisable()
-        {
-            _scriptablePotionResultEvent.OnPotionResultEvent -= SetSelectedPotion;
-        }
+        public static event Action<PotionResult> OnPotionChoiceSelected;
 
         private void Awake()
         {
@@ -46,42 +35,38 @@ namespace MoonlitMixes.Dialogue
 
             if (_potionInventory.PotionList.Count > 0)
             {
-                Debug.Log($"Potion choisie par le PNJ : {_selectedPotionName}");
+                _selectedPotionResult = _potionInventory.PotionList[0];
+                Debug.Log($"Potion choisie par le PNJ : {_selectedPotionResult}");
 
-                if (_potionPrices.TryGetValue(_selectedPotionName, out int price))
+                if (_potionPrices.TryGetValue(_selectedPotionResult.Recipe.RecipeName, out int price))
                 {
-                    Debug.Log($"Potion confirm�e: {_selectedPotionName}, Prix: {price}");
-                    _potionPrices.Remove(_selectedPotionName);
+                    Debug.Log($"Potion confirm�e: {_selectedPotionResult}, Prix: {price}");
+                    _potionPrices.Remove(_selectedPotionResult.Recipe.RecipeName);
 
                     if (_potionPriceCalculated != null)
                     {
                         _potionPriceCalculated.SetSelectedPotionPrice(price);
                     }
-                    _potionPrices[_selectedPotionName] = _potionInventory.PotionList[0].Price;
+                    _potionPrices[_selectedPotionResult.Recipe.RecipeName] = _potionInventory.PotionList[0].Price;
                 }
             }
 
             _potionInventory.UpdatePotionCanvas();
         }
 
-        public void SelectPotion(string potionName)
+        public void SelectPotion(PotionResult potionResult)
         {
-            if (_selectedPotionName == potionName)
+            if (_selectedPotionResult == potionResult)
             {
                 Debug.Log("Bonne potion choisie !");
             }
             else
             {
-                Debug.Log(string.IsNullOrEmpty(potionName) ? "Pas de potion choisie !" : "Mauvaise potion, essayez encore !");
+                Debug.Log(potionResult == null ? "Pas de potion choisie !" : "Mauvaise potion, essayez encore !");
             }
 
-            OnPotionChoiceSelected?.Invoke(potionName);
+            OnPotionChoiceSelected?.Invoke(potionResult);
             _potionChoicePanel.SetActive(false);
-        }
-
-        private void SetSelectedPotion(PotionResult potionResult)
-        {
-            _selectedPotionName = potionResult.Recipe.RecipeName;
         }
     }
 }

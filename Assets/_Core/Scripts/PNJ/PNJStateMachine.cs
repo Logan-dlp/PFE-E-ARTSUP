@@ -1,8 +1,10 @@
 using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Potion;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 namespace MoonlitMixes.AI.PNJ.StateMachine
 {
@@ -10,17 +12,10 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
     {
         public event System.Action OnDespawn;
 
-        public string SelectedPotionName { get; private set; }
-        public int FailedAttempts => _failedAttempts;
-        public DialogueData BeginDialogueData => _beginDialogueData;
-        public DialogueData SuccessDialogueData => _successDialogueData;
-        public DialogueData FailureDialogueData => _failureDialogueData;
-        public DialogueData NoPotionDialogueData => _noPotionDialogueData;
-
         [Header("Configuration")]
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
-        [SerializeField] private PotionListData _potionList;
+        [SerializeField] private PotionResult[] _requestPotionArray;
 
         [Header("Dialogue Settings")]
         [SerializeField] private DialogueData _beginDialogueData;
@@ -31,12 +26,8 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
         private NavMeshAgent _agent;
         private Animator _animator;
         private PNJData _pnjData;
-        public PNJData pnjData
-        {
-            get => _pnjData;
-        }
         private IPNJState _currentState;
-        private int _failedAttempts = 0;
+        private List<PotionResult> _potionValidList = new();
 
         private void Awake()
         {
@@ -47,14 +38,28 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
 
         public void Initialize()
         {
-            List<Transform> waypoints = new List<Transform>();
+            List<Transform> waypoints = new();
             foreach (Transform child in _waypointsParent)
             {
                 waypoints.Add(child);
             }
 
-            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration, _potionList, this);
-
+            _pnjData = new PNJData
+            {
+                pnjGameObject = gameObject,
+                agent = _agent,
+                animator = _animator,
+                waypoints = waypoints,
+                dialogueDuration = _dialogueDuration,
+                requestPotionArray = _requestPotionArray,
+                potionValidList = _potionValidList,
+                beginDialogueData = _beginDialogueData,
+                failureDialogueData = _failureDialogueData,
+                noPotionDialogueData = _noPotionDialogueData,
+                successDialogueData = _successDialogueData,
+                OnDespawn = InvokeOnDespawn,
+                OnPotionSelected = SetSelectedPotion,
+            };
 
             SetState(new SpawnState());
         }
@@ -83,19 +88,25 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
             OnDespawn?.Invoke();
         }
 
-        public void SetSelectedPotion(string potionName)
+        public void SetSelectedPotion(PotionResult potionResultSelected)
         {
-            SelectedPotionName = potionName;
-        }
+            IEnumerable<PotionResult> result = _requestPotionArray.Except(_potionValidList);
 
-        public void IncrementFailedAttempts()
-        {
-            _failedAttempts++;
-        }
+            bool isPotionValid = false;
 
-        public void ResetFailedAttempts()
-        {
-            _failedAttempts = 0;
+            foreach (PotionResult potionResultItem in result)
+            {
+                if (potionResultItem == potionResultSelected)
+                {
+                    isPotionValid = true;
+                    break;
+                }
+            }
+
+            if (isPotionValid)
+            {
+                _potionValidList.Add(potionResultSelected);
+            }
         }
 
         private void DisablePNJ()

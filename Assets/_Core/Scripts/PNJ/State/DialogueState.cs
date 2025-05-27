@@ -1,5 +1,4 @@
 using MoonlitMixes.Dialogue;
-using UnityEngine;
 
 namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
@@ -9,12 +8,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void EnterState(PNJData data)
         {
-            data.Agent.isStopped = true;
-            data.Animator.SetBool("isWalking", false);
+            data.agent.isStopped = true;
+            data.animator.SetBool("isWalking", false);
 
-            if (DialogueController.Instance != null && data.StateMachine.BeginDialogueData != null)
+            if (DialogueController.Instance != null && data.beginDialogueData != null)
             {
-                DialogueController.Instance.StartDialogue(data.StateMachine.BeginDialogueData);
+                DialogueController.Instance.StartDialogue(data.beginDialogueData);
                 DialogueController.OnDialogueFinished += OnDialogueEnd;
             }
             else

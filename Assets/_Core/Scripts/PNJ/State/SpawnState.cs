@@ -4,8 +4,8 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
     {
         public void EnterState(PNJData data)
         {
-            data.Agent.enabled = true;
-            data.Animator.enabled = true;
+            data.agent.enabled = true;
+            data.animator.enabled = true;
         }
 
         public IPNJState UpdateState(PNJData data)

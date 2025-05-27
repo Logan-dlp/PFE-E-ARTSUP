@@ -9,26 +9,19 @@ namespace MoonlitMixes.AI.PNJ
 {
     public class PNJData
     {
-        public GameObject PNJGameObject { get; }
-        public NavMeshAgent Agent { get; }
-        public Animator Animator { get; }
-        public List<Transform> Waypoints { get; }
-        public float DialogueDuration { get; }
-        public int CurrentWaypointIndex { get; set; } = 0;
-
-        public PotionListData RequestPotionList { get; }
-        public PotionResult RequestPotion { get; }
-        public PNJStateMachine StateMachine { get; }
-
-        public PNJData(GameObject pnj, NavMeshAgent agent, Animator animator, List<Transform> waypoints, float dialogueDuration, PotionListData potionList, PNJStateMachine stateMachine)
-        {
-            PNJGameObject = pnj;
-            Agent = agent;
-            Animator = animator;
-            Waypoints = waypoints;
-            DialogueDuration = dialogueDuration;
-            RequestPotionList = potionList;
-            StateMachine = stateMachine;
-        }
+        public GameObject pnjGameObject;
+        public NavMeshAgent agent;
+        public Animator animator;
+        public List<Transform> waypoints;
+        public float dialogueDuration;
+        public PotionResult[] requestPotionArray;
+        public List<PotionResult> potionValidList;
+        public PotionResult selectedPotionResult;
+        public DialogueData beginDialogueData;
+        public DialogueData successDialogueData;
+        public DialogueData failureDialogueData;
+        public DialogueData noPotionDialogueData;
+        public System.Action OnDespawn;
+        public System.Action<PotionResult> OnPotionSelected;
     }
 }
