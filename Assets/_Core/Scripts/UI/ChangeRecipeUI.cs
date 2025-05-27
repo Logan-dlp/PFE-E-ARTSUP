@@ -10,13 +10,15 @@ namespace MoonlitMixes.UI
     public class ChangeRecipeUI : MonoBehaviour
     {
         [SerializeField] private GameObject _headerRecipe;
-        [SerializeField] private GameObject _recipeTemplate;
+        [SerializeField] private GameObject _recipeTemplateUI;
         [SerializeField] private GameObject _recipeParent;
         [SerializeField] private ScriptableCallbackContextEvent _scriptableCallbackContextEvent;
         [SerializeField] private Recipe[] _recipeArray;
         [SerializeField] private Sprite[] _numberSpriteArray;
         [SerializeField] private Sprite[] _actionSpriteArray;
-        [SerializeField] private RecipeTemplate recipeTemplate;
+        [SerializeField] private Sprite[] _potionSpriteArray;
+        [SerializeField] private RecipeTemplate _recipeTemplate;
+        [SerializeField] private ItemData _insect;
 
         private int _recipeIndex;
 
@@ -61,12 +63,12 @@ namespace MoonlitMixes.UI
                 {
                     Debug.Log("");
                     _headerRecipe.SetActive(true);
-                    _recipeTemplate.SetActive(false);
+                    _recipeTemplateUI.SetActive(false);
                 }
                 else
                 {
                     _headerRecipe.SetActive(false);
-                    _recipeTemplate.SetActive(true);
+                    _recipeTemplateUI.SetActive(true);
                     SetTempalateInfo(_recipeArray[_recipeIndex]);
                 }
             }
@@ -77,61 +79,99 @@ namespace MoonlitMixes.UI
             GameObject item;
             GameObject number;
             GameObject action;
-            
+
             if (_recipeIndex % 2 == 0)
             {
-                recipeTemplate.notePotion1.SetActive(false);
-                recipeTemplate.notePotion2.SetActive(true);
-                recipeTemplate.noteName2.text = recipe.RecipeName;
-                recipeTemplate.noteDescription2.text = recipe.Description;
+                _recipeTemplate.notePotion1.SetActive(false);
+                _recipeTemplate.notePotion2.SetActive(true);
+                _recipeTemplate.noteName2.text = recipe.RecipeName;
+                _recipeTemplate.noteDescription2.text = recipe.Description;
             }
             else
             {
-                recipeTemplate.notePotion1.SetActive(true);
-                recipeTemplate.notePotion2.SetActive(false);
-                recipeTemplate.noteName1.text = recipe.RecipeName;
-                recipeTemplate.noteDescription1.text = recipe.Description;
+                _recipeTemplate.notePotion1.SetActive(true);
+                _recipeTemplate.notePotion2.SetActive(false);
+                _recipeTemplate.noteName1.text = recipe.RecipeName;
+                _recipeTemplate.noteDescription1.text = recipe.Description;
             }
 
-            recipeTemplate.potionImage.sprite = recipe.PotionSprite;
+            _recipeTemplate.potionImage.sprite = _potionSpriteArray[_recipeIndex];
+            _recipeTemplate.potionImage.preserveAspect = true;
 
-            recipeTemplate.frameUI.transform.DestroyAllChild();
-            recipeTemplate.itemUI.transform.DestroyAllChild();
-            recipeTemplate.numberUI.transform.DestroyAllChild();
-            recipeTemplate.actionUI.transform.DestroyAllChild();
+            _recipeTemplate.frameUI.transform.DestroyAllChild();
+            _recipeTemplate.itemUI.transform.DestroyAllChild();
+            _recipeTemplate.numberUI.transform.DestroyAllChild();
+            _recipeTemplate.actionUI.transform.DestroyAllChild();
 
             for (int i = 0; i < recipe.RequiredIngredients.Count; i++)
             {
-                Instantiate(recipeTemplate.framePrefab, recipeTemplate.frameUI.transform);
-                item = Instantiate(recipeTemplate.itemPrefab, recipeTemplate.itemUI.transform);
-                number = Instantiate(recipeTemplate.numberPrefab, recipeTemplate.numberUI.transform);
-                action = Instantiate(recipeTemplate.actionPrefab, recipeTemplate.actionUI.transform);
+                Instantiate(_recipeTemplate.framePrefab, _recipeTemplate.frameUI.transform);
+                item = Instantiate(_recipeTemplate.itemPrefab, _recipeTemplate.itemUI.transform);
+                number = Instantiate(_recipeTemplate.numberPrefab, _recipeTemplate.numberUI.transform);
+                action = Instantiate(_recipeTemplate.actionPrefab, _recipeTemplate.actionUI.transform);
 
                 number.GetComponent<Image>().sprite = _numberSpriteArray[i];
+                number.GetComponent<Image>().preserveAspect = true;
 
                 if (recipe.RequiredIngredients[i].State == ItemUsage.Whole)
                 {
                     item.GetComponent<Image>().sprite = recipe.RequiredIngredients[i].ItemSprite;
+                    item.GetComponent<Image>().preserveAspect = true;
                 }
                 else
                 {
                     item.GetComponent<Image>().sprite = recipe.RequiredIngredients[i].SpriteItemOrigin;
+                    item.GetComponent<Image>().preserveAspect = true;
                 }
 
-                switch (recipe.RequiredIngredients[i].Usage)
+                if (recipe.RequiredIngredients[i].State == ItemUsage.Whole)
                 {
-                    case ItemUsage.Whole:
-                        action.GetComponent<Image>().sprite = _actionSpriteArray[0];
-                        break;
-                    case ItemUsage.Crush:
-                        action.GetComponent<Image>().sprite = _actionSpriteArray[1];
-                        break;
-                    case ItemUsage.Cut:
-                        action.GetComponent<Image>().sprite = _actionSpriteArray[2];
-                        break;
-                    default:
-                        action.GetComponent<Image>().sprite = _actionSpriteArray[3];
-                        break;
+                    switch (recipe.RequiredIngredients[i].Usage)
+                    {
+                        case ItemUsage.Whole:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[0];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                        case ItemUsage.Crush:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[1];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                        case ItemUsage.Cut:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[2];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                        default:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[3];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                    }
+                }
+                else if (recipe.RequiredIngredients[i] == _insect)
+                {
+                    action.GetComponent<Image>().sprite = _actionSpriteArray[4];
+                    action.GetComponent<Image>().preserveAspect = true;
+                }
+                else
+                {
+                    switch (recipe.RequiredIngredients[i].State)
+                    {
+                        case ItemUsage.Whole:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[0];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                        case ItemUsage.Crush:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[1];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                        case ItemUsage.Cut:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[2];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                        default:
+                            action.GetComponent<Image>().sprite = _actionSpriteArray[3];
+                            action.GetComponent<Image>().preserveAspect = true;
+                            break;
+                    }
                 }
             }
         }
