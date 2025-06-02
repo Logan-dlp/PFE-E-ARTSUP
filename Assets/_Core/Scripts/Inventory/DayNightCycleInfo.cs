@@ -11,28 +11,35 @@ namespace MoonlitMixes.Datas
         [SerializeField] private Material _skyBoxTwillight;
         [SerializeField] private Material _skyboxNight;        
         [SerializeField] private int _actualTimePhase;
+        [SerializeField] private int _actualDay;
+
+        public int ActualDay
+        {
+            get => _actualDay;
+            set => _actualDay = Mathf.Clamp(value, 0, 3);
+        }
         
-        public Material skyboxDawn
+        public Material SkyboxDawn
         {
             get => _skyboxDawn;
             set => _skyboxDawn = value;
         }
-        public Material skyboxDay
+        public Material SkyboxDay
         {
             get => _skyboxDay;
             set => _skyboxDay = value;
         }
-        public Material skyBoxAfternoon
+        public Material SkyBoxAfternoon
         {
             get => _skyBoxAfternoon;
             set => _skyBoxAfternoon = value;
         }
-        public Material skyBoxTwillight
+        public Material SkyBoxTwillight
         {
             get => _skyBoxTwillight;
             set => _skyBoxTwillight = value;
         }
-        public Material skyboxNight
+        public Material SkyboxNight
         {
             get => _skyboxNight;
             set => _skyboxNight = value;

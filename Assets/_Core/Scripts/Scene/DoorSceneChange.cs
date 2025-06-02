@@ -4,23 +4,31 @@ using UnityEngine;
 
 namespace MoonlitMixes.Scene
 {
-    public class DoorSceneChange : MonoBehaviour
+    public class DoorSceneChange : OpenCanvasSceneChange
     {
         [SerializeField] private string _sceneName;
+        [SerializeField] private int _timePhaseRequired;
+        [SerializeField] private bool _increaseTimePhase;
+        [SerializeField] private bool _needTimePhase;
+
         public string SceneName
         {
             get => _sceneName;
         }
 
-        public void OpenCanvas()
+        public override void OpenCanvas()
         {
             var canvasUI = FindFirstObjectByType<ChangeSceneUI>();
             if (canvasUI != null)
             {
-                canvasUI.OpenCanvas(_sceneName);
+                if (_needTimePhase && _dayNightCycleInfo.ActualTimePhase != _timePhaseRequired)
+                {
+                    return;
+                }
+                canvasUI.OpenCanvas(_sceneName, _increaseTimePhase);
                 InputManager.Instance.SwitchActionMap("ChangeScene");
             }
-            else
+            else if (canvasUI == null)
             {
                 Debug.LogError("ChangeSceneUI est introuvable dans la scène !");
             }

@@ -2,99 +2,102 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
-using MoonlitMixes.ExplorationTools;
+using MoonlitMixes.Datas;
 
-public class RouletteSelectionTools : MonoBehaviour
+namespace MoonlitMixes.ExplorationTools
 {
-    [SerializeField] private Image[] _toolSlots;
-    public Image[] ToolSlots
+    public class RouletteSelectionTools : MonoBehaviour
     {
-        get => _toolSlots;
-    }
-    [SerializeField] private List<GameObject> _toolGameObjects;
-    public List<GameObject> ToolGameObjects
-    {
-        get => _toolGameObjects;
-    }
-
-    private int _currentToolIndex = 0;
-    private List<ToolData> _tools;
-
-    public ToolType CurrentToolType { get; private set; }
-
-    private void Start()
-    {
-        _tools = new List<ToolData>();
-
-        _toolGameObjects = new List<GameObject>();
-
-        UpdateToolSlots();
-        UpdateActiveTool();
-    }
-
-    public void AddTool(ToolData newTool, GameObject toolPrefab)
-    {
-        _tools.Add(newTool);
-        _toolGameObjects.Add(toolPrefab);
-
-        toolPrefab.SetActive(false);
-
-        UpdateToolSlots();
-        UpdateActiveTool();
-    }
-
-    public void ChangeTool(InputAction.CallbackContext ctx)
-    {
-        if (!ctx.performed) return;
-
-        if (_tools.Count == 0 || _toolGameObjects.Count == 0) return;
-
-        float input = ctx.ReadValue<float>();
-
-        if (input > 0)
+        [SerializeField] private Image[] _toolSlots;
+        public Image[] ToolSlots
         {
-            _currentToolIndex = (_currentToolIndex + 1) % _tools.Count;
+            get => _toolSlots;
         }
-        else if (input < 0)
+        [SerializeField] private List<GameObject> _toolGameObjects;
+        public List<GameObject> ToolGameObjects
         {
-            _currentToolIndex = (_currentToolIndex - 1 + _tools.Count) % _tools.Count;
+            get => _toolGameObjects;
         }
 
-        CurrentToolType = _tools[_currentToolIndex].ToolType;
+        private int _currentToolIndex = 0;
+        private List<ToolData> _tools;
 
-        UpdateToolSlots();
-        UpdateActiveTool();
-    }
+        public ToolType CurrentToolType { get; private set; }
 
-    private void UpdateToolSlots()
-    {
-        for (int i = 0; i < _toolSlots.Length; i++)
+        private void Start()
         {
-            if (i < _tools.Count)
+            _tools = new List<ToolData>();
+
+            _toolGameObjects = new List<GameObject>();
+
+            UpdateToolSlots();
+            UpdateActiveTool();
+        }
+
+        public void AddTool(ToolData newTool, GameObject toolPrefab)
+        {
+            _tools.Add(newTool);
+            _toolGameObjects.Add(toolPrefab);
+
+            toolPrefab.SetActive(false);
+
+            UpdateToolSlots();
+            UpdateActiveTool();
+        }
+
+        public void ChangeTool(InputAction.CallbackContext ctx)
+        {
+            if (!ctx.performed) return;
+
+            if (_tools.Count == 0 || _toolGameObjects.Count == 0) return;
+
+            float input = ctx.ReadValue<float>();
+
+            if (input > 0)
             {
-                int toolIndex = (_currentToolIndex + i) % _tools.Count;
-                _toolSlots[i].sprite = _tools[toolIndex].ItemSprite;
-                _toolSlots[i].gameObject.SetActive(true);
-                _toolSlots[i].preserveAspect = true;
+                _currentToolIndex = (_currentToolIndex + 1) % _tools.Count;
             }
-            else
+            else if (input < 0)
             {
-                _toolSlots[i].gameObject.SetActive(false);
+                _currentToolIndex = (_currentToolIndex - 1 + _tools.Count) % _tools.Count;
+            }
+
+            CurrentToolType = _tools[_currentToolIndex].ToolType;
+
+            UpdateToolSlots();
+            UpdateActiveTool();
+        }
+
+        private void UpdateToolSlots()
+        {
+            for (int i = 0; i < _toolSlots.Length; i++)
+            {
+                if (i < _tools.Count)
+                {
+                    int toolIndex = (_currentToolIndex + i) % _tools.Count;
+                    _toolSlots[i].sprite = _tools[toolIndex].ItemSprite;
+                    _toolSlots[i].gameObject.SetActive(true);
+                    _toolSlots[i].preserveAspect = true;
+                }
+                else
+                {
+                    _toolSlots[i].gameObject.SetActive(false);
+                }
             }
         }
-    }
 
-    private void UpdateActiveTool()
-    {
-        for (int i = 0; i < _toolGameObjects.Count; i++)
+        private void UpdateActiveTool()
         {
-            if (i == _currentToolIndex)
+            for (int i = 0; i < _toolGameObjects.Count; i++)
             {
-                _toolGameObjects[i].SetActive(true);
-            }
-            else
-            {
-                _toolGameObjects[i].SetActive(false);
+                if (i == _currentToolIndex)
+                {
+                    _toolGameObjects[i].SetActive(true);
+                }
+                else
+                {
+                    _toolGameObjects[i].SetActive(false);
+                }
             }
         }
     }

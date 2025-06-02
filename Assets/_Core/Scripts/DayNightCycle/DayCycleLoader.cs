@@ -13,23 +13,23 @@ namespace MoonlitMixes.DayNightCycle
             switch(_dayNightCycleInfo.ActualTimePhase)
             {
                 case 1 :
-                    RenderSettings.skybox = _dayNightCycleInfo.skyboxDay;
+                    RenderSettings.skybox = _dayNightCycleInfo.SkyboxDay;
                     _dayCycleLights.TurnOnDayLight();
                     break;
                 case 2 :
-                    RenderSettings.skybox = _dayNightCycleInfo.skyBoxAfternoon;
+                    RenderSettings.skybox = _dayNightCycleInfo.SkyBoxAfternoon;
                     _dayCycleLights.TurnOnAfternoonLight();
                     break;
                 case 3 :
-                    RenderSettings.skybox = _dayNightCycleInfo.skyBoxTwillight;
+                    RenderSettings.skybox = _dayNightCycleInfo.SkyBoxTwillight;
                     _dayCycleLights.TurnOnTwillightLight();
                     break;
                 case 4 :
-                    RenderSettings.skybox = _dayNightCycleInfo.skyboxNight;
+                    RenderSettings.skybox = _dayNightCycleInfo.SkyboxNight;
                     _dayCycleLights.TurnOnNightLight();
                     break;
                 default :
-                    RenderSettings.skybox = _dayNightCycleInfo.skyboxDawn;
+                    RenderSettings.skybox = _dayNightCycleInfo.SkyboxDawn;
                     _dayNightCycleInfo.ActualTimePhase = 0;
                     _dayCycleLights.TurnOnDawnLight();
                     break;

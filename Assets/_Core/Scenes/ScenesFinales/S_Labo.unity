@@ -2482,7 +2482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &358401735
 Transform:
   m_ObjectHideFlags: 0
@@ -6661,7 +6661,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579188d2a7781d84bba0bc0e1d5eac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  _scriptableIntEventTimePhase: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
+  _scriptableIntEventDay: {fileID: 11400000, guid: cf059b05afc1b924fb4d3a5f42980889, type: 2}
   _sceneName: S_Shop
+  _timePhaseRequired: 0
+  _increaseTimePhase: 1
+  _needTimePhase: 0
 --- !u!65 &772701646
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12109,6 +12115,10 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 1921090706}
+    - target: {fileID: 4482382361091316008, guid: 14c2956037c524144a8ff2cb684943a4, type: 3}
+      propertyPath: _dayNightCycleInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

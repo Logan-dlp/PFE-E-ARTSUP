@@ -1,3 +1,5 @@
+using MoonlitMixes.ExplorationTools;
+
 namespace MoonlitMixes.Animation
 {
     public class AnimationExplorationManager : AAnimationManager
