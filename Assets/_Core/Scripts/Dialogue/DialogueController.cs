@@ -1,5 +1,6 @@
 ﻿using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue.Effect;
+using MoonlitMixes.Inputs;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -73,7 +74,8 @@ namespace MoonlitMixes.Dialogue
             }
 
             _panelDialogue.SetActive(true);
-            dialogueActionMap.Enable();
+            InputManager.Instance.SwitchActionMap("Dialogue");
+            //dialogueActionMap.Enable();
 
             _currentDialogue = dialogue;
             if (_currentDialogue?.Lines == null || _currentDialogue.Lines.Length == 0)
@@ -215,8 +217,10 @@ namespace MoonlitMixes.Dialogue
         public void EndDialogue()
         {
             _panelDialogue.SetActive(false);
-            _inputActionAsset.FindActionMap("Dialogue")?.Disable();
-            _originalActionMap?.Enable();
+            InputManager.Instance.SwitchActionMap("Player");
+
+            //_inputActionAsset.FindActionMap("Dialogue")?.Disable();
+            //_originalActionMap?.Enable();
 
             foreach (TMP_Text textBox in _textBoxes)
             {
