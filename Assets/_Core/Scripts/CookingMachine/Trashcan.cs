@@ -25,7 +25,7 @@ namespace MoonlitMixes.CookingMachine
         {
             _timer += Time.deltaTime;
 
-            // Animation idle uniquement si la bouche est fermée
+            // Animation idle uniquement si la bouche est fermï¿½e
             if (_timer >= _idleChangeTimer && !_mouthOpen)
             {
                 _animator.SetInteger(_animatorControllerParameterArray[2].name, Random.Range(0, 2));
@@ -33,7 +33,7 @@ namespace MoonlitMixes.CookingMachine
                 _timer = 0;
             }
 
-            // Vérifie si le joueur a jeté l'objet sans sortir du trigger
+            // Vï¿½rifie si le joueur a jetï¿½ l'objet sans sortir du trigger
             if (_playerInside != null && _mouthOpen && _playerInside.ItemInHand == null)
             {
                 CloseMouth();
@@ -50,6 +50,7 @@ namespace MoonlitMixes.CookingMachine
                 _playerInside = player;
                 if (player.ItemInHand != null)
                 {
+                    Debug.Log("Test");
                     player.SetCurrentTrashcan(this);
                     OpenMouth();
                 }
@@ -83,6 +84,7 @@ namespace MoonlitMixes.CookingMachine
 
         private void OpenMouth()
         {
+            Debug.Log(_animatorControllerParameterArray[3].name);
             _mouthOpen = true;
             _animator.SetBool(_animatorControllerParameterArray[3].name, true);
         }

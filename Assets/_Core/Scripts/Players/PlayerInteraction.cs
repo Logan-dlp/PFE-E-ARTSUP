@@ -7,7 +7,6 @@ using MoonlitMixes.Potion;
 using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 namespace MoonlitMixes.Player
 {
@@ -62,11 +61,6 @@ namespace MoonlitMixes.Player
                     {
                         ResetInteractionTargets();
                     }
-
-                    if (hit.transform.TryGetComponent(out Trashcan trashcan))
-                    {
-                        _currentTrashcan = trashcan;
-                    }
                 }
 }
             else if (_currentCookingMachine != null || _currentCauldron != null)
@@ -117,6 +111,7 @@ namespace MoonlitMixes.Player
             _currentCauldron = null;
             if (_currentCookingMachine != null) _currentCookingMachine.ToggleShowInteractivity();
             _currentCookingMachine = null;
+            _currentTrashcan = null;
         }
 
         public void Interact(InputAction.CallbackContext ctx)
@@ -150,12 +145,6 @@ namespace MoonlitMixes.Player
                             {
                                 _animationPotionManager.QuitInteractWithItem();
                             }
-                        }
-                        if (hit.transform.TryGetComponent(out Trashcan trashcan))
-                        {
-                            trashcan.DiscardItem();
-                            PlayerHoldItem.RemoveItem();
-                            _animationPotionManager.TrashItem();
                         }
                     }
 
