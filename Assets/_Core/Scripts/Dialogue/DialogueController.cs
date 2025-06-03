@@ -118,7 +118,7 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // 👉 DIM DES AUTRES immédiatement
+            // DIM DES AUTRES immédiatement
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 if (i == speakerIndex) continue;

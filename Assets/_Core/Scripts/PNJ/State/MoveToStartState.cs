@@ -6,16 +6,16 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void EnterState(PNJData data)
         {
-            data.agent.SetDestination(data.waypoints[0].position);
-            data.animator.SetBool("isWalking", true);
+            data.Agent.SetDestination(data.Waypoints[0].position);
+            data.Animator.SetBool("isWalking", true);
         }
 
         public IPNJState UpdateState(PNJData data)
         {
-            if (!_hasArrived && !data.agent.pathPending && data.agent.remainingDistance <= data.agent.stoppingDistance)
+            if (!_hasArrived && !data.Agent.pathPending && data.Agent.remainingDistance <= data.Agent.stoppingDistance)
             {
                 _hasArrived = true;
-                data.animator.SetBool("isWalking", false);
+                data.Animator.SetBool("isWalking", false);
 
                 return new DespawnState();
             }

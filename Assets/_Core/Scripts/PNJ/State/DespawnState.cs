@@ -5,7 +5,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
         public void EnterState(PNJData data)
         {
             data.OnDespawn?.Invoke();
-            data.pnjGameObject.SetActive(false);
+            data.PnjGameObject.SetActive(false);
         }
 
         public IPNJState UpdateState(PNJData data)

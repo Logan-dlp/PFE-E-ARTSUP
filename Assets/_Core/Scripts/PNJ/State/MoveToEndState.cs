@@ -8,17 +8,17 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void EnterState(PNJData data)
         {
-            data.animator.SetBool("isWalking", true);
-            data.agent.SetDestination(data.waypoints[data.waypoints.Count - 1].position);
+            data.Animator.SetBool("isWalking", true);
+            data.Agent.SetDestination(data.Waypoints[data.Waypoints.Count - 1].position);
         }
 
         public IPNJState UpdateState(PNJData data)
         {
-            if (!_hasArrived && !data.agent.pathPending && data.agent.remainingDistance <= data.agent.stoppingDistance)
+            if (!_hasArrived && !data.Agent.pathPending && data.Agent.remainingDistance <= data.Agent.stoppingDistance)
             {
                 _hasArrived = true;
-                data.animator.SetBool("isWalking", false);
-                data.agent.updateRotation = false;
+                data.Animator.SetBool("isWalking", false);
+                data.Agent.updateRotation = false;
 
                 RotateLeft(data);
 
@@ -30,12 +30,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void ExitState(PNJData data)
         {
-            data.agent.updateRotation = true;
+            data.Agent.updateRotation = true;
         }
 
         private void RotateLeft(PNJData data)
         {
-            data.pnjGameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
+            data.PnjGameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
         }
     }
 }

@@ -3,7 +3,6 @@ using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue;
 using MoonlitMixes.Potion;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -48,20 +47,20 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
 
             _pnjData = new PNJData
             {
-                pnjGameObject = gameObject,
-                agent = _agent,
-                animator = _animator,
-                waypoints = waypoints,
-                dialogueDuration = _dialogueDuration,
-                requestPotionArray = _requestPotionArray,
-                potionValidList = _potionValidList,
-                beginDialogueData = _beginDialogueData,
-                failureDialogueData = _failureDialogueData,
-                noPotionDialogueData = _noPotionDialogueData,
-                successDialogueData = _successDialogueData,
-                secondbeginDialogueData = _secondbeginDialogueData,
+                PnjGameObject = gameObject,
+                Agent = _agent,
+                Animator = _animator,
+                Waypoints = waypoints,
+                RequestPotionArray = _requestPotionArray,
+                PotionValidList = _potionValidList,
+                BeginDialogueData = _beginDialogueData,
+                FailureDialogueData = _failureDialogueData,
+                NoPotionDialogueData = _noPotionDialogueData,
+                SuccessDialogueData = _successDialogueData,
+                SecondBeginDialogueData = _secondbeginDialogueData,
                 OnDespawn = InvokeOnDespawn,
                 OnPotionSelected = SetSelectedPotion,
+                CurrentPotionIndex = 0
             };
 
             SetState(new SpawnState());
@@ -99,23 +98,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
 
         public void SetSelectedPotion(PotionResult potionResultSelected)
         {
-            IEnumerable<PotionResult> result = _requestPotionArray.Except(_potionValidList);
-
-            bool isPotionValid = false;
-
-            foreach (PotionResult potionResultItem in result)
-            {
-                if (potionResultItem == potionResultSelected)
-                {
-                    isPotionValid = true;
-                    break;
-                }
-            }
-
-            if (isPotionValid)
-            {
-                _potionValidList.Add(potionResultSelected);
-            }
+            _pnjData.SelectedPotionResult = potionResultSelected;
         }
 
         private void DisablePNJ()

@@ -8,12 +8,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void EnterState(PNJData data)
         {
-            data.agent.isStopped = true;
-            data.animator.SetBool("isWalking", false);
+            data.Agent.isStopped = true;
+            data.Animator.SetBool("isWalking", false);
 
-            if (DialogueController.Instance != null && data.beginDialogueData != null)
+            if (DialogueController.Instance != null && data.BeginDialogueData != null)
             {
-                DialogueController.Instance.StartDialogue(data.beginDialogueData);
+                DialogueController.Instance.StartDialogue(data.BeginDialogueData);
                 DialogueController.OnDialogueFinished += OnDialogueEnd;
             }
             else
