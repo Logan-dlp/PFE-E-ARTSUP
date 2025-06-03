@@ -83,22 +83,20 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             {
                 DialogueController.OnDialogueFinished -= OnDialogueEnd;
 
-                if (_isSuccess || _isNoPotion)
+                if (_isSuccess)
                 {
-                    ResetFailedAttempts();
-                    return new MoveToStartState();
-                }
-                else
-                {
-                    if (_failedAttempt < 3)
-                    {
-                        return new ChoosePotionState();
-                    }
+                    data.potionValidList.Add(data.selectedPotionResult);
+
+                    if (data.potionValidList.Count < data.requestPotionArray.Length)
+                        return new SecondDialogueState();
                     else
-                    {
                         return new MoveToStartState();
-                    }
                 }
+
+                if (_isNoPotion || _failedAttempt >= 3)
+                    return new MoveToStartState(); // Trop d’erreurs ou aucune potion
+
+                return new SecondDialogueState(); // On revient avec un nouveau dialogue d’intro
             }
 
             return null;

@@ -23,6 +23,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
         [SerializeField] private DialogueData _successDialogueData;
         [SerializeField] private DialogueData _failureDialogueData;
         [SerializeField] private DialogueData _noPotionDialogueData;
+        [SerializeField] private DialogueData _secondbeginDialogueData;
 
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -58,6 +59,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
                 failureDialogueData = _failureDialogueData,
                 noPotionDialogueData = _noPotionDialogueData,
                 successDialogueData = _successDialogueData,
+                secondbeginDialogueData = _secondbeginDialogueData,
                 OnDespawn = InvokeOnDespawn,
                 OnPotionSelected = SetSelectedPotion,
             };

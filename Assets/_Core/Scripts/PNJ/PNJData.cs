@@ -21,6 +21,7 @@ namespace MoonlitMixes.AI.PNJ
         public DialogueData successDialogueData;
         public DialogueData failureDialogueData;
         public DialogueData noPotionDialogueData;
+        public DialogueData secondbeginDialogueData;
         public System.Action OnDespawn;
         public System.Action<PotionResult> OnPotionSelected;
     }
