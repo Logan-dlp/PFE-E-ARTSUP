@@ -63,6 +63,7 @@ namespace MoonlitMixes.Dialogue
         {
             if (_inputActionAsset == null) return;
 
+            Debug.Log("Tets");
             _originalActionMap = _inputActionAsset.FindActionMap("Player");
             InputActionMap dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
 
