@@ -40,7 +40,7 @@ namespace MoonlitMixes.Dialogue
 
             if (_requestedPotions != null && _requestedPotions.Length > 0)
             {
-                _selectedPotionResult = _requestedPotions[0]; // 💡 Choix manuel depuis l’inspecteur
+                _selectedPotionResult = _requestedPotions[0];
                 Debug.Log($"Potion assignée au PNJ : {_selectedPotionResult}");
 
                 if (_potionPrices.TryGetValue(_selectedPotionResult.Recipe.RecipeName, out int price))
@@ -48,11 +48,7 @@ namespace MoonlitMixes.Dialogue
                     Debug.Log($"Potion confirmée: {_selectedPotionResult}, Prix: {price}");
                     _potionPrices.Remove(_selectedPotionResult.Recipe.RecipeName);
 
-                    if (_potionPriceCalculated != null)
-                    {
-                        _potionPriceCalculated.SetSelectedPotionPrice(price);
-                    }
-
+                    _potionPriceCalculated?.SetSelectedPotionPrice(price);
                     _potionPrices[_selectedPotionResult.Recipe.RecipeName] = _selectedPotionResult.Price;
                 }
             }
@@ -67,14 +63,9 @@ namespace MoonlitMixes.Dialogue
 
         public void SelectPotion(PotionResult potionResult)
         {
-            if (_selectedPotionResult == potionResult)
-            {
-                Debug.Log("Bonne potion choisie !");
-            }
-            else
-            {
-                Debug.Log(potionResult == null ? "Pas de potion choisie !" : "Mauvaise potion, essayez encore !");
-            }
+            _selectedPotionResult = potionResult;
+
+            Debug.Log($"Potion sélectionnée : {(potionResult != null ? potionResult.Recipe.RecipeName : "aucune")}");
 
             OnPotionChoiceSelected?.Invoke(potionResult);
             _potionChoicePanel.SetActive(false);

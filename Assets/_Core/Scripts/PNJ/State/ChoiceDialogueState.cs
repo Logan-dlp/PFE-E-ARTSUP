@@ -23,8 +23,13 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             data.agent.isStopped = true;
             data.animator.SetBool("isWalking", false);
 
+            if (_potionChoiceController != null)
+            {
+                data.selectedPotionResult = _potionChoiceController.SelectedPotionResult;
+            }
+
             int potionPrice = 100;
-            if (_potionInventory != null)
+            if (_potionInventory != null && data.selectedPotionResult != null)
             {
                 PotionResult selectedPotion = _potionInventory.PotionList.Find(p => p == data.selectedPotionResult);
                 if (selectedPotion != null)
@@ -35,19 +40,19 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
             DialogueController.OnDialogueFinished += OnDialogueEnd;
 
-            if (IsSelectedPotionValid(data))
+            if (data.selectedPotionResult == null)
+            {
+                _isNoPotion = true;
+                ResetFailedAttempts();
+                _potionPriceCalculated?.CalculatePotionPrice(0, 0);
+                DialogueController.Instance.StartDialogue(data.noPotionDialogueData);
+            }
+            else if (IsSelectedPotionValid(data))
             {
                 _isSuccess = true;
                 _potionPriceCalculated?.CalculatePotionPrice(potionPrice, _failedAttempt);
                 DialogueController.Instance.StartDialogue(data.successDialogueData);
             }
-            //else if (/*IsNullOrEmpty = si c'est 0 valid*/data.selectedPotionResult)
-            //{
-            //    _isNoPotion = true;
-            //    ResetFailedAttempts();
-            //    _potionPriceCalculated?.CalculatePotionPrice(0, 0);
-            //    DialogueController.Instance.StartDialogue(data.noPotionDialogueData);
-            //}
             else
             {
                 IncrementFailedAttempts();
@@ -58,13 +63,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         private bool IsSelectedPotionValid(PNJData data)
         {
-            return System.Array.Exists(data.requestPotionArray, p => p == data.selectedPotionResult);
+            return data.selectedPotionResult != null &&
+                   System.Array.Exists(data.requestPotionArray, p => p == data.selectedPotionResult);
         }
-
 
         private void IncrementFailedAttempts()
         {
-
             _failedAttempt++;
         }
 
