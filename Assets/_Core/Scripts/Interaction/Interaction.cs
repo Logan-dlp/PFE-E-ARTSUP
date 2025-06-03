@@ -40,14 +40,6 @@ namespace MoonlitMixes.Interactions
                     
                 }
             }
-            else
-            {
-                if (CurrentInteraction != null)
-                {
-                    CurrentInteraction.DisableUI();
-                    CurrentInteraction = null;
-                }
-            }
 
             if (CurrentInteraction != null)
             {
