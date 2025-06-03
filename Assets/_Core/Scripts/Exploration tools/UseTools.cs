@@ -13,6 +13,7 @@ public class UseTools : MonoBehaviour
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackForce;
     [SerializeField] private LayerMask _layerHitable;
+    [SerializeField] private Vector3 _raycastOffset;
 
     private int _brokenRock = 0;
     private RouletteSelectionTools _rouletteSelection;
@@ -77,7 +78,7 @@ public class UseTools : MonoBehaviour
     private void UseMachete()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
+        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
 
@@ -101,7 +102,7 @@ public class UseTools : MonoBehaviour
     private void UsePickaxe()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
+        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
 
@@ -152,7 +153,7 @@ public class UseTools : MonoBehaviour
         _animationExplorationManager.UseStaff();
         
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, _attackDistance))
+        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, _attackDistance))
         {
             if (hit.transform.TryGetComponent(out Monster monster))
             {
@@ -164,7 +165,7 @@ public class UseTools : MonoBehaviour
     public bool CanUseHand()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
+        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
             return itemList != null && itemList.ToolType == ToolType.Hand;
@@ -175,7 +176,7 @@ public class UseTools : MonoBehaviour
     public void UseHand()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, _layerHitable))
+        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
 
@@ -194,6 +195,22 @@ public class UseTools : MonoBehaviour
                 }
                 Destroy(hit.collider.gameObject);
             }
+        }
+    }
+
+    public void UseHand(ItemListSource itemListSource)
+    {
+        if (itemListSource == null)
+            return;
+        
+        if (itemListSource.GetItemList() != null && itemListSource.GetItemList().Items.Count > 0)
+        {
+            if (_inventory != null)
+            {
+                _inventory.AddItem(itemListSource.GetItemList().Items[0]);
+                _animationExplorationManager.Interaction();
+            }
+            Destroy(itemListSource.gameObject);
         }
     }
 }

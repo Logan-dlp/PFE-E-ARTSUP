@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MoonlitMixes.Inventory
@@ -15,17 +18,26 @@ namespace MoonlitMixes.Inventory
 
         public void OpenChest()
         {
-            bool hasEmptyItem = _inventory.Items.Count == 0;
-            
-            if (hasEmptyItem)
+            IEnumerator ActiveOnClick(Button button)
             {
+                button.interactable = false;
+                yield return new WaitForEndOfFrame();
+                button.interactable = true;
+            }
+            
+            if (_inventory.Items.Count == 0)
+            {
+                InputManager.Instance.SwitchActionMap("UI");
                 _emptyItemUI.SetActive(true);
-                _emptyItemButton.Select();
+                StartCoroutine(ActiveOnClick(_emptyItemButton));
+                EventSystem.current.SetSelectedGameObject(_emptyItemButton.gameObject);
             }
             else
             {
+                InputManager.Instance.SwitchActionMap("UI");
                 _filledItemUI.SetActive(true);
-                _filledItemButton.Select();
+                StartCoroutine(ActiveOnClick(_filledItemButton));
+                EventSystem.current.SetSelectedGameObject(_filledItemButton.gameObject);
             }
         }
     }
