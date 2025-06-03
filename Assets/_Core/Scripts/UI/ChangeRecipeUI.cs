@@ -1,6 +1,7 @@
 using MoonlitMixes.Extensions;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ namespace MoonlitMixes.UI
         [SerializeField] private Sprite[] _potionSpriteArray;
         [SerializeField] private RecipeTemplate _recipeTemplate;
         [SerializeField] private ItemData _insect;
+        [SerializeField] private TMP_Text _pageIndex;
 
         private int _recipeIndex;
 
@@ -71,6 +73,7 @@ namespace MoonlitMixes.UI
                     _recipeTemplateUI.SetActive(true);
                     SetTempalateInfo(_recipeArray[_recipeIndex]);
                 }
+                _pageIndex.text = (_recipeIndex + 1).ToString();
             }
         }
 
