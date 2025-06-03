@@ -1,4 +1,4 @@
-using MoonlitMixes.Dialogue;
+﻿using MoonlitMixes.Dialogue;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
@@ -16,12 +16,14 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
             if (_potionChoice != null)
             {
-                _potionChoice.ShowPotionChoices();
+                _potionChoice.ShowPotionChoices(data.CurrentPotionIndex);
+
                 _isWaitingForChoice = true;
                 PotionChoiceController.OnPotionChoiceSelected += OnPotionSelected;
             }
             else
             {
+                Debug.LogWarning("[ChoosePotionState] Aucun PotionChoiceController trouvé.");
                 _isWaitingForChoice = false;
             }
         }
@@ -31,7 +33,6 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             if (!_isWaitingForChoice)
             {
                 data.OnPotionSelected?.Invoke(_potionResultSelected);
-
                 return new ChoiceDialogueState();
             }
 
@@ -47,7 +48,8 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
         {
             _potionResultSelected = potionResult;
             _isWaitingForChoice = false;
-            Debug.Log("Potion choisie: " + potionResult);
+
+            Debug.Log($"[ChoosePotionState] Potion choisie par le joueur : {potionResult?.Recipe?.RecipeName ?? "null"}");
         }
     }
 }
