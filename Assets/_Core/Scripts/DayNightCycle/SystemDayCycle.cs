@@ -13,7 +13,7 @@ namespace MoonlitMixes.DayNightCycle
         {
             Debug.Log("Test");
             _dayNightCycleInfo = Resources.Load<DayNightCycleInfo>("DayNightCycleInfo");
-            _dayNightCycleInfo.ActualTimePhase = 0;
+            _dayNightCycleInfo.ActualTimePhase = (int)EnumDayPhase.Day;
             _dayNightCycleInfo.ActualDay = 0;
         }
     }

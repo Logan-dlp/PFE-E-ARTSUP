@@ -1,3 +1,4 @@
+using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,15 +9,16 @@ namespace MoonlitMixes.Scene
     {
         [SerializeField] private GameObject _endDayCanvasWithSell;
         [SerializeField] private GameObject _endDayCanvasWithoutSell;
+        [SerializeField] private EnumDayPhase _requiredTimePhaseToSleep;
 
         public override void OpenCanvas()
         {
-            if (_dayNightCycleInfo.ActualTimePhase == 2)
+            if (_dayNightCycleInfo.ActualTimePhase == (int)_requiredTimePhaseToSleep)
             {
                 _endDayCanvasWithoutSell.SetActive(true);
                 InputManager.Instance.SwitchActionMap("ChangeDay");
             }
-            else if (_dayNightCycleInfo.ActualTimePhase == 3)
+            else if (_dayNightCycleInfo.ActualTimePhase == 1 + (int)_requiredTimePhaseToSleep)
             {
                 _endDayCanvasWithSell.SetActive(true);
                 InputManager.Instance.SwitchActionMap("ChangeDay");

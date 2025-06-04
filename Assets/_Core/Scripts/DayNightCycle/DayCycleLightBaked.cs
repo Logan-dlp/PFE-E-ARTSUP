@@ -7,7 +7,7 @@ namespace MoonlitMixes.DayNightCycle
     public class DayCycleLightBaked : MonoBehaviour
     {
         [SerializeField] private LightmapTexture[] _lightMapTextureArray;
-        [SerializeField] private int _timePhaseToChangeBake;
+        [SerializeField] private EnumDayPhase _timePhaseToChangeBake;
         [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
 
         private int _dayTime = 0;
@@ -42,7 +42,7 @@ namespace MoonlitMixes.DayNightCycle
 
         public void ChangeBake()
         {
-            if (_dayNightCycleInfo.ActualTimePhase != _timePhaseToChangeBake)
+            if (_dayNightCycleInfo.ActualTimePhase != (int)_timePhaseToChangeBake)
             {
                 LightmapSettings.lightmaps = _lightMapTextureArray[1]._lightMapArray;
             }
@@ -50,15 +50,6 @@ namespace MoonlitMixes.DayNightCycle
             {
                 LightmapSettings.lightmaps = _lightMapTextureArray[0]._lightMapArray;
             }
-        }
-
-        [System.Serializable]
-        private class LightmapTexture
-        {
-            [SerializeField] internal Texture2D[] _lightingMapDir;
-            [SerializeField] internal Texture2D[] _lightingMapColor;
-
-            internal LightmapData[] _lightMapArray;
         }
     }
 }

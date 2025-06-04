@@ -1,4 +1,5 @@
-﻿using MoonlitMixes.Inputs;
+﻿using MoonlitMixes.DayNightCycle;
+using MoonlitMixes.Inputs;
 using MoonlitMixes.UI;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace MoonlitMixes.Scene
     public class DoorSceneChange : OpenCanvasSceneChange
     {
         [SerializeField] private string _sceneName;
-        [SerializeField] private int _timePhaseRequired;
+        [SerializeField] private EnumDayPhase _timePhaseRequired;
         [SerializeField] private bool _increaseTimePhase;
         [SerializeField] private bool _needTimePhase;
 
@@ -21,7 +22,7 @@ namespace MoonlitMixes.Scene
             var canvasUI = FindFirstObjectByType<ChangeSceneUI>();
             if (canvasUI != null)
             {
-                if (_needTimePhase && _dayNightCycleInfo.ActualTimePhase != _timePhaseRequired)
+                if (_needTimePhase && _dayNightCycleInfo.ActualTimePhase != (int)_timePhaseRequired)
                 {
                     return;
                 }
