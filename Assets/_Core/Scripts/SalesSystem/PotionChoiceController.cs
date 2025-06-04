@@ -9,26 +9,15 @@ namespace MoonlitMixes.Dialogue
     {
         [SerializeField] private GameObject _potionChoicePanel;
         [SerializeField] private PotionInventory _potionInventory;
-        [SerializeField] private ScriptablePotionResultEvent _scriptablePotionResultEvent;
 
-        private Dictionary<string, int> _potionPrices = new Dictionary<string, int>();
+        private PotionResult[] _requestedPotions;
+        private Dictionary<string, int> _potionPrices = new();
         private PotionPriceCalculate _potionPriceCalculated;
 
+        private PotionResult _selectedPotionResult;
+        public PotionResult SelectedPotionResult => _selectedPotionResult;
 
-        private string _selectedPotionName;
-        public string SelectedPotionName => _selectedPotionName;
-
-        public static event Action<string> OnPotionChoiceSelected;
-
-        private void OnEnable()
-        {
-            _scriptablePotionResultEvent.OnPotionResultEvent += SetSelectedPotion;
-        }
-
-        private void OnDisable()
-        {
-            _scriptablePotionResultEvent.OnPotionResultEvent -= SetSelectedPotion;
-        }
+        public static event Action<PotionResult> OnPotionChoiceSelected;
 
         private void Awake()
         {
@@ -40,48 +29,61 @@ namespace MoonlitMixes.Dialogue
             _potionChoicePanel.SetActive(false);
         }
 
-        public void ShowPotionChoices()
+        public void SetRequestedPotions(PotionResult[] requestedPotions)
+        {
+            _requestedPotions = requestedPotions;
+        }
+
+        /// <summary>
+        /// Affiche la bonne potion demandée par le client selon l'index courant.
+        /// </summary>
+        /// <param name="currentPotionIndex">Index de la potion demandée</param>
+        public void ShowPotionChoices(int currentPotionIndex)
         {
             _potionChoicePanel.SetActive(true);
 
-            if (_potionInventory.PotionList.Count > 0)
+            if (_requestedPotions != null && _requestedPotions.Length > currentPotionIndex)
             {
-                Debug.Log($"Potion choisie par le PNJ : {_selectedPotionName}");
+                _selectedPotionResult = _requestedPotions[currentPotionIndex];
 
-                if (_potionPrices.TryGetValue(_selectedPotionName, out int price))
+                Debug.Log($"[PNJ] Potion demandée (étape {currentPotionIndex + 1}) : {_selectedPotionResult.Recipe.RecipeName}, Prix : {_selectedPotionResult.Price}");
+
+                // Enregistrer ou recalculer le prix si nécessaire
+                if (_potionPrices.TryGetValue(_selectedPotionResult.Recipe.RecipeName, out int price))
                 {
-                    Debug.Log($"Potion confirm�e: {_selectedPotionName}, Prix: {price}");
-                    _potionPrices.Remove(_selectedPotionName);
-
-                    if (_potionPriceCalculated != null)
-                    {
-                        _potionPriceCalculated.SetSelectedPotionPrice(price);
-                    }
-                    _potionPrices[_selectedPotionName] = _potionInventory.PotionList[0].Price;
+                    _potionPrices.Remove(_selectedPotionResult.Recipe.RecipeName);
                 }
+
+                _potionPrices[_selectedPotionResult.Recipe.RecipeName] = _selectedPotionResult.Price;
+                _potionPriceCalculated?.SetSelectedPotionPrice(_selectedPotionResult.Price);
+            }
+            else
+            {
+                Debug.LogWarning("[PNJ] Aucune potion disponible à cet index.");
+                _selectedPotionResult = null;
             }
 
             _potionInventory.UpdatePotionCanvas();
         }
 
-        public void SelectPotion(string potionName)
+        /// <summary>
+        /// Appelé lorsque le joueur sélectionne une potion via l'UI.
+        /// </summary>
+        public void SelectPotion(PotionResult potionResult)
         {
-            if (_selectedPotionName == potionName)
+            _selectedPotionResult = potionResult;
+
+            if (potionResult != null)
             {
-                Debug.Log("Bonne potion choisie !");
+                Debug.Log($"[Joueur] Potion sélectionnée : {potionResult.Recipe.RecipeName}, Prix : {potionResult.Price}");
             }
             else
             {
-                Debug.Log(string.IsNullOrEmpty(potionName) ? "Pas de potion choisie !" : "Mauvaise potion, essayez encore !");
+                Debug.LogWarning("Aucune potion sélectionnée.");
             }
 
-            OnPotionChoiceSelected?.Invoke(potionName);
+            OnPotionChoiceSelected?.Invoke(potionResult);
             _potionChoicePanel.SetActive(false);
-        }
-
-        private void SetSelectedPotion(PotionResult potionResult)
-        {
-            _selectedPotionName = potionResult.Recipe.RecipeName;
         }
     }
 }

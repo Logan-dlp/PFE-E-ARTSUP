@@ -2,7 +2,7 @@ using MoonlitMixes.Dialogue;
 
 namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
-    public class DialogueState : IPNJState
+    public class SecondDialogueState : IPNJState
     {
         private bool _dialogueFinished = false;
 
@@ -11,9 +11,9 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             data.Agent.isStopped = true;
             data.Animator.SetBool("isWalking", false);
 
-            if (DialogueController.Instance != null && data.BeginDialogueData != null)
+            if (DialogueController.Instance != null && data.SecondBeginDialogueData != null)
             {
-                DialogueController.Instance.StartDialogue(data.BeginDialogueData);
+                DialogueController.Instance.StartDialogue(data.SecondBeginDialogueData);
                 DialogueController.OnDialogueFinished += OnDialogueEnd;
             }
             else

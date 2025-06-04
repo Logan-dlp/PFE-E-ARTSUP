@@ -1,4 +1,5 @@
-using MoonlitMixes.Dialogue;
+﻿using MoonlitMixes.Dialogue;
+using MoonlitMixes.Potion;
 using UnityEngine;
 
 namespace MoonlitMixes.AI.PNJ.StateMachine.States
@@ -7,7 +8,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
     {
         private PotionChoiceController _potionChoice;
         private bool _isWaitingForChoice = true;
-        private string _potionNameSelected;
+        private PotionResult _potionResultSelected;
 
         public void EnterState(PNJData data)
         {
@@ -15,12 +16,14 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
             if (_potionChoice != null)
             {
-                _potionChoice.ShowPotionChoices();
+                _potionChoice.ShowPotionChoices(data.CurrentPotionIndex);
+
                 _isWaitingForChoice = true;
                 PotionChoiceController.OnPotionChoiceSelected += OnPotionSelected;
             }
             else
             {
+                Debug.LogWarning("[ChoosePotionState] Aucun PotionChoiceController trouvé.");
                 _isWaitingForChoice = false;
             }
         }
@@ -29,12 +32,11 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
         {
             if (!_isWaitingForChoice)
             {
-                data.StateMachine.SetSelectedPotion(_potionNameSelected);
-
+                data.OnPotionSelected?.Invoke(_potionResultSelected);
                 return new ChoiceDialogueState();
             }
 
-            return null; 
+            return null;
         }
 
         public void ExitState(PNJData data)
@@ -42,11 +44,12 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             PotionChoiceController.OnPotionChoiceSelected -= OnPotionSelected;
         }
 
-        private void OnPotionSelected(string potionName)
+        private void OnPotionSelected(PotionResult potionResult)
         {
-            _potionNameSelected = potionName;
+            _potionResultSelected = potionResult;
             _isWaitingForChoice = false;
-            Debug.Log("Potion choisie: " + potionName);
+
+            Debug.Log($"[ChoosePotionState] Potion choisie par le joueur : {potionResult?.Recipe?.RecipeName ?? "null"}");
         }
     }
 }

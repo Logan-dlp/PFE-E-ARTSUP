@@ -1,5 +1,6 @@
 ﻿using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue.Effect;
+using MoonlitMixes.Inputs;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -63,17 +64,18 @@ namespace MoonlitMixes.Dialogue
         {
             if (_inputActionAsset == null) return;
 
+            // Sauvegarde l'action map actuelle
             _originalActionMap = _inputActionAsset.FindActionMap("Player");
-            InputActionMap dialogueActionMap = _inputActionAsset.FindActionMap("Dialogue");
 
-            if (_originalActionMap == null || dialogueActionMap == null)
+            if (_originalActionMap == null)
             {
-                Debug.LogError("Missing ActionMap: 'Player' or 'Dialogue'");
+                Debug.LogError("Missing ActionMap: 'Player'");
                 return;
             }
 
             _panelDialogue.SetActive(true);
-            dialogueActionMap.Enable();
+
+            InputManager.Instance.SwitchActionMap("Dialogue");
 
             _currentDialogue = dialogue;
             if (_currentDialogue?.Lines == null || _currentDialogue.Lines.Length == 0)
@@ -118,7 +120,29 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // 👉 DIM DES AUTRES immédiatement
+            // Met à jour les sprites visibles
+            for (int i = 0; i < _imageSpeakers.Length; i++)
+            {
+                if (i == speakerIndex)
+                {
+                    if (line.SpeakerSprite != null)
+                    {
+                        // Change seulement si différent du sprite actuel
+                        if (_imageSpeakers[i].sprite != line.SpeakerSprite)
+                        {
+                            _imageSpeakers[i].sprite = line.SpeakerSprite;
+                        }
+                        _imageSpeakers[i].enabled = true;
+                    }
+                    else if (_imageSpeakers[i].sprite != null)
+                    {
+                        // Garde l’ancien sprite
+                        _imageSpeakers[i].enabled = true;
+                    }
+                }
+            }
+
+            // Dim les autres speakers
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 if (i == speakerIndex) continue;
@@ -174,7 +198,6 @@ namespace MoonlitMixes.Dialogue
 
             _isEffectRunning = false;
 
-            // Si on a skippé un effet, mais qu'on n’a pas encore avancé la ligne : on le fait maintenant
             if (_hasSkippedEffect)
             {
                 _hasSkippedEffect = false;
@@ -215,8 +238,8 @@ namespace MoonlitMixes.Dialogue
         public void EndDialogue()
         {
             _panelDialogue.SetActive(false);
-            _inputActionAsset.FindActionMap("Dialogue")?.Disable();
-            _originalActionMap?.Enable();
+
+            InputManager.Instance.SwitchActionMap("Player");
 
             foreach (TMP_Text textBox in _textBoxes)
             {
@@ -224,6 +247,15 @@ namespace MoonlitMixes.Dialogue
                 {
                     textBox.text = "";
                     textBox.maxVisibleCharacters = 0;
+                }
+            }
+
+            foreach (var image in _imageSpeakers)
+            {
+                if (image != null)
+                {
+                    image.sprite = null;
+                    image.enabled = false;
                 }
             }
 
@@ -236,7 +268,6 @@ namespace MoonlitMixes.Dialogue
 
             if (_isEffectRunning && !_hasSkippedEffect)
             {
-                // Première pression pendant un effet : on skip l'effet
                 _hasSkippedEffect = true;
 
                 foreach (SpeakerEffect effect in _spriteSpeakerEffects)
@@ -251,7 +282,7 @@ namespace MoonlitMixes.Dialogue
                         effect.SkipEffectNow = true;
                 }
 
-                return; // ne passe pas à la ligne suivante tant que l’effet est en cours
+                return;
             }
 
             if (_isTyping)
@@ -260,7 +291,6 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // Si pas d’effet en cours ou déjà skippé
             DisplayNextDialogue();
         }
     }

@@ -35,7 +35,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         private void RotateLeft(PNJData data)
         {
-            data.PNJGameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
+            data.PnjGameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
         }
     }
 }

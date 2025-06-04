@@ -1,8 +1,10 @@
-using MoonlitMixes.AI.PNJ.StateMachine.States;
+﻿using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Dialogue;
+using MoonlitMixes.Potion;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 namespace MoonlitMixes.AI.PNJ.StateMachine
 {
@@ -10,33 +12,23 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
     {
         public event System.Action OnDespawn;
 
-        public string SelectedPotionName { get; private set; }
-        public int FailedAttempts => _failedAttempts;
-        public DialogueData BeginDialogueData => _beginDialogueData;
-        public DialogueData SuccessDialogueData => _successDialogueData;
-        public DialogueData FailureDialogueData => _failureDialogueData;
-        public DialogueData NoPotionDialogueData => _noPotionDialogueData;
-
         [Header("Configuration")]
         [SerializeField] private Transform _waypointsParent;
         [SerializeField] private float _dialogueDuration = 3f;
-        [SerializeField] private PotionListData _potionList;
+        [SerializeField] private PotionResult[] _requestPotionArray;
 
         [Header("Dialogue Settings")]
         [SerializeField] private DialogueData _beginDialogueData;
         [SerializeField] private DialogueData _successDialogueData;
         [SerializeField] private DialogueData _failureDialogueData;
         [SerializeField] private DialogueData _noPotionDialogueData;
+        [SerializeField] private DialogueData _secondbeginDialogueData;
 
         private NavMeshAgent _agent;
         private Animator _animator;
         private PNJData _pnjData;
-        public PNJData pnjData
-        {
-            get => _pnjData;
-        }
         private IPNJState _currentState;
-        private int _failedAttempts = 0;
+        private List<PotionResult> _potionValidList = new();
 
         private void Awake()
         {
@@ -47,16 +39,37 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
 
         public void Initialize()
         {
-            List<Transform> waypoints = new List<Transform>();
+            List<Transform> waypoints = new();
             foreach (Transform child in _waypointsParent)
             {
                 waypoints.Add(child);
             }
 
-            _pnjData = new PNJData(gameObject, _agent, _animator, waypoints, _dialogueDuration, _potionList, this);
-
+            _pnjData = new PNJData
+            {
+                PnjGameObject = gameObject,
+                Agent = _agent,
+                Animator = _animator,
+                Waypoints = waypoints,
+                RequestPotionArray = _requestPotionArray,
+                PotionValidList = _potionValidList,
+                BeginDialogueData = _beginDialogueData,
+                FailureDialogueData = _failureDialogueData,
+                NoPotionDialogueData = _noPotionDialogueData,
+                SuccessDialogueData = _successDialogueData,
+                SecondBeginDialogueData = _secondbeginDialogueData,
+                OnDespawn = InvokeOnDespawn,
+                OnPotionSelected = SetSelectedPotion,
+                CurrentPotionIndex = 0
+            };
 
             SetState(new SpawnState());
+
+            PotionChoiceController controller = FindFirstObjectByType<PotionChoiceController>();
+            if (controller != null)
+            {
+                controller.SetRequestedPotions(_requestPotionArray);
+            }
         }
 
         private void Update()
@@ -83,19 +96,9 @@ namespace MoonlitMixes.AI.PNJ.StateMachine
             OnDespawn?.Invoke();
         }
 
-        public void SetSelectedPotion(string potionName)
+        public void SetSelectedPotion(PotionResult potionResultSelected)
         {
-            SelectedPotionName = potionName;
-        }
-
-        public void IncrementFailedAttempts()
-        {
-            _failedAttempts++;
-        }
-
-        public void ResetFailedAttempts()
-        {
-            _failedAttempts = 0;
+            _pnjData.SelectedPotionResult = potionResultSelected;
         }
 
         private void DisablePNJ()

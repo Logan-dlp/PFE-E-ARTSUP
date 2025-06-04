@@ -1,10 +1,8 @@
 using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue;
-using MoonlitMixes.Inputs;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,25 +10,25 @@ namespace MoonlitMixes.Potion
 {
     public class PotionInventory : MonoBehaviour
     {
-        [SerializeField] private PotionListData _potionResultListData;
+        [SerializeField] private PotionListData potionResultListData;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _slotContainer;
         [SerializeField] private GameObject _specialButtonPrefab;
 
-        private string noPotionName = "No Potion";
+        private readonly string _noPotionName = "No Potion";
         private PotionChoiceController _potionChoiceController;
         private bool _isSelectionInProgress = false;
         private List<Button> _potionButtons = new List<Button>();
 
-        public List<PotionResult> PotionList => _potionResultListData.PotionResults;
+        public List<PotionResult> PotionList => potionResultListData.PotionResults;
 
         private void Start()
         {
-            if(SceneManager.GetActiveScene().name == "S_Labo")
+            if (SceneManager.GetActiveScene().name == "S_Labo")
             {
                 return;
             }
-            
+
             _potionChoiceController = FindFirstObjectByType<PotionChoiceController>();
 
             if (_potionChoiceController == null)
@@ -72,7 +70,6 @@ namespace MoonlitMixes.Potion
                 PotionResult potion = PotionList[i];
                 nameText.text = potion.Recipe.RecipeName;
                 potionImage.sprite = potion.Recipe.PotionSprite;
-                potionImage.preserveAspect = true;
 
                 Button btn = newSlot.GetComponent<Button>();
                 _potionButtons.Add(btn);
@@ -81,7 +78,7 @@ namespace MoonlitMixes.Potion
 
             GameObject specialButton = Instantiate(_specialButtonPrefab, _slotContainer);
             TextMeshProUGUI specialNameText = specialButton.GetComponentInChildren<TextMeshProUGUI>();
-            specialNameText.text = noPotionName;
+            specialNameText.text = _noPotionName;
 
             Button specialBtn = specialButton.GetComponent<Button>();
             _potionButtons.Add(specialBtn);
@@ -91,16 +88,6 @@ namespace MoonlitMixes.Potion
             Button cancelButtonNoPotion = confirmationPanelNoPotion.transform.Find("CancelButton").GetComponent<Button>();
 
             specialBtn.onClick.AddListener(() => OnNoPotionButtonClicked(null, confirmationPanelNoPotion, confirmButtonNoPotion, cancelButtonNoPotion, specialBtn));
-            if (_potionButtons.Count > 0)
-            {
-                EventSystem.current.SetSelectedGameObject(_potionButtons[0].gameObject);
-            }
-            else
-            {
-                EventSystem.current.SetSelectedGameObject(specialButton);
-            }
-
-            InputManager.Instance.SwitchActionMap("UI");
         }
 
         private void OnPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button confirmButton, Button cancelButton, Button potionButton)
@@ -114,7 +101,6 @@ namespace MoonlitMixes.Potion
 
             potionButton.interactable = false;
             confirmationPanel.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(confirmationPanel.gameObject.transform.GetChild(0).gameObject);
 
             confirmButton.onClick.RemoveAllListeners();
             confirmButton.onClick.AddListener(() => ConfirmPotionChoice(potion, confirmationPanel));
@@ -130,7 +116,6 @@ namespace MoonlitMixes.Potion
 
             potionButton.interactable = false;
             confirmationPanel.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(confirmationPanel.gameObject.transform.GetChild(0).gameObject);
 
             confirmButton.onClick.RemoveAllListeners();
             confirmButton.onClick.AddListener(() => ConfirmPotionChoice(null, confirmationPanel));
@@ -145,13 +130,13 @@ namespace MoonlitMixes.Potion
             {
                 if (_potionChoiceController != null)
                 {
-                    _potionChoiceController.SelectPotion(potion.Recipe.RecipeName);
+                    _potionChoiceController.SelectPotion(potion);
                     RemovePotionFromList(potion.Recipe.RecipeName);
                 }
             }
             else
             {
-                _potionChoiceController.SelectPotion("");
+                _potionChoiceController.SelectPotion(null);
                 Debug.Log("Aucune potion s�lectionn�e (No Potion).");
             }
 
@@ -168,7 +153,6 @@ namespace MoonlitMixes.Potion
             potionButton.interactable = true;
             confirmationPanel.SetActive(false);
             TogglePotionButtons(true);
-            EventSystem.current.SetSelectedGameObject(potionButton.gameObject);
         }
 
         private void RemovePotionFromList(string potionName)
