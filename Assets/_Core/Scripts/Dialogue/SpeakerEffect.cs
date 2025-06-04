@@ -8,7 +8,7 @@ namespace MoonlitMixes.Dialogue.Effect
 {
     public class SpeakerEffect : MonoBehaviour
     {
-        private Vector3 _originalScale;
+        private Vector2 _originalSizeDelta;
         private Color _originalColor;
         private Image _image;
         private TMP_Text _linkedText;
@@ -20,13 +20,13 @@ namespace MoonlitMixes.Dialogue.Effect
 
         private void Awake()
         {
-            _originalScale = transform.localScale;
             _image = GetComponent<Image>();
             _linkedText = GetComponent<TMP_Text>();
 
             if (_image != null)
             {
                 _originalColor = _image.color;
+                _originalSizeDelta = _image.rectTransform.sizeDelta;
             }
         }
 
@@ -150,7 +150,9 @@ namespace MoonlitMixes.Dialogue.Effect
             if (_image != null)
             {
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.5f);
-                _image.rectTransform.sizeDelta *= 0.8f;
+
+                Vector2 currentSize = _image.rectTransform.sizeDelta;
+                _image.rectTransform.sizeDelta = new Vector2(currentSize.x * 0.8f, currentSize.y * 0.8f);
             }
 
             if (_linkedText != null)
@@ -243,7 +245,7 @@ namespace MoonlitMixes.Dialogue.Effect
             if (_image != null)
             {
                 _image.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 1f);
-                _image.rectTransform.sizeDelta = new Vector2(_originalScale.x * 300f, _originalScale.y * 300f);
+                _image.rectTransform.sizeDelta = _originalSizeDelta;
             }
 
             if (_linkedText != null)
