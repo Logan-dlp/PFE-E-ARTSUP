@@ -143,6 +143,8 @@ namespace MoonlitMixes.Dialogue.Effect
 
         public void DimEffect()
         {
+            if (_isDimmed) return;
+
             _isDimmed = true;
 
             if (_image != null)
@@ -235,6 +237,7 @@ namespace MoonlitMixes.Dialogue.Effect
 
         public void ResetEffect()
         {
+            _isDimmed = false;
             SkipEffectNow = false;
 
             if (_image != null)

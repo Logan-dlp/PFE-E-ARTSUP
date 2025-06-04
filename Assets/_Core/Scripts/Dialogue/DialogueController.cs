@@ -121,15 +121,22 @@ namespace MoonlitMixes.Dialogue
             // Met à jour les sprites visibles
             for (int i = 0; i < _imageSpeakers.Length; i++)
             {
-                if (i == speakerIndex && line.SpeakerSprite != null)
+                if (i == speakerIndex)
                 {
-                    _imageSpeakers[i].sprite = line.SpeakerSprite;
-                    _imageSpeakers[i].enabled = true;
-                }
-                else if (_imageSpeakers[i] != null)
-                {
-                    _imageSpeakers[i].sprite = null;
-                    _imageSpeakers[i].enabled = false;
+                    if (line.SpeakerSprite != null)
+                    {
+                        // Change seulement si différent du sprite actuel
+                        if (_imageSpeakers[i].sprite != line.SpeakerSprite)
+                        {
+                            _imageSpeakers[i].sprite = line.SpeakerSprite;
+                        }
+                        _imageSpeakers[i].enabled = true;
+                    }
+                    else if (_imageSpeakers[i].sprite != null)
+                    {
+                        // Garde l’ancien sprite
+                        _imageSpeakers[i].enabled = true;
+                    }
                 }
             }
 
