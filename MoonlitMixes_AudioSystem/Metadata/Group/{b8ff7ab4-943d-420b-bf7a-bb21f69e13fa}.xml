@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="MixerGroup" id="{b8ff7ab4-943d-420b-bf7a-bb21f69e13fa}">
+		<property name="volume">
+			<value>-11</value>
+		</property>
+		<property name="name">
+			<value>Music</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{8f60730a-ed92-402d-ac89-3905de322811}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{c4955a4a-1eaf-4f6a-97ef-2891e33cf4bb}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{d1cd5532-bf4a-4204-861a-97d4f72e30e7}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{8f60730a-ed92-402d-ac89-3905de322811}">
+		<relationship name="effects">
+			<destination>{1e9bea65-dead-4eaa-8c41-868c3f17b924}</destination>
+			<destination>{9c191a98-140e-4125-b5b1-4b2a1fc15ae7}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{c4955a4a-1eaf-4f6a-97ef-2891e33cf4bb}" />
+	<object class="LowpassEffect" id="{1e9bea65-dead-4eaa-8c41-868c3f17b924}">
+		<property name="cutoff">
+			<value>22000</value>
+		</property>
+	</object>
+	<object class="MixerBusFader" id="{9c191a98-140e-4125-b5b1-4b2a1fc15ae7}" />
+</objects>
