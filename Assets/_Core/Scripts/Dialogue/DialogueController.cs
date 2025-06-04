@@ -118,7 +118,22 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // DIM DES AUTRES immédiatement
+            // Met à jour les sprites visibles
+            for (int i = 0; i < _imageSpeakers.Length; i++)
+            {
+                if (i == speakerIndex && line.SpeakerSprite != null)
+                {
+                    _imageSpeakers[i].sprite = line.SpeakerSprite;
+                    _imageSpeakers[i].enabled = true;
+                }
+                else if (_imageSpeakers[i] != null)
+                {
+                    _imageSpeakers[i].sprite = null;
+                    _imageSpeakers[i].enabled = false;
+                }
+            }
+
+            // Dim les autres speakers
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 if (i == speakerIndex) continue;
@@ -174,7 +189,6 @@ namespace MoonlitMixes.Dialogue
 
             _isEffectRunning = false;
 
-            // Si on a skippé un effet, mais qu'on n’a pas encore avancé la ligne : on le fait maintenant
             if (_hasSkippedEffect)
             {
                 _hasSkippedEffect = false;
@@ -227,6 +241,15 @@ namespace MoonlitMixes.Dialogue
                 }
             }
 
+            foreach (var image in _imageSpeakers)
+            {
+                if (image != null)
+                {
+                    image.sprite = null;
+                    image.enabled = false;
+                }
+            }
+
             OnDialogueFinished?.Invoke();
         }
 
@@ -236,7 +259,6 @@ namespace MoonlitMixes.Dialogue
 
             if (_isEffectRunning && !_hasSkippedEffect)
             {
-                // Première pression pendant un effet : on skip l'effet
                 _hasSkippedEffect = true;
 
                 foreach (SpeakerEffect effect in _spriteSpeakerEffects)
@@ -251,7 +273,7 @@ namespace MoonlitMixes.Dialogue
                         effect.SkipEffectNow = true;
                 }
 
-                return; // ne passe pas à la ligne suivante tant que l’effet est en cours
+                return;
             }
 
             if (_isTyping)
@@ -260,7 +282,6 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // Si pas d’effet en cours ou déjà skippé
             DisplayNextDialogue();
         }
     }
