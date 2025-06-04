@@ -3,6 +3,7 @@ using MoonlitMixes.Dialogue;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ namespace MoonlitMixes.Potion
         private PotionChoiceController _potionChoiceController;
         private bool _isSelectionInProgress = false;
         private List<Button> _potionButtons = new List<Button>();
+
 
         public List<PotionResult> PotionList => potionResultListData.PotionResults;
 
@@ -88,6 +90,7 @@ namespace MoonlitMixes.Potion
             Button cancelButtonNoPotion = confirmationPanelNoPotion.transform.Find("CancelButton").GetComponent<Button>();
 
             specialBtn.onClick.AddListener(() => OnNoPotionButtonClicked(null, confirmationPanelNoPotion, confirmButtonNoPotion, cancelButtonNoPotion, specialBtn));
+            _potionButtons[0].Select();
         }
 
         private void OnPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button confirmButton, Button cancelButton, Button potionButton)
@@ -107,6 +110,7 @@ namespace MoonlitMixes.Potion
 
             cancelButton.onClick.RemoveAllListeners();
             cancelButton.onClick.AddListener(() => CancelPotionChoice(confirmationPanel, potionButton));
+            confirmButton.Select();
         }
 
         private void OnNoPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button confirmButton, Button cancelButton, Button potionButton)
