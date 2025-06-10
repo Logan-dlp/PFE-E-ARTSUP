@@ -627,8 +627,8 @@ GameObject:
   - component: {fileID: 7939135424725112906}
   - component: {fileID: 8790462397573875128}
   - component: {fileID: -5034792192607804063}
-  - component: {fileID: -6829924614741961640}
   - component: {fileID: 5574405810128114358}
+  - component: {fileID: 2757038887166391589}
   m_Layer: 0
   m_Name: PB_Item_Gemstone_Ruby
   m_TagString: Untagged
@@ -722,22 +722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemListData: {fileID: 11400000, guid: 57ed789e31ea0cf479216c6c53b93cee, type: 2}
---- !u!114 &-6829924614741961640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7861545654326914161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0a2a7102efec5439527757ef5022c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _toolType: 0
-  _spriteArray: []
-  _inputCommand: 2
-  _interactionImage: {fileID: 442689319039856488}
 --- !u!65 &5574405810128114358
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -759,3 +743,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.45856124, y: 0.62683046, z: 0.44140136}
   m_Center: {x: 0.008974761, y: 0.31341523, z: -2.674687e-10}
+--- !u!114 &2757038887166391589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7861545654326914161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71a256f3c304220b23c217824efcc9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toolType: 0
+  _spriteArray:
+  - {fileID: 533020528, guid: 143577a218be3ab458613ce5140a0163, type: 3}
+  - {fileID: -208444210, guid: b4f7063cc8a749b4c8cba4b4fe0d003c, type: 3}
+  - {fileID: 1121773950, guid: 4558da9a291393449b9d39b0ce6512b4, type: 3}
+  - {fileID: -1154067679, guid: b4e00863d0168d94d8aa1b265a008391, type: 3}
+  _inputCommand: 2
+  _interactionImage: {fileID: 0}
