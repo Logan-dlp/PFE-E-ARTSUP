@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7429491740188631023}
   - component: {fileID: 516691080124769120}
-  - component: {fileID: 5441019707893665991}
   - component: {fileID: 9056762945152932530}
+  - component: {fileID: -7945631552182148445}
   m_Layer: 0
   m_Name: PB_Item_Mush_Nature
   m_TagString: Untagged
@@ -134,22 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemListData: {fileID: 11400000, guid: dd15f6c2f6c9d6a4eb2e340f6575a8d8, type: 2}
---- !u!114 &5441019707893665991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1811871463566830061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0a2a7102efec5439527757ef5022c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _toolType: 3
-  _spriteArray: []
-  _inputCommand: 0
-  _interactionImage: {fileID: 4133786328165949579}
 --- !u!135 &9056762945152932530
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -171,6 +155,26 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-7945631552182148445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811871463566830061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71a256f3c304220b23c217824efcc9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toolType: 3
+  _spriteArray:
+  - {fileID: 533020528, guid: 143577a218be3ab458613ce5140a0163, type: 3}
+  - {fileID: -208444210, guid: b4f7063cc8a749b4c8cba4b4fe0d003c, type: 3}
+  - {fileID: 1121773950, guid: 4558da9a291393449b9d39b0ce6512b4, type: 3}
+  - {fileID: -1154067679, guid: b4e00863d0168d94d8aa1b265a008391, type: 3}
+  _inputCommand: 0
+  _interactionImage: {fileID: 0}
 --- !u!1 &7454996652863947129
 GameObject:
   m_ObjectHideFlags: 0

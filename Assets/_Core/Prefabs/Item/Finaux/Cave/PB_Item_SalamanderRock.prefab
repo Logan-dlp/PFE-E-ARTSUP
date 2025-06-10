@@ -25,16 +25,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197671622119371099}
-  m_LocalRotation: {x: -0.10576246, y: 0.91718894, z: -0.3821929, w: -0.038824845}
-  m_LocalPosition: {x: 0, y: 0, z: 0.266}
+  m_LocalRotation: {x: -0.16907315, y: 0.89359415, z: -0.34763277, w: -0.22815648}
+  m_LocalPosition: {x: 0, y: 0, z: -0.188}
   m_LocalScale: {x: 0.47851, y: 0.47851, z: 0.47851}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3941844707814119519}
-  m_LocalEulerAnglesHint: {x: 45.178, y: 179.218, z: -13.481}
+  m_LocalEulerAnglesHint: {x: 44.302, y: 203.923, z: -11.57}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00000022642422, y: 0.64799994}
+  m_AnchoredPosition: {x: 0.42, y: 0.608}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3901733271399478602
@@ -371,8 +371,8 @@ GameObject:
   - component: {fileID: 5085784200700195810}
   - component: {fileID: 8097636282271471227}
   - component: {fileID: -1196492472263745801}
-  - component: {fileID: -1011336098536147223}
   - component: {fileID: -1487028696014095737}
+  - component: {fileID: 2469235927217403695}
   m_Layer: 0
   m_Name: PB_Item_SalamanderRock
   m_TagString: Untagged
@@ -464,22 +464,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemListData: {fileID: 11400000, guid: 2921f58025ed7ba4ba130d3ce1d483ad, type: 2}
---- !u!114 &-1011336098536147223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8679271003796108524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0a2a7102efec5439527757ef5022c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _toolType: 3
-  _spriteArray: []
-  _inputCommand: 0
-  _interactionImage: {fileID: 8412172489368066324}
 --- !u!135 &-1487028696014095737
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -501,3 +485,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.009972342
   m_Center: {x: 0.0008517089, y: 0.009878322, z: -0.00027247934}
+--- !u!114 &2469235927217403695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8679271003796108524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71a256f3c304220b23c217824efcc9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toolType: 3
+  _spriteArray:
+  - {fileID: 533020528, guid: 143577a218be3ab458613ce5140a0163, type: 3}
+  - {fileID: -208444210, guid: b4f7063cc8a749b4c8cba4b4fe0d003c, type: 3}
+  - {fileID: 1121773950, guid: 4558da9a291393449b9d39b0ce6512b4, type: 3}
+  - {fileID: -1154067679, guid: b4e00863d0168d94d8aa1b265a008391, type: 3}
+  _inputCommand: 0
+  _interactionImage: {fileID: 0}

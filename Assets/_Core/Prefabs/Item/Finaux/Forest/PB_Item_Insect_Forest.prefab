@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7170474430363916324}
   - component: {fileID: 6070500575813381959}
   - component: {fileID: 5963017876906216903}
-  - component: {fileID: 5109246162860134577}
   - component: {fileID: 3082546323920893965}
+  - component: {fileID: 5267614985043642038}
   m_Layer: 12
   m_Name: PB_Item_Insect_Forest
   m_TagString: Untagged
@@ -74,26 +74,6 @@ CapsuleCollider:
   m_Height: 1.8002069
   m_Direction: 1
   m_Center: {x: 0, y: -0.40100414, z: -0.023004595}
---- !u!114 &5109246162860134577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 724434323012576122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0a2a7102efec5439527757ef5022c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _toolType: 3
-  _spriteArray:
-  - {fileID: 533020528, guid: 143577a218be3ab458613ce5140a0163, type: 3}
-  - {fileID: -208444210, guid: b4f7063cc8a749b4c8cba4b4fe0d003c, type: 3}
-  - {fileID: 1121773950, guid: 4558da9a291393449b9d39b0ce6512b4, type: 3}
-  - {fileID: -1154067679, guid: b4e00863d0168d94d8aa1b265a008391, type: 3}
-  _inputCommand: 2
-  _interactionImage: {fileID: 4807618707047609843}
 --- !u!65 &3082546323920893965
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -115,6 +95,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5267614985043642038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724434323012576122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71a256f3c304220b23c217824efcc9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toolType: 3
+  _spriteArray:
+  - {fileID: 533020528, guid: 143577a218be3ab458613ce5140a0163, type: 3}
+  - {fileID: -208444210, guid: b4f7063cc8a749b4c8cba4b4fe0d003c, type: 3}
+  - {fileID: 1121773950, guid: 4558da9a291393449b9d39b0ce6512b4, type: 3}
+  - {fileID: -1154067679, guid: b4e00863d0168d94d8aa1b265a008391, type: 3}
+  _inputCommand: 0
+  _interactionImage: {fileID: 0}
 --- !u!1 &5259067060511441908
 GameObject:
   m_ObjectHideFlags: 0
