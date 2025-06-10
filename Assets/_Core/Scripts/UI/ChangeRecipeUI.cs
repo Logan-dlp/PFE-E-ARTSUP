@@ -63,7 +63,6 @@ namespace MoonlitMixes.UI
 
                 if (_recipeIndex == 0)
                 {
-                    Debug.Log("");
                     _headerRecipe.SetActive(true);
                     _recipeTemplateUI.SetActive(false);
                 }
