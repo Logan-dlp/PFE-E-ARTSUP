@@ -1,4 +1,6 @@
+using MoonlitMixes.Datas;
 using MoonlitMixes.DayNightCycle;
+using MoonlitMixes.Dialogue;
 using MoonlitMixes.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +12,9 @@ namespace MoonlitMixes.Scene
         [SerializeField] private GameObject _endDayCanvasWithSell;
         [SerializeField] private GameObject _endDayCanvasWithoutSell;
         [SerializeField] private EnumDayPhase _requiredTimePhaseToSleep;
+
+        [SerializeField] private DialogueData _dialogueDataWoutSell; 
+        [SerializeField] private DialogueData _dialogueDataWSell;
 
         public override void OpenCanvas()
         {
@@ -36,6 +41,15 @@ namespace MoonlitMixes.Scene
                 _scriptableIntEventTimePhase.SendEvent(_dayNightCycleInfo.ActualTimePhase);
                 _scriptableIntEventDay.SendEvent(_dayNightCycleInfo.ActualDay);
 
+                if (_dayNightCycleInfo.ActualTimePhase == (int)EnumDayPhase.Twilight)
+                {
+                    FindFirstObjectByType<DialogueController>().StartDialogue(_dialogueDataWoutSell);
+                }
+                else
+                {
+                    FindFirstObjectByType<DialogueController>().StartDialogue(_dialogueDataWSell);
+                }
+                
                 if (!_endDayCanvasWithSell.activeInHierarchy && !_endDayCanvasWithoutSell.activeInHierarchy)
                 {
                     InputManager.Instance.SwitchActionMap("Player");

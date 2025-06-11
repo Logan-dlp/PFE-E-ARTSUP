@@ -58,6 +58,7 @@ namespace MoonlitMixes.UI
         {
             if (callbackContext.started && !_isLoading)
             {
+                Debug.Log(_increaseTimePhase);
                 Debug.Log("ChangeScene triggered for: " + _sceneName);
 
                 if (!_hasPopup)
@@ -112,6 +113,7 @@ namespace MoonlitMixes.UI
                         _isLoading = true;
                         if (_increaseTimePhase)
                         {
+
                             Debug.Log("ChangeScene3");
                             _dayNightCycleInfo.ActualTimePhase++;
                         }

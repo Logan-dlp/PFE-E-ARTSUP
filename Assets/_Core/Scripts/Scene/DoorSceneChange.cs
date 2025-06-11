@@ -26,7 +26,16 @@ namespace MoonlitMixes.Scene
                 {
                     return;
                 }
-                canvasUI.OpenCanvas(_sceneName, _increaseTimePhase);
+
+                if (_dayNightCycleInfo.ActualTimePhase != (int)_timePhaseRequired && _increaseTimePhase)
+                {
+                    canvasUI.OpenCanvas(_sceneName, true);
+                }
+                else
+                {
+                    canvasUI.OpenCanvas(_sceneName, false);
+                }
+
                 InputManager.Instance.SwitchActionMap("ChangeScene");
             }
             else if (canvasUI == null)
