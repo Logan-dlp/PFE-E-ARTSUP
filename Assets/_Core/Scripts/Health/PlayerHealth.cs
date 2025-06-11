@@ -1,8 +1,8 @@
-using System;
-using MoonlitMixes.Player;
-using UnityEngine;
 using MoonlitMixes.Animation;
-using MoonlitMixes.Inputs;
+using MoonlitMixes.Events;
+using MoonlitMixes.Player;
+using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Health
@@ -89,6 +89,8 @@ namespace MoonlitMixes.Health
                 _isDead = true;
                 _animationExplorationManager.Death();
                 GetComponent<PlayerInput>().DeactivateInput();
+
+                PlayerDeathEventDispatcher.TriggerDeath();
             }
 
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
