@@ -20,6 +20,9 @@ namespace MoonlitMixes.Item
         [SerializeField] private string _description;
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private ItemUsage _state;
+        [SerializeField] private bool _isTransformed;
+
+        public bool IsTransformed => _isTransformed;
 
         public bool CanBeStirred
         {
