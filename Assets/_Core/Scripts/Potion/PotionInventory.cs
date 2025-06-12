@@ -90,7 +90,14 @@ namespace MoonlitMixes.Potion
             Button cancelButtonNoPotion = confirmationPanelNoPotion.transform.Find("CancelButton").GetComponent<Button>();
 
             specialBtn.onClick.AddListener(() => OnNoPotionButtonClicked(null, confirmationPanelNoPotion, confirmButtonNoPotion, cancelButtonNoPotion, specialBtn));
-            _potionButtons[0].Select();
+            if(_potionButtons[0] == null )
+            {
+                specialBtn.Select();
+            }
+            else
+            {
+                _potionButtons[0].Select();
+            }
         }
 
         private void OnPotionButtonClicked(PotionResult potion, GameObject confirmationPanel, Button confirmButton, Button cancelButton, Button potionButton)
@@ -123,6 +130,8 @@ namespace MoonlitMixes.Potion
 
             confirmButton.onClick.RemoveAllListeners();
             confirmButton.onClick.AddListener(() => ConfirmPotionChoice(null, confirmationPanel));
+            confirmButton.Select();
+
 
             cancelButton.onClick.RemoveAllListeners();
             cancelButton.onClick.AddListener(() => CancelPotionChoice(confirmationPanel, potionButton));
