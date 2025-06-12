@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2213679614390805010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8939021942253699738}
+  - component: {fileID: 2961647321206197391}
+  m_Layer: 0
+  m_Name: QTE
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8939021942253699738
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2213679614390805010}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000020861626}
+  m_LocalPosition: {x: 2.4661164, y: 1.7826996, z: -6.8307705}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+--- !u!114 &2961647321206197391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2213679614390805010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac24b7b126ca5b34482a30b335165434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonSpritesArray:
+  - {fileID: 21300000, guid: cf909d34153d14a4e9dca4f7a57e72b8, type: 3}
+  - {fileID: 21300000, guid: 7e7a9b2676deb2449a7cf9826624f26c, type: 3}
+  - {fileID: 21300000, guid: 50bf07eb6a61da349a7ab8d5bd729aed, type: 3}
+  - {fileID: 21300000, guid: dc087d74eb175a04ba086f6755d2c2e9, type: 3}
+  - {fileID: 21300000, guid: 1fe21bc8a1565224a836404e2f10a84b, type: 3}
+  _buttonSpritesPressedArray:
+  - {fileID: 21300000, guid: a733e4e8d3c714748a685c59715c4fd3, type: 3}
+  - {fileID: 21300000, guid: f499e19c77f971d44b7b08ed02d34697, type: 3}
+  - {fileID: 21300000, guid: 49caf82597d2e3947922759554bdc722, type: 3}
+  - {fileID: 21300000, guid: 2e85071deb203db4f9c9f16762bd423e, type: 3}
+  _qteSlot: {fileID: 0}
+  _progressBarUI: {fileID: 0}
+  _qTEConfig: {fileID: 0}
+  _qTEEvent: {fileID: 11400000, guid: f21e001eabba3d8408414fdd34d7a253, type: 2}
+  _scriptableBoolEvent: {fileID: 11400000, guid: 386f5a5a309ffed4fbb944660e3d1a86, type: 2}
+  _playerInput: {fileID: 0}
+  _delayRatioFailure: 0.77
+  _pressedSpriteTime: 0.1

@@ -69,11 +69,11 @@ namespace MoonlitMixes.Potion
 
                     if (!_isBubbleVFXUp)
                     {
-                        _cauldronVFXController.PlayBubble();
+                        //_cauldronVFXController.PlayBubble();
                     }
                     if (!_isFireVFXUp)
                     {
-                        _cauldronVFXController.PlayFire();
+                        //_cauldronVFXController.PlayFire();
                     }
                 }
                 else
