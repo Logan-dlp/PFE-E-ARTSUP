@@ -164,7 +164,6 @@ namespace MoonlitMixes.Inventory
                 for (int i = _inventory.Items.Count - 1; i >= 0; i--)
                 {
                     ItemData item = _inventory.Items[i];
-                    _emptySlot = 0;
                     int emptyInventoryR = 0;
                     for (int j = 0; j < _inventoryReceives.Items.Count; j++)
                     {
@@ -173,24 +172,29 @@ namespace MoonlitMixes.Inventory
                             emptyInventoryR++;
                         }
                     }
-                    if (emptyInventoryR> _inventory.Items.Count - _emptySlot)
+                    if (emptyInventoryR>= _inventory.Items.Count - _emptySlot)
                     {
                         if (item.name != "Empty")
                         {
-                            /*_inventoryReceives.Items.Add(item);
-                            _inventory.Items.RemoveAt(i);*/
-                            _inventory.Items[i] = _emptyItem;
-                           
-                            if (_inventory.Items[i].name == "Empty")
+                            for (int j = 0; j < _inventoryReceives.Items.Count; j++)
                             {
-                                _inventoryReceives.Items[i] = item;
+                                if (_inventoryReceives.Items[j].name == "Empty")
+                                {
+                                    _inventoryReceives.Items[j] = item;
+                                    _inventory.Items[i] = _emptyItem;
+                                    break;
+                                }
                             }
+                            RefreshInventory();
+
                             Debug.Log("Envoie des items dans l'inventaire destin�");
                         }
                         
                     }
                     else
                     {
+                        Debug.Log(emptyInventoryR);
+                        Debug.Log(_inventory.Items.Count - _emptySlot);
                         Debug.LogWarning("L'inventaire destin� est plein");
                         break;
                     }
@@ -200,7 +204,6 @@ namespace MoonlitMixes.Inventory
             {
                 Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
             }
-
             RefreshInventory();
         }
     }

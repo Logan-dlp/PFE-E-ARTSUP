@@ -17,14 +17,16 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _chestInventory;
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private InventoryUI _inventoryChestUI;
-        [SerializeField] private List<GameObject> _itemsList;
-
         public void OpenChest()
         {
             _inventoryChestUI.RefreshInventory();
-            GameObject B = _chestUI.transform.GetChild(0).GetChild(0).gameObject;
+            _inventoryUI.RefreshInventory();
+            GameObject B = _chestUI.transform.GetChild(0).gameObject;
             EventSystem.current.SetSelectedGameObject(B);
             InputManager.Instance.SwitchActionMap("UI");
+            Debug.Log(EnoughPlaceInChest());
+            Debug.Log(_inventoryChestUI.EmptySlot);
+            Debug.Log(_inventoryUI.Items.Count - _inventoryUI.EmptySlot);
             if (EnoughPlaceInChest())
             {
                 _inventoryFullText.SetActive(false);
@@ -39,21 +41,9 @@ namespace MoonlitMixes.Inventory
         }
         private bool EnoughPlaceInChest()
         {
-            if (_inventoryChestUI.EmptySlot> _inventoryUI.Items.Count- _inventoryUI.EmptySlot) { return true; }
+            if (_inventoryChestUI.EmptySlot>= _inventoryUI.Items.Count- _inventoryUI.EmptySlot) { return true; }
             else { return false; }
 
-        }
-        [Button]
-        public void ResetList()
-        {
-            _chestInventory.Items.Clear();
-        }
-        private void UpdateChest()
-        {
-            for (int i = 0; i < _itemsList.Count; i++)
-            { 
-             
-            }
         }
     }
 }

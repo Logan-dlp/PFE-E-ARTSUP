@@ -14,6 +14,7 @@ namespace MoonlitMixes.Inventory
     {
         [SerializeField] private GameObject _canvaInventory;
         [SerializeField] private GameObject _canvaChestInventory;
+        [SerializeField] private GameObject _canvaChestFullText;
         [SerializeField] private GameObject _content;
         private DiscardInventory _discardInventory;
         private InputManager _inputManager;
@@ -41,6 +42,7 @@ namespace MoonlitMixes.Inventory
             else if (_canvaInventory.activeInHierarchy || _canvaChestInventory.activeInHierarchy) _inputManager.SwitchActionMap("Player");
             _canvaInventory.SetActive(state);
             _canvaChestInventory.SetActive(false);
+            _canvaChestFullText.SetActive(false);
         }
         public void Discard(InputAction.CallbackContext context)
         {
