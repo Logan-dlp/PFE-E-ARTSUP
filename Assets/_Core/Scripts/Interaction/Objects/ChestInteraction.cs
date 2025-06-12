@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,34 +11,48 @@ namespace MoonlitMixes.Inventory
 {
     public class ChestInteraction : MonoBehaviour
     {
-        [SerializeField] private GameObject _filledItemUI;
-        [SerializeField] private Button _filledItemButton;
-        [SerializeField] private GameObject _emptyItemUI;
-        [SerializeField] private Button _emptyItemButton;
-        [SerializeField] private InventoryData _inventory;
+        [SerializeField] private GameObject _chestUI;
+        [SerializeField] private GameObject _inventoryFullText;
+        [SerializeField] private InventoryData _playerInventory;
+        [SerializeField] private InventoryData _chestInventory;
+        [SerializeField] private InventoryUI _inventoryUI;
+        [SerializeField] private InventoryUI _inventoryChestUI;
+        [SerializeField] private List<GameObject> _itemsList;
 
         public void OpenChest()
         {
-            IEnumerator ActiveOnClick(Button button)
+            _inventoryChestUI.RefreshInventory();
+            GameObject B = _chestUI.transform.GetChild(0).GetChild(0).gameObject;
+            EventSystem.current.SetSelectedGameObject(B);
+            InputManager.Instance.SwitchActionMap("UI");
+            if (EnoughPlaceInChest())
             {
-                button.interactable = false;
-                yield return new WaitForEndOfFrame();
-                button.interactable = true;
-            }
-            
-            if (_inventory.Items.Count == 0)
-            {
-                InputManager.Instance.SwitchActionMap("UI");
-                _emptyItemUI.SetActive(true);
-                StartCoroutine(ActiveOnClick(_emptyItemButton));
-                EventSystem.current.SetSelectedGameObject(_emptyItemButton.gameObject);
+                _inventoryFullText.SetActive(false);
+                _inventoryUI.SendItems();
+                _chestUI.SetActive(true);
             }
             else
             {
-                InputManager.Instance.SwitchActionMap("UI");
-                _filledItemUI.SetActive(true);
-                StartCoroutine(ActiveOnClick(_filledItemButton));
-                EventSystem.current.SetSelectedGameObject(_filledItemButton.gameObject);
+                _inventoryFullText.SetActive(true);
+                _chestUI.SetActive(true);
+            }
+        }
+        private bool EnoughPlaceInChest()
+        {
+            if (_inventoryChestUI.EmptySlot> _inventoryUI.Items.Count- _inventoryUI.EmptySlot) { return true; }
+            else { return false; }
+
+        }
+        [Button]
+        public void ResetList()
+        {
+            _chestInventory.Items.Clear();
+        }
+        private void UpdateChest()
+        {
+            for (int i = 0; i < _itemsList.Count; i++)
+            { 
+             
             }
         }
     }

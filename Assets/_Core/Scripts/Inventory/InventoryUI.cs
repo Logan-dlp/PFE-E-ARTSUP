@@ -14,7 +14,9 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _inventory;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
-
+        [SerializeField] private Vector3 _scaleItem;
+        private int _emptySlot;
+        public int EmptySlot { get { return _emptySlot; } }
         private void OnEnable()
         {
             RefreshInventory();
@@ -22,6 +24,8 @@ namespace MoonlitMixes.Inventory
 
         public void RefreshInventory()
         {
+
+
             SortInventory();
             
             foreach (Transform childTransform in transform)
@@ -41,7 +45,7 @@ namespace MoonlitMixes.Inventory
                 item.transform.SetParent(itemCase.transform);
                 
                 item.transform.localPosition = Vector3.zero;
-                item.transform.localScale = Vector3.one;
+                item.transform.localScale = _scaleItem;
                 item.transform.localRotation = Quaternion.identity;
                 Image itemImage = item.AddComponent<Image>();
                 itemImage.sprite = currentItemData.ItemSprite;
@@ -53,23 +57,43 @@ namespace MoonlitMixes.Inventory
             }
 
             FirstSelected = currentItemList.FirstOrDefault();
+            _emptySlot = 0;
+            for (int i = 0; i < _inventory.Items.Count; i++)
+            {
+                if (_inventory.Items[i].name == "Empty")
+                {
+                    _emptySlot++;
+                }
+            }
+            Debug.Log(gameObject.name + _emptySlot);
         }
 
         public void AddItem(ItemData item)
         {
+            RefreshInventory();
+            bool full=true;
             if (item == null)
             {
                 Debug.LogWarning("L'item � ajouter est nul !");
                 return;
             }
 
-            if (_inventory.Mode == InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
+            
+            for(int i = 0;i<_inventory.Items.Count;i++)
+            {
+                if (_inventory.Items[i].name == "Empty" )
+                {
+                    _inventory.Items[i] = item;
+                    full=false;
+                    break;
+                }
+            }
+            /*if (_inventory.Mode == InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
             {
                 Debug.LogWarning("L'inventaire est plein !");
                 return;
-            }
-
-            _inventory.Items.Add(item);
+            }*/
+            if (full) { Debug.LogWarning("L'inventaire est plein !"); return; }
             SortInventory();
             RefreshInventory();
             Debug.Log($"{item.name} ajout� avec succ�s !");
