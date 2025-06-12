@@ -77,13 +77,29 @@ public class UseTools : MonoBehaviour
 
     private void UseMachete()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, 2f, _layerHitable))
+        if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out RaycastHit hit, 2f, _layerHitable))
         {
-            ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
+            var itemSource = hit.collider.GetComponent<ItemListSource>();
+            var itemList = itemSource?.GetItemList();
 
             if (itemList != null && itemList.ToolType == ToolType.Machete)
             {
+                TreeHealth treeHealth = hit.collider.GetComponent<TreeHealth>();
+
+                if (treeHealth == null)
+                {
+                    Debug.LogWarning("Aucun TreeHealth trouvé sur cet objet.");
+                    return;
+                }
+
+                if (!treeHealth.CanChop())
+                {
+                    Debug.Log("Cet arbre a déjà été coupé deux fois.");
+                    return;
+                }
+
+                treeHealth.Chop();
+
                 if (itemList.Items.Count > 0)
                 {
                     ItemData itemToAdd = itemList.Items[0];
@@ -97,7 +113,6 @@ public class UseTools : MonoBehaviour
             }
         }
     }
-
 
     private void UsePickaxe()
     {
