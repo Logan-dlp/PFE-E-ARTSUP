@@ -373,6 +373,7 @@ MonoBehaviour:
   _playerInventory: {fileID: 11400000, guid: cc39ff8a71f4c194d97487b527970f72, type: 2}
   _chestInventory: {fileID: 11400000, guid: c434fad0bf085194da8dbbfaaee7df69, type: 2}
   _inventoryUI: {fileID: 0}
+  _inventoryChestUI: {fileID: 0}
   _itemsList: []
 --- !u!1 &7227944795029286064
 GameObject:
@@ -796,6 +797,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3670674874307571005, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 873.9039
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670674874307571005, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 523.1277
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670674874307571005, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670674874307571005, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3670674874307571005, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4144092828890181127, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -827,6 +848,18 @@ PrefabInstance:
     - target: {fileID: 4144092828890181127, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329052834843165735, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329052834843165735, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2098231836, guid: 7d98817e3881a9a419ed2897acf0eee5, type: 3}
+    - target: {fileID: 4329052834843165735, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4495852897258170319, guid: c7bbcb32130d0cb4084422fe50d1998a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -988,6 +1021,7 @@ MonoBehaviour:
   _inventoryReceives: {fileID: 11400000, guid: 2af0454a91ecb0f49b5c64f6c5b8abf1, type: 2}
   _slotPrefab: {fileID: 0}
   _scaleItem: {x: 1.4, y: 1.4, z: 1.4}
+  _emptyItem: {fileID: 11400000, guid: 05ac27cbdf73c4142ae2e1b9354a437a, type: 2}
 --- !u!114 &5677512595487316905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,8 +1042,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 0, y: 0}
+  m_CellSize: {x: 125, y: 125}
+  m_Spacing: {x: 25, y: 25}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &1034225294174600641 stripped

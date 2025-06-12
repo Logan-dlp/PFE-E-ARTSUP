@@ -22,19 +22,18 @@ namespace MoonlitMixes.Inventory
             Boolean result2 = char.IsDigit(name[name.Length - 2]);
             if (result2)
             {
-                
+
                 int i = 0, y = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
                 y = (int)char.GetNumericValue(name, name.Length - 2);
-                y = y*10+i;
-                _playerInventory.Items.RemoveAt(y-1);
+                y = y * 10 + i;
+                _playerInventory.Items[y] = _inventoryUI.EmptyData;
             }
             else
             {
                 int i = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
-                _playerInventory.Items.RemoveAt(i-1);
-
+                _playerInventory.Items[i] = _inventoryUI.EmptyData;
             }
             _inventoryUI.RefreshInventory();
 
@@ -46,20 +45,19 @@ namespace MoonlitMixes.Inventory
             Boolean result2 = char.IsDigit(name[name.Length - 2]);
             if (result2)
             {
-
                 int i = 0, y = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
                 y = (int)char.GetNumericValue(name, name.Length - 2);
                 y = y * 10 + i;
-                _playerInventory.Items.RemoveAt(y - 1);
+                _chestInventory.Items[y] = _inventoryChestUI.EmptyData;
             }
             else
             {
                 int i = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
-                _playerInventory.Items.RemoveAt(i - 1);
-
+                _chestInventory.Items[i] = _inventoryChestUI.EmptyData;
             }
+            _inventoryChestUI.RefreshInventory();
         }
     }
 }

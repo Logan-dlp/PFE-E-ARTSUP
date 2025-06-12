@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
@@ -16,7 +17,6 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private GameObject _content;
         private DiscardInventory _discardInventory;
         private InputManager _inputManager;
-    
         private bool _isActive = false;
 
         private void Start()
@@ -28,29 +28,27 @@ namespace MoonlitMixes.Inventory
                 _canvaInventory.SetActive(_isActive);
             }
         }
-
         public void Toggle(bool state)
         {
-
             if (state)
             {
                 _inputManager.SwitchActionMap("UI");
                 if (_content.transform.childCount > 0)
                 {
-                    Debug.Log("nb child = " + _content.transform.childCount);
                     GameObject B = _content.transform.GetChild(0).gameObject;
-                    EventSystem.current.SetSelectedGameObject(B);
-                    EventSystem.current.firstSelectedGameObject = B;
                 }
             }
             else if (_canvaInventory.activeInHierarchy || _canvaChestInventory.activeInHierarchy) _inputManager.SwitchActionMap("Player");
             _canvaInventory.SetActive(state);
             _canvaChestInventory.SetActive(false);
         }
-        public void Discard()
+        public void Discard(InputAction.CallbackContext context)
         {
-            if (_canvaInventory.activeInHierarchy) _discardInventory.DiscardBag();
-            else _discardInventory.DiscardChest();
+            if(context.canceled)
+            {
+                if (_canvaInventory.activeInHierarchy) _discardInventory.DiscardBag();
+                else _discardInventory.DiscardChest();
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Item;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MoonlitMixes.Inventory
@@ -15,6 +16,8 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
+        [SerializeField] private ItemData _emptyItem;
+        public ItemData EmptyData { get { return _emptyItem; } }
         private int _emptySlot;
         public int EmptySlot { get { return _emptySlot; } }
         private void OnEnable()
@@ -24,8 +27,15 @@ namespace MoonlitMixes.Inventory
 
         public void RefreshInventory()
         {
-
-
+            _emptySlot = 0;
+            for (int i = 0; i < _inventory.Items.Count; i++)
+            {
+                if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
+                else if(_inventory.Items[i].name == "Empty")
+                {
+                    _emptySlot++;
+                }
+            }
             SortInventory();
             
             foreach (Transform childTransform in transform)
@@ -64,8 +74,17 @@ namespace MoonlitMixes.Inventory
                 {
                     _emptySlot++;
                 }
+                else if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
             }
-            Debug.Log(gameObject.name + _emptySlot);
+            while (_inventory.Items.Count < _inventory.MaxSlots)
+            {
+                _inventory.Items.Add(_emptyItem);
+            }
+            EventSystem.current.SetSelectedGameObject(FirstSelected);
+            EventSystem.current.firstSelectedGameObject = FirstSelected;
+            SortInventory();
+
+            //Debug.Log(gameObject.name + _emptySlot);
         }
 
         public void AddItem(ItemData item)
@@ -81,7 +100,11 @@ namespace MoonlitMixes.Inventory
             
             for(int i = 0;i<_inventory.Items.Count;i++)
             {
-                if (_inventory.Items[i].name == "Empty" )
+                if (item.name == "Empty")
+                {
+
+                }
+                else if (_inventory.Items[i].name == "Empty" )
                 {
                     _inventory.Items[i] = item;
                     full=false;
@@ -141,12 +164,30 @@ namespace MoonlitMixes.Inventory
                 for (int i = _inventory.Items.Count - 1; i >= 0; i--)
                 {
                     ItemData item = _inventory.Items[i];
-
-                    if (_inventoryReceives.Items.Count + _inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
+                    _emptySlot = 0;
+                    int emptyInventoryR = 0;
+                    for (int j = 0; j < _inventoryReceives.Items.Count; j++)
                     {
-                        _inventoryReceives.Items.Add(item);
-                        _inventory.Items.RemoveAt(i);
-                        Debug.Log("Envoie des items dans l'inventaire destin�");
+                        if (_inventoryReceives.Items[j].name == "Empty")
+                        {
+                            emptyInventoryR++;
+                        }
+                    }
+                    if (emptyInventoryR> _inventory.Items.Count - _emptySlot)
+                    {
+                        if (item.name != "Empty")
+                        {
+                            /*_inventoryReceives.Items.Add(item);
+                            _inventory.Items.RemoveAt(i);*/
+                            _inventory.Items[i] = _emptyItem;
+                           
+                            if (_inventory.Items[i].name == "Empty")
+                            {
+                                _inventoryReceives.Items[i] = item;
+                            }
+                            Debug.Log("Envoie des items dans l'inventaire destin�");
+                        }
+                        
                     }
                     else
                     {
