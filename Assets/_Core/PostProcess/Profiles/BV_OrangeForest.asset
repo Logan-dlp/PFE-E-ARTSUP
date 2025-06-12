@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.15
 --- !u!114 &-6843947832161004628
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -31,19 +31,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.85
   contrast:
     m_OverrideState: 1
-    m_Value: 3.3
+    m_Value: -2
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 1, g: 0.90861326, b: 0.8509433, a: 1}
   hueShift:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: -4.4
   saturation:
     m_OverrideState: 0
-    m_Value: 12
+    m_Value: -2.6
 --- !u!114 &-6402975870734442316
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -78,95 +78,6 @@ MonoBehaviour:
   highlightsEnd:
     m_OverrideState: 1
     m_Value: 1.69
---- !u!114 &-789344453905043350
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06437c1ff663d574d9447842ba0a72e4, type: 3}
-  m_Name: ScreenSpaceLensFlare
-  m_EditorClassIdentifier: 
-  active: 1
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.49
-  tintColor:
-    m_OverrideState: 1
-    m_Value: {r: 0.9547169, g: 0.6270096, b: 0.11348517, a: 1}
-  bloomMip:
-    m_OverrideState: 1
-    m_Value: 3
-  firstFlareIntensity:
-    m_OverrideState: 1
-    m_Value: 1
-  secondaryFlareIntensity:
-    m_OverrideState: 1
-    m_Value: 8.75
-  warpedFlareIntensity:
-    m_OverrideState: 1
-    m_Value: 1.53
-  warpedFlareScale:
-    m_OverrideState: 1
-    m_Value: {x: 8.59, y: 28.68}
-  samples:
-    m_OverrideState: 1
-    m_Value: 3
-  sampleDimmer:
-    m_OverrideState: 1
-    m_Value: 0.2
-  vignetteEffect:
-    m_OverrideState: 1
-    m_Value: 0.88
-  startingPosition:
-    m_OverrideState: 1
-    m_Value: 1.38
-  scale:
-    m_OverrideState: 1
-    m_Value: 2.46
-  streaksIntensity:
-    m_OverrideState: 1
-    m_Value: 0.97
-  streaksLength:
-    m_OverrideState: 1
-    m_Value: 1
-  streaksOrientation:
-    m_OverrideState: 1
-    m_Value: 4.82
-  streaksThreshold:
-    m_OverrideState: 1
-    m_Value: 0.063
-  resolution:
-    m_OverrideState: 1
-    m_Value: 4
-  chromaticAbberationIntensity:
-    m_OverrideState: 1
-    m_Value: 0.665
---- !u!114 &-291317458218879942
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
-  m_Name: LiftGammaGain
-  m_EditorClassIdentifier: 
-  active: 1
-  lift:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.00468386}
-  gamma:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: -0.037470873}
-  gain:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: -0.44964823}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,10 +94,8 @@ MonoBehaviour:
   - {fileID: -6843947832161004628}
   - {fileID: 4801347540735466413}
   - {fileID: -6402975870734442316}
-  - {fileID: -291317458218879942}
   - {fileID: 4693561953677238077}
   - {fileID: 5951552512769115137}
-  - {fileID: -789344453905043350}
   - {fileID: 8142672054642055925}
   - {fileID: -7906927851454533301}
   - {fileID: 8151377038514484372}
@@ -205,10 +114,10 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.4566037, g: 0.4566037, b: 0.4566037, a: 1}
+    m_Value: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.23584639, g: 0.2830189, b: 0.21733715, a: 1}
+    m_Value: {r: 0.74338883, g: 0.764151, b: 0.64520293, a: 1}
   balance:
     m_OverrideState: 1
     m_Value: -28
@@ -273,13 +182,13 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.06415099, g: 0.06415099, b: 0.06415099, a: 1}
+    m_Value: {r: 0.4811321, g: 0.09295589, b: 0, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.309
+    m_Value: 0.221
   smoothness:
     m_OverrideState: 1
     m_Value: 1
@@ -301,10 +210,10 @@ MonoBehaviour:
   active: 1
   type:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.534
   response:
     m_OverrideState: 0
     m_Value: 0.209
