@@ -1,6 +1,4 @@
-using MoonlitMixes.Datas;
-using MoonlitMixes.DayNightCycle;
-using MoonlitMixes.Dialogue;
+    using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,23 +7,16 @@ namespace MoonlitMixes.Scene
 {
     public class EndDay : OpenCanvasSceneChange
     {
-        [SerializeField] private GameObject _endDayCanvasWithSell;
-        [SerializeField] private GameObject _endDayCanvasWithoutSell;
         [SerializeField] private EnumDayPhase _requiredTimePhaseToSleep;
-
-        [SerializeField] private DialogueData _dialogueDataWoutSell; 
-        [SerializeField] private DialogueData _dialogueDataWSell;
 
         public override void OpenCanvas()
         {
             if (_dayNightCycleInfo.ActualTimePhase == (int)_requiredTimePhaseToSleep)
             {
-                _endDayCanvasWithoutSell.SetActive(true);
                 InputManager.Instance.SwitchActionMap("ChangeDay");
             }
             else if (_dayNightCycleInfo.ActualTimePhase == 1 + (int)_requiredTimePhaseToSleep)
             {
-                _endDayCanvasWithSell.SetActive(true);
                 InputManager.Instance.SwitchActionMap("ChangeDay");
             }
         }
@@ -34,34 +25,13 @@ namespace MoonlitMixes.Scene
         {
             if (callbackContext.started)
             {
-                _endDayCanvasWithSell.SetActive(false);
-                _endDayCanvasWithoutSell.SetActive(false);
                 _dayNightCycleInfo.ActualDay++;
                 _dayNightCycleInfo.ActualTimePhase = 0;
                 _scriptableIntEventTimePhase.SendEvent(_dayNightCycleInfo.ActualTimePhase);
                 _scriptableIntEventDay.SendEvent(_dayNightCycleInfo.ActualDay);
-
-                if (_dayNightCycleInfo.ActualTimePhase == (int)EnumDayPhase.Twilight)
-                {
-                    FindFirstObjectByType<DialogueController>().StartDialogue(_dialogueDataWoutSell);
-                }
-                else
-                {
-                    FindFirstObjectByType<DialogueController>().StartDialogue(_dialogueDataWSell);
-                }
                 
-                if (!_endDayCanvasWithSell.activeInHierarchy && !_endDayCanvasWithoutSell.activeInHierarchy)
-                {
-                    InputManager.Instance.SwitchActionMap("Player");
-                }
+                InputManager.Instance.SwitchActionMap("Player");
             }
-        }
-
-        public void CloseCanvas()
-        {
-            _endDayCanvasWithSell.SetActive(false);
-            _endDayCanvasWithoutSell.SetActive(false);
-            InputManager.Instance.SwitchActionMap("Player");
         }
     }
 }

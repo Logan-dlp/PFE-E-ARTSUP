@@ -8,7 +8,6 @@ namespace MoonlitMixes.Scene
     {
         [SerializeField] private LastSceneNameData _lastSceneNameData;
         [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
-        [SerializeField] private DialogueData _dialogueData;
 
         private void Start()
         {
