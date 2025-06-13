@@ -9,6 +9,9 @@ namespace MoonlitMixes.Potion
 
         [SerializeField] private TextMeshProUGUI totalPriceText;
         private int totalPotionPrice = 0;
+        private bool _isLoanRefunded = false;
+        [SerializeField] private int _loanPrice;
+        public bool IsLoanRefunded { get { return _isLoanRefunded; } }
 
         public void SetSelectedPotionPrice(int price)
         {
@@ -35,6 +38,7 @@ namespace MoonlitMixes.Potion
 
             // Toujours mettre à jour l'UI, même si basePrice est 0
             UpdateTotalPriceUI();
+            _isLoanRefunded = VerficationLoan();
         }
 
         private void UpdateTotalPriceUI()
@@ -54,6 +58,11 @@ namespace MoonlitMixes.Potion
                 2 => 0.25f,
                 _ => 0f
             };
+        }
+        private bool VerficationLoan()
+        {
+            if (totalPotionPrice>_loanPrice) return true;
+            else return false;
         }
     }
 }
