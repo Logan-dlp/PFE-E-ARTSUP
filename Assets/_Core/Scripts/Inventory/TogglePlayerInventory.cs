@@ -1,12 +1,6 @@
 using MoonlitMixes.Inputs;
-using NaughtyAttributes;
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.UIElements;
 
 namespace MoonlitMixes.Inventory
 {

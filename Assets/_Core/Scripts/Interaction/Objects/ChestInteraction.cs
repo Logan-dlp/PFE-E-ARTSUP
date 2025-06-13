@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace MoonlitMixes.Inventory
 {
@@ -21,8 +17,7 @@ namespace MoonlitMixes.Inventory
         {
             _inventoryChestUI.RefreshInventory();
             _inventoryUI.RefreshInventory();
-            GameObject B = _chestUI.transform.GetChild(0).gameObject;
-            EventSystem.current.SetSelectedGameObject(B);
+            EventSystem.current.SetSelectedGameObject(_chestUI.transform.GetChild(0).gameObject)
             InputManager.Instance.SwitchActionMap("UI");
             Debug.Log(EnoughPlaceInChest());
             Debug.Log(_inventoryChestUI.EmptySlot);

@@ -17,7 +17,9 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
         [SerializeField] private ItemData _emptyItem;
+
         public ItemData EmptyData { get { return _emptyItem; } }
+
         private int _emptySlot;
         public int EmptySlot { get { return _emptySlot; } }
         private void OnEnable()
@@ -83,40 +85,30 @@ namespace MoonlitMixes.Inventory
             EventSystem.current.SetSelectedGameObject(FirstSelected);
             EventSystem.current.firstSelectedGameObject = FirstSelected;
             SortInventory();
-
-            //Debug.Log(gameObject.name + _emptySlot);
         }
 
         public void AddItem(ItemData item)
         {
-            RefreshInventory();
-            bool full=true;
             if (item == null)
             {
                 Debug.LogWarning("L'item � ajouter est nul !");
                 return;
             }
 
-            
             for(int i = 0;i<_inventory.Items.Count;i++)
             {
                 if (item.name == "Empty")
                 {
-
+                    break;
                 }
                 else if (_inventory.Items[i].name == "Empty" )
                 {
                     _inventory.Items[i] = item;
-                    full=false;
                     break;
                 }
             }
-            /*if (_inventory.Mode == InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
-            {
-                Debug.LogWarning("L'inventaire est plein !");
-                return;
-            }*/
-            if (full) { Debug.LogWarning("L'inventaire est plein !"); return; }
+            if (_emptySlot==0) { Debug.LogWarning("L'inventaire est plein !"); return; }
+
             SortInventory();
             RefreshInventory();
             Debug.Log($"{item.name} ajout� avec succ�s !");

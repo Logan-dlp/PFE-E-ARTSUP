@@ -1,9 +1,7 @@
 using MoonlitMixes.Datas;
-using NaughtyAttributes;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
 namespace MoonlitMixes.Inventory
 {
@@ -13,14 +11,11 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _chestInventory;
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private InventoryUI _inventoryChestUI;
-
-        
         public void DiscardBag()
         {
             string name = EventSystem.current.currentSelectedGameObject.name;
-            Boolean result = char.IsDigit(name[name.Length - 1]);
-            Boolean result2 = char.IsDigit(name[name.Length - 2]);
-            if (result2)
+            bool result = char.IsDigit(name[name.Length - 1]);
+            if (char.IsDigit(name[name.Length - 2]) && result)
             {
 
                 int i = 0, y = 0;
@@ -29,7 +24,7 @@ namespace MoonlitMixes.Inventory
                 y = y * 10 + i;
                 _playerInventory.Items[y] = _inventoryUI.EmptyData;
             }
-            else
+            else if (result) 
             {
                 int i = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
@@ -42,8 +37,7 @@ namespace MoonlitMixes.Inventory
         {
             string name = EventSystem.current.currentSelectedGameObject.name;
             Boolean result = char.IsDigit(name[name.Length - 1]);
-            Boolean result2 = char.IsDigit(name[name.Length - 2]);
-            if (result2)
+            if (char.IsDigit(name[name.Length - 2]) && result)
             {
                 int i = 0, y = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
@@ -51,7 +45,7 @@ namespace MoonlitMixes.Inventory
                 y = y * 10 + i;
                 _chestInventory.Items[y] = _inventoryChestUI.EmptyData;
             }
-            else
+            else if (result) 
             {
                 int i = 0;
                 i = (int)char.GetNumericValue(name, name.Length - 1);
