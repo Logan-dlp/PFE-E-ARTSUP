@@ -239,7 +239,7 @@ namespace MoonlitMixes.Dialogue
         {
             _panelDialogue.SetActive(false);
 
-            InputManager.Instance.SwitchActionMap("Player");
+            InputManager.Instance.SwitchActionMap("PlayerMovement");
 
             foreach (TMP_Text textBox in _textBoxes)
             {

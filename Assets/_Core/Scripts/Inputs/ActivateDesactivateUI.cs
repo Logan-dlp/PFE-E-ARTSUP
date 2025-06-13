@@ -10,6 +10,6 @@ public class ActivateDesactivateUI : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.SwitchActionMap("Player");
+        InputManager.Instance.SwitchActionMap("PlayerMovement");
     }
 }

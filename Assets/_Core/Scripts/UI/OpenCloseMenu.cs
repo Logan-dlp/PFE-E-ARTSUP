@@ -23,7 +23,7 @@ namespace MoonlitMixes
         {
             _menuUI.SetActive(state);
             if(state) InputManager.Instance.SwitchActionMap("Menu");
-            else InputManager.Instance.SwitchActionMap("Player");
+            else InputManager.Instance.SwitchActionMap("PlayerMovement");
         }
     }
 }

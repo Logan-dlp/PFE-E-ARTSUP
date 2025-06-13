@@ -43,7 +43,7 @@ namespace MoonlitMixes.UI
             _hasPopup = false;
             _isLoading = false;
 
-            InputManager.Instance.SwitchActionMap("Player");
+            InputManager.Instance.SwitchActionMap("PlayerMovement");
 
             if (_sceneName == "S_Forest")
                 Debug.Log("_panelNoChestItem.SetActive(false)");
