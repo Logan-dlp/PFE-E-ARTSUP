@@ -10,39 +10,39 @@ namespace MoonlitMixes.Player
     public class PlayerMovement : MonoBehaviour
     {
         public event Action<float> OnStaminaChanged;
+        public event Action OnFootstep;
 
         private Vector2 _targetMovement;
-        public Vector2 TargetMovement
-        {
-            get => _targetMovement;
-        }
-        
+        public Vector2 TargetMovement => _targetMovement;
+
         [SerializeField] private float _walkSpeed = 2;
-        public float WalkSpeed
-        {
-            get => _walkSpeed;
-        }
+        public float WalkSpeed => _walkSpeed;
+
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
         [SerializeField] private bool _canSprint = false;
         [SerializeField] private float _floorDistance;
         [SerializeField, MaxValue(0)] private float _maxDownVelocity;
 
+        [SerializeField, Tooltip("Multiplier for how fast footstep sounds play relative to player speed")]
+        private float footstepRate = 1.5f;
+
         private CharacterController _characterController;
-        
+
         private Vector3 _knockbackMovement = Vector3.zero;
         private Vector3 _velocity;
 
         private Vector2 _movement;
-        
+
         private float _currentSpeed;
-        public float CurrentSpeed
-        {
-            get => _currentSpeed;
-        }
-        
+        public float CurrentSpeed => _currentSpeed;
+
         private float _currentStamina;
         private bool _isMovementBlocked = false;
+        private float _distanceSinceLastFootstep = 0f;
+
+        private bool _isMoving = false;
+        private float _footstepTimer = 0f;
 
         private void Awake()
         {
@@ -65,14 +65,36 @@ namespace MoonlitMixes.Player
         {
             _movement = Vector2.Lerp(_movement, _targetMovement, deltaTime * 10f);
             Vector3 move = new Vector3(_movement.x, 0, _movement.y);
-            _characterController.Move(move * _currentSpeed * deltaTime);
+            Vector3 worldMove = move * _currentSpeed * deltaTime;
 
-            if (move != Vector3.zero)
+            _characterController.Move(worldMove);
+
+            float moveMagnitude = move.magnitude;
+            float minMoveThreshold = 0.01f;
+
+            if (moveMagnitude > minMoveThreshold)
             {
                 gameObject.transform.forward = move;
+                _isMoving = true;
+
+                _footstepTimer += deltaTime;
+
+                float stepInterval = 1f / footstepRate;
+
+                if (_footstepTimer >= stepInterval)
+                {
+                    _footstepTimer = 0f;
+                    Debug.Log("Footstep triggered: walking");
+                    OnFootstep?.Invoke();
+                }
+            }
+            else
+            {
+                _isMoving = false;
+                _footstepTimer = 0f;
             }
         }
-        
+
         private void UpdateGravity(float deltaTime)
         {
             Debug.DrawRay(transform.position, -transform.up * _floorDistance, Color.red);
@@ -82,8 +104,8 @@ namespace MoonlitMixes.Player
                 _velocity.y = -2;
             }
             else
-            {   
-                _velocity.y = Mathf.Max(_velocity.y + Physics.gravity.y * deltaTime, _maxDownVelocity); 
+            {
+                _velocity.y = Mathf.Max(_velocity.y + Physics.gravity.y * deltaTime, _maxDownVelocity);
                 _characterController.Move(_velocity * deltaTime);
             }
         }
@@ -114,7 +136,21 @@ namespace MoonlitMixes.Player
 
         public void SetTargetMovement(InputAction.CallbackContext ctx)
         {
-            _targetMovement = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
+            if (ctx.performed)
+            {
+                _targetMovement = ctx.ReadValue<Vector2>();
+
+                if (_targetMovement != Vector2.zero && !_isMoving)
+                {
+                    _footstepTimer = 0f; // réinitialise le timer pour pas de délai
+                    Debug.Log("Footstep triggered: movement started");
+                    OnFootstep?.Invoke(); // joue un son immédiatement
+                }
+            }
+            else
+            {
+                _targetMovement = Vector2.zero;
+            }
         }
 
         public void SetSprint(InputAction.CallbackContext ctx)
@@ -133,7 +169,7 @@ namespace MoonlitMixes.Player
         {
             _isMovementBlocked = block;
         }
-        
+
         public IEnumerator Knockback(Vector3 direction, float force, float duration)
         {
             float startTime = Time.time;
