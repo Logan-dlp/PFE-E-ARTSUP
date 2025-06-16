@@ -5,9 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class ZoneSonoreBox : MonoBehaviour
 {
-    [Header("Références")]
-    [SerializeField] private Transform _player;
-
     [Header("Audio")]
     [SerializeField] private AudioEventScriptableObject _audioEvent;
 
@@ -23,12 +20,22 @@ public class ZoneSonoreBox : MonoBehaviour
     private bool _isPlaying = false;
     private bool _isPlayerInside = false;
     private BoxCollider _boxCollider;
+    private Transform _player;
 
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
         _boxCollider.isTrigger = true;
         _boxCollider.size = _outerSize;
+
+        if (_player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                _player = playerObj.transform;
+            else
+                Debug.LogWarning("[ZoneSonoreBox] Aucun objet avec le tag 'Player' trouvé.");
+        }
     }
 
     private void OnValidate()
@@ -72,7 +79,7 @@ public class ZoneSonoreBox : MonoBehaviour
 
     private void Update()
     {
-        if (!_isPlayerInside || !_isPlaying) return;
+        if (!_isPlayerInside || !_isPlaying || _player == null) return;
 
         float volume = CalculateBoxVolume(_player.position);
         _instance.setVolume(volume);
@@ -97,10 +104,7 @@ public class ZoneSonoreBox : MonoBehaviour
         float ratioZ = Mathf.InverseLerp(innerHalf.z, outerHalf.z, Mathf.Abs(localPos.z));
 
         float ratio = Mathf.Max(ratioX, ratioY, ratioZ);
-        ratio = Mathf.Clamp01(ratio);
-
-        float volume = Mathf.Lerp(_innerVolume, _outerVolume, ratio);
-        return volume;
+        return Mathf.Lerp(_innerVolume, _outerVolume, Mathf.Clamp01(ratio));
     }
 
     private void OnDrawGizmosSelected()

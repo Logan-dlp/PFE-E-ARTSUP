@@ -5,9 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class ZoneSonoreSphere : MonoBehaviour
 {
-    [Header("Références")]
-    [SerializeField] private Transform _player;
-
     [Header("Audio")]
     [SerializeField] private AudioEventScriptableObject _audioEvent;
 
@@ -23,13 +20,22 @@ public class ZoneSonoreSphere : MonoBehaviour
     private bool _isPlaying = false;
     private bool _isPlayerInside = false;
     private SphereCollider _sphereCollider;
+    private Transform _player;
 
     private void Awake()
     {
         _sphereCollider = GetComponent<SphereCollider>();
         _sphereCollider.isTrigger = true;
         _sphereCollider.radius = _outerDistance;
-        _player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
+        if (_player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                _player = playerObj.transform;
+            else
+                Debug.LogWarning("[ZoneSonoreSphere] Aucun objet avec le tag 'Player' trouvé.");
+        }
     }
 
     private void OnValidate()
@@ -73,14 +79,10 @@ public class ZoneSonoreSphere : MonoBehaviour
 
     private void Update()
     {
-        if (!_isPlayerInside || !_isPlaying) return;
+        if (!_isPlayerInside || !_isPlaying || _player == null) return;
 
-        // Calculer la vraie position du centre du collider dans le monde
         Vector3 colliderCenterWorld = transform.position + transform.TransformVector(_sphereCollider.center);
         _instance.set3DAttributes(RuntimeUtils.To3DAttributes(colliderCenterWorld));
-
-        // Debug position pour vérifier
-        Debug.DrawLine(_player.position, colliderCenterWorld, Color.green);
 
         float distance = Vector3.Distance(_player.position, colliderCenterWorld);
 
@@ -110,15 +112,12 @@ public class ZoneSonoreSphere : MonoBehaviour
 
         Vector3 colliderCenterWorld = transform.position + transform.TransformVector(_sphereCollider.center);
 
-        // Sphère extérieure (zone son)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(colliderCenterWorld, _outerDistance);
 
-        // Sphère intérieure (volume max)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(colliderCenterWorld, _innerDistance);
 
-        // Centre réel du collider
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(colliderCenterWorld, 0.2f);
     }
