@@ -14,6 +14,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     [SerializeField] private AudioEventScriptableObject _toolMacheteImpactSound;
     [SerializeField] private AudioEventScriptableObject _toolPickaxeImpactSound;
     [SerializeField] private AudioEventScriptableObject _toolStaffImpactSound;
+    [SerializeField] private AudioEventScriptableObject _toolSepterSwing;
     [SerializeField] private AudioEventScriptableObject _deathSound;
 
     [Header("Volume Settings")]
@@ -54,6 +55,11 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         }
 
         InteractionTools.OnUsedHand += PlayPickupItemSound;
+        UseTools.OnUsedMachete += PlayToolMacheteImpactSound;
+        UseTools.OnUsedPickaxe += PlayToolPickaxeImpactSound;
+        UseTools.OnUsedSepter += PlayToolStaffImpactSound;
+        UseTools.OnUsedSepterSwing += PlayToolSepterSwingSound;
+        RouletteSelectionTools.OnToolChanged += PlayToolChangeSound;
     }
 
     private void OnDestroy()
@@ -72,6 +78,11 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         }
 
         InteractionTools.OnUsedHand -= PlayPickupItemSound;
+        UseTools.OnUsedMachete -= PlayToolMacheteImpactSound;
+        UseTools.OnUsedPickaxe -= PlayToolPickaxeImpactSound;
+        UseTools.OnUsedSepter -= PlayToolStaffImpactSound;
+        UseTools.OnUsedSepterSwing -= PlayToolSepterSwingSound;
+        RouletteSelectionTools.OnToolChanged -= PlayToolChangeSound;
     }
 
     private void StartLowHealthSound()
@@ -127,6 +138,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     public void PlayToolPickaxeImpactSound() => PlaySound(_toolPickaxeImpactSound);
 
     public void PlayToolStaffImpactSound() => PlaySound(_toolStaffImpactSound);
+    public void PlayToolSepterSwingSound() => PlaySound(_toolSepterSwing);
 
     public void PlayDeathSound() => PlaySound(_deathSound);
 }
