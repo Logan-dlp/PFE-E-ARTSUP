@@ -11,6 +11,13 @@ namespace MoonlitMixes.Player
     {
         public event Action<float> OnStaminaChanged;
         public event Action OnFootstep;
+        public event Action OnLowStamina;
+        public event Action OnStaminaRecovered;
+
+        [SerializeField, Range(0f, 1f)]
+        private float _lowStaminaThreshold = 0.2f;
+
+        private bool _lowStaminaTriggered;
 
         private Vector2 _targetMovement;
         public Vector2 TargetMovement => _targetMovement;
@@ -130,7 +137,19 @@ namespace MoonlitMixes.Player
 
             if (Mathf.Abs(oldStamina - _currentStamina) > Mathf.Epsilon)
             {
-                OnStaminaChanged?.Invoke(_currentStamina / _maxStamina);
+                float staminaRatio = _currentStamina / _maxStamina;
+                OnStaminaChanged?.Invoke(staminaRatio);
+
+                if (!_lowStaminaTriggered && staminaRatio <= _lowStaminaThreshold)
+                {
+                    _lowStaminaTriggered = true;
+                    OnLowStamina?.Invoke();
+                }
+                else if (_lowStaminaTriggered && staminaRatio > _lowStaminaThreshold)
+                {
+                    _lowStaminaTriggered = false;
+                    OnStaminaRecovered?.Invoke();
+                }
             }
         }
 

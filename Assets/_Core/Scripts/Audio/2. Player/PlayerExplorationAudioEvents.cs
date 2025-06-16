@@ -19,6 +19,10 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     [Range(0f, 1f)][SerializeField] private float _defaultVolume = 1f;
 
     private PlayerHealth _playerHealth;
+    private PlayerMovement _playerMovement;
+
+    private FMOD.Studio.EventInstance _lowHealthInstance;
+    private FMOD.Studio.EventInstance _lowStaminaInstance;
 
     private void PlaySound(AudioEventScriptableObject audioEvent, float volume = -1f)
     {
@@ -31,8 +35,6 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         instance.release();
     }
 
-    private FMOD.Studio.EventInstance _lowHealthInstance;
-
     private void Awake()
     {
         _playerHealth = GetComponent<PlayerHealth>();
@@ -40,6 +42,13 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         {
             _playerHealth.OnLowHealth += StartLowHealthSound;
             _playerHealth.OnHealthRecovered += StopLowHealthSound;
+        }
+
+        _playerMovement = GetComponent<PlayerMovement>();
+        if (_playerMovement != null)
+        {
+            _playerMovement.OnLowStamina += StartLowStaminaSound;
+            _playerMovement.OnStaminaRecovered += StopLowStaminaSound;
         }
     }
 
@@ -49,6 +58,12 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         {
             _playerHealth.OnLowHealth -= StartLowHealthSound;
             _playerHealth.OnHealthRecovered -= StopLowHealthSound;
+        }
+
+        if (_playerMovement != null)
+        {
+            _playerMovement.OnLowStamina -= StartLowStaminaSound;
+            _playerMovement.OnStaminaRecovered -= StopLowStaminaSound;
         }
     }
 
@@ -71,6 +86,28 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         {
             _lowHealthInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             _lowHealthInstance.release();
+        }
+    }
+
+    private void StartLowStaminaSound()
+    {
+        if (_lowStaminaSound == null || AudioManager.Instance == null) return;
+
+        if (_lowStaminaInstance.isValid())
+            _lowStaminaInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
+        _lowStaminaInstance = RuntimeManager.CreateInstance(_lowStaminaSound.EventReference);
+        _lowStaminaInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        _lowStaminaInstance.setVolume(_defaultVolume);
+        _lowStaminaInstance.start();
+    }
+
+    private void StopLowStaminaSound()
+    {
+        if (_lowStaminaInstance.isValid())
+        {
+            _lowStaminaInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _lowStaminaInstance.release();
         }
     }
 
