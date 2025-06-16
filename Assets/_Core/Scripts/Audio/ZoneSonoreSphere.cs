@@ -29,6 +29,7 @@ public class ZoneSonoreSphere : MonoBehaviour
         _sphereCollider = GetComponent<SphereCollider>();
         _sphereCollider.isTrigger = true;
         _sphereCollider.radius = _outerDistance;
+        _player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
     private void OnValidate()
