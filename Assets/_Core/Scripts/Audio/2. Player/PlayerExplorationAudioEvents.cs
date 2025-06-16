@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PlayerExplorationAudioEvents : MonoBehaviour
 {
+    [Header("Volume Settings")]
+    [Range(0f, 1f)][SerializeField] private float _sfxVolume = 1f;
+
     [Header("Audio Events")]
     [SerializeField] private AudioEventScriptableObject _lowHealthSound;
     [SerializeField] private AudioEventScriptableObject _lowStaminaSound;
@@ -17,25 +20,11 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     [SerializeField] private AudioEventScriptableObject _toolSepterSwing;
     [SerializeField] private AudioEventScriptableObject _deathSound;
 
-    [Header("Volume Settings")]
-    [Range(0f, 1f)][SerializeField] private float _defaultVolume = 1f;
-
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;
 
     private FMOD.Studio.EventInstance _lowHealthInstance;
     private FMOD.Studio.EventInstance _lowStaminaInstance;
-
-    private void PlaySound(AudioEventScriptableObject audioEvent, float volume = -1f)
-    {
-        if (audioEvent == null || AudioManager.Instance == null) return;
-
-        var instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
-        instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-        instance.setVolume(volume >= 0f ? volume : _defaultVolume);
-        instance.start();
-        instance.release();
-    }
 
     private void Awake()
     {
@@ -85,6 +74,17 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         RouletteSelectionTools.OnToolChanged -= PlayToolChangeSound;
     }
 
+    private void PlaySound(AudioEventScriptableObject audioEvent)
+    {
+        if (audioEvent == null || AudioManager.Instance == null) return;
+
+        var instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
+        instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        instance.setVolume(_sfxVolume);
+        instance.start();
+        instance.release();
+    }
+
     private void StartLowHealthSound()
     {
         if (_lowHealthSound == null || AudioManager.Instance == null) return;
@@ -94,7 +94,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
 
         _lowHealthInstance = RuntimeManager.CreateInstance(_lowHealthSound.EventReference);
         _lowHealthInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-        _lowHealthInstance.setVolume(_defaultVolume);
+        _lowHealthInstance.setVolume(_sfxVolume);
         _lowHealthInstance.start();
     }
 
@@ -116,7 +116,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
 
         _lowStaminaInstance = RuntimeManager.CreateInstance(_lowStaminaSound.EventReference);
         _lowStaminaInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-        _lowStaminaInstance.setVolume(_defaultVolume);
+        _lowStaminaInstance.setVolume(_sfxVolume);
         _lowStaminaInstance.start();
     }
 
@@ -130,15 +130,13 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     }
 
     public void PlayPickupItemSound() => PlaySound(_pickupItemSound);
-
     public void PlayToolChangeSound() => PlaySound(_toolChangeSound);
-
     public void PlayToolMacheteImpactSound() => PlaySound(_toolMacheteImpactSound);
-
     public void PlayToolPickaxeImpactSound() => PlaySound(_toolPickaxeImpactSound);
-
     public void PlayToolStaffImpactSound() => PlaySound(_toolStaffImpactSound);
     public void PlayToolSepterSwingSound() => PlaySound(_toolSepterSwing);
-
     public void PlayDeathSound() => PlaySound(_deathSound);
+
+    // For maybe options
+    public void SetSFXVolume(float value) => _sfxVolume = Mathf.Clamp01(value);
 }
