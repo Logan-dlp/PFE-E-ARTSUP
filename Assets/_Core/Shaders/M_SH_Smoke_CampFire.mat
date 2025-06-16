@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2929299995637341602
+--- !u!114 &-1281301561327708627
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_CampFire
-  m_Shader: {fileID: -6465566751694194690, guid: 06dc06270446a6943b0ed3ae37d66953, type: 3}
+  m_Name: M_SH_Smoke_CampFire
+  m_Shader: {fileID: -6465566751694194690, guid: 4e5ce20ab96dfec48b65e83f36ade018, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -37,28 +37,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Distortion_Mask:
-        m_Texture: {fileID: 2800000, guid: a1260fcf07bc0884e997be3f1340ae1c, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Opacity_Mask:
-        m_Texture: {fileID: 2800000, guid: 67da570a96c38624b8438e7a997a9980, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _T_Gradient:
-        m_Texture: {fileID: 2800000, guid: 20fefcf6c3e92914486c31d4145515b7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _T_Gradient_2:
-        m_Texture: {fileID: 2800000, guid: 589b221f79cdbaa4b9877f0a8b6c6fa5, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _T_Noise_1:
-        m_Texture: {fileID: 2800000, guid: 73830f9136d436b419a1944eb5621cae, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _T_Noise_2:
-        m_Texture: {fileID: 2800000, guid: e3975311deffd454a916a84ca0b744d4, type: 3}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6fdddf01a42abaa43b32ea3c4cf9f0bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -75,16 +55,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Bloom_Intensity: 3
-    - _Depth_Fade_Distance: 10
+    - _Bloom: 1
+    - _DF_Distance: -0.2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SmoothStep_Opacity_In: 0.1
-    - _SmoothStep_Opacity_Out: 0.5
-    - _UV_Distortion_Intensity: -0.35
-    - _UV_Distortion_Opacity: 0.06
-    m_Colors:
-    - _Noise1_Tiling_Panner_Speed: {r: 0.6, g: 0.6, b: 0, a: -1}
-    - _Noise2_Tiling_Panner_Speed_1: {r: 0.6, g: 0.6, b: -0.9, a: -1}
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
