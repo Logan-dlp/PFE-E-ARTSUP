@@ -12,15 +12,23 @@ namespace MoonlitMixes.Health
         public event Action OnPlayerRespawnInScene;
         public event Action OnPlayerRespawnInOtherScene;
 
+        public event Action OnLowHealth;
+        public event Action OnHealthRecovered;
+
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegeneration;
         [SerializeField] private PlayerHealthData _playerHealthData;
+
+        [SerializeField, Range(0f, 1f)]
+        private float _lowHealthThreshold = 20f;
+        private bool _lowHealthTriggered;
 
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
         private PlayerMovement _playerMovement;
         private AnimationExplorationManager _animationExplorationManager;
         private bool _isDead;
+        private bool _lowHealthAlreadyNotified;
 
         private void Awake()
         {
@@ -93,7 +101,20 @@ namespace MoonlitMixes.Health
                 PlayerDeathEventDispatcher.TriggerDeath();
             }
 
-            healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
+            float ratio = _currentHealth / _maxHealth;
+
+            if (!_lowHealthTriggered && ratio <= _lowHealthThreshold)
+            {
+                _lowHealthTriggered = true;
+                OnLowHealth?.Invoke();
+            }
+            else if (_lowHealthTriggered && ratio > _lowHealthThreshold)
+            {
+                _lowHealthTriggered = false;
+                OnHealthRecovered?.Invoke();
+            }
+
+            healthBarScriptableInt.SendHealthAmount(ratio);
         }
 
         public void ResetHealth()
