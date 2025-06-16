@@ -14,9 +14,6 @@ namespace MoonlitMixes.Player
         public event Action OnLowStamina;
         public event Action OnStaminaRecovered;
 
-        [SerializeField, Range(0f, 1f)]
-        private float _lowStaminaThreshold = 0.2f;
-
         private bool _lowStaminaTriggered;
 
         private Vector2 _targetMovement;
@@ -27,6 +24,7 @@ namespace MoonlitMixes.Player
 
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
+        [SerializeField] private float _lowStaminaThreshold = 20f;
         [SerializeField] private bool _canSprint = false;
         [SerializeField] private float _floorDistance;
         [SerializeField, MaxValue(0)] private float _maxDownVelocity;

@@ -42,6 +42,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         {
             _playerHealth.OnLowHealth += StartLowHealthSound;
             _playerHealth.OnHealthRecovered += StopLowHealthSound;
+            _playerHealth.OnDeath += PlayDeathSound;
         }
 
         _playerMovement = GetComponent<PlayerMovement>();
@@ -50,6 +51,8 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
             _playerMovement.OnLowStamina += StartLowStaminaSound;
             _playerMovement.OnStaminaRecovered += StopLowStaminaSound;
         }
+
+        
     }
 
     private void OnDestroy()
@@ -58,6 +61,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         {
             _playerHealth.OnLowHealth -= StartLowHealthSound;
             _playerHealth.OnHealthRecovered -= StopLowHealthSound;
+            _playerHealth.OnDeath -= PlayDeathSound;
         }
 
         if (_playerMovement != null)
@@ -110,8 +114,6 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
             _lowStaminaInstance.release();
         }
     }
-
-    public void PlayLowStaminaSound() => PlaySound(_lowStaminaSound);
 
     public void PlayPickupItemSound() => PlaySound(_pickupItemSound);
 

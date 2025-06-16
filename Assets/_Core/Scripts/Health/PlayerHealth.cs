@@ -14,15 +14,14 @@ namespace MoonlitMixes.Health
 
         public event Action OnLowHealth;
         public event Action OnHealthRecovered;
+        public event Action OnDeath;
 
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegeneration;
         [SerializeField] private PlayerHealthData _playerHealthData;
+        [SerializeField] private float _lowHealthThreshold = 20f;
 
-        [SerializeField, Range(0f, 1f)]
-        private float _lowHealthThreshold = 20f;
         private bool _lowHealthTriggered;
-
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
         private PlayerMovement _playerMovement;
@@ -99,6 +98,8 @@ namespace MoonlitMixes.Health
                 GetComponent<PlayerInput>().DeactivateInput();
 
                 PlayerDeathEventDispatcher.TriggerDeath();
+
+                OnDeath?.Invoke();
             }
 
             float ratio = _currentHealth / _maxHealth;
