@@ -1,5 +1,6 @@
 using FMODUnity;
 using MoonlitMixes.Health;
+using MoonlitMixes.Interactions;
 using MoonlitMixes.Player;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
             _playerMovement.OnStaminaRecovered += StopLowStaminaSound;
         }
 
-        
+        InteractionTools.OnUsedHand += PlayPickupItemSound;
     }
 
     private void OnDestroy()
@@ -69,6 +70,8 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
             _playerMovement.OnLowStamina -= StartLowStaminaSound;
             _playerMovement.OnStaminaRecovered -= StopLowStaminaSound;
         }
+
+        InteractionTools.OnUsedHand -= PlayPickupItemSound;
     }
 
     private void StartLowHealthSound()

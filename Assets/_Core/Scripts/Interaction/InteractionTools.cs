@@ -8,6 +8,8 @@ namespace MoonlitMixes.Interactions
     
     public class InteractionTools : Interaction
     {
+        public static event System.Action OnUsedHand;
+
         private UseTools _useTools;
         private RouletteSelectionTools _rouletteSelectionTools;
         
@@ -83,6 +85,7 @@ namespace MoonlitMixes.Interactions
                     if (CurrentInteraction.GetToolType() == ToolType.Hand)
                     {
                         _useTools.UseHand(CurrentInteraction.Interact().GetComponent<ItemListSource>());
+                        OnUsedHand?.Invoke();
                         CurrentInteraction = null;
                     }
                 }
