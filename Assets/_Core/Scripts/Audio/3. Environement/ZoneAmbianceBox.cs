@@ -9,6 +9,7 @@ public class ZoneAmbianceBox : MonoBehaviour
     [SerializeField] private Transform _player;
 
     [Header("Audio Ambiance")]
+    [SerializeField] private AudioEventScriptableObject _enterZoneSound;
     [SerializeField] private AudioEventScriptableObject _ambianceEvent;
     [SerializeField] private AudioEventScriptableObject _exitAmbianceEvent;
 
@@ -44,10 +45,13 @@ public class ZoneAmbianceBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || _isPlaying || _ambianceEvent == null)
+        if (!other.CompareTag("Player") || _isPlaying || _ambianceEvent || _enterZoneSound == null)
             return;
 
         _isPlayerInside = true;
+
+        PlaySound(_enterZoneSound);
+
         _instance = RuntimeManager.CreateInstance(_ambianceEvent.EventReference);
         _instance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         _instance.setVolume(0f);
@@ -106,6 +110,16 @@ public class ZoneAmbianceBox : MonoBehaviour
 
         float volume = Mathf.Lerp(_innerVolume, _outerVolume, ratio);
         return volume;
+    }
+
+    private void PlaySound(AudioEventScriptableObject audioEvent)
+    {
+        if (audioEvent == null || AudioManager.Instance == null) return;
+
+        EventInstance instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
+        instance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        instance.start();
+        instance.release();
     }
 
     private void OnDrawGizmosSelected()
