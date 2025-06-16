@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour, IAudioPlayer
     private Dictionary<AudioEventScriptableObject, EventInstance> _activeEvents = new();
     private EventInstance? _persistentAmbience;
     private AudioEventScriptableObject _currentAmbience;
+    private EventInstance? _persistentMusic;
+    private AudioEventScriptableObject _currentMusic;
 
     void Awake()
     {
@@ -28,18 +30,19 @@ public class AudioManager : MonoBehaviour, IAudioPlayer
     {
         if (audioEvent == null) return;
 
-        var instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
+        EventInstance instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
         instance.start();
         instance.release();
         _activeEvents[audioEvent] = instance;
+        
     }
 
     public void Stop(AudioEventScriptableObject audioEvent)
     {
         if (audioEvent == null) return;
 
-        if (!_activeEvents.TryGetValue(audioEvent, out var instance)) return;
+        if (!_activeEvents.TryGetValue(audioEvent, out EventInstance instance)) return;
 
         instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         instance.release();
@@ -55,7 +58,7 @@ public class AudioManager : MonoBehaviour, IAudioPlayer
 
         StopPersistentAmbience();
 
-        var instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
+        EventInstance instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
         instance.start();
         _persistentAmbience = instance;
@@ -70,6 +73,33 @@ public class AudioManager : MonoBehaviour, IAudioPlayer
             _persistentAmbience.Value.release();
             _persistentAmbience = null;
             _currentAmbience = null;
+        }
+    }
+
+    public void PlayPersistentMusic(AudioEventScriptableObject audioEvent)
+    {
+        if (audioEvent == null)
+            return;
+
+        if (_currentMusic == audioEvent) return;
+
+        StopPersistentMusic();
+
+        EventInstance instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
+        instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        instance.start();
+        _persistentMusic = instance;
+        _currentMusic = audioEvent;
+    }
+
+    public void StopPersistentMusic()
+    {
+        if (_persistentMusic.HasValue)
+        {
+            _persistentMusic.Value.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _persistentMusic.Value.release();
+            _persistentMusic = null;
+            _currentMusic = null;
         }
     }
 }

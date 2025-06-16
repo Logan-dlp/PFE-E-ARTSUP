@@ -4,4 +4,6 @@ public interface IAudioPlayer
     void Stop(AudioEventScriptableObject audioEvent);
     void PlayPersistentAmbience(AudioEventScriptableObject audioEvent);
     void StopPersistentAmbience();
+    void PlayPersistentMusic(AudioEventScriptableObject audioEvent);
+    void StopPersistentMusic();
 }
