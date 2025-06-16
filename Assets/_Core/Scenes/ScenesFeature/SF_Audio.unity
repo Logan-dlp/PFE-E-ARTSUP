@@ -324,6 +324,60 @@ Transform:
   - {fileID: 1255398465}
   m_Father: {fileID: 974881456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &237171288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 237171289}
+  - component: {fileID: 237171290}
+  m_Layer: 0
+  m_Name: Player exploration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &237171289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237171288}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2027713244}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &237171290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237171288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a48f4f54f3424b4281d339fb4f249d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxVolume: 1
+  _lowHealthSound: {fileID: 11400000, guid: db69f43bcbfa20c4ba438a2698ee2d90, type: 2}
+  _lowStaminaSound: {fileID: 11400000, guid: 6b61b71f60f31a94eaaa46e1f45ac9f1, type: 2}
+  _pickupItemSound: {fileID: 0}
+  _toolChangeSound: {fileID: 11400000, guid: be29692d7765a81408b23110c8f8a0a1, type: 2}
+  _toolMacheteImpactSound: {fileID: 11400000, guid: 7c29e92e4a1860848aa5462db76f4327, type: 2}
+  _toolPickaxeImpactSound: {fileID: 11400000, guid: f7064d70b94a6ba47977ceae14b9564e, type: 2}
+  _toolStaffImpactSound: {fileID: 11400000, guid: 7a2e5d21028982e4e982528c4ce11949, type: 2}
+  _toolSepterSwing: {fileID: 11400000, guid: dc067138797bb5643b38a118148118f5, type: 2}
+  _deathSound: {fileID: 11400000, guid: 3995fb1c3b40b6d4f930aa3f37bc05bc, type: 2}
 --- !u!1 &277457357
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,6 +966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
+  _enterZoneSound: {fileID: 11400000, guid: 3251dc024fc01ee45aecc6d878dbbd50, type: 2}
   _ambianceEvent: {fileID: 0}
   _exitAmbianceEvent: {fileID: 11400000, guid: ec2dd2b4180bb31498b1abf576346d7d, type: 2}
   _outerSize: {x: 30.3, y: 20, z: 70}
@@ -1208,7 +1263,8 @@ Transform:
   m_LocalPosition: {x: 4.5450172, y: 0.68242073, z: -4.314678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 237171289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2027713245

@@ -5,9 +5,6 @@ using FMOD.Studio;
 [RequireComponent(typeof(BoxCollider))]
 public class ZoneAmbianceBox : MonoBehaviour
 {
-    [Header("Références")]
-    [SerializeField] private Transform _player;
-
     [Header("Audio Ambiance")]
     [SerializeField] private AudioEventScriptableObject _enterZoneSound;
     [SerializeField] private AudioEventScriptableObject _ambianceEvent;
@@ -25,12 +22,22 @@ public class ZoneAmbianceBox : MonoBehaviour
     private EventInstance _instance;
     private bool _isPlayerInside = false;
     private bool _isPlaying = false;
+    private Transform _player;
 
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
         _boxCollider.isTrigger = true;
         _boxCollider.size = _outerSize;
+
+        if (_player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                _player = playerObj.transform;
+            else
+                Debug.LogWarning("[ZoneAmbianceBox] Aucun objet avec le tag 'Player' trouvé.");
+        }
     }
 
     private void OnValidate()
@@ -45,18 +52,24 @@ public class ZoneAmbianceBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || _isPlaying || _ambianceEvent || _enterZoneSound == null)
+        if (!other.CompareTag("Player") || _isPlaying)
             return;
 
         _isPlayerInside = true;
 
-        PlaySound(_enterZoneSound);
+        if (_enterZoneSound != null)
+        {
+            PlaySound(_enterZoneSound);
+        }
 
-        _instance = RuntimeManager.CreateInstance(_ambianceEvent.EventReference);
-        _instance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-        _instance.setVolume(0f);
-        _instance.start();
-        _isPlaying = true;
+        if (_ambianceEvent != null)
+        {
+            _instance = RuntimeManager.CreateInstance(_ambianceEvent.EventReference);
+            _instance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+            _instance.setVolume(0f);
+            _instance.start();
+            _isPlaying = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -81,7 +94,8 @@ public class ZoneAmbianceBox : MonoBehaviour
 
     private void Update()
     {
-        if (!_isPlayerInside || !_isPlaying) return;
+        if (!_isPlayerInside || !_isPlaying || _player == null || !_instance.isValid())
+            return;
 
         float volume = CalculateVolume(_player.position);
         _instance.setVolume(volume);
@@ -106,10 +120,7 @@ public class ZoneAmbianceBox : MonoBehaviour
         float ratioZ = Mathf.InverseLerp(innerHalf.z, outerHalf.z, Mathf.Abs(localPos.z));
 
         float ratio = Mathf.Max(ratioX, ratioY, ratioZ);
-        ratio = Mathf.Clamp01(ratio);
-
-        float volume = Mathf.Lerp(_innerVolume, _outerVolume, ratio);
-        return volume;
+        return Mathf.Lerp(_innerVolume, _outerVolume, ratio);
     }
 
     private void PlaySound(AudioEventScriptableObject audioEvent)
