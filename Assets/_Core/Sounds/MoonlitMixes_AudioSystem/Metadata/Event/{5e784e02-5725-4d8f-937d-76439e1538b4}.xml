@@ -113,6 +113,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{4196fdeb-97b0-4d3c-a1c3-470b999998c0}" />
 	<object class="MultiSound" id="{7569f195-6018-4c09-989a-d83ea8ce1734}">
+		<property name="volume">
+			<value>-3.5</value>
+		</property>
 		<relationship name="sounds">
 			<destination>{6ca90bd9-a058-4841-b934-a9a2f79b6622}</destination>
 			<destination>{0aa9a7ee-5cfe-427e-924c-087d015dbcfa}</destination>
@@ -218,6 +221,7 @@
 	<object class="MixerBusEffectChain" id="{592df8b3-1232-4894-8d3a-eb8ab0a3df7b}">
 		<relationship name="effects">
 			<destination>{33f20b0b-1f03-4b86-9ae9-ee95be4c186f}</destination>
+			<destination>{402a4fab-12aa-45d8-a792-96d6d027c1c0}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{f2ab4151-44ab-450a-9630-cddf7842c834}" />
@@ -575,5 +579,10 @@
 	</object>
 	<object class="MixerBusPanner" id="{ecc21da5-49ed-42d2-8b6a-2660b7894174}" />
 	<object class="MixerBusFader" id="{33f20b0b-1f03-4b86-9ae9-ee95be4c186f}" />
+	<object class="LowpassEffect" id="{402a4fab-12aa-45d8-a792-96d6d027c1c0}">
+		<property name="cutoff">
+			<value>5500</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{a25e417e-9ddf-47a0-8a78-44cd84ec34f4}" />
 </objects>
