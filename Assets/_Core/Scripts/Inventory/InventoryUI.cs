@@ -14,7 +14,6 @@ namespace MoonlitMixes.Inventory
         public GameObject FirstSelected { get; private set; }
         
         [SerializeField] private InventoryData _inventory;
-        [SerializeField] private InventoryData _inventoryCellar;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
@@ -32,7 +31,7 @@ namespace MoonlitMixes.Inventory
         public void RefreshInventory()
         {
             _emptySlot = 0;
-            if (_inventory != _inventoryCellar)
+            if (_inventory.name != "Inventory Cellar")
             {
                 for (int i = 0; i < _inventory.Items.Count; i++)
                 {
@@ -74,7 +73,7 @@ namespace MoonlitMixes.Inventory
             FirstSelected = currentItemList.FirstOrDefault();
             _emptySlot = 0;
 
-            if (_inventory != _inventoryCellar)
+            if (_inventory.name != "Inventory Cellar")
             {
                 while (_inventory.Items.Count < _inventory.MaxSlots)
                 {
