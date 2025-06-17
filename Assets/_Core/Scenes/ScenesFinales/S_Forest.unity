@@ -24818,7 +24818,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ambienceEvent: {fileID: 11400000, guid: ec2dd2b4180bb31498b1abf576346d7d, type: 2}
+  _ambienceVolume: 1
   _musicEvent: {fileID: 11400000, guid: cf5dd65cf25cb6a43b24faa917ee8273, type: 2}
+  _musicVolume: 0.4
 --- !u!4 &217086272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5063936879187280891, guid: 2dd9ac68a517054458f196c7ea3a2e6d, type: 3}
@@ -60363,7 +60365,6 @@ GameObject:
   - component: {fileID: 511786536}
   - component: {fileID: 511786537}
   - component: {fileID: 511786538}
-  - component: {fileID: 511786539}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -60549,20 +60550,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 1266854420}
---- !u!114 &511786539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511786531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 217029177}
 --- !u!1 &511957926
 GameObject:
   m_ObjectHideFlags: 0
