@@ -1,3 +1,4 @@
+using UnityEngine;
 namespace MoonlitMixes.Animation
 {
     public class AnimationExplorationManager : AAnimationManager
@@ -54,6 +55,14 @@ namespace MoonlitMixes.Animation
         public void Death()
         {
             _animator.SetTrigger("Death");
+        }
+        public void StandUp(bool b)
+        {
+            _animator.SetBool("StandUp",b);
+        }
+        public void ChangeSpeed(float value)
+        {
+            _animator.speed = value;
         }
     }
 }
