@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MoonlitMixes.Datas;
@@ -13,6 +14,7 @@ namespace MoonlitMixes.Inventory
         public GameObject FirstSelected { get; private set; }
         
         [SerializeField] private InventoryData _inventory;
+        [SerializeField] private InventoryData _inventoryCellar;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
@@ -30,16 +32,17 @@ namespace MoonlitMixes.Inventory
         public void RefreshInventory()
         {
             _emptySlot = 0;
-            for (int i = 0; i < _inventory.Items.Count; i++)
+            if (_inventory != _inventoryCellar)
             {
-                if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
-                else if(_inventory.Items[i].name == "Empty")
+                for (int i = 0; i < _inventory.Items.Count; i++)
                 {
-                    _emptySlot++;
+                    if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
+                    else if (_inventory.Items[i].name == "Empty")
+                    {
+                        _emptySlot++;
+                    }
                 }
             }
-            SortInventory();
-            
             foreach (Transform childTransform in transform)
             {
                 Destroy(childTransform.gameObject);
@@ -70,23 +73,23 @@ namespace MoonlitMixes.Inventory
 
             FirstSelected = currentItemList.FirstOrDefault();
             _emptySlot = 0;
-            for (int i = 0; i < _inventory.Items.Count; i++)
+
+            if (_inventory != _inventoryCellar)
             {
-                if (_inventory.Items[i].name == "Empty")
+                while (_inventory.Items.Count < _inventory.MaxSlots)
                 {
-                    _emptySlot++;
+                    _inventory.Items.Add(_emptyItem);
                 }
-                else if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
             }
-            while (_inventory.Items.Count < _inventory.MaxSlots)
-            {
-                _inventory.Items.Add(_emptyItem);
-            }
-            EventSystem.current.SetSelectedGameObject(FirstSelected);
-            EventSystem.current.firstSelectedGameObject = FirstSelected;
+            StartCoroutine(SelectedButton());
             SortInventory();
         }
-
+        private IEnumerator SelectedButton()
+        {
+            yield return new WaitForSeconds(0.1f);
+            EventSystem.current.SetSelectedGameObject(FirstSelected);
+            EventSystem.current.firstSelectedGameObject = FirstSelected;
+        }
         public void AddItem(ItemData item)
         {
             if (item == null)

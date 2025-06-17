@@ -12,6 +12,7 @@ namespace MoonlitMixes.Editor
         SerializedProperty inventoryReceivesProperty;
         SerializedProperty scaleItemProperty;
         SerializedProperty emptyItemProperty;
+        SerializedProperty inventoryCellarProperty;
 
         private void OnEnable()
         {
@@ -20,6 +21,7 @@ namespace MoonlitMixes.Editor
             inventoryReceivesProperty = serializedObject.FindProperty("_inventoryReceives");
             scaleItemProperty = serializedObject.FindProperty("_scaleItem");
             emptyItemProperty = serializedObject.FindProperty("_emptyItem");
+            inventoryCellarProperty = serializedObject.FindProperty("_inventoryCellar");
         }
 
         public override void OnInspectorGUI()
@@ -29,6 +31,7 @@ namespace MoonlitMixes.Editor
             EditorGUILayout.PropertyField(inventoryProperty);
             EditorGUILayout.PropertyField(scaleItemProperty);
             EditorGUILayout.PropertyField(emptyItemProperty);
+            EditorGUILayout.PropertyField(inventoryCellarProperty);
 
             InventoryData inventory = inventoryProperty.objectReferenceValue as InventoryData;
 
