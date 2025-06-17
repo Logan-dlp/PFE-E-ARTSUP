@@ -69,7 +69,7 @@ namespace MoonlitMixes.Health
         {
             _currentHealth -= damage;
             _currentHealth = Mathf.Max(_currentHealth, 0);
-            _animationExplorationManager.Hit();
+            if (_currentHealth > 0) _animationExplorationManager.Hit();
 
             EnterFightMode();
             CheckHealth();
@@ -92,7 +92,6 @@ namespace MoonlitMixes.Health
 
                 PlayerDeathEventDispatcher.TriggerDeath();
             }
-
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }
 
