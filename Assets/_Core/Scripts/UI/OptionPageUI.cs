@@ -1,41 +1,48 @@
+using MoonlitMixes.Events;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MoonlitMixes.UI
 {
     public class OptionPageUI : MonoBehaviour
     {
-        [SerializeField] private Sprite _spriteOption;
-        [SerializeField] private Sprite _spriteControls;
-        [SerializeField] private Sprite _spriteCredits;
-        [SerializeField] private Sprite _spriteVolume;
-        [SerializeField] private GameObject _volumeOptions;
+        [SerializeField] private GameObject _optionGameObject;
+        [SerializeField] private GameObject _controlsGameObject;
+        [SerializeField] private GameObject _creditsGameObject;
+        [SerializeField] private GameObject _volumeGameObject;
+        [SerializeField] private ScriptableEvent scriptableEvent;
 
-        private Image _imageOption;
-
-        private void Start()
+        void OnEnable()
         {
-            _imageOption = GetComponent<Image>();
+            scriptableEvent.OnEvent += CloseOtherOptions;
+        }
+
+        void OnDisable()
+        {
+            scriptableEvent.OnEvent -= CloseOtherOptions;
         }
 
         public void OpenVolume()
         {
-            _imageOption.sprite = _spriteVolume;
-            _volumeOptions.SetActive(true);
+            _optionGameObject.SetActive(false);
+            _volumeGameObject.SetActive(true); 
         }
 
         public void OpenControls()
         {
-            _imageOption.sprite = _spriteControls;
+            _optionGameObject.SetActive(false);
+            _controlsGameObject.SetActive(true);
         }
         public void OpenCredits()
         {
-            _imageOption.sprite = _spriteCredits;
+            _optionGameObject.SetActive(false);
+            _creditsGameObject.SetActive(true);
         }
-        public void OpenOption()
+        private void CloseOtherOptions()
         {
-            _imageOption.sprite = _spriteOption;
-            _volumeOptions.SetActive(false);
+            _volumeGameObject.SetActive(false);
+            _creditsGameObject.SetActive(false);
+            _controlsGameObject.SetActive(false);
+            _optionGameObject.SetActive(true);
         }
     }
 }

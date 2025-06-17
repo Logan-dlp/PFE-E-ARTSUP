@@ -16,7 +16,8 @@ namespace MoonlitMixes.Item
         [SerializeField] private Sprite _sprite;
         [SerializeField] private Sprite _spriteItemOrigin;
         [SerializeField] private ItemData _itemToConvert;
-        [SerializeField] private string _description;
+        [SerializeField, TextArea] private string _title;
+        [SerializeField, TextArea] private string _description;
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private ItemUsage _state;
         [SerializeField] private bool _isTransformed;
@@ -57,6 +58,11 @@ namespace MoonlitMixes.Item
         public ItemData ItemToConvert
         {
             get => _itemToConvert;
+        }
+
+        public string Title
+        {
+            get => _title;
         }
 
         public string Description
