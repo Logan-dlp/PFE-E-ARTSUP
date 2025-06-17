@@ -19,7 +19,7 @@ namespace MoonlitMixes.Health
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegeneration;
         [SerializeField] private PlayerHealthData _playerHealthData;
-        [SerializeField] private float _lowHealthThreshold = 20f;
+        [SerializeField] private float _lowHealthThreshold = 0.3f;
 
         private bool _lowHealthTriggered;
         private bool _isInFight;
@@ -27,7 +27,6 @@ namespace MoonlitMixes.Health
         private PlayerMovement _playerMovement;
         private AnimationExplorationManager _animationExplorationManager;
         private bool _isDead;
-        private bool _lowHealthAlreadyNotified;
 
         private void Awake()
         {
@@ -98,7 +97,6 @@ namespace MoonlitMixes.Health
                 GetComponent<PlayerInput>().DeactivateInput();
 
                 PlayerDeathEventDispatcher.TriggerDeath();
-
                 OnDeath?.Invoke();
             }
 

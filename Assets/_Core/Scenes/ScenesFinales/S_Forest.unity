@@ -72442,6 +72442,10 @@ PrefabInstance:
       propertyPath: _maxHealth
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 649438505758473511, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
+      propertyPath: _lowHealthThreshold
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 927793891605671440, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -223729,7 +223733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1883354771
 Transform:
   m_ObjectHideFlags: 0
@@ -260813,6 +260817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sfxVolume: 1
+  _lowHealthInterval: 2
   _lowHealthSound: {fileID: 11400000, guid: db69f43bcbfa20c4ba438a2698ee2d90, type: 2}
   _lowStaminaSound: {fileID: 11400000, guid: 6b61b71f60f31a94eaaa46e1f45ac9f1, type: 2}
   _pickupItemSound: {fileID: 11400000, guid: 2b2db80135b43d049aeaae747cdcfa02, type: 2}

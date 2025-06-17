@@ -2,12 +2,17 @@ using FMODUnity;
 using MoonlitMixes.Health;
 using MoonlitMixes.Interactions;
 using MoonlitMixes.Player;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerExplorationAudioEvents : MonoBehaviour
 {
     [Header("Volume Settings")]
     [Range(0f, 1f)][SerializeField] private float _sfxVolume = 1f;
+
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Interval between low health sound loops in seconds.")]
+    private float _lowHealthInterval = 2f;
 
     [Header("Audio Events")]
     [SerializeField] private AudioEventScriptableObject _lowHealthSound;
@@ -25,6 +30,8 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
 
     private FMOD.Studio.EventInstance _lowHealthInstance;
     private FMOD.Studio.EventInstance _lowStaminaInstance;
+
+    private Coroutine _lowHealthCoroutine;
 
     private void Awake()
     {
@@ -87,23 +94,25 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
 
     private void StartLowHealthSound()
     {
-        if (_lowHealthSound == null || AudioManager.Instance == null) return;
-
-        if (_lowHealthInstance.isValid())
-            _lowHealthInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-
-        _lowHealthInstance = RuntimeManager.CreateInstance(_lowHealthSound.EventReference);
-        _lowHealthInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-        _lowHealthInstance.setVolume(_sfxVolume);
-        _lowHealthInstance.start();
+        if (_lowHealthCoroutine == null)
+            _lowHealthCoroutine = StartCoroutine(PlayLowHealthLoop());
     }
 
     private void StopLowHealthSound()
     {
-        if (_lowHealthInstance.isValid())
+        if (_lowHealthCoroutine != null)
         {
-            _lowHealthInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            _lowHealthInstance.release();
+            StopCoroutine(_lowHealthCoroutine);
+            _lowHealthCoroutine = null;
+        }
+    }
+
+    private IEnumerator PlayLowHealthLoop()
+    {
+        while (true)
+        {
+            PlaySound(_lowHealthSound);
+            yield return new WaitForSeconds(_lowHealthInterval);
         }
     }
 
