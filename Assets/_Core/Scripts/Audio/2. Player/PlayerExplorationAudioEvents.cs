@@ -14,6 +14,9 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     [SerializeField, Tooltip("Interval between low health sound loops in seconds.")]
     private float _lowHealthInterval = 2f;
 
+    [SerializeField, Tooltip("Time in seconds for the low stamina sound to reach full volume.")]
+    private float _lowStaminaFadeInTime = 2f;
+
     [Header("Audio Events")]
     [SerializeField] private AudioEventScriptableObject _lowHealthSound;
     [SerializeField] private AudioEventScriptableObject _lowStaminaSound;
@@ -28,10 +31,9 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;
 
-    private FMOD.Studio.EventInstance _lowHealthInstance;
     private FMOD.Studio.EventInstance _lowStaminaInstance;
-
     private Coroutine _lowHealthCoroutine;
+    private Coroutine _lowStaminaCoroutine;
 
     private void Awake()
     {
@@ -125,12 +127,39 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
 
         _lowStaminaInstance = RuntimeManager.CreateInstance(_lowStaminaSound.EventReference);
         _lowStaminaInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-        _lowStaminaInstance.setVolume(_sfxVolume);
+        _lowStaminaInstance.setVolume(0f);
         _lowStaminaInstance.start();
+
+        if (_lowStaminaCoroutine != null)
+            StopCoroutine(_lowStaminaCoroutine);
+
+        _lowStaminaCoroutine = StartCoroutine(FadeInLowStaminaVolume());
+    }
+
+    private IEnumerator FadeInLowStaminaVolume()
+    {
+        float timer = 0f;
+        while (timer < _lowStaminaFadeInTime)
+        {
+            timer += Time.deltaTime;
+            float volume = Mathf.Lerp(0f, _sfxVolume, timer / _lowStaminaFadeInTime);
+            if (_lowStaminaInstance.isValid())
+                _lowStaminaInstance.setVolume(volume);
+            yield return null;
+        }
+
+        if (_lowStaminaInstance.isValid())
+            _lowStaminaInstance.setVolume(_sfxVolume);
     }
 
     private void StopLowStaminaSound()
     {
+        if (_lowStaminaCoroutine != null)
+        {
+            StopCoroutine(_lowStaminaCoroutine);
+            _lowStaminaCoroutine = null;
+        }
+
         if (_lowStaminaInstance.isValid())
         {
             _lowStaminaInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
