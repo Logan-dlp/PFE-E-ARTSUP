@@ -17,11 +17,8 @@ namespace MoonlitMixes.Inventory
         {
             _inventoryChestUI.RefreshInventory();
             _inventoryUI.RefreshInventory();
-            EventSystem.current.SetSelectedGameObject(_chestUI.transform.GetChild(0).gameObject);
+            StartCoroutine(_inventoryChestUI.SelectedButton());
             InputManager.Instance.SwitchActionMap("UI");
-            Debug.Log(EnoughPlaceInChest());
-            Debug.Log(_inventoryChestUI.EmptySlot);
-            Debug.Log(_inventoryUI.Items.Count - _inventoryUI.EmptySlot);
             if (EnoughPlaceInChest())
             {
                 _inventoryFullText.SetActive(false);

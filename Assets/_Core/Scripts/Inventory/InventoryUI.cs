@@ -30,6 +30,7 @@ namespace MoonlitMixes.Inventory
 
         public void RefreshInventory()
         {
+            SortInventory();
             _emptySlot = 0;
             if (_inventory.name != "Inventory Cellar")
             {
@@ -38,9 +39,7 @@ namespace MoonlitMixes.Inventory
                     if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
                     else if (_inventory.Items[i].name == "Empty")
                     {
-                        Debug.Log("empty++");
                         _emptySlot++;
-                        Debug.Log(_emptySlot);
                     }
                 }
             }
@@ -73,21 +72,20 @@ namespace MoonlitMixes.Inventory
             }
 
             FirstSelected = currentItemList.FirstOrDefault();
-
             if (_inventory.name != "Inventory Cellar")
             {
                 while (_inventory.Items.Count < _inventory.MaxSlots)
                 {
                     _inventory.Items.Add(_emptyItem);
                 }
-                EventSystem.current.SetSelectedGameObject(FirstSelected);
-                EventSystem.current.firstSelectedGameObject = FirstSelected;
+                /*EventSystem.current.SetSelectedGameObject(FirstSelected);
+                EventSystem.current.firstSelectedGameObject = FirstSelected;*/
             }
-            else
-                StartCoroutine(SelectedButton());
+            else StartCoroutine(SelectedButton());
+
             SortInventory();
         }
-        private IEnumerator SelectedButton()
+        public IEnumerator SelectedButton()
         {
             yield return new WaitForSeconds(0.1f);
             EventSystem.current.SetSelectedGameObject(FirstSelected);
