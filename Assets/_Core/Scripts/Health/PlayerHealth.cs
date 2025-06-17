@@ -101,7 +101,7 @@ namespace MoonlitMixes.Health
         public void ResetHealth()
         {
             GetComponent<PlayerInput>().ActivateInput();
-            _animationExplorationManager.DefaultState();
+            //_animationExplorationManager.DefaultState();
             _isDead = false;
             _currentHealth = _maxHealth;
             CheckHealth();
@@ -116,10 +116,13 @@ namespace MoonlitMixes.Health
         {
             yield return new WaitForSeconds(_animationDeathTime);
             _deathAnimation.SetActive(true);
-
             yield return new WaitForSeconds(_animationRespawnTime);
             PlayerDeathEventDispatcher.TriggerDeath();
             _deathAnimation.SetActive(false);
+            _animationExplorationManager.StandUp(true);
+            yield return new WaitForSeconds(0.5f);
+            _animationExplorationManager.StandUp(false);
+
         }
     }
 }
