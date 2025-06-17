@@ -89,7 +89,6 @@ namespace MoonlitMixes.Player
                 if (_footstepTimer >= stepInterval)
                 {
                     _footstepTimer = 0f;
-                    Debug.Log("Footstep triggered: walking");
                     OnFootstep?.Invoke();
                 }
             }
@@ -159,9 +158,8 @@ namespace MoonlitMixes.Player
 
                 if (_targetMovement != Vector2.zero && !_isMoving)
                 {
-                    _footstepTimer = 0f; // réinitialise le timer pour pas de délai
-                    Debug.Log("Footstep triggered: movement started");
-                    OnFootstep?.Invoke(); // joue un son immédiatement
+                    _footstepTimer = 0f;
+                    OnFootstep?.Invoke();
                 }
             }
             else

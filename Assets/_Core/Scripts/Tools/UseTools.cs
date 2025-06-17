@@ -13,6 +13,7 @@ public class UseTools : MonoBehaviour
     public static event System.Action OnUsedPickaxe;
     public static event System.Action OnUsedSepter;
     public static event System.Action OnUsedSepterSwing;
+    public static event System.Action OnUsedHand;
 
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private float _attackDistance;
@@ -237,6 +238,8 @@ public class UseTools : MonoBehaviour
         
         if (itemListSource.GetItemList() != null && itemListSource.GetItemList().Items.Count > 0)
         {
+            OnUsedHand?.Invoke();
+
             if (_inventory != null)
             {
                 _inventory.AddItem(itemListSource.GetItemList().Items[0]);

@@ -52,7 +52,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
             _playerMovement.OnStaminaRecovered += StopLowStaminaSound;
         }
 
-        InteractionTools.OnUsedHand += PlayPickupItemSound;
+        UseTools.OnUsedHand += PlayPickupItemSound;
         UseTools.OnUsedMachete += PlayToolMacheteImpactSound;
         UseTools.OnUsedPickaxe += PlayToolPickaxeImpactSound;
         UseTools.OnUsedSepter += PlayToolStaffImpactSound;
@@ -75,7 +75,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
             _playerMovement.OnStaminaRecovered -= StopLowStaminaSound;
         }
 
-        InteractionTools.OnUsedHand -= PlayPickupItemSound;
+        UseTools.OnUsedHand -= PlayPickupItemSound;
         UseTools.OnUsedMachete -= PlayToolMacheteImpactSound;
         UseTools.OnUsedPickaxe -= PlayToolPickaxeImpactSound;
         UseTools.OnUsedSepter -= PlayToolStaffImpactSound;
