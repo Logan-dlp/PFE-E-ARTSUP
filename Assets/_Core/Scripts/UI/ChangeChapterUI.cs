@@ -5,6 +5,8 @@ namespace MoonlitMixes.UI
 {
     public class ChangeChapterUI : MonoBehaviour
     {
+        public static bool CanChangeChapter = true;
+        
         [SerializeField] private GameObject[] _chapterArray;
         [SerializeField] private ScriptableCallbackContextEvent _scriptableCallbackContextEvent;
 
@@ -22,10 +24,8 @@ namespace MoonlitMixes.UI
         
         public void ChangeChapter(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.started && CanChangeChapter)
             {
-                _chapterArray[_chapterIndex].SetActive(false);
-
                 if (context.ReadValue<float>() > 0)
                 {
                     if (_chapterIndex < _chapterArray.Length - 1)
@@ -48,6 +48,11 @@ namespace MoonlitMixes.UI
                     {
                         _chapterIndex = _chapterArray.Length - 1;
                     }
+                }
+
+                foreach (var chapter in _chapterArray)
+                {
+                    chapter.SetActive(false);
                 }
 
                 _chapterArray[_chapterIndex].SetActive(true);
