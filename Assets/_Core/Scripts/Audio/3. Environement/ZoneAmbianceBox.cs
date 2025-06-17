@@ -7,8 +7,6 @@ public class ZoneAmbianceBox : MonoBehaviour
 {
     [Header("Audio Ambiance")]
     [SerializeField] private AudioEventScriptableObject _enterZoneSound;
-    [SerializeField] private AudioEventScriptableObject _ambianceEvent;
-    [SerializeField] private AudioEventScriptableObject _exitAmbianceEvent;
 
     [Header("Zone")]
     [SerializeField] private Vector3 _outerSize = new Vector3(20f, 20f, 20f);
@@ -19,10 +17,10 @@ public class ZoneAmbianceBox : MonoBehaviour
     [Range(0f, 1f)] public float _innerVolume = 1f;
 
     private BoxCollider _boxCollider;
-    private EventInstance _instance;
     private bool _isPlayerInside = false;
-    private bool _isPlaying = false;
     private Transform _player;
+
+    private const string PARAM_NAME = "TransitionAmbienceForest";
 
     private void Awake()
     {
@@ -30,14 +28,11 @@ public class ZoneAmbianceBox : MonoBehaviour
         _boxCollider.isTrigger = true;
         _boxCollider.size = _outerSize;
 
-        if (_player == null)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-                _player = playerObj.transform;
-            else
-                Debug.LogWarning("[ZoneAmbianceBox] Aucun objet avec le tag 'Player' trouvé.");
-        }
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            _player = playerObj.transform;
+        else
+            Debug.LogWarning("[ZoneAmbianceBox] Aucun objet avec le tag 'Player' trouvé.");
     }
 
     private void OnValidate()
@@ -52,7 +47,7 @@ public class ZoneAmbianceBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || _isPlaying)
+        if (!other.CompareTag("Player"))
             return;
 
         _isPlayerInside = true;
@@ -62,14 +57,8 @@ public class ZoneAmbianceBox : MonoBehaviour
             PlaySound(_enterZoneSound);
         }
 
-        if (_ambianceEvent != null)
-        {
-            _instance = RuntimeManager.CreateInstance(_ambianceEvent.EventReference);
-            _instance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-            _instance.setVolume(0f);
-            _instance.start();
-            _isPlaying = true;
-        }
+        // Passage progressif vers ambiance forêt (1)
+        RuntimeManager.StudioSystem.setParameterByName(PARAM_NAME, 1f);
     }
 
     private void OnTriggerExit(Collider other)
@@ -79,26 +68,17 @@ public class ZoneAmbianceBox : MonoBehaviour
 
         _isPlayerInside = false;
 
-        if (_isPlaying)
-        {
-            _instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            _instance.release();
-            _isPlaying = false;
-        }
-
-        if (_exitAmbianceEvent != null)
-        {
-            AudioManager.Instance.PlayPersistentAmbience(_exitAmbianceEvent);
-        }
+        // Retour ambiance normale (0)
+        RuntimeManager.StudioSystem.setParameterByName(PARAM_NAME, 0f);
     }
 
     private void Update()
     {
-        if (!_isPlayerInside || !_isPlaying || _player == null || !_instance.isValid())
+        if (!_isPlayerInside || _player == null)
             return;
 
         float volume = CalculateVolume(_player.position);
-        _instance.setVolume(volume);
+        RuntimeManager.StudioSystem.setParameterByName(PARAM_NAME, volume);
     }
 
     private float CalculateVolume(Vector3 playerPos)
@@ -112,7 +92,7 @@ public class ZoneAmbianceBox : MonoBehaviour
             Mathf.Abs(localPos.y) > outerHalf.y ||
             Mathf.Abs(localPos.z) > outerHalf.z)
         {
-            return 0f;
+            return _outerVolume;
         }
 
         float ratioX = Mathf.InverseLerp(innerHalf.x, outerHalf.x, Mathf.Abs(localPos.x));

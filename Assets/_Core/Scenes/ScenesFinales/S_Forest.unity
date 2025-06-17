@@ -7591,8 +7591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enterZoneSound: {fileID: 11400000, guid: 3251dc024fc01ee45aecc6d878dbbd50, type: 2}
-  _ambianceEvent: {fileID: 0}
-  _exitAmbianceEvent: {fileID: 11400000, guid: ec2dd2b4180bb31498b1abf576346d7d, type: 2}
   _outerSize: {x: 30.3, y: 20, z: 70}
   _innerSize: {x: 25, y: 15, z: 70}
   _outerVolume: 0
@@ -60365,6 +60363,7 @@ GameObject:
   - component: {fileID: 511786536}
   - component: {fileID: 511786537}
   - component: {fileID: 511786538}
+  - component: {fileID: 511786539}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -60550,6 +60549,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 1266854420}
+--- !u!114 &511786539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511786531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 217029177}
 --- !u!1 &511957926
 GameObject:
   m_ObjectHideFlags: 0
