@@ -4396,6 +4396,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvaInventory: {fileID: 0}
+  _canvaChestInventory: {fileID: 0}
+  _canvaChestFullText: {fileID: 0}
+  _content: {fileID: 0}
 --- !u!114 &4148858655096135269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4428,10 +4431,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec8c50fa8294c14e95dcc6a9c08447e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 10
+  _maxHealth: 100
   healthBarScriptableInt: {fileID: 11400000, guid: 5c3881731ba56f145bacba2d4e9b0a81, type: 2}
   _timeBeforeGettingOutOfFight: 3
   _healthRegeneration: 1
+  _animationDeathTime: 1.5
+  _animationRespawnTime: 2
+  _deathAnimation: {fileID: 0}
   _playerHealthData: {fileID: 11400000, guid: e09a0c07a5e93c24f8faa762d0ac326e, type: 2}
 --- !u!114 &7723336223840968902
 MonoBehaviour:
