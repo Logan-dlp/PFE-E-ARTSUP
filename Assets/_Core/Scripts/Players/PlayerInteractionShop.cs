@@ -1,5 +1,6 @@
 using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Quest;
 using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,6 +27,10 @@ namespace MoonlitMixes.Player
                     else if (hit.transform.TryGetComponent(out OpenCanvasSceneChange openCanvasSceneChange))
                     {
                         openCanvasSceneChange.OpenCanvas();
+                    }
+                    else if (hit.transform.TryGetComponent(out QuestBoard questBoard))
+                    {
+                        
                     }
                 }
             }
