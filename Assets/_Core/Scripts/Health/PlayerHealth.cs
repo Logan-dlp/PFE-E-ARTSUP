@@ -100,7 +100,6 @@ namespace MoonlitMixes.Health
 
         public void ResetHealth()
         {
-            GetComponent<PlayerInput>().ActivateInput();
             //_animationExplorationManager.DefaultState();
             _isDead = false;
             _currentHealth = _maxHealth;
@@ -126,9 +125,13 @@ namespace MoonlitMixes.Health
 
 
         }
-        public void StandUp() //fonction appelée par un event dans l'animation "stand up"
+        public void StartStandUp() //fonction appelée par un event dans l'animation "stand up"
         {
             _animationExplorationManager.Animator.speed = 0.0f;
+        }
+        public void ActivateInput() //fonction appelée par un event dans l'animation "stand up"
+        {
+            GetComponent<PlayerInput>().ActivateInput();
         }
     }
 }
