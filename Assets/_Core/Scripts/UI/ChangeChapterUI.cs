@@ -21,6 +21,11 @@ namespace MoonlitMixes.UI
         {
             _scriptableCallbackContextEvent.OnContextEvent -= ChangeChapter;
         }
+
+        private void Start()
+        {
+            CanChangeChapter = true;
+        }
         
         public void ChangeChapter(InputAction.CallbackContext context)
         {

@@ -5,6 +5,8 @@ namespace MoonlitMixes.UI
 {
     public class OptionPageUI : MonoBehaviour
     {
+        public static bool CanCloseOptions;
+
         [SerializeField] private GameObject _optionGameObject;
         [SerializeField] private GameObject _controlsGameObject;
         [SerializeField] private GameObject _creditsGameObject;
@@ -21,10 +23,15 @@ namespace MoonlitMixes.UI
             scriptableEvent.OnEvent -= CloseOtherOptions;
         }
 
+        private void Start()
+        {
+            CanCloseOptions = false;
+        }
+
         public void OpenVolume()
         {
             _optionGameObject.SetActive(false);
-            _volumeGameObject.SetActive(true); 
+            _volumeGameObject.SetActive(true);
         }
 
         public void OpenControls()
@@ -39,10 +46,13 @@ namespace MoonlitMixes.UI
         }
         private void CloseOtherOptions()
         {
-            _volumeGameObject.SetActive(false);
-            _creditsGameObject.SetActive(false);
-            _controlsGameObject.SetActive(false);
-            _optionGameObject.SetActive(true);
+            if (CanCloseOptions)
+            {
+                _volumeGameObject.SetActive(false);
+                _creditsGameObject.SetActive(false);
+                _controlsGameObject.SetActive(false);
+                _optionGameObject.SetActive(true);
+            }
         }
     }
 }
