@@ -13981,14 +13981,14 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
+  m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 15.3
   m_FocusDistance: 13.02
-  m_FocalLength: 19.900625
+  m_FocalLength: 16.080645
   m_BladeCount: 4
   m_Curvature: {x: 12.356617, y: 21.356619}
   m_BarrelClipping: 0.528
@@ -14001,9 +14001,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 50.101
-  field of view: 43.8
+  field of view: 52.9
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -14029,8 +14029,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1613866851}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23975359, y: 0, z: 0, w: 0.9708338}
-  m_LocalPosition: {x: -1.5205814, y: 12.84, z: -13.856}
+  m_LocalRotation: {x: 0.10624227, y: 0.8307884, z: -0.1589261, w: 0.52272916}
+  m_LocalPosition: {x: -4.3405814, y: 10.737143, z: -8.995071}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20718,11 +20718,56 @@ PrefabInstance:
       propertyPath: m_Name
       value: PB_QuestBoard
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2138791687239710299, guid: fea10ef81cefe744fb57204bcb504b68, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7530364335630710506, guid: fea10ef81cefe744fb57204bcb504b68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6000813406734720968}
+    - targetCorrespondingSourceObject: {fileID: 7530364335630710506, guid: fea10ef81cefe744fb57204bcb504b68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6000813406734720967}
   m_SourcePrefab: {fileID: 100100000, guid: fea10ef81cefe744fb57204bcb504b68, type: 3}
+--- !u!1 &6000813406734720966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7530364335630710506, guid: fea10ef81cefe744fb57204bcb504b68, type: 3}
+  m_PrefabInstance: {fileID: 6000813406734720965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6000813406734720967
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6000813406734720966}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.938812, y: 2.394392, z: 0.8503452}
+  m_Center: {x: -0.042697668, y: 1.1649861, z: 0.35198212}
+--- !u!114 &6000813406734720968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6000813406734720966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413f7aef8c9e43543952bd24357a9a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6007520109608928817
 PrefabInstance:
   m_ObjectHideFlags: 0
