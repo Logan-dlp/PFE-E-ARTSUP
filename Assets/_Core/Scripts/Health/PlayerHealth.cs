@@ -2,6 +2,7 @@ using MoonlitMixes.Animation;
 using MoonlitMixes.Events;
 using MoonlitMixes.Player;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,9 @@ namespace MoonlitMixes.Health
 
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegeneration;
+        [SerializeField] private float _animationDeathTime;
+        [SerializeField] private float _animationRespawnTime;
+        [SerializeField] private GameObject _deathAnimation;
         [SerializeField] private PlayerHealthData _playerHealthData;
 
         private bool _isInFight;
@@ -69,7 +73,7 @@ namespace MoonlitMixes.Health
         {
             _currentHealth -= damage;
             _currentHealth = Mathf.Max(_currentHealth, 0);
-            _animationExplorationManager.Hit();
+            if (_currentHealth > 0) _animationExplorationManager.Hit();
 
             EnterFightMode();
             CheckHealth();
@@ -89,10 +93,8 @@ namespace MoonlitMixes.Health
                 _isDead = true;
                 _animationExplorationManager.Death();
                 GetComponent<PlayerInput>().DeactivateInput();
-
-                PlayerDeathEventDispatcher.TriggerDeath();
+                StartCoroutine(DeathAnimation());
             }
-
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
         }
 
@@ -109,6 +111,15 @@ namespace MoonlitMixes.Health
         {
             ResetHealth();
             OnPlayerRespawnInScene?.Invoke();
+        }
+        private IEnumerator DeathAnimation()
+        {
+            yield return new WaitForSeconds(_animationDeathTime);
+            _deathAnimation.SetActive(true);
+
+            yield return new WaitForSeconds(_animationRespawnTime);
+            PlayerDeathEventDispatcher.TriggerDeath();
+            _deathAnimation.SetActive(false);
         }
     }
 }
