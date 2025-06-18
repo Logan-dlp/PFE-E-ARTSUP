@@ -13,6 +13,7 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _chestInventory;
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private InventoryUI _inventoryChestUI;
+        
         public void OpenChest()
         {
             _inventoryChestUI.RefreshInventory();
@@ -31,6 +32,7 @@ namespace MoonlitMixes.Inventory
                 _chestUI.SetActive(true);
             }
         }
+        
         private bool EnoughPlaceInChest()
         {
             if (_inventoryChestUI.EmptySlot>= _inventoryUI.Items.Count- _inventoryUI.EmptySlot) { return true; }
