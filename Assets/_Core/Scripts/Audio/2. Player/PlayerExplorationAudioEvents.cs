@@ -1,6 +1,6 @@
 using FMODUnity;
 using MoonlitMixes.Health;
-using MoonlitMixes.Interactions;
+using MoonlitMixes.Inventory;
 using MoonlitMixes.Player;
 using System.Collections;
 using UnityEngine;
@@ -27,6 +27,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     [SerializeField] private AudioEventScriptableObject _toolStaffImpactSound;
     [SerializeField] private AudioEventScriptableObject _toolSepterSwing;
     [SerializeField] private AudioEventScriptableObject _deathSound;
+    [SerializeField] private AudioEventScriptableObject _chestOpenSound;
 
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;
@@ -58,9 +59,10 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         UseTools.OnUsedSepter += PlayToolStaffImpactSound;
         UseTools.OnUsedSepterSwing += PlayToolSepterSwingSound;
         RouletteSelectionTools.OnToolChanged += PlayToolChangeSound;
+        ChestInteraction.OnChestOpened += PlayOpenChestSound;
     }
 
-    private void OnDestroy()
+private void OnDestroy()
     {
         if (_playerHealth != null)
         {
@@ -81,6 +83,8 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
         UseTools.OnUsedSepter -= PlayToolStaffImpactSound;
         UseTools.OnUsedSepterSwing -= PlayToolSepterSwingSound;
         RouletteSelectionTools.OnToolChanged -= PlayToolChangeSound;
+        ChestInteraction.OnChestOpened -= PlayOpenChestSound;
+
     }
 
     private void PlaySound(AudioEventScriptableObject audioEvent)
@@ -174,6 +178,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     public void PlayToolStaffImpactSound() => PlaySound(_toolStaffImpactSound);
     public void PlayToolSepterSwingSound() => PlaySound(_toolSepterSwing);
     public void PlayDeathSound() => PlaySound(_deathSound);
+    public void PlayOpenChestSound() => PlaySound(_chestOpenSound);
 
     // For maybe options
     public void SetSFXVolume(float value) => _sfxVolume = Mathf.Clamp01(value);

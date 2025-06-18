@@ -2,11 +2,14 @@ using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 namespace MoonlitMixes.Inventory
 {
     public class ChestInteraction : MonoBehaviour
     {
+        public static Action OnChestOpened;
+
         [SerializeField] private GameObject _chestUI;
         [SerializeField] private GameObject _inventoryFullText;
         [SerializeField] private InventoryData _playerInventory;
@@ -33,6 +36,8 @@ namespace MoonlitMixes.Inventory
                 _inventoryFullText.SetActive(true);
                 _chestUI.SetActive(true);
             }
+
+            OnChestOpened?.Invoke();
         }
         private bool EnoughPlaceInChest()
         {
