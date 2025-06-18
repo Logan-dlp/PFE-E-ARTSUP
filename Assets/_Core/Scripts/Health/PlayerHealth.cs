@@ -107,22 +107,28 @@ namespace MoonlitMixes.Health
             CheckHealth();
         }
 
-        private void Death()
-        {
-            ResetHealth();
-            OnPlayerRespawnInScene?.Invoke();
-        }
         private IEnumerator DeathAnimation()
         {
             yield return new WaitForSeconds(_animationDeathTime);
             _deathAnimation.SetActive(true);
+            _animationExplorationManager.StandUp(true);
+            OnPlayerRespawnInScene?.Invoke();
+
             yield return new WaitForSeconds(_animationRespawnTime);
+
             PlayerDeathEventDispatcher.TriggerDeath();
             _deathAnimation.SetActive(false);
-            _animationExplorationManager.StandUp(true);
+            _animationExplorationManager.Animator.speed = 1;
+
             yield return new WaitForSeconds(0.5f);
             _animationExplorationManager.StandUp(false);
+            ResetHealth();
 
+
+        }
+        public void StandUp() //fonction appelée par un event dans l'animation "stand up"
+        {
+            _animationExplorationManager.Animator.speed = 0.0f;
         }
     }
 }

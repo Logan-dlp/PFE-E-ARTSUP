@@ -6,7 +6,7 @@ namespace MoonlitMixes.Animation
     public abstract class AAnimationManager : MonoBehaviour
     {
         [SerializeField] protected Animator _animator;
-
+        public Animator Animator { get { return _animator; } }
         protected PlayerMovement _playerMovement;
         protected bool _otherRestrictingAnim;
         protected bool isMoving;
