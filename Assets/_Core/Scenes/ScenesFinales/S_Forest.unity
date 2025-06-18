@@ -72386,11 +72386,13 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 649438505758473511, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
-      propertyPath: _deathAnimation
-      value: 
-      objectReference: {fileID: 1166342599}
-    - target: {fileID: 927793891605671440, guid: aa5b3dd980f340345ac95ff423cc4e6a, type: 3}
+    - target: {fileID: 649438505758473511, guid: aa5b3dd980f340345ac95ff423cc4e6a,
+        type: 3}
+      propertyPath: _maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 927793891605671440, guid: aa5b3dd980f340345ac95ff423cc4e6a,
+        type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
@@ -161123,6 +161125,98 @@ Transform:
   m_Children: []
   m_Father: {fileID: 742752074}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1342802146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1342802147}
+  - component: {fileID: 1342802149}
+  - component: {fileID: 1342802148}
+  m_Layer: 0
+  m_Name: Env_Grass_SG 1(Clone)_221
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1342802147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342802146}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.008661421, y: -0.061451923, z: 0.015498337, w: 0.99795216}
+  m_LocalPosition: {x: -0.06, y: 0.50047326, z: 2.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 742752074}
+  m_LocalEulerAnglesHint: {x: -0.881, y: -7.062, z: 1.834}
+--- !u!23 &1342802148
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342802146}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 256ed9cb66af23246bf3ec3c4eb454a3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1342802149
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342802146}
+  m_Mesh: {fileID: -9016127370015185471, guid: f1058a802430e4147bbf672ba15b7186, type: 3}
+--- !u!4 &1343306464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6181276321882701667, guid: 1555e61fbc8783d48950adc2591e4b00,
+    type: 3}
+  m_PrefabInstance: {fileID: 351745921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1345181593
 GameObject:
   m_ObjectHideFlags: 0
@@ -217720,14 +217814,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824293949}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27109438, y: 0.0706211, z: -0.01994784, w: 0.9597513}
-  m_LocalPosition: {x: -2.259, y: 0.03, z: 0.349}
+  m_LocalRotation: {x: 0, y: 0.07338612, z: 0, w: 0.9973036}
+  m_LocalPosition: {x: -0.823, y: 0.106, z: 0.075}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1088293240}
   m_Father: {fileID: 1019272450}
-  m_LocalEulerAnglesHint: {x: 31.546, y: 8.417, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 8.417, z: 0}
 --- !u!1001 &1824918510
 PrefabInstance:
   m_ObjectHideFlags: 0

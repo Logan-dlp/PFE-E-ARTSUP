@@ -99,19 +99,19 @@ namespace MoonlitMixes.Inventory
                 return;
             }
 
-            for(int i = 0;i<_inventory.Items.Count;i++)
+            for(int i = 0; i < _inventory.Items.Count; i++)
             {
                 if (item.name == "Empty")
                 {
                     break;
                 }
-                else if (_inventory.Items[i].name == "Empty" )
+                
+                if (_inventory.Items[i].name == "Empty" )
                 {
                     _inventory.Items[i] = item;
                     break;
                 }
             }
-            if (_emptySlot==0) { Debug.LogWarning("L'inventaire est plein !"); return; }
 
             SortInventory();
             RefreshInventory();
