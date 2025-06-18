@@ -98,16 +98,22 @@ private void OnDestroy()
         instance.release();
     }
 
+    private bool _isLowHealthLoopActive = false;
+
     private void StartLowHealthSound()
     {
         if (_lowHealthCoroutine == null)
+        {
+            _isLowHealthLoopActive = true;
             _lowHealthCoroutine = StartCoroutine(PlayLowHealthLoop());
+        }
     }
 
     private void StopLowHealthSound()
     {
         if (_lowHealthCoroutine != null)
         {
+            _isLowHealthLoopActive = false;
             StopCoroutine(_lowHealthCoroutine);
             _lowHealthCoroutine = null;
         }
@@ -115,7 +121,7 @@ private void OnDestroy()
 
     private IEnumerator PlayLowHealthLoop()
     {
-        while (true)
+        while (_isLowHealthLoopActive)
         {
             PlaySound(_lowHealthSound);
             yield return new WaitForSeconds(_lowHealthInterval);
