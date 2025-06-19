@@ -18,7 +18,7 @@ namespace MoonlitMixes.UI
                 }
                 else
                 {
-                    InputManager.Instance.SwitchActionMap("Player");
+                    InputManager.Instance.SwitchActionMap("PlayerMovement");
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace MoonlitMixes.Interactions
         protected override void CheckInteraction()
         {
             if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out RaycastHit hit, _interactDistance, _interactionMask))
-            {
+            {   
                 if (hit.transform.TryGetComponent(out IInteraction interact))
                 {
                     if (CurrentInteraction != null)
@@ -30,7 +30,7 @@ namespace MoonlitMixes.Interactions
                         if (CurrentInteraction != interact)
                         {
                             CurrentInteraction.DisableUI();
-                            
+
                             if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType || interact.GetToolType() == ToolType.Hand)
                             {
                                 CurrentInteraction = interact;

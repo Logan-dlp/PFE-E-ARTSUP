@@ -1,6 +1,5 @@
 using MoonlitMixes.Inputs;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.Inventory
@@ -33,7 +32,7 @@ namespace MoonlitMixes.Inventory
                 _inputManager.SwitchActionMap("UI");
                 StartCoroutine(_inventoryUI.SelectedButton());
             }
-            else if (_canvaInventory.activeInHierarchy || _canvaChestInventory.activeInHierarchy) _inputManager.SwitchActionMap("Player");
+            else if (_canvaInventory.activeInHierarchy || _canvaChestInventory.activeInHierarchy) _inputManager.SwitchActionMap("PlayerMovement");
             _canvaInventory.SetActive(state);
             _canvaChestInventory.SetActive(false);
             _canvaChestFullText.SetActive(false);

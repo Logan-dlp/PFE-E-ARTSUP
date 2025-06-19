@@ -762,7 +762,7 @@ Transform:
   m_GameObject: {fileID: 1705028253831617142}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.011, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3910,6 +3910,7 @@ GameObject:
   - component: {fileID: 7117041296449598508}
   - component: {fileID: 3177385537338463190}
   - component: {fileID: 1152767541677846207}
+  - component: {fileID: 2449148328095746533}
   m_Layer: 0
   m_Name: Player_Hub
   m_TagString: Untagged
@@ -3974,7 +3975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: b0d947fa383cff04cb857d8f46ad4856, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: c06bd7a4f5927a145870563edc24dbe1, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -4001,24 +4002,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 2d8987b2-f66e-45f1-929b-a564e53a5e6f
-    m_ActionName: 'Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+    m_ActionId: d0863939-26f4-45ba-96aa-5835b01d9885
+    m_ActionName: 'PlayerMovement/Movement[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 91b53931-eff0-4051-8436-d833ac8af9fc
-    m_ActionName: 'Player/Use Tool[/Keyboard/f]'
+    m_ActionId: d76d12ca-71a6-4e65-8854-25b7333d8245
+    m_ActionName: 'PlayerMovement/UseTool[/XInputControllerWindows/buttonWest,/Keyboard/f]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 67c03e35-cc2f-4fe8-a536-fbb218ab1e6d
-    m_ActionName: 'Player/Change Tool[/Keyboard/e,/Keyboard/q]'
+    m_ActionId: 22d8ae37-0a44-4444-a108-7a8ca077b8c6
+    m_ActionName: 'PlayerMovement/ChangeTool[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightTrigger,/Keyboard/1,/Keyboard/3]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 10eb79df-d88c-408b-8d53-7e6812a3e67d
-    m_ActionName: Player/Sprint
+    m_ActionId: b3c70c00-a051-4f04-8d3d-18ba29ced98f
+    m_ActionName: 'PlayerMovement/Sprint[/XInputControllerWindows/buttonEast,/Keyboard/shift]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1152767541677846207}
-        m_TargetAssemblyTypeName: PlayerInteractionHub, Assembly-CSharp
+        m_TargetAssemblyTypeName: MoonlitMixes.Player.PlayerInteractionHub, Assembly-CSharp
         m_MethodName: Interact
         m_Mode: 0
         m_Arguments:
@@ -4029,52 +4030,132 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 4740dbaf-b023-4d55-998d-565fec3660fe
-    m_ActionName: 'Player/Interact[/Keyboard/e]'
+    m_ActionId: 62c150d5-aca5-4900-b0c3-0bef573a0248
+    m_ActionName: 'PlayerMovement/Interact[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 88083a86-c620-495e-9b14-a21cd7d6e878
-    m_ActionName: Player/SecondaryInteract
+    m_ActionId: ca88650c-0c77-4cea-b84b-d8f098017fea
+    m_ActionName: 'PlayerMovement/OpenInventory[/XInputControllerWindows/buttonNorth,/Keyboard/i]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 03e4d7290d662ea449e22cf88f663728, type: 2}
+        m_TargetAssemblyTypeName: MoonlitMixes.Events.ScriptableBoolEvent, Assembly-CSharp
+        m_MethodName: SendBool
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_ActionId: 11d5ed8b-e8d5-43fd-a1dc-bab983994402
+    m_ActionName: 'PlayerMovement/OpenCloseMenu[/XInputControllerWindows/start,/Keyboard/tab]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 0fa7b7ba-d4d6-4b4e-bbc0-a008b3a862e7
-    m_ActionName: 'Player/Open Inventory[/Keyboard/y]'
+    m_ActionId: cf39075d-bf02-4024-9cd1-54b8eb9e2a6c
+    m_ActionName: 'WaitingTable/MovementHighlightObject[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 36a8c9b0-cd09-4f25-a6ee-5f686ae75fff
-    m_ActionName: 'WaitingTable/MovementHighlightObject[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+    m_ActionId: e7aa3cef-717a-4188-a16d-7e68526dd6c1
+    m_ActionName: 'WaitingTable/Select[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 41313a80-ada3-4f94-a6a5-5a94a978f878
-    m_ActionName: WaitingTable/Select
+    m_ActionId: b27e0797-fe5d-4f55-bd81-78ca7053825a
+    m_ActionName: 'WaitingTable/QuitTable[/XInputControllerWindows/buttonEast,/Keyboard/q]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 6ebde777-92c2-4c1b-9aa2-02275f88fcb1
-    m_ActionName: WaitingTable/Cancel
+    m_ActionId: 009f913b-51e7-44dd-9152-868c9365326b
+    m_ActionName: 'QTE/ButtonNorth[/XInputControllerWindows/buttonNorth]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 915df8cb-4c50-4a55-84f0-b5369b44fa82
-    m_ActionName: QTE/ButtonNorth
+    m_ActionId: 321e3748-9133-4134-907e-47e15a15055d
+    m_ActionName: 'QTE/ButtonSouth[/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 9068b628-098e-4fd6-a8e0-e3aaf3ad8911
-    m_ActionName: QTE/ButtonSouth
+    m_ActionId: ac5e3d42-46e1-4fc5-9643-c9186893aa6f
+    m_ActionName: 'QTE/ButtonEast[/XInputControllerWindows/buttonEast]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: bb48bc42-12e9-4a75-b74e-c6cf483b34d5
-    m_ActionName: QTE/ButtonEast
+    m_ActionId: 291ea2b8-59c3-473e-b07a-d64f038b8258
+    m_ActionName: 'QTE/ButtonWest[/XInputControllerWindows/buttonWest]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: cca0bdf1-73eb-4592-967c-56fdcbb295f7
-    m_ActionName: QTE/ButtonWest
+    m_ActionId: bbb56446-96c0-4965-9894-879c2f26a0c6
+    m_ActionName: 'QTE/RightStick[/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 9c3c050e-f820-47cd-8a55-9ca2cc6f7e71
-    m_ActionName: QTE/RightStick
+    m_ActionId: deb17d68-ccd9-4dc5-9cf7-f676ac8d5e8c
+    m_ActionName: 'UI/Navigate[/XInputControllerWindows/dpad,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/q,/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 010ed930-3a23-4b15-9da3-f94629845b59
-    m_ActionName: UI/Navigate
+    m_ActionId: 5d82320b-1d2c-4b27-8ab1-2c19c4bb9bf7
+    m_ActionName: 'UI/Submit[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 330afd7d-295f-4a9c-ab52-7241db5b196b
+    m_ActionName: 'UI/Cancel[/XInputControllerWindows/buttonEast,/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 46f349b4-3ee4-477f-9e21-a6b3692e2826
+    m_ActionName: 'UI/Discard Object[/XInputControllerWindows/buttonWest,/Keyboard/t]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 8a1077915d93ab34dbc9657b268c51fe, type: 2}
+        m_TargetAssemblyTypeName: ScriptableCallbackContextEvent, Assembly-CSharp
+        m_MethodName: SendContext
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 80ecc8d0-e589-4f1c-b42c-ad7ef6d95882
+    m_ActionName: 'Menu/Navigate[/XInputControllerWindows/dpad,/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 794181fd-d1a4-4c6a-bfa0-d62eb67ac7ba
+    m_ActionName: 'Menu/Submit[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 48526234-b298-4eae-9926-3942a9b76e0f
+    m_ActionName: 'Menu/Cancel[/XInputControllerWindows/buttonEast,/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 721a84ad80f39414cab2f93388a4a5e0, type: 2}
+        m_TargetAssemblyTypeName: ScriptableCallbackContextEvent, Assembly-CSharp
+        m_MethodName: SendContext
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 51efab31-6581-43e5-aefd-9baefd5dca6d
+    m_ActionName: 'Menu/Chapter[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder,/Keyboard/1,/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 03e4d7290d662ea449e22cf88f663728, type: 2}
+        m_TargetAssemblyTypeName: MoonlitMixes.Events.ScriptableBoolEvent, Assembly-CSharp
+        m_MethodName: SendBool
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ed1ef41d-b58a-4587-9f7d-e70f1fb7cb3e
+    m_ActionName: 'Menu/QuitMenu[/XInputControllerWindows/start,/Keyboard/tab]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -4089,56 +4170,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: eaf4d6a5-6adb-4d51-90ff-fbd66c96f70e
-    m_ActionName: UI/Submit
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSceneUI, Assembly-CSharp
-        m_MethodName: CloseCanvas
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 079c0808-31e7-4e25-b140-124ae63daf4b
-    m_ActionName: UI/Cancel
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a10bb0d2-fe8e-4504-99d1-3bda19270d71
-    m_ActionName: Player/OpenCloseCanvas
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cf74f6c1-d60c-4703-b565-2a4a1ab1ab97
-    m_ActionName: 'Dialogue/NextDialogue[/Keyboard/e]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b0ae578a-f3d1-45fc-bec8-768089fe53a6
-    m_ActionName: Recipe/CloseRecipe
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 430d9fd0-03b9-4123-8ac3-ac337b708860
-    m_ActionName: 'ChangeScene/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MoonlitMixes.UI.ChangeSceneUI, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: cbea3ec9-4b1f-4f99-aa67-ccd3f82ffb1b
-    m_ActionName: 'ChangeScene/Submit[/XInputControllerWindows/buttonSouth]'
+    m_ActionId: 71f49374-9d9c-409e-a52e-3eaab5c9fe4f
+    m_ActionName: 'ChangeScene-Day/Confirm[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -4153,11 +4186,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: fe59328c-bc52-48e9-80de-d9cb5ad94e1d
-    m_ActionName: 'ChangeScene/Cancel[/XInputControllerWindows/buttonEast]'
+    m_ActionId: e4f4f6d5-aaaf-4346-99dc-783f2861b5e8
+    m_ActionName: 'ChangeScene-Day/Cancel[/XInputControllerWindows/buttonEast,/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3db38c6e-6600-4795-81b4-fed0888987fc
+    m_ActionName: 'Dialogue/NextDialogue[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultControlScheme: Gamepad
+  m_DefaultActionMap: PlayerMovement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &7855766533216230340
@@ -4172,12 +4221,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0135a207c05a14a824ee45b45968b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkSpeed: 5
-  _sprintSpeed: 4
+  _walkSpeed: 4
+  _sprintSpeed: 5
   _maxStamina: 5
+  _lowStaminaThreshold: 20
   _canSprint: 1
   _floorDistance: 0.1
   _maxDownVelocity: -8.64
+  footstepRate: 1.5
 --- !u!95 &541981251971043464
 Animator:
   serializedVersion: 7
@@ -4243,6 +4294,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   _chestInteraction: {fileID: 0}
+--- !u!114 &2449148328095746533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682728787243280857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c970d9c4b9eb1445bc1ebdc7a506dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _footstepsVolume: 1
+  _footstepsSound: {fileID: 0}
 --- !u!1 &6696097590593276191
 GameObject:
   m_ObjectHideFlags: 0
