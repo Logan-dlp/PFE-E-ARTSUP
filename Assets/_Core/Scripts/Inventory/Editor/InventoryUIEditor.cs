@@ -8,6 +8,7 @@ namespace MoonlitMixes.Editor
     public class InventoryUIEditor : UnityEditor.Editor
     {
         SerializedProperty inventoryProperty;
+        SerializedProperty inventoryExtensionList;
         SerializedProperty slotPrefabProperty;
         SerializedProperty inventoryReceivesProperty;
         SerializedProperty scaleItemProperty;
@@ -16,6 +17,7 @@ namespace MoonlitMixes.Editor
         private void OnEnable()
         {
             inventoryProperty = serializedObject.FindProperty("_inventory");
+            inventoryExtensionList = serializedObject.FindProperty("_inventoryExtensionList");
             slotPrefabProperty = serializedObject.FindProperty("_slotPrefab");
             inventoryReceivesProperty = serializedObject.FindProperty("_inventoryReceives");
             scaleItemProperty = serializedObject.FindProperty("_scaleItem");
@@ -27,6 +29,7 @@ namespace MoonlitMixes.Editor
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(inventoryProperty);
+            EditorGUILayout.PropertyField(inventoryExtensionList);
             EditorGUILayout.PropertyField(scaleItemProperty);
             EditorGUILayout.PropertyField(emptyItemProperty);
 

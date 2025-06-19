@@ -13,24 +13,60 @@ namespace MoonlitMixes.Inventory
     {
         public GameObject FirstSelected { get; private set; }
         
+        [SerializeField] private ItemData _emptyItem;
+        public ItemData EmptyData => _emptyItem;
+        
+        private int _emptySlot;
+        public int EmptySlot => _emptySlot;
+        
         [SerializeField] private InventoryData _inventory;
+        [SerializeField] private List<InventoryData> _inventoryExtensionList;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
-        [SerializeField] private ItemData _emptyItem;
-
-        public ItemData EmptyData { get { return _emptyItem; } }
-
-        private int _emptySlot;
-        public int EmptySlot { get { return _emptySlot; } }
+        
         private void OnEnable()
         {
             RefreshInventory();
         }
 
+        public void TransfersInventory()
+        {
+            foreach (InventoryData inventoryData in _inventoryExtensionList)
+            {
+                foreach (ItemData itemData in inventoryData.Items)
+                {
+                    if (itemData.name != "Empty")
+                    {
+                        _inventory.Items.Add(itemData);
+                        inventoryData.Items.Remove(itemData);
+                    }
+                }
+            }
+        }
+
         public void RefreshInventory()
         {
-            SortInventory();
+            InventoryData allInventory = ScriptableObject.CreateInstance<InventoryData>();
+
+            foreach (InventoryData inventoryData in _inventoryExtensionList)
+            {
+                foreach (ItemData itemData in inventoryData.Items)
+                {
+                    if (itemData.name != "Empty")
+                    {
+                        allInventory.Items.Add(itemData);
+                    }
+                }
+            }
+
+            foreach (ItemData itemData in _inventory.Items)
+            {
+                allInventory.Items.Add(itemData);
+            }
+
+            allInventory = SortInventory(allInventory);
+            
             _emptySlot = 0;
             if (_inventory.name != "Inventory Cellar")
             {
@@ -43,6 +79,7 @@ namespace MoonlitMixes.Inventory
                     }
                 }
             }
+            
             foreach (Transform childTransform in transform)
             {
                 Destroy(childTransform.gameObject);
@@ -50,7 +87,7 @@ namespace MoonlitMixes.Inventory
             
             List<GameObject> currentItemList = new();
             
-            foreach (ItemData currentItemData in _inventory.Items)
+            foreach (ItemData currentItemData in allInventory.Items)
             {
                 GameObject itemCase = Instantiate(_slotPrefab, transform);
                 currentItemList.Add(itemCase);
@@ -82,15 +119,15 @@ namespace MoonlitMixes.Inventory
                 EventSystem.current.firstSelectedGameObject = FirstSelected;*/
             }
             else StartCoroutine(SelectedButton());
-
-            SortInventory();
         }
+        
         public IEnumerator SelectedButton()
         {
             yield return new WaitForSeconds(0.1f);
             EventSystem.current.SetSelectedGameObject(FirstSelected);
             EventSystem.current.firstSelectedGameObject = FirstSelected;
         }
+        
         public void AddItem(ItemData item)
         {
             if (item == null)
@@ -112,8 +149,7 @@ namespace MoonlitMixes.Inventory
                     break;
                 }
             }
-
-            SortInventory();
+            
             RefreshInventory();
             Debug.Log($"{item.name} ajout� avec succ�s !");
         }
@@ -138,12 +174,13 @@ namespace MoonlitMixes.Inventory
             }
         }
 
-        private void SortInventory()
+        private InventoryData SortInventory(InventoryData inventory)
         {
-            _inventory.Items = _inventory.Items
-                .OrderBy(item => item.Type)
-                .ThenBy(item => item.Rarity)
-                .ToList();
+            inventory.Items = inventory.Items.OrderBy(item => item.Type)
+                                                    .ThenBy(item => item.Rarity)
+                                                    .ToList();
+
+            return inventory;
         }
 
         public IReadOnlyList<ItemData> Items => _inventory.Items.AsReadOnly();
