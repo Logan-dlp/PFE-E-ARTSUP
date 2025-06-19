@@ -53,7 +53,6 @@ namespace MoonlitMixes.Animation
 
         public void Death()
         {
-            _animator.SetBool("CanBeHit", false);
             _animator.SetTrigger("Death");
         }
     }
