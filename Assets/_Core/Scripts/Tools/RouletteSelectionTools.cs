@@ -38,8 +38,6 @@ public class RouletteSelectionTools : MonoBehaviour
         _toolGameObjects.Add(toolPrefab);
 
         toolPrefab.SetActive(false);
-        
-        CurrentToolType = _tools[_currentToolIndex].ToolType;
 
         UpdateToolSlots();
         UpdateActiveTool();

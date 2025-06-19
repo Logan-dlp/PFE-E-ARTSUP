@@ -1,21 +1,16 @@
+using MoonlitMixes.ExplorationTools;
+
 namespace MoonlitMixes.Interactions
 {
-    using ExplorationTools;
-    
     public class TreeInteractionObject : InteractionObject
     {
-        private TreeHealth _treeHealth;
         private bool _uiEnabledLastFrame = false;
-
-        protected override void Awake()
-        {
-            _treeHealth = GetComponent<TreeHealth>();
-            base.Awake();
-        }
 
         private void Update()
         {
-            if (_uiEnabledLastFrame && _treeHealth != null && !_treeHealth.CanChop())
+            TreeHealth treeHealth = GetComponent<TreeHealth>();
+
+            if (_uiEnabledLastFrame && treeHealth != null && !treeHealth.CanChop())
             {
                 DisableUI();
                 _uiEnabledLastFrame = false;
@@ -24,7 +19,9 @@ namespace MoonlitMixes.Interactions
 
         public override void EnableUI()
         {
-            if (_treeHealth != null || _treeHealth.CanChop())
+            TreeHealth treeHealth = GetComponent<TreeHealth>();
+
+            if (treeHealth == null || treeHealth.CanChop())
             {
                 base.EnableUI();
                 _uiEnabledLastFrame = true;

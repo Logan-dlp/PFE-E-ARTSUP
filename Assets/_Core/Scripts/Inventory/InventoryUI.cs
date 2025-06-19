@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Item;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MoonlitMixes.Inventory
@@ -16,13 +14,7 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _inventory;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
-        [SerializeField] private Vector3 _scaleItem;
-        [SerializeField] private ItemData _emptyItem;
 
-        public ItemData EmptyData { get { return _emptyItem; } }
-
-        private int _emptySlot;
-        public int EmptySlot { get { return _emptySlot; } }
         private void OnEnable()
         {
             RefreshInventory();
@@ -31,18 +23,7 @@ namespace MoonlitMixes.Inventory
         public void RefreshInventory()
         {
             SortInventory();
-            _emptySlot = 0;
-            if (_inventory.name != "Inventory Cellar")
-            {
-                for (int i = 0; i < _inventory.Items.Count; i++)
-                {
-                    if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
-                    else if (_inventory.Items[i].name == "Empty")
-                    {
-                        _emptySlot++;
-                    }
-                }
-            }
+            
             foreach (Transform childTransform in transform)
             {
                 Destroy(childTransform.gameObject);
@@ -60,7 +41,7 @@ namespace MoonlitMixes.Inventory
                 item.transform.SetParent(itemCase.transform);
                 
                 item.transform.localPosition = Vector3.zero;
-                item.transform.localScale = _scaleItem;
+                item.transform.localScale = Vector3.one;
                 item.transform.localRotation = Quaternion.identity;
                 Image itemImage = item.AddComponent<Image>();
                 itemImage.sprite = currentItemData.ItemSprite;
@@ -72,25 +53,8 @@ namespace MoonlitMixes.Inventory
             }
 
             FirstSelected = currentItemList.FirstOrDefault();
-            if (_inventory.name != "Inventory Cellar")
-            {
-                while (_inventory.Items.Count < _inventory.MaxSlots)
-                {
-                    _inventory.Items.Add(_emptyItem);
-                }
-                /*EventSystem.current.SetSelectedGameObject(FirstSelected);
-                EventSystem.current.firstSelectedGameObject = FirstSelected;*/
-            }
-            else StartCoroutine(SelectedButton());
+        }
 
-            SortInventory();
-        }
-        public IEnumerator SelectedButton()
-        {
-            yield return new WaitForSeconds(0.1f);
-            EventSystem.current.SetSelectedGameObject(FirstSelected);
-            EventSystem.current.firstSelectedGameObject = FirstSelected;
-        }
         public void AddItem(ItemData item)
         {
             if (item == null)
@@ -99,20 +63,13 @@ namespace MoonlitMixes.Inventory
                 return;
             }
 
-            for(int i = 0; i < _inventory.Items.Count; i++)
+            if (_inventory.Mode == InventoryMode.InventoryPlayer && _inventory.Items.Count >= _inventory.MaxSlots)
             {
-                if (item.name == "Empty")
-                {
-                    break;
-                }
-                
-                if (_inventory.Items[i].name == "Empty" )
-                {
-                    _inventory.Items[i] = item;
-                    break;
-                }
+                Debug.LogWarning("L'inventaire est plein !");
+                return;
             }
 
+            _inventory.Items.Add(item);
             SortInventory();
             RefreshInventory();
             Debug.Log($"{item.name} ajout� avec succ�s !");
@@ -160,37 +117,15 @@ namespace MoonlitMixes.Inventory
                 for (int i = _inventory.Items.Count - 1; i >= 0; i--)
                 {
                     ItemData item = _inventory.Items[i];
-                    int emptyInventoryR = 0;
-                    for (int j = 0; j < _inventoryReceives.Items.Count; j++)
-                    {
-                        if (_inventoryReceives.Items[j].name == "Empty")
-                        {
-                            emptyInventoryR++;
-                        }
-                    }
-                    if (emptyInventoryR>= _inventory.Items.Count - _emptySlot)
-                    {
-                        if (item.name != "Empty")
-                        {
-                            for (int j = 0; j < _inventoryReceives.Items.Count; j++)
-                            {
-                                if (_inventoryReceives.Items[j].name == "Empty")
-                                {
-                                    _inventoryReceives.Items[j] = item;
-                                    _inventory.Items[i] = _emptyItem;
-                                    break;
-                                }
-                            }
-                            RefreshInventory();
 
-                            Debug.Log("Envoie des items dans l'inventaire destin�");
-                        }
-                        
+                    if (_inventoryReceives.Items.Count + _inventoryReceives.Items.Count < _inventoryReceives.MaxSlots)
+                    {
+                        _inventoryReceives.Items.Add(item);
+                        _inventory.Items.RemoveAt(i);
+                        Debug.Log("Envoie des items dans l'inventaire destin�");
                     }
                     else
                     {
-                        Debug.Log(emptyInventoryR);
-                        Debug.Log(_inventory.Items.Count - _emptySlot);
                         Debug.LogWarning("L'inventaire destin� est plein");
                         break;
                     }
@@ -200,6 +135,7 @@ namespace MoonlitMixes.Inventory
             {
                 Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
             }
+
             RefreshInventory();
         }
     }

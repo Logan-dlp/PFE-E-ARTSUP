@@ -10,16 +10,12 @@ namespace MoonlitMixes.Editor
         SerializedProperty inventoryProperty;
         SerializedProperty slotPrefabProperty;
         SerializedProperty inventoryReceivesProperty;
-        SerializedProperty scaleItemProperty;
-        SerializedProperty emptyItemProperty;
 
         private void OnEnable()
         {
             inventoryProperty = serializedObject.FindProperty("_inventory");
             slotPrefabProperty = serializedObject.FindProperty("_slotPrefab");
             inventoryReceivesProperty = serializedObject.FindProperty("_inventoryReceives");
-            scaleItemProperty = serializedObject.FindProperty("_scaleItem");
-            emptyItemProperty = serializedObject.FindProperty("_emptyItem");
         }
 
         public override void OnInspectorGUI()
@@ -27,8 +23,6 @@ namespace MoonlitMixes.Editor
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(inventoryProperty);
-            EditorGUILayout.PropertyField(scaleItemProperty);
-            EditorGUILayout.PropertyField(emptyItemProperty);
 
             InventoryData inventory = inventoryProperty.objectReferenceValue as InventoryData;
 

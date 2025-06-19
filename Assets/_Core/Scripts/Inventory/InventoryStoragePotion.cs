@@ -1,6 +1,5 @@
-using MoonlitMixes.Datas;
-using MoonlitMixes.Player;
 using System.Collections;
+using MoonlitMixes.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +9,6 @@ namespace MoonlitMixes.Inventory
     {
         [SerializeField] private GameObject _inventoryUI;
         [SerializeField] private ScriptableCloseCanvasEvent _scriptableCloseCanvasEvent;
-        [SerializeField] private InventoryData _inventoryData;
-        public InventoryData CellarInventory => _inventoryData;
 
         private void Start()
         {
@@ -31,6 +28,7 @@ namespace MoonlitMixes.Inventory
         public void OpenInventory()
         {
             _inventoryUI.SetActive(true);
+            StartCoroutine(FirstSelected());
         }
 
         public void CloseInventory()
@@ -45,6 +43,7 @@ namespace MoonlitMixes.Inventory
         private IEnumerator FirstSelected()
         {
             yield return new WaitForEndOfFrame();
+            //FindFirstObjectByType<EventSystem>().firstSelectedGameObject = FindFirstObjectByType<InventoryUI>()._slots[0].GetComponent<Button>().gameObject;
             FindFirstObjectByType<InventoryUI>().FirstSelected.GetComponent<Button>().Select();
         }
     }

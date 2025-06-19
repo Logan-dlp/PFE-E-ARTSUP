@@ -1,4 +1,5 @@
 using System.Collections;
+using MoonlitMixes.ExplorationTools;
 using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,7 +8,7 @@ namespace MoonlitMixes.AI
 {
     using StateMachine;
     using StateMachine.States;
-    using Health;
+    using MoonlitMixes.Health;
 
     public class Monster : MonoBehaviour
     {
@@ -57,7 +58,7 @@ namespace MoonlitMixes.AI
                 PlayerReference = _playerReference,
                 InitialPosition = transform.position,
                 StopDistanceToAttack = _stopDistanceToAttack,
-                AttackRadius = _comportement == MonsterComportement.Aggressive ? _attackRadius : _detectionStop,
+                AttackRadius = _attackRadius,
                 DetectionStop = _detectionStop,
                 FinishedAttacking = false,
             };

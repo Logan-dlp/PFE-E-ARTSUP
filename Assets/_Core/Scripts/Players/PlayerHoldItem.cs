@@ -1,7 +1,6 @@
-using MoonlitMixes.Datas;
+using UnityEngine;
 using MoonlitMixes.Events;
 using MoonlitMixes.Item;
-using UnityEngine;
 
 namespace MoonlitMixes.Player
 {
@@ -71,26 +70,6 @@ namespace MoonlitMixes.Player
             ItemHold = null;
             Item = null;
             GetComponent<PlayerInteraction>().ItemInHand = null;
-        }
-
-        public bool TryReturnItemToCellar(InventoryData cellarInventory)
-        {
-            if (Item == null)
-            {
-                Debug.LogWarning("No item in hand to return.");
-                return false;
-            }
-
-            if (Item.IsTransformed)
-            {
-                Debug.Log("Item is transformed, cannot return to cellar inventory.");
-                return false;
-            }
-
-            cellarInventory.Items.Add(Item);
-            RemoveItem();
-
-            return true;
         }
     }
 }

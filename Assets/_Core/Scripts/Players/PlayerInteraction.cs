@@ -1,6 +1,5 @@
 ﻿using MoonlitMixes.Animation;
 using MoonlitMixes.CookingMachine;
-using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
@@ -24,7 +23,6 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapWaitingTable;
         [SerializeField] private string _actionMapUI;
 
-        private InventoryStoragePotion _inventoryStoragePotion;
         private ACookingMachine _currentCookingMachine;
         private CauldronRecipeChecker _currentCauldron;
         private Animator _animator;
@@ -37,7 +35,6 @@ namespace MoonlitMixes.Player
             PlayerHoldItem = GetComponent<PlayerHoldItem>();
             _animator = GetComponent<Animator>();
             _animationPotionManager = GetComponent<AnimationPotionManager>();
-            _inventoryStoragePotion = FindFirstObjectByType<InventoryStoragePotion>();
         }
 
         private void Update()
@@ -65,7 +62,7 @@ namespace MoonlitMixes.Player
                         ResetInteractionTargets();
                     }
                 }
-            }
+}
             else if (_currentCookingMachine != null || _currentCauldron != null)
             {
                 ResetInteractionTargets();
@@ -107,6 +104,7 @@ namespace MoonlitMixes.Player
             }
         }
 
+
         private void ResetInteractionTargets()
         {
             if (_currentCauldron != null) _currentCauldron.ToggleShowInteractivity();
@@ -116,44 +114,21 @@ namespace MoonlitMixes.Player
             _currentTrashcan = null;
         }
 
-        public void ReturnItemToCellar()
-        {
-            if (_inventoryStoragePotion != null && PlayerHoldItem.TryReturnItemToCellar(_inventoryStoragePotion.CellarInventory))
-            {
-                Debug.Log("Item successfully returned to cellar.");
-                ItemInHand = null;
-                _animationPotionManager.QuitInteractWithItem();
-            }
-            else
-            {
-                Debug.LogWarning("Failed to return item to cellar.");
-            }
-        }
-
         public void Interact(InputAction.CallbackContext ctx)
         {
             if (ctx.started)
             {
                 if (ItemInHand != null)
                 {
+                    if (_currentTrashcan != null)
+                    {
+                        _currentTrashcan.DiscardItem();
+                        PlayerHoldItem.RemoveItem();
+                        _animationPotionManager.TrashItem();
+                    }
+
                     if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
-                        {
-                            bool success = PlayerHoldItem.TryReturnItemToCellar(_inventoryStoragePotion.CellarInventory);
-                            if (success)
-                            {
-                                ItemInHand = null;
-                                _animationPotionManager.QuitInteractWithItem();
-                                Debug.Log("Item returned to cellar.");
-                            }
-                            else
-                            {
-                                Debug.LogWarning("Failed to return item to cellar.");
-                            }
-                            return;
-                        }
-
                         if (hit.transform.TryGetComponent(out WaitingTable waitingTable) && waitingTable.CheckAvailablePlace())
                         {
                             waitingTable.PlaceItem(PlayerHoldItem.ItemHold);
@@ -163,44 +138,41 @@ namespace MoonlitMixes.Player
                             _animator.SetTrigger("Put");
 
                             if (PlayerHoldItem.ItemHold == null)
-                                _animationPotionManager.QuitInteractWithoutItem();
-                            else
-                                _animationPotionManager.QuitInteractWithItem();
-
-                            return;
-                        }
-
-                        if (_currentCookingMachine != null && ItemInHand.Usage == _currentCookingMachine.TransformType)
-                        {
-                            InputManager.Instance.SwitchActionMap(_actionMapQTE);
-                            _animationPotionManager.QuitInteractWithoutItem();
-
-                            if (ItemInHand.Usage == ItemUsage.Cut)
-                                _animationPotionManager.InteractCut();
-                            else if (ItemInHand.Usage == ItemUsage.Crush)
-                                _animationPotionManager.InteractCrush();
-
-                            _currentCookingMachine.ConvertItem(ItemInHand, this);
-                            return;
-                        }
-                        else if (_currentCauldron != null && _currentCauldron.GetComponent<CauldronTimer>().CanAction)
-                        {
-                            if (ItemInHand.Usage == ItemUsage.Whole && _currentCauldron.NeedItem)
                             {
-                                _currentCauldron.AddIngredient(ItemInHand);
-                                PlayerHoldItem.RemoveItem();
-                                _animationPotionManager.InteractCauldronWithoutStir();
-                                return;
+                                _animationPotionManager.QuitInteractWithoutItem();
+                            }
+                            else
+                            {
+                                _animationPotionManager.QuitInteractWithItem();
                             }
                         }
                     }
 
-                    if (_currentTrashcan != null)
+                    if (_currentCookingMachine != null && ItemInHand.Usage == _currentCookingMachine.TransformType)
                     {
-                        _currentTrashcan.DiscardItem();
-                        PlayerHoldItem.RemoveItem();
-                        _animationPotionManager.TrashItem();
-                        return;
+                        InputManager.Instance.SwitchActionMap(_actionMapQTE);
+                        _animationPotionManager.QuitInteractWithoutItem();
+
+                        if (ItemInHand.Usage == ItemUsage.Cut)
+                        {
+                            _animationPotionManager.InteractCut();
+                        }
+                        else if (ItemInHand.Usage == ItemUsage.Crush)
+                        {
+                            _animationPotionManager.InteractCrush();
+                        }
+
+                        _currentCookingMachine.ConvertItem(ItemInHand, this);
+                    }
+                    else if (_currentCauldron != null && _currentCauldron.GetComponent<CauldronTimer>().CanAction)
+                    {
+                        if (ItemInHand.Usage == ItemUsage.Whole && _currentCauldron.NeedItem)
+                        {
+                            _currentCauldron.AddIngredient(ItemInHand);
+                            PlayerHoldItem.RemoveItem();
+
+                            _animationPotionManager.InteractCauldronWithoutStir();
+                        }
                     }
                 }
                 else
@@ -212,18 +184,16 @@ namespace MoonlitMixes.Player
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
                             _animationPotionManager.OpenInventory();
-                            return;
+
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
-                            return;
                         }
                         else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                         {
                             doorSceneChange.OpenCanvas();
-                            return;
                         }
                     }
                 }

@@ -15,9 +15,6 @@ namespace MoonlitMixes.Interactions
         
         private void UpdateInputUI()
         {
-            if (_interactionImage == null)
-                return;
-            
             switch (_inputCommand)
             {
                 case InputCommand.A:
