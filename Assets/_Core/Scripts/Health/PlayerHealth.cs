@@ -114,7 +114,8 @@ namespace MoonlitMixes.Health
             OnPlayerRespawnInScene?.Invoke();
 
             yield return new WaitForSeconds(_animationRespawnTime);
-
+            _animationExplorationManager.Animator.speed = 1;
+            
             PlayerDeathEventDispatcher.TriggerDeath();
             _deathAnimation.SetActive(false);
             _animationExplorationManager.Animator.speed = 1;
@@ -129,9 +130,15 @@ namespace MoonlitMixes.Health
         {
             _animationExplorationManager.Animator.speed = 0.0f;
         }
-        public void ActivateInput() //fonction appelée par un event dans l'animation "stand up"
+        public void ActivateTheInput() //fonction appelée par un event dans l'animation "stand up"
         {
+            StartCoroutine(DelayInput());
+        }
+        private IEnumerator DelayInput()
+        {
+            yield return null;
             GetComponent<PlayerInput>().ActivateInput();
         }
+
     }
 }
