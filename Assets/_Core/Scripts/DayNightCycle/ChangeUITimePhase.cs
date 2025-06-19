@@ -31,13 +31,35 @@ namespace MoonlitMixes.DayNightCycle
 
         private void ChangeTimePhase(int phase)
         {
-            Debug.Log("Phase");
             _imageTimePhase.sprite = _spriteTimePhase[phase];
         }
 
         private void ChangeDayPhase(int phase)
         {
             _imageDayPhase.sprite = _spriteDayPhase[phase];
+        }
+
+        [ContextMenu("IncreaseTimePhase")]
+        private void IncreaseTimePhase()
+        {
+            if (_dayNightCycleInfo.ActualTimePhase == 3)
+            {
+                IncreaseDay();
+            }
+            else
+            {
+                _dayNightCycleInfo.ActualTimePhase++;
+                ChangeTimePhase(_dayNightCycleInfo.ActualTimePhase);
+            }
+        }
+
+        [ContextMenu("IncreaseDay")]
+        private void IncreaseDay()
+        {
+            _dayNightCycleInfo.ActualTimePhase = 0;
+            _dayNightCycleInfo.ActualDay++;
+            ChangeTimePhase(_dayNightCycleInfo.ActualTimePhase);
+            ChangeDayPhase(_dayNightCycleInfo.ActualDay);
         }
     }
 }
