@@ -151,7 +151,7 @@ Transform:
   - {fileID: 739657724}
   - {fileID: 2110973938}
   - {fileID: 708511930}
-  - {fileID: 282596669}
+  - {fileID: 943367617}
   m_Father: {fileID: 523373863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &148271402
@@ -554,77 +554,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &282596668
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 282596669}
-  - component: {fileID: 282596671}
-  - component: {fileID: 282596670}
-  m_Layer: 0
-  m_Name: Mushroom Zone Reverb
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &282596669
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282596668}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 67.13626, y: 113.07136, z: 2.017374}
-  m_LocalScale: {x: 1.2404, y: 1.2404, z: 1.2404}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 19656646}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &282596670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282596668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 333083601f326f646bf3fdd236deeeed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enterZoneSound: {fileID: 0}
-  _outerSize: {x: 20, y: 20, z: 20}
-  _innerSize: {x: 2, y: 2, z: 2}
-  _outerVolume: 0
-  _innerVolume: 1
---- !u!65 &282596671
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282596668}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 20, y: 20, z: 20}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &371968137
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333083601f326f646bf3fdd236deeeed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enterZoneSound: {fileID: 0}
+  _enterZoneSound: {fileID: 11400000, guid: 1946e1b71327ad444adbcedc86e1f7b4, type: 2}
   _outerSize: {x: 55, y: 20, z: 35}
   _innerSize: {x: 40, y: 10, z: 12}
   _outerVolume: 0
@@ -962,6 +891,77 @@ Transform:
   - {fileID: 1086701177}
   m_Father: {fileID: 2128530610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &943367616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 943367617}
+  - component: {fileID: 943367619}
+  - component: {fileID: 943367618}
+  m_Layer: 0
+  m_Name: Mushroom Air Zone Reverb
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &943367617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943367616}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.034872066, y: 0.7062464, z: -0.7062464, w: 0.03487209}
+  m_LocalPosition: {x: 119.82, y: 116.451355, z: 38.03}
+  m_LocalScale: {x: 3.3451998, y: 3.3451998, z: 3.3452003}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 19656646}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -174.346}
+--- !u!114 &943367618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943367616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 333083601f326f646bf3fdd236deeeed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enterZoneSound: {fileID: 11400000, guid: b7fc13e405c46c94184a37d27445a196, type: 2}
+  _outerSize: {x: 12, y: 10, z: 10}
+  _innerSize: {x: 7, y: 8, z: 10}
+  _outerVolume: 0
+  _innerVolume: 1
+--- !u!65 &943367619
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943367616}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 12, y: 10, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &954779655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,7 +1758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333083601f326f646bf3fdd236deeeed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enterZoneSound: {fileID: 0}
+  _enterZoneSound: {fileID: 11400000, guid: c1a69588ab32e6e40a2208b180afc351, type: 2}
   _outerSize: {x: 15, y: 10, z: 10}
   _innerSize: {x: 15, y: 5, z: 5}
   _outerVolume: 0
