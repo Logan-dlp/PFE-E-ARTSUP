@@ -15,7 +15,9 @@ namespace MoonlitMixes.UI
         [SerializeField] private GameObject _panelNoChestItem; // facultatif selon la scène
         [SerializeField] private LastSceneNameData _lastSceneNameData;
         [SerializeField] private string _sceneTransfereItem;
+        [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
 
+        private bool _increaseTimePhase;
         private bool _hasPopup;
         private string _sceneName;
 
@@ -24,14 +26,17 @@ namespace MoonlitMixes.UI
         public Animator AnimatorUI => _animator;
         public GameObject Panel => _panel;
 
-        public void OpenCanvas(string sceneName)
+        public void OpenCanvas(string sceneName, bool increaseTimePhase)
         {
+            _increaseTimePhase = increaseTimePhase;
             _panel.SetActive(true);
             _sceneName = sceneName;
             _isLoading = false;
         }
 
         public void OpenCanvas() { }
+
+        public void OpenCanvas(string sceneName) { }
 
         public void CloseCanvas()
         {
@@ -42,7 +47,7 @@ namespace MoonlitMixes.UI
 
             _hasPopup = false;
             _isLoading = false;
-
+            _increaseTimePhase = false;
             InputManager.Instance.SwitchActionMap("PlayerMovement");
 
             if (_sceneName == "S_Forest")
@@ -53,6 +58,7 @@ namespace MoonlitMixes.UI
         {
             if (callbackContext.started && !_isLoading)
             {
+                Debug.Log(_increaseTimePhase);
                 Debug.Log("ChangeScene triggered for: " + _sceneName);
 
                 if (!_hasPopup)
@@ -67,6 +73,11 @@ namespace MoonlitMixes.UI
                             {
                                 Debug.Log("Items sent successfully, loading scene...");
                                 _isLoading = true;
+                                if (_increaseTimePhase)
+                                {
+                                    Debug.Log("ChangeScene1");
+                                    _dayNightCycleInfo.ActualTimePhase++;
+                                }
                                 SceneLoader.LoadAsyncScene(_sceneName, _animator);
                             }
                             else
@@ -82,6 +93,11 @@ namespace MoonlitMixes.UI
                                 {
                                     Debug.Log("No items to send, continuing without popup.");
                                     _isLoading = true;
+                                    if (_increaseTimePhase)
+                                    {
+                                        Debug.Log("ChangeScene2");
+                                        _dayNightCycleInfo.ActualTimePhase++;
+                                    }
                                     SceneLoader.LoadAsyncScene(_sceneName, _animator);
                                 }
                             }
@@ -95,6 +111,12 @@ namespace MoonlitMixes.UI
                     {
                         Debug.Log("Scene does not require item transfer, loading scene...");
                         _isLoading = true;
+                        if (_increaseTimePhase)
+                        {
+
+                            Debug.Log("ChangeScene3");
+                            _dayNightCycleInfo.ActualTimePhase++;
+                        }
                         SceneLoader.LoadAsyncScene(_sceneName, _animator);
                     }
                 }
@@ -135,6 +157,11 @@ namespace MoonlitMixes.UI
 
             Debug.Log("ForceChangeScene: Loading " + _sceneName);
             _isLoading = true;
+            if (_increaseTimePhase)
+            {
+                Debug.Log("ForceChangeScene");
+                _dayNightCycleInfo.ActualTimePhase++;
+            }
             SceneLoader.LoadAsyncScene(_sceneName, _animator);
         }
     }

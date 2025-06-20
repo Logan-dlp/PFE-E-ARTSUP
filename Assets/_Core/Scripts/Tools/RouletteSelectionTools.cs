@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
 using MoonlitMixes.ExplorationTools;
+using MoonlitMixes.Datas;
 
 public class RouletteSelectionTools : MonoBehaviour
 {

@@ -7,5 +7,6 @@ public interface IUIActivationControl
 
     public void OpenCanvas();
     public void OpenCanvas(string sceneName);
+    public void OpenCanvas(string sceneName, bool increaseTimePhase);
     public void CloseCanvas();
 }

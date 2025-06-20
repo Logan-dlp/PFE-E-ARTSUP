@@ -1324,7 +1324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c4b7427225d2240bd319d6b5c88e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
 --- !u!4 &104286334
 Transform:
   m_ObjectHideFlags: 0
@@ -18150,7 +18149,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579188d2a7781d84bba0bc0e1d5eac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  _scriptableIntEventTimePhase: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
+  _scriptableIntEventDay: {fileID: 11400000, guid: cf059b05afc1b924fb4d3a5f42980889, type: 2}
   _sceneName: S_Hub
+  _timePhaseRequired: 0
+  _increaseTimePhase: 0
+  _needTimePhase: 0
 --- !u!4 &543450652330399044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8230310451737743708, guid: 3d758f3ed9439814b9399a10df2065e7, type: 3}
@@ -18286,6 +18291,14 @@ PrefabInstance:
       propertyPath: _buttonImage
       value: 
       objectReference: {fileID: 1912206104}
+    - target: {fileID: 1658216929113154719, guid: 604e00d35060e054c9b9d93f6ad2701b, type: 3}
+      propertyPath: _dayNightCycleInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+    - target: {fileID: 1658216929113154719, guid: 604e00d35060e054c9b9d93f6ad2701b, type: 3}
+      propertyPath: _timePhaseRequired
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2895385715772712526, guid: 604e00d35060e054c9b9d93f6ad2701b, type: 3}
       propertyPath: _interactionButton
       value: 
@@ -18402,6 +18415,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  _timePhaseRequired: 2
+  _scriptableintEvent: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
 --- !u!1001 &1627554608520852853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18724,6 +18739,10 @@ PrefabInstance:
       propertyPath: _buttonImage
       value: 
       objectReference: {fileID: 1434862545}
+    - target: {fileID: 1880792456585933400, guid: 10b3e5227c440434eb02b979309c3745, type: 3}
+      propertyPath: _timePhaseRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1884981401828662697, guid: 10b3e5227c440434eb02b979309c3745, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.5091794
@@ -18780,6 +18799,22 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.733346
       objectReference: {fileID: 0}
+    - target: {fileID: 6873937679417036049, guid: 10b3e5227c440434eb02b979309c3745, type: 3}
+      propertyPath: _dayNightCycleInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+    - target: {fileID: 6873937679417036049, guid: 10b3e5227c440434eb02b979309c3745, type: 3}
+      propertyPath: _timePhaseRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873937679417036049, guid: 10b3e5227c440434eb02b979309c3745, type: 3}
+      propertyPath: _scriptableIntEventDay
+      value: 
+      objectReference: {fileID: 11400000, guid: cf059b05afc1b924fb4d3a5f42980889, type: 2}
+    - target: {fileID: 6873937679417036049, guid: 10b3e5227c440434eb02b979309c3745, type: 3}
+      propertyPath: _scriptableIntEventTimePhase
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21203,8 +21238,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7943913009566552387, guid: a434160a243938147a6767be78e91c08, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8777251521223748004}
   m_SourcePrefab: {fileID: 100100000, guid: a434160a243938147a6767be78e91c08, type: 3}
+--- !u!1 &8777251521223748003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7943913009566552387, guid: a434160a243938147a6767be78e91c08, type: 3}
+  m_PrefabInstance: {fileID: 8777251521223748002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8777251521223748004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8777251521223748003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf89768c3045404681d7d0bf3fa264d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  _scriptableIntEventTimePhase: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
+  _scriptableIntEventDay: {fileID: 11400000, guid: cf059b05afc1b924fb4d3a5f42980889, type: 2}
+  _requiredTimePhaseToSleep: 3
 --- !u!4 &8908947555134814218 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884981401828662697, guid: 10b3e5227c440434eb02b979309c3745, type: 3}

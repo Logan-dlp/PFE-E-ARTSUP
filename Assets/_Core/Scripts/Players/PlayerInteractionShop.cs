@@ -23,20 +23,9 @@ namespace MoonlitMixes.Player
                     {
                         hit.transform.GetComponent<CloseOrOpenShop>().OnToggleShop();
                     }
-                    else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
+                    else if (hit.transform.TryGetComponent(out OpenCanvasSceneChange openCanvasSceneChange))
                     {
-                        Debug.Log($"Touched door with scene: {doorSceneChange.SceneName}");
-                        Debug.Log($"Phase actuelle : {_dayNightCycleInfo.ActualTimePhase}");
-
-                        if (doorSceneChange.SceneName == "S_Labo")
-                        {
-                            doorSceneChange.OpenCanvas();
-                        }
-                        
-                        else if (doorSceneChange.SceneName != "S_Labo")
-                        {
-                            doorSceneChange.OpenCanvas();
-                        }
+                        openCanvasSceneChange.OpenCanvas();
                     }
                 }
             }
