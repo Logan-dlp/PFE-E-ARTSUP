@@ -35312,7 +35312,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 590227436}
+      - m_Target: {fileID: 590227441}
         m_TargetAssemblyTypeName: MoonlitMixes.Scene.MainMenuController, Assembly-CSharp
         m_MethodName: CloseCredits
         m_Mode: 1
@@ -157662,7 +157662,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 590227436}
+      - m_Target: {fileID: 590227441}
         m_TargetAssemblyTypeName: MoonlitMixes.Scene.MainMenuController, Assembly-CSharp
         m_MethodName: OpenCredits
         m_Mode: 1
@@ -186109,7 +186109,7 @@ GameObject:
   - component: {fileID: 590227439}
   - component: {fileID: 590227438}
   - component: {fileID: 590227437}
-  - component: {fileID: 590227436}
+  - component: {fileID: 590227441}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -186117,18 +186117,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &590227436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 590227435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5f48c1585e20544a87f878d27ba4363, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &590227437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186214,6 +186202,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &590227441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590227435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ce904759d047043acccce08dac7537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _creditsUi: {fileID: 112018821}
+  _creditsUiButton: {fileID: 112018822}
+  _creditsMenuUiButton: {fileID: 503402357}
 --- !u!1 &590244459
 GameObject:
   m_ObjectHideFlags: 0
@@ -237084,7 +237087,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579188d2a7781d84bba0bc0e1d5eac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dayNightCycleInfo: {fileID: 0}
+  _scriptableIntEventTimePhase: {fileID: 0}
+  _scriptableIntEventDay: {fileID: 0}
   _sceneName: S_Forest
+  _timePhaseRequired: 0
+  _increaseTimePhase: 0
+  _needTimePhase: 0
 --- !u!1 &743535692
 GameObject:
   m_ObjectHideFlags: 0
@@ -666949,7 +666958,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 590227436}
+      - m_Target: {fileID: 590227441}
         m_TargetAssemblyTypeName: MoonlitMixes.Scene.MainMenuController, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
