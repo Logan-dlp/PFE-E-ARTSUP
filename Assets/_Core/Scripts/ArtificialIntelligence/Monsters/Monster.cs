@@ -12,7 +12,7 @@ namespace MoonlitMixes.AI
     public class Monster : MonoBehaviour
     {
         [SerializeField] private MonsterComportement _comportement;
-        [SerializeField] private float _accelerationMovementAttack;
+        [SerializeField] private float _speedAttack;
         [SerializeField] private float _stopDistanceToAttack;
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
@@ -61,8 +61,8 @@ namespace MoonlitMixes.AI
                 AttackRadius = _comportement == MonsterComportement.Aggressive ? _attackRadius : _detectionStop,
                 DetectionStop = _detectionStop,
                 FinishedAttacking = false,
-                BaseAcceleration = GetComponent<NavMeshAgent>().acceleration,
-                AttackAcceleration = _accelerationMovementAttack,
+                BaseSpeed = GetComponent<NavMeshAgent>().speed,
+                AttackSpeed = _speedAttack,
             };
 
             TransitionTo(new MonsterStateIdle());

@@ -899,6 +899,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 812038526}
     m_Modifications:
     - target: {fileID: 1575776645539664597, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_Speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575776645539664597, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
       propertyPath: m_Radius
       value: 0.34
       objectReference: {fileID: 0}
@@ -908,6 +912,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1575776645539664597, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
       propertyPath: m_Acceleration
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575776645539664597, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_WalkableMask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575776645539664597, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_AutoTraverseOffMeshLink
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3426504847340506797, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
@@ -950,6 +962,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3698793331371857139, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698793331371857139, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698793331371857139, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698793331371857139, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_ImplicitCom
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698793331371857139, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698793331371857139, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: m_ImplicitTensor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3739072669642871169, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
       propertyPath: m_Height
       value: 2.13
@@ -961,6 +997,18 @@ PrefabInstance:
     - target: {fileID: 6991942069690656143, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
       propertyPath: m_Name
       value: PB_Willowraith_Air
+      objectReference: {fileID: 0}
+    - target: {fileID: 8097731007486320438, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: _attackForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8097731007486320438, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: _speedAttack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8097731007486320438, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
+      propertyPath: _accelerationAttack
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8097731007486320438, guid: e74b64466c2efb54e90f9e711f21b479, type: 3}
       propertyPath: _speedMovementAttack
@@ -19220,12 +19268,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3109564276249642245, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
+      propertyPath: m_Speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3109564276249642245, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
       propertyPath: m_AutoBraking
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3109564276249642245, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
       propertyPath: m_Acceleration
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3109564276249642245, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
+      propertyPath: m_WalkableMask
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3109564276249642245, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
+      propertyPath: m_AutoTraverseOffMeshLink
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663777684665534694, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
+      propertyPath: _speedAttack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663777684665534694, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
+      propertyPath: _accelerationAttack
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5663777684665534694, guid: 29002167d734a1742a0c0df8651c51ad, type: 3}
       propertyPath: _speedMovementAttack
@@ -31383,6 +31451,14 @@ PrefabInstance:
       value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 4532513613325284341, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
+      propertyPath: _speedAttack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532513613325284341, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
+      propertyPath: _accelerationAttack
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532513613325284341, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
       propertyPath: _speedMovementAttack
       value: 10
       objectReference: {fileID: 0}
@@ -31399,12 +31475,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8646569558175146698, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
+      propertyPath: m_Speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646569558175146698, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
       propertyPath: m_Radius
       value: 0.49
       objectReference: {fileID: 0}
     - target: {fileID: 8646569558175146698, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
       propertyPath: m_Acceleration
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9080278361382978184, guid: 587b89404ce97dc4d8390c3246df4835, type: 3}
       propertyPath: m_LocalPosition.x
@@ -139718,12 +139798,20 @@ PrefabInstance:
       value: 0.53
       objectReference: {fileID: 0}
     - target: {fileID: 3061586871291267249, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
+      propertyPath: _speedAttack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061586871291267249, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
       propertyPath: _comportement
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3061586871291267249, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
       propertyPath: _detectionStop
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061586871291267249, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
+      propertyPath: _accelerationAttack
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3061586871291267249, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
       propertyPath: _speedMovementAttack
@@ -139738,12 +139826,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7161991314296052110, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
+      propertyPath: m_Speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161991314296052110, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
       propertyPath: m_Radius
       value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: 7161991314296052110, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
       propertyPath: m_Acceleration
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7681426942743476684, guid: 34d07fd0c4c4b544f955a1bec69cc245, type: 3}
       propertyPath: m_LocalPosition.x

@@ -16,7 +16,7 @@ namespace MoonlitMixes.AI.StateMachine.States
             {
                 monsterData.PlayerReference = null;
             }
-            monsterData.NavMeshAgent.acceleration = monsterData.AttackAcceleration;
+            monsterData.NavMeshAgent.speed = monsterData.AttackSpeed;
         }
 
         public IMonsterState Update(MonsterData monsterData)
@@ -41,24 +41,23 @@ namespace MoonlitMixes.AI.StateMachine.States
 
                     if (monsterData.NavMeshAgent.hasPath)
                     {
+                        monsterData.NavMeshAgent.isStopped = true;
                         monsterData.NavMeshAgent.ResetPath();
                     }
                     
                     return new MonsterStateAttack();
                 }
-                else
+                
+                if (monsterData.NavMeshAgent.hasPath)
                 {
-                    if (monsterData.NavMeshAgent.hasPath)
-                    {
-                        Vector3 direction = (monsterData.NavMeshAgent.steeringTarget - monsterData.MonsterGameObject.transform.position).normalized;
-                        Vector3 animDirection = monsterData.MonsterGameObject.transform.InverseTransformDirection(direction);
-                        bool isFacingMoveDirection = Vector3.Dot(direction, monsterData.MonsterGameObject.transform.forward) > DAMP_TIME;
+                    Vector3 direction = (monsterData.NavMeshAgent.steeringTarget - monsterData.MonsterGameObject.transform.position).normalized;
+                    Vector3 animDirection = monsterData.MonsterGameObject.transform.InverseTransformDirection(direction);
+                    bool isFacingMoveDirection = Vector3.Dot(direction, monsterData.MonsterGameObject.transform.forward) > DAMP_TIME;
                 
-                        monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDirection.x : 0, DAMP_TIME, Time.deltaTime);
-                        monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDirection.z : 0, DAMP_TIME, Time.deltaTime);
+                    monsterData.Animator.SetFloat(HORIZONTAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDirection.x : 0, DAMP_TIME, Time.deltaTime);
+                    monsterData.Animator.SetFloat(VERTICAL_ANIMATOR_VARIABLE, isFacingMoveDirection ? animDirection.z : 0, DAMP_TIME, Time.deltaTime);
                 
-                        monsterData.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(monsterData.MonsterGameObject.transform.rotation, Quaternion.LookRotation(direction), MAX_DEGREES_DELTA * Time.deltaTime);
-                    }
+                    monsterData.MonsterGameObject.transform.rotation = Quaternion.RotateTowards(monsterData.MonsterGameObject.transform.rotation, Quaternion.LookRotation(direction), MAX_DEGREES_DELTA * Time.deltaTime);
                 }
             }
             

@@ -17,7 +17,7 @@ namespace MoonlitMixes.AI.StateMachine
         
         public bool FinishedAttacking { get; set; }
         
-        public float BaseAcceleration { get; set; }
-        public float AttackAcceleration  { get; set; }
+        public float BaseSpeed { get; set; }
+        public float AttackSpeed { get; set; }
     }
 }
