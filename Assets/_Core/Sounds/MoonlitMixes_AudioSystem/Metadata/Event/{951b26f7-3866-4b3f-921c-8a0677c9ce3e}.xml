@@ -8,7 +8,7 @@
 			<value>WindAirMushRoom</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>0</value>
 		</property>
 		<relationship name="folder">
 			<destination>{c4460eb6-915f-4280-8285-21992e6b0f18}</destination>
@@ -95,9 +95,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{765072b3-5522-4af7-af91-b377dbdc4c3b}">
-		<property name="volume">
-			<value>-8</value>
-		</property>
 		<relationship name="modulators">
 			<destination>{d0cba32f-f972-4deb-94fc-b67e15d2b0fb}</destination>
 		</relationship>
@@ -144,6 +141,9 @@
 		</property>
 		<property name="startOffset">
 			<value>1.5</value>
+		</property>
+		<property name="pitch">
+			<value>-3</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{1c9ee324-3a4f-4ec7-b88d-d3486aa5c8f3}</destination>
@@ -202,6 +202,7 @@
 		<relationship name="effects">
 			<destination>{869763db-2087-4748-ba85-da15e1e763da}</destination>
 			<destination>{8db6ea86-0178-4a1a-9634-1ce3bab64f84}</destination>
+			<destination>{9a150049-7e87-48aa-a7a8-e3aad5e03742}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{4eb91515-2b35-47a8-a5cb-5293388785ef}" />
@@ -243,6 +244,11 @@
 	<object class="SFXReverbEffect" id="{8db6ea86-0178-4a1a-9634-1ce3bab64f84}">
 		<property name="decayTime">
 			<value>1700</value>
+		</property>
+	</object>
+	<object class="PannerEffect" id="{9a150049-7e87-48aa-a7a8-e3aad5e03742}">
+		<property name="overridingOutputFormat">
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{6fb3b1a4-6fbc-4f42-8299-628f2424bfe2}">
