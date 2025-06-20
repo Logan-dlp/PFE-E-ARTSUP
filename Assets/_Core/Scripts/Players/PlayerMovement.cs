@@ -24,7 +24,7 @@ namespace MoonlitMixes.Player
 
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
-        [SerializeField] private float _lowStaminaThreshold = 20f;
+        [SerializeField] private float _lowStaminaThreshold = 0.2f;
         [SerializeField] private bool _canSprint = false;
         [SerializeField] private float _floorDistance;
         [SerializeField, MaxValue(0)] private float _maxDownVelocity;
