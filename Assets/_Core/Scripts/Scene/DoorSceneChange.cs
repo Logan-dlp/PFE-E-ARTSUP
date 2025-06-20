@@ -18,7 +18,7 @@ namespace MoonlitMixes.Scene
             if (canvasUI != null)
             {
                 canvasUI.OpenCanvas(_sceneName);
-                InputManager.Instance.SwitchActionMap("ChangeScene");
+                InputManager.Instance.SwitchActionMap("ChangeScene-Day");
             }
             else
             {

@@ -31,7 +31,6 @@ namespace MoonlitMixes.Inventory
         public void OpenInventory()
         {
             _inventoryUI.SetActive(true);
-            StartCoroutine(FirstSelected());
         }
 
         public void CloseInventory()

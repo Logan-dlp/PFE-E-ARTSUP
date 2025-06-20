@@ -119,11 +119,14 @@ namespace MoonlitMixes.CookingMachine
         private void Movement(InputAction.CallbackContext context)
         {
             if(!context.started) return;
-            Vector2 vec = context.ReadValue<Vector2>().normalized;
-            switch((vec.x, vec.y))
+            Vector2 vec = context.ReadValue<Vector2>();
+
+            Debug.Log(vec);
+
+            switch ((vec.x, vec.y))
             {
-                case (1,0):
-                    if(_indexSelectedItem == 4 || _indexSelectedItem == 9) 
+                case (1, 0):
+                    if (_indexSelectedItem == 4 || _indexSelectedItem == 9)
                     {
                         return;
                     }
@@ -132,8 +135,8 @@ namespace MoonlitMixes.CookingMachine
                         ++_indexSelectedItem;
                     }
                     break;
-                case (-1,0):
-                    if(_indexSelectedItem == 0 || _indexSelectedItem == 5)
+                case (-1, 0):
+                    if (_indexSelectedItem == 0 || _indexSelectedItem == 5)
                     {
                         return;
                     }
@@ -142,8 +145,8 @@ namespace MoonlitMixes.CookingMachine
                         --_indexSelectedItem;
                     }
                     break;
-                case (0,-1):
-                    if(_indexSelectedItem < 5)
+                case (0, -1):
+                    if (_indexSelectedItem < 5)
                     {
                         _indexSelectedItem += 5;
                     }
@@ -152,8 +155,8 @@ namespace MoonlitMixes.CookingMachine
                         _indexSelectedItem -= 5;
                     }
                     break;
-                case (0,1):
-                    if(_indexSelectedItem >= 5)
+                case (0, 1):
+                    if (_indexSelectedItem >= 5)
                     {
                         _indexSelectedItem -= 5;
                     }

@@ -2,7 +2,6 @@ using MoonlitMixes.Animation;
 using MoonlitMixes.Events;
 using MoonlitMixes.Player;
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,13 +12,16 @@ namespace MoonlitMixes.Health
         public event Action OnPlayerRespawnInScene;
         public event Action OnPlayerRespawnInOtherScene;
 
+        public event Action OnLowHealth;
+        public event Action OnHealthRecovered;
+        public event Action OnDeath;
+
         [SerializeField] private float _timeBeforeGettingOutOfFight;
         [SerializeField] private float _healthRegeneration;
-        [SerializeField] private float _animationDeathTime;
-        [SerializeField] private float _animationRespawnTime;
-        [SerializeField] private GameObject _deathAnimation;
         [SerializeField] private PlayerHealthData _playerHealthData;
+        [SerializeField] private float _lowHealthThreshold = 0.3f;
 
+        private bool _lowHealthTriggered;
         private bool _isInFight;
         private float _timeBeforeOutOfFight;
         private PlayerMovement _playerMovement;
@@ -73,7 +75,7 @@ namespace MoonlitMixes.Health
         {
             _currentHealth -= damage;
             _currentHealth = Mathf.Max(_currentHealth, 0);
-            if (_currentHealth > 0) _animationExplorationManager.Hit();
+            _animationExplorationManager.Hit();
 
             EnterFightMode();
             CheckHealth();
@@ -93,52 +95,40 @@ namespace MoonlitMixes.Health
                 _isDead = true;
                 _animationExplorationManager.Death();
                 GetComponent<PlayerInput>().DeactivateInput();
-                StartCoroutine(DeathAnimation());
+
+                PlayerDeathEventDispatcher.TriggerDeath();
+                OnDeath?.Invoke();
             }
-            healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);
+
+            float ratio = _currentHealth / _maxHealth;
+
+            if (!_lowHealthTriggered && ratio <= _lowHealthThreshold)
+            {
+                _lowHealthTriggered = true;
+                OnLowHealth?.Invoke();
+            }
+            else if (_lowHealthTriggered && ratio > _lowHealthThreshold)
+            {
+                _lowHealthTriggered = false;
+                OnHealthRecovered?.Invoke();
+            }
+
+            healthBarScriptableInt.SendHealthAmount(ratio);
         }
 
         public void ResetHealth()
         {
-            //_animationExplorationManager.DefaultState();
+            GetComponent<PlayerInput>().ActivateInput();
+            _animationExplorationManager.DefaultState();
             _isDead = false;
             _currentHealth = _maxHealth;
             CheckHealth();
         }
 
-        private IEnumerator DeathAnimation()
+        private void Death()
         {
-            yield return new WaitForSeconds(_animationDeathTime);
-            _deathAnimation.SetActive(true);
-            _animationExplorationManager.StandUp(true);
-            OnPlayerRespawnInScene?.Invoke();
-
-            yield return new WaitForSeconds(_animationRespawnTime);
-            _animationExplorationManager.Animator.speed = 1;
-            
-            PlayerDeathEventDispatcher.TriggerDeath();
-            _deathAnimation.SetActive(false);
-            _animationExplorationManager.Animator.speed = 1;
-
-            yield return new WaitForSeconds(0.5f);
-            _animationExplorationManager.StandUp(false);
             ResetHealth();
-
-
+            OnPlayerRespawnInScene?.Invoke();
         }
-        public void StartStandUp() //fonction appelée par un event dans l'animation "stand up"
-        {
-            _animationExplorationManager.Animator.speed = 0.0f;
-        }
-        public void ActivateTheInput() //fonction appelée par un event dans l'animation "stand up"
-        {
-            StartCoroutine(DelayInput());
-        }
-        private IEnumerator DelayInput()
-        {
-            yield return null;
-            GetComponent<PlayerInput>().ActivateInput();
-        }
-
     }
 }

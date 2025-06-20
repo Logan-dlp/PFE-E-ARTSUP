@@ -8,6 +8,8 @@ namespace MoonlitMixes.Interactions
     
     public class InteractionTools : Interaction
     {
+        
+
         private UseTools _useTools;
         private RouletteSelectionTools _rouletteSelectionTools;
         
@@ -20,7 +22,7 @@ namespace MoonlitMixes.Interactions
         protected override void CheckInteraction()
         {
             if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out RaycastHit hit, _interactDistance, _interactionMask))
-            {
+            {   
                 if (hit.transform.TryGetComponent(out IInteraction interact))
                 {
                     if (CurrentInteraction != null)
@@ -28,7 +30,7 @@ namespace MoonlitMixes.Interactions
                         if (CurrentInteraction != interact)
                         {
                             CurrentInteraction.DisableUI();
-                            
+
                             if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType || interact.GetToolType() == ToolType.Hand)
                             {
                                 CurrentInteraction = interact;
@@ -48,7 +50,86 @@ namespace MoonlitMixes.Interactions
                             CurrentInteraction.EnableUI();
                         }
                     }
-                    
+                }
+                else if (Physics.Raycast(transform.position + _raycastOffset, -transform.up, out hit, _interactDistance, _interactionMask))
+                {
+                    if (hit.transform.TryGetComponent(out interact))
+                    {
+                        if (CurrentInteraction != null)
+                        {
+                            if (CurrentInteraction != interact)
+                            {
+                                CurrentInteraction.DisableUI();
+
+                                if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType ||
+                                    interact.GetToolType() == ToolType.Hand)
+                                {
+                                    CurrentInteraction = interact;
+                                    CurrentInteraction.EnableUI();
+                                }
+                                else
+                                {
+                                    CurrentInteraction = null;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType || interact.GetToolType() == ToolType.Hand)
+                            {
+                                CurrentInteraction = interact;
+                                CurrentInteraction.EnableUI();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (CurrentInteraction != null)
+                        {
+                            CurrentInteraction.DisableUI();
+                            CurrentInteraction = null;
+                        }
+                    }
+                }
+            }
+            else if (Physics.Raycast(transform.position + _raycastOffset, -transform.up, out hit, _interactDistance, _interactionMask))
+            {
+                if (hit.transform.TryGetComponent(out IInteraction interact))
+                {
+                    if (CurrentInteraction != null)
+                    {
+                        if (CurrentInteraction != interact)
+                        {
+                            CurrentInteraction.DisableUI();
+
+                            if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType ||
+                                interact.GetToolType() == ToolType.Hand)
+                            {
+                                CurrentInteraction = interact;
+                                CurrentInteraction.EnableUI();
+                            }
+                            else
+                            {
+                                CurrentInteraction = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (interact.GetToolType() == _rouletteSelectionTools.CurrentToolType || interact.GetToolType() == ToolType.Hand)
+                        {
+                            CurrentInteraction = interact;
+                            CurrentInteraction.EnableUI();
+                        }
+                    }
+                }
+                else
+                {
+                    if (CurrentInteraction != null)
+                    {
+                        CurrentInteraction.DisableUI();
+                        CurrentInteraction = null;
+                    }
                 }
             }
             else

@@ -64,7 +64,7 @@ namespace MoonlitMixes.Potion
             }
             if (_cauldronVFXController == null)
             {
-                Debug.LogError("CauldronVFXController n'est pas attaché au chaudron !");
+//                Debug.LogError("CauldronVFXController n'est pas attaché au chaudron !");
             }
         }
 
@@ -104,7 +104,7 @@ namespace MoonlitMixes.Potion
 
             _ingredientToAdd = ingredient;
             _needItem = false;
-            _cauldronVFXController.PlayBubble();
+            //_cauldronVFXController.PlayBubble();
 
             if (ingredient.CanBeStirred)
             {

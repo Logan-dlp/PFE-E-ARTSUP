@@ -32,7 +32,6 @@ namespace MoonlitMixes.Dialogue
 
         private PlayerInput _playerInput;
         private InputActionAsset _inputActionAsset;
-        private InputActionMap _originalActionMap;
 
         private void Awake()
         {
@@ -63,15 +62,6 @@ namespace MoonlitMixes.Dialogue
         public void StartDialogue(DialogueData dialogue)
         {
             if (_inputActionAsset == null) return;
-
-            // Sauvegarde l'action map actuelle
-            _originalActionMap = _inputActionAsset.FindActionMap("Player");
-
-            if (_originalActionMap == null)
-            {
-                Debug.LogError("Missing ActionMap: 'Player'");
-                return;
-            }
 
             _panelDialogue.SetActive(true);
 
@@ -239,7 +229,7 @@ namespace MoonlitMixes.Dialogue
         {
             _panelDialogue.SetActive(false);
 
-            InputManager.Instance.SwitchActionMap("Player");
+            InputManager.Instance.SwitchActionMap("PlayerMovement");
 
             foreach (TMP_Text textBox in _textBoxes)
             {

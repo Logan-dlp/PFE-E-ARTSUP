@@ -6,6 +6,8 @@ using MoonlitMixes.ExplorationTools;
 
 public class RouletteSelectionTools : MonoBehaviour
 {
+    public static event System.Action OnToolChanged;
+
     [SerializeField] private Image[] _toolSlots;
     public Image[] ToolSlots
     {
@@ -38,6 +40,8 @@ public class RouletteSelectionTools : MonoBehaviour
         _toolGameObjects.Add(toolPrefab);
 
         toolPrefab.SetActive(false);
+        
+        CurrentToolType = _tools[_currentToolIndex].ToolType;
 
         UpdateToolSlots();
         UpdateActiveTool();
@@ -62,6 +66,7 @@ public class RouletteSelectionTools : MonoBehaviour
 
         CurrentToolType = _tools[_currentToolIndex].ToolType;
 
+        OnToolChanged?.Invoke();
         UpdateToolSlots();
         UpdateActiveTool();
     }

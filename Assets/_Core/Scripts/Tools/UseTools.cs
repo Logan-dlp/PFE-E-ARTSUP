@@ -3,17 +3,25 @@ using MoonlitMixes.Animation;
 using MoonlitMixes.ExplorationTools;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class UseTools : MonoBehaviour
 {
+    public static event System.Action OnUsedMachete;
+    public static event System.Action OnUsedPickaxe;
+    public static event System.Action OnUsedSepter;
+    public static event System.Action OnUsedSepterSwing;
+    public static event System.Action OnUsedHand;
+
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private float _attackDistance;
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackForce;
     [SerializeField] private LayerMask _layerHitable;
     [SerializeField] private Vector3 _raycastOffset;
+    [SerializeField] private float _septerInvokeDelay = 0.5f;
 
     private int _brokenRock = 0;
     private RouletteSelectionTools _rouletteSelection;
@@ -108,6 +116,7 @@ public class UseTools : MonoBehaviour
                     {
                         _inventory.AddItem(itemToAdd);
                         _animationExplorationManager.UseMachete();
+                        OnUsedMachete?.Invoke();
                     }
                 }
             }
@@ -146,6 +155,7 @@ public class UseTools : MonoBehaviour
                         }
 
                         _animationExplorationManager.UsePickaxe();
+                        OnUsedPickaxe?.Invoke();
                     }
                 }
             }
@@ -166,6 +176,7 @@ public class UseTools : MonoBehaviour
     private void UseSepter()
     {
         _animationExplorationManager.UseStaff();
+        OnUsedSepterSwing?.Invoke();
         
         RaycastHit hit;
         if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, _attackDistance))
@@ -173,8 +184,15 @@ public class UseTools : MonoBehaviour
             if (hit.transform.TryGetComponent(out Monster monster))
             {
                 monster.Damage(gameObject, _attackDamage, transform.forward, _attackForce);
+                StartCoroutine(DelayedSepterHitInvoke());
             }
         }
+    }
+
+    private IEnumerator DelayedSepterHitInvoke()
+    {
+        yield return new WaitForSeconds(_septerInvokeDelay);
+        OnUsedSepter?.Invoke();
     }
 
     public bool CanUseHand()
@@ -220,6 +238,8 @@ public class UseTools : MonoBehaviour
         
         if (itemListSource.GetItemList() != null && itemListSource.GetItemList().Items.Count > 0)
         {
+            OnUsedHand?.Invoke();
+
             if (_inventory != null)
             {
                 _inventory.AddItem(itemListSource.GetItemList().Items[0]);

@@ -2,11 +2,14 @@ using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 namespace MoonlitMixes.Inventory
 {
     public class ChestInteraction : MonoBehaviour
     {
+        public static Action OnChestOpened;
+
         [SerializeField] private GameObject _chestUI;
         [SerializeField] private GameObject _inventoryFullText;
         [SerializeField] private InventoryData _playerInventory;
@@ -17,11 +20,8 @@ namespace MoonlitMixes.Inventory
         {
             _inventoryChestUI.RefreshInventory();
             _inventoryUI.RefreshInventory();
-            EventSystem.current.SetSelectedGameObject(_chestUI.transform.GetChild(0).gameObject);
+            StartCoroutine(_inventoryChestUI.SelectedButton());
             InputManager.Instance.SwitchActionMap("UI");
-            Debug.Log(EnoughPlaceInChest());
-            Debug.Log(_inventoryChestUI.EmptySlot);
-            Debug.Log(_inventoryUI.Items.Count - _inventoryUI.EmptySlot);
             if (EnoughPlaceInChest())
             {
                 _inventoryFullText.SetActive(false);
@@ -33,6 +33,8 @@ namespace MoonlitMixes.Inventory
                 _inventoryFullText.SetActive(true);
                 _chestUI.SetActive(true);
             }
+
+            OnChestOpened?.Invoke();
         }
         private bool EnoughPlaceInChest()
         {

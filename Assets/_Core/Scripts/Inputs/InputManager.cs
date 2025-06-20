@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 namespace MoonlitMixes.Inputs
 {
     using Singleton;
-    
+
     public class InputManager : MonoSingleton<InputManager>
     {
         private PlayerInput _currentPlayerInput;

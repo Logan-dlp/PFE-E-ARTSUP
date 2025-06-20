@@ -207,6 +207,7 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
+                        Debug.Log("");
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
