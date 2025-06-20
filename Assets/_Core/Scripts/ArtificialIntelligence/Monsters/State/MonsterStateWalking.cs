@@ -16,6 +16,7 @@ namespace MoonlitMixes.AI.StateMachine.States
             {
                 monsterData.NavMeshAgent.SetDestination(GenerateRandomPoint(monsterData.InitialPosition, 0, monsterData.AttackRadius));
             }
+            monsterData.NavMeshAgent.acceleration = monsterData.BaseAcceleration;
         }
 
         public IMonsterState Update(MonsterData monsterData)

@@ -11,6 +11,7 @@ namespace MoonlitMixes.AI.StateMachine.States
         {
             monsterData.Animator.SetTrigger(ATTACK_ANIMATOR_VARIABLE);
             monsterData.FinishedAttacking = false;
+            monsterData.NavMeshAgent.acceleration = monsterData.AttackAcceleration;
         }
 
         public IMonsterState Update(MonsterData monsterData)

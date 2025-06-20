@@ -1,4 +1,3 @@
-using Unity.AI.Navigation;
 using UnityEngine;
 
 namespace MoonlitMixes.AI.StateMachine.States
@@ -17,6 +16,7 @@ namespace MoonlitMixes.AI.StateMachine.States
             {
                 monsterData.PlayerReference = null;
             }
+            monsterData.NavMeshAgent.acceleration = monsterData.AttackAcceleration;
         }
 
         public IMonsterState Update(MonsterData monsterData)

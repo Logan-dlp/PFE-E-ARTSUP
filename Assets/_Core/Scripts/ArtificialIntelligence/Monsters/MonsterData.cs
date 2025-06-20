@@ -16,5 +16,8 @@ namespace MoonlitMixes.AI.StateMachine
         public float DetectionStop { get; set; }
         
         public bool FinishedAttacking { get; set; }
+        
+        public float BaseAcceleration { get; set; }
+        public float AttackAcceleration  { get; set; }
     }
 }
