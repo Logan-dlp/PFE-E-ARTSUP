@@ -19,7 +19,6 @@ namespace MoonlitMixes.Player
             {
                 if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                 {
-                    Debug.Log(hit.transform.tag);
                     if (hit.transform.tag == "Register")
                     {
                         hit.transform.GetComponent<CloseOrOpenShop>().OnToggleShop();
@@ -30,7 +29,7 @@ namespace MoonlitMixes.Player
                     }
                     else if (hit.transform.TryGetComponent(out QuestBoard questBoard))
                     {
-                        
+                        questBoard.TakeQuest();
                     }
                 }
             }

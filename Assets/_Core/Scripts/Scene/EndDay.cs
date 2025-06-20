@@ -1,5 +1,6 @@
-    using MoonlitMixes.DayNightCycle;
+using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Inputs;
+using MoonlitMixes.Quest;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +26,7 @@ namespace MoonlitMixes.Scene
         {
             if (callbackContext.started)
             {
+                QuestBoard._hasQuestBeenSendToday = false;
                 _dayNightCycleInfo.ActualDay++;
                 _dayNightCycleInfo.ActualTimePhase = 0;
                 _scriptableIntEventTimePhase.SendEvent(_dayNightCycleInfo.ActualTimePhase);
