@@ -847,6 +847,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1111919283123744649, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
+      objectReference: {fileID: 0}
     - target: {fileID: 1229038839658155756, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _qTE
       value: 
@@ -3347,6 +3351,10 @@ PrefabInstance:
     - target: {fileID: 1111919283123744649, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Name
       value: PB_Cauldrons_002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111919283123744649, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
       objectReference: {fileID: 0}
     - target: {fileID: 1229038839658155756, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _qTE
@@ -6172,11 +6180,11 @@ GameObject:
   - component: {fileID: 713249433}
   m_Layer: 7
   m_Name: outline_CuttingBoard
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &713249432
 Transform:
   m_ObjectHideFlags: 0
@@ -6558,6 +6566,38 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dd6bc20eaf33204d9a2bb13b796f347, type: 3}
+--- !u!1 &739998725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1062565678315336957, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+  m_PrefabInstance: {fileID: 1961584864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &739998730
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739998725}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &746506889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6743,6 +6783,10 @@ PrefabInstance:
     - target: {fileID: 6861208673867389745, guid: 1700bb5a828e3284d898640632ba32ba, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861208673867389745, guid: 1700bb5a828e3284d898640632ba32ba, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14437,11 +14481,11 @@ GameObject:
   - component: {fileID: 1906835283}
   m_Layer: 7
   m_Name: outline_Mortar
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1906835282
 Transform:
   m_ObjectHideFlags: 0
@@ -15317,9 +15361,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1326332331}
     m_Modifications:
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: _tableOutline
+      value: 
+      objectReference: {fileID: 5548106305807605961}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: _waitingTable
+      value: 
+      objectReference: {fileID: 5699663311321570079}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: _cellarOutline
+      value: 
+      objectReference: {fileID: 3307038759622465598}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: _ladderOutline
+      value: 
+      objectReference: {fileID: 1100867792193569705}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: _mortarOutline
+      value: 
+      objectReference: {fileID: 1906835281}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: _cuttingBoardOutline
+      value: 
+      objectReference: {fileID: 713249431}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: '_cauldronsOutline.Array.data[0]'
+      value: 
+      objectReference: {fileID: 158863259773675635}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: '_cauldronsOutline.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3174442204998213564}
+    - target: {fileID: -4017466772807040570, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: '_cauldronsOutline.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7828711497360848925}
     - target: {fileID: -1342683468536346142, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
       propertyPath: _actionMapPlayer
       value: PlayerMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407151154963017103, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5387007603050281900, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15392,7 +15476,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1062565678315336957, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 739998730}
   m_SourcePrefab: {fileID: 100100000, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
 --- !u!1 &1961584867 stripped
 GameObject:
@@ -17230,11 +17317,11 @@ GameObject:
   - component: {fileID: 1331947367694820869}
   m_Layer: 7
   m_Name: outline_Cauldron1
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &372776281998419501
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17516,6 +17603,10 @@ PrefabInstance:
     - target: {fileID: 1111919283123744649, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: m_Name
       value: PB_Cauldrons_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111919283123744649, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
       objectReference: {fileID: 0}
     - target: {fileID: 1229038839658155756, guid: fa6c2466c26059c469fb00fcf6f28662, type: 3}
       propertyPath: _qTE
@@ -17807,11 +17898,11 @@ GameObject:
   - component: {fileID: 372776281998419501}
   m_Layer: 11
   m_Name: outline_ladder
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1147586374354771519
 Transform:
   m_ObjectHideFlags: 0
@@ -18760,6 +18851,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7425791191664851966, guid: dbc84fd7b7f06ce46ad29d7e9763640d, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
+      objectReference: {fileID: 0}
     - target: {fileID: 7568003005408328540, guid: dbc84fd7b7f06ce46ad29d7e9763640d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19071,11 +19166,11 @@ GameObject:
   - component: {fileID: 4343018171355222474}
   m_Layer: 7
   m_Name: outline_Cauldron2
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &3222279167515195301
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -19148,11 +19243,11 @@ GameObject:
   - component: {fileID: 1293406070144507868}
   m_Layer: 9
   m_Name: outline_cellar
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &3469287837009679253
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -19487,11 +19582,11 @@ GameObject:
   - component: {fileID: 6807776697015876750}
   m_Layer: 6
   m_Name: Outline_Storage_table
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &5633198104993079867
 GameObject:
   m_ObjectHideFlags: 0
@@ -19554,6 +19649,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1147586374814873810, guid: fc6c9a7d003727043ac395ab8ad9862e, type: 3}
   m_PrefabInstance: {fileID: 8752200949378144485}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5699663311321570079 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5689179600211549067, guid: fc6c9a7d003727043ac395ab8ad9862e, type: 3}
+  m_PrefabInstance: {fileID: 8752200949378144485}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8353739435d25034fa6d087241fec81f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5802062006718512252
 Transform:
   m_ObjectHideFlags: 0
@@ -19722,6 +19828,10 @@ PrefabInstance:
       value: PB_Mortar
       objectReference: {fileID: 0}
     - target: {fileID: 2225786237466284419, guid: 3d70d69aab85a7b4eadd8c08af44e816, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225786237466284419, guid: 3d70d69aab85a7b4eadd8c08af44e816, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -19877,11 +19987,11 @@ GameObject:
   - component: {fileID: 9001932564002862699}
   m_Layer: 7
   m_Name: outline_Cauldron3
-  m_TagString: Untagged
+  m_TagString: OutlineObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &7843679944098071774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20244,6 +20354,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PB_StorageTable_Lab
       objectReference: {fileID: 0}
+    - target: {fileID: 5548106305951090212, guid: fc6c9a7d003727043ac395ab8ad9862e, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
+      objectReference: {fileID: 0}
     - target: {fileID: 5771002987903927159, guid: fc6c9a7d003727043ac395ab8ad9862e, type: 3}
       propertyPath: m_Lightmapping
       value: 4
@@ -20344,6 +20458,10 @@ PrefabInstance:
     - target: {fileID: 1818558289614346106, guid: 66a4f1f47f5607e458284006de5b5cd1, type: 3}
       propertyPath: m_Name
       value: PB_CuttingBoard
+      objectReference: {fileID: 0}
+    - target: {fileID: 1818558289614346106, guid: 66a4f1f47f5607e458284006de5b5cd1, type: 3}
+      propertyPath: m_TagString
+      value: OutlineObj
       objectReference: {fileID: 0}
     - target: {fileID: 1818558289614346106, guid: 66a4f1f47f5607e458284006de5b5cd1, type: 3}
       propertyPath: m_StaticEditorFlags

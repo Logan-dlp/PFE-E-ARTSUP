@@ -21,7 +21,7 @@ namespace MoonlitMixes.CookingMachine
         private int _indexSelectedItem = 0;
         private bool _isActive = false; 
 
-
+        public GameObject[] ItemGameObjectArray => _itemGameObjectArray;
         private void OnEnable()
         {
             _scriptableMovementEvent.OnInput += Movement;
