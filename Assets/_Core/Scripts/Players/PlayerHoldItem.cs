@@ -104,7 +104,7 @@ namespace MoonlitMixes.Player
                     if (Item != null) if (Item.Usage == ItemUsage.Crush) _mortarOutline.SetActive(true);
                     break;
                 case OutlineName.WaitingTable:
-                    if (!TableIsFull()) if (Item != null|| TableHaveItem()) _tableOutline.SetActive(true);
+                    if (Item != null&& !TableIsFull() || TableHaveItem()) _tableOutline.SetActive(true);
                     break;
                 case OutlineName.Ladder:
                     if (Item == null) _ladderOutline.SetActive(true);
