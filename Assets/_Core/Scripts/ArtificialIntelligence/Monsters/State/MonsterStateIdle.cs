@@ -16,6 +16,7 @@ namespace MoonlitMixes.AI.StateMachine.States
         public void Enter(MonsterData monsterData)
         {
             _timer = Random.Range(MIN_RANGE_RANDOM_TIMER, MAX_RANGE_RANDOM_TIMER);
+            monsterData.NavMeshAgent.speed = monsterData.BaseSpeed;
         }
 
         public IMonsterState Update(MonsterData monsterData)
