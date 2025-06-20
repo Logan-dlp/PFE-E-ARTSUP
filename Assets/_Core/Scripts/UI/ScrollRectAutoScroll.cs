@@ -65,12 +65,27 @@ namespace MoonlitMixes.UI
         {
             if (_cellarItemList != null || _cellarItemList.Count > 0) 
                 _cellarItemList.Clear();
-            
-            GameObject parentContent = GetComponentInChildren<InventoryUI>().gameObject;
-            foreach (Transform children  in parentContent.transform)
+
+
+            GameObject parentContent;
+            if (gameObject.transform.GetChild(0).gameObject.TryGetComponent(out InventoryUI inventory))
             {
-                _cellarItemList.Add(children.gameObject);
+                parentContent = inventory.gameObject;
+                foreach (Transform children in parentContent.transform)
+                {
+                    _cellarItemList.Add(children.gameObject);
+                }
             }
+            else
+            {
+                parentContent = _contentRect.gameObject;
+                foreach (Transform children in parentContent.transform)
+                {
+                    _cellarItemList.Add(children.GetChild(0).gameObject);
+                }
+            }
+
+            
             
             float maxVue = _cellarItemList.Count / (float)_maxItemPerVue;
             if (maxVue % 1 > 0)

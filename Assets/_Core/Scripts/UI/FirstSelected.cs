@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class FirstSelected : MonoBehaviour
+namespace MoonlitMixes.UI
 {
-    [SerializeField] private GameObject _firstSelectedButton;
-
-    private void OnEnable()
+    public class FirstSelected : MonoBehaviour
     {
-        FindFirstObjectByType<EventSystem>().SetSelectedGameObject(_firstSelectedButton);
+        [SerializeField] private GameObject _firstSelectedButton;
+
+        private void OnEnable()
+        {
+            FindFirstObjectByType<EventSystem>().SetSelectedGameObject(_firstSelectedButton);
+        }
     }
 }

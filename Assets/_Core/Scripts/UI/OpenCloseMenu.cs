@@ -2,7 +2,7 @@ using MoonlitMixes.Events;
 using MoonlitMixes.Inputs;
 using UnityEngine;
 
-namespace MoonlitMixes
+namespace MoonlitMixes.UI
 {
     public class OpenCloseMenu : MonoBehaviour
     {

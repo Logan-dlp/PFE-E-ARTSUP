@@ -1,9 +1,7 @@
 using System;
-using System.Numerics;
 using MoonlitMixes.Extensions;
 using MoonlitMixes.SaveSystems;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
 
 namespace MoonlitMixes.Item
 {
@@ -16,8 +14,10 @@ namespace MoonlitMixes.Item
         [SerializeField] private ItemUsage _itemUsage;
         [SerializeField] private bool _canBeStirred;
         [SerializeField] private Sprite _sprite;
+        [SerializeField] private Sprite _spriteItemOrigin;
         [SerializeField] private ItemData _itemToConvert;
-        [SerializeField] private string _description;
+        [SerializeField, TextArea] private string _title;
+        [SerializeField, TextArea] private string _description;
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private ItemUsage _state;
         [SerializeField] private bool _isTransformed;
@@ -60,6 +60,11 @@ namespace MoonlitMixes.Item
             get => _itemToConvert;
         }
 
+        public string Title
+        {
+            get => _title;
+        }
+
         public string Description
         {
             get => _description;
@@ -68,6 +73,16 @@ namespace MoonlitMixes.Item
         public GameObject ItemPrefab
         {
             get => _itemPrefab;
+        }
+
+        public Sprite SpriteItemOrigin
+        {
+            get => _spriteItemOrigin;
+        }
+
+        public ItemUsage State
+        {
+            get => _state;
         }
         
         private struct SerializeData
