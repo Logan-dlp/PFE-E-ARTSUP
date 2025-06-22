@@ -31,6 +31,10 @@ namespace MoonlitMixes.Player
                     {
                         questBoard.TakeQuest();
                     }
+                    else if (hit.transform.TryGetComponent(out EndDay endDay))
+                    {
+                        endDay.OpenCanvas();
+                    }
                 }
             }
         }

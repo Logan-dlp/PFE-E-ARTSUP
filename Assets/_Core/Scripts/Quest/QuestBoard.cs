@@ -1,7 +1,6 @@
 using MoonlitMixes.Datas;
 using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Events;
-using MoonlitMixes.Player.Interaction;
 using UnityEngine;
 
 namespace MoonlitMixes.Quest
@@ -20,18 +19,24 @@ namespace MoonlitMixes.Quest
 
         private void OnEnable()
         {
+            LoadQuestBoard();
+        }
+
+        public void LoadQuestBoard()
+        {
             scriptableQuestEvent.QuestInfo = null;
             Debug.Log(_hasQuestBeenSendToday);
             if (dayNightCycleInfo.ActualTimePhase == (int)EnumDayPhase.Day && !_hasQuestBeenSendToday)
             {
                 _3DModelOutline.SetActive(true);
+                _UItrigger.enabled = true;
             }
             else
             {
                 _3DModelOutline.SetActive(false);
                 _UItrigger.enabled = false;
             }
-        }
+        } 
 
         public void TakeQuest()
         {

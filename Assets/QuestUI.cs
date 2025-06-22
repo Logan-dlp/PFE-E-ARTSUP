@@ -1,3 +1,4 @@
+using System.Linq;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Events;
 using TMPro;
@@ -18,19 +19,22 @@ namespace MoonlitMixes.UI
         private void OnEnable()
         {
             _text.text = null;
+            _dayImage.sprite = _daySprites[_dayNightCycleInfo.ActualDay];
+
             foreach (Image image in _potionFramesArray)
             {
                 image.gameObject.SetActive(false);
             }
 
-            for (int i = 0; i < _scriptableQuestHolder.QuestInfo.quests.Length; i++)
+            if (_scriptableQuestHolder.QuestInfo != null)
             {
-                _text.text += _scriptableQuestHolder.QuestInfo.quests[i].text + "\n \n";
-                _potionFramesArray[i].gameObject.SetActive(true);
-                _potionFramesArray[i].sprite = _scriptableQuestHolder.QuestInfo.quests[i].potion.PotionSprite;
+                for (int i = 0; i < _scriptableQuestHolder.QuestInfo.quests.Length; i++)
+                {
+                    _text.text += _scriptableQuestHolder.QuestInfo.quests[i].text + "\n \n";
+                    _potionFramesArray[i].gameObject.SetActive(true);
+                    _potionFramesArray[i].sprite = _scriptableQuestHolder.QuestInfo.quests[i].potion.PotionSprite;
+                }
             }
-
-            _dayImage.sprite = _daySprites[_dayNightCycleInfo.ActualDay];
         }
     }
 }
