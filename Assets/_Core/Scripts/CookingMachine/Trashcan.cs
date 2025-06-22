@@ -7,6 +7,7 @@ namespace MoonlitMixes.CookingMachine
     public class Trashcan : MonoBehaviour
     {
         [SerializeField] private float _idleChangeTimer;
+        [SerializeField] private GameObject _uiPrompt;
 
         private AnimatorControllerParameter[] _animatorControllerParameterArray;
         private Animator _animator;
@@ -53,6 +54,11 @@ namespace MoonlitMixes.CookingMachine
                     Debug.Log("Test");
                     player.SetCurrentTrashcan(this);
                     OpenMouth();
+
+                    if (_uiPrompt != null)
+                    {
+                        _uiPrompt.SetActive(true);
+                    }
                 }
             }
         }
@@ -105,6 +111,11 @@ namespace MoonlitMixes.CookingMachine
         {
             yield return new WaitForSeconds(0.1f);
             CloseMouth();
+
+            if (_uiPrompt != null)
+            {
+                _uiPrompt.SetActive(false);
+            }
         }
     }
 }
