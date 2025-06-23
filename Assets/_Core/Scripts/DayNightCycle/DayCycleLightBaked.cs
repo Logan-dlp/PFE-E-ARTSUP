@@ -45,10 +45,14 @@ namespace MoonlitMixes.DayNightCycle
             if (_dayNightCycleInfo.ActualTimePhase != (int)_timePhaseToChangeBake)
             {
                 LightmapSettings.lightmaps = _lightMapTextureArray[1]._lightMapArray;
+                _lightMapTextureArray[1]._lightingGameObject.SetActive(true);
+                _lightMapTextureArray[0]._lightingGameObject.SetActive(false);
             }
             else
             {
                 LightmapSettings.lightmaps = _lightMapTextureArray[0]._lightMapArray;
+                _lightMapTextureArray[0]._lightingGameObject.SetActive(true);
+                _lightMapTextureArray[1]._lightingGameObject.SetActive(false);
             }
         }
     }

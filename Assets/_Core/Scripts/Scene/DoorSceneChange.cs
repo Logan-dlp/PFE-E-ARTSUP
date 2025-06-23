@@ -29,10 +29,12 @@ namespace MoonlitMixes.Scene
 
                 if (_dayNightCycleInfo.ActualTimePhase != (int)_timePhaseRequired && _increaseTimePhase)
                 {
+                    Debug.Log("1");
                     canvasUI.OpenCanvas(_sceneName, true);
                 }
                 else
                 {
+                    Debug.Log("0");
                     canvasUI.OpenCanvas(_sceneName, false);
                 }
 

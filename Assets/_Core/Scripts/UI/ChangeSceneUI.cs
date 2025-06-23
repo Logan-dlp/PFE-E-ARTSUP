@@ -82,6 +82,7 @@ namespace MoonlitMixes.UI
                             }
                             else
                             {
+                                Debug.Log("increase " + _increaseTimePhase);
                                 if (_panelNoChestItem != null && SceneManager.GetActiveScene().name == "S_Forest")
                                 {
                                     Debug.Log("No items to send, showing popup for S_Forest.");
@@ -95,7 +96,6 @@ namespace MoonlitMixes.UI
                                     _isLoading = true;
                                     if (_increaseTimePhase)
                                     {
-                                        Debug.Log("ChangeScene2");
                                         _dayNightCycleInfo.ActualTimePhase++;
                                     }
                                     SceneLoader.LoadAsyncScene(_sceneName, _animator);
