@@ -86,6 +86,11 @@ namespace MoonlitMixes.CookingMachine
 
                 CloseMouth();
             }
+
+            if (_uiPrompt != null)
+            {
+                _uiPrompt.SetActive(false);
+            }
         }
 
         private void OpenMouth()
