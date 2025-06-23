@@ -6,6 +6,9 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class ChoiceDialogueState : IPNJState
     {
+        public static System.Action OnSaleSuccessSoundRequested;
+        public static System.Action OnSaleFailureSoundRequested;
+
         private PotionInventory _potionInventory;
         private PotionPriceCalculate _potionPriceCalculated;
         private PotionChoiceController _potionChoiceController;
@@ -45,12 +48,14 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             {
                 _isSuccess = true;
                 _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.FailedAttempt);
+                OnSaleSuccessSoundRequested?.Invoke();
                 DialogueController.Instance.StartDialogue(data.SuccessDialogueData);
             }
             else
             {
                 data.FailedAttempt++;
                 _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.FailedAttempt);
+                OnSaleSuccessSoundRequested?.Invoke();
                 DialogueController.Instance.StartDialogue(data.FailureDialogueData);
             }
         }
