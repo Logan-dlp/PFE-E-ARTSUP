@@ -24,13 +24,16 @@ namespace MoonlitMixes.Player
 
         [SerializeField] private float _sprintSpeed = 4;
         [SerializeField] private float _maxStamina = 100;
-        [SerializeField] private float _lowStaminaThreshold = 20f;
+        [SerializeField] private float _lowStaminaThreshold = 0.2f;
         [SerializeField] private bool _canSprint = false;
         [SerializeField] private float _floorDistance;
         [SerializeField, MaxValue(0)] private float _maxDownVelocity;
 
-        [SerializeField, Tooltip("Multiplier for how fast footstep sounds play relative to player speed")]
-        private float footstepRate = 1.5f;
+        [SerializeField, Tooltip("Footstep frequency while walking (steps per second)")]
+        private float _walkFootstepRate = 1.5f;
+
+        [SerializeField, Tooltip("Footstep frequency while sprinting (steps per second)")]
+        private float _sprintFootstepRate = 2.5f;
 
         private CharacterController _characterController;
 
@@ -84,7 +87,8 @@ namespace MoonlitMixes.Player
 
                 _footstepTimer += deltaTime;
 
-                float stepInterval = 1f / footstepRate;
+                float currentFootstepRate = (_currentSpeed == _sprintSpeed) ? _sprintFootstepRate : _walkFootstepRate;
+                float stepInterval = 1f / currentFootstepRate;
 
                 if (_footstepTimer >= stepInterval)
                 {

@@ -11,6 +11,7 @@ namespace MoonlitMixes.AI.Editor
         private const float MAX_DETECTION = 10;
 
         private SerializedProperty _comportementProperty;
+        private SerializedProperty _speedAttackProperty;
         private SerializedProperty _stopDistanceToAttackProperty;
         private SerializedProperty _attackRadiusProperty;
         private SerializedProperty _detectionStopProperty;
@@ -27,6 +28,7 @@ namespace MoonlitMixes.AI.Editor
             serializedObject.Update();
 
             _comportementProperty = serializedObject.FindProperty("_comportement");
+            _speedAttackProperty = serializedObject.FindProperty("_speedAttack");
             _stopDistanceToAttackProperty = serializedObject.FindProperty("_stopDistanceToAttack");
             _attackRadiusProperty = serializedObject.FindProperty("_attackRadius");
             _detectionStopProperty = serializedObject.FindProperty("_detectionStop");
@@ -42,7 +44,8 @@ namespace MoonlitMixes.AI.Editor
             EditorGUILayout.Space();
 
             _comportementProperty.enumValueIndex = EditorGUILayout.Popup("Comportement", _comportementProperty.enumValueIndex, _comportementProperty.enumDisplayNames);
-
+            
+            _speedAttackProperty.floatValue = EditorGUILayout.FloatField("Speed Movement Attack", _speedAttackProperty.floatValue);
             _stopDistanceToAttackProperty.floatValue = EditorGUILayout.FloatField("Stop Distance To Attack", _stopDistanceToAttackProperty.floatValue);
 
             if (_comportementProperty.enumValueIndex == (int)MonsterComportement.Aggressive)

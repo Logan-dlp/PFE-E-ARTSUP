@@ -1,5 +1,6 @@
 using MoonlitMixes.AI.PNJ.StateMachine;
 using MoonlitMixes.AI.PNJ.StateMachine.States;
+using MoonlitMixes.Datas;
 using MoonlitMixes.Player;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         [SerializeField] private float _timeBetweenSpawns = 2f;
         [SerializeField] private int _maxCustomers = 3;
         [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
 
         private int _currentPNJIndex = 0;
         private bool _isSpawning = false;
@@ -87,6 +89,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
 
         private void NotifyAllCustomersGone()
         {
+            _dayNightCycleInfo.ActualTimePhase++;
             _playerMovement.BlockMovement(false);
             _isSpawning = false;
         }

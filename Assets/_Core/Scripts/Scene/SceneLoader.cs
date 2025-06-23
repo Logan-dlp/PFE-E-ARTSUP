@@ -1,6 +1,5 @@
 using System.Collections;
 using MoonlitMixes.Animation;
-using MoonlitMixes.SaveSystems;
 using MoonlitMixes.StaticCoroutines;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +17,7 @@ namespace MoonlitMixes.Scene
             EndTransitionEvent.OnAnimEndAction += OnAnimEnd;
             _sceneToLoad = SceneManager.LoadSceneAsync(sceneName);
             SceneManager.LoadSceneAsync("S_Menu_UI", LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync("S_TimeIndincation", LoadSceneMode.Additive);
             _sceneToLoad.allowSceneActivation = false;
             animator.SetTrigger("Start");
             StaticCoroutine.Start(LoadingScene());

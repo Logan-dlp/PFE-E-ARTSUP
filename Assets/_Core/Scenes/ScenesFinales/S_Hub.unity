@@ -230026,7 +230026,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579188d2a7781d84bba0bc0e1d5eac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  _scriptableIntEventTimePhase: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
+  _scriptableIntEventDay: {fileID: 11400000, guid: cf059b05afc1b924fb4d3a5f42980889, type: 2}
   _sceneName: S_Forest
+  _timePhaseRequired: 0
+  _increaseTimePhase: 0
+  _needTimePhase: 0
 --- !u!1 &743535692
 GameObject:
   m_ObjectHideFlags: 0
@@ -666278,9 +666284,21 @@ PrefabInstance:
       value: S_Shop
       objectReference: {fileID: 0}
     - target: {fileID: 6668651819965719258, guid: e248176cfb62867439d85f1c7c13cdbc, type: 3}
+      propertyPath: _dayNightCycleInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+    - target: {fileID: 6668651819965719258, guid: e248176cfb62867439d85f1c7c13cdbc, type: 3}
+      propertyPath: _scriptableIntEventDay
+      value: 
+      objectReference: {fileID: 11400000, guid: cf059b05afc1b924fb4d3a5f42980889, type: 2}
+    - target: {fileID: 6668651819965719258, guid: e248176cfb62867439d85f1c7c13cdbc, type: 3}
       propertyPath: _animatorTransitionScene
       value: 
       objectReference: {fileID: 1805615119}
+    - target: {fileID: 6668651819965719258, guid: e248176cfb62867439d85f1c7c13cdbc, type: 3}
+      propertyPath: _scriptableIntEventTimePhase
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c1e09490e1b4544388c1e5e3a618303, type: 2}
     - target: {fileID: 7698740650315857747, guid: e248176cfb62867439d85f1c7c13cdbc, type: 3}
       propertyPath: m_Size.z
       value: 1.1705197

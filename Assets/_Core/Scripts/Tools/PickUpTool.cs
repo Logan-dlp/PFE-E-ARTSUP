@@ -1,30 +1,34 @@
+using MoonlitMixes.Datas;
 using UnityEngine;
 
-public class PickUpTool : MonoBehaviour
+namespace MoonlitMixes.ExplorationTools
 {
-    [SerializeField] private ToolData _toolData;
-    [SerializeField] private GameObject _toolPrefab;
-    [SerializeField] private RouletteSelectionTools _rouletteSelectionTools;
-
-    private bool _isToolPickedUp = false;
-
-    private void OnTriggerEnter(Collider other)
+    public class PickUpTool : MonoBehaviour
     {
-        if (_isToolPickedUp) return;
+        [SerializeField] private ToolData _toolData;
+        [SerializeField] private GameObject _toolPrefab;
+        [SerializeField] private RouletteSelectionTools _rouletteSelectionTools;
 
-        if (other.CompareTag("Player"))
+        private bool _isToolPickedUp = false;
+
+        private void OnTriggerEnter(Collider other)
         {
-            PickupTool();
-            gameObject.SetActive(false);
-            _isToolPickedUp = true;
+            if (_isToolPickedUp) return;
+
+            if (other.CompareTag("Player"))
+            {
+                PickupTool();
+                gameObject.SetActive(false);
+                _isToolPickedUp = true;
+            }
         }
-    }
 
-    private void PickupTool()
-    {
-        if (_rouletteSelectionTools != null)
+        private void PickupTool()
         {
-            _rouletteSelectionTools.AddTool(_toolData, _toolPrefab);
+            if (_rouletteSelectionTools != null)
+            {
+                _rouletteSelectionTools.AddTool(_toolData, _toolPrefab);
+            }
         }
     }
 }

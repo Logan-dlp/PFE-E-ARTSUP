@@ -1,5 +1,6 @@
 using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Quest;
 using MoonlitMixes.Scene;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,25 +19,21 @@ namespace MoonlitMixes.Player
             {
                 if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                 {
-                    Debug.Log(hit.transform.tag);
                     if (hit.transform.tag == "Register")
                     {
                         hit.transform.GetComponent<CloseOrOpenShop>().OnToggleShop();
                     }
-                    else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
+                    else if (hit.transform.TryGetComponent(out OpenCanvasSceneChange openCanvasSceneChange))
                     {
-                        Debug.Log($"Touched door with scene: {doorSceneChange.SceneName}");
-                        Debug.Log($"Phase actuelle : {_dayNightCycleInfo.ActualTimePhase}");
-
-                        if (doorSceneChange.SceneName == "S_Labo")
-                        {
-                            doorSceneChange.OpenCanvas();
-                        }
-                        
-                        else if (doorSceneChange.SceneName != "S_Labo")
-                        {
-                            doorSceneChange.OpenCanvas();
-                        }
+                        openCanvasSceneChange.OpenCanvas();
+                    }
+                    else if (hit.transform.TryGetComponent(out QuestBoard questBoard))
+                    {
+                        questBoard.TakeQuest();
+                    }
+                    else if (hit.transform.TryGetComponent(out EndDay endDay))
+                    {
+                        endDay.OpenCanvas();
                     }
                 }
             }
