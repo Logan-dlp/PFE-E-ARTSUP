@@ -42,6 +42,7 @@ namespace MoonlitMixes.Dialogue.Effect
 
         public IEnumerator PlayEffect(SpeakerEffectType effectType)
         {
+            gameObject.SetActive(true);
             SkipEffectNow = false;
 
             switch (effectType)

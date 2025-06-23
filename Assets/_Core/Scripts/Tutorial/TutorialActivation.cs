@@ -1,6 +1,9 @@
 using System;
 using MoonlitMixes.Datas;
+using MoonlitMixes.Dialogue;
 using MoonlitMixes.Events;
+using MoonlitMixes.ExplorationTools;
+using MoonlitMixes.Quest;
 using UnityEngine;
 
 namespace MoonlitMixes.Tutorial
@@ -37,13 +40,17 @@ namespace MoonlitMixes.Tutorial
 
         private void TutorialShopMorningPart1()
         {
-            scriptableEvent.OnEvent += TutorialShopMorningPart2;
+            scriptableEvent.OnEvent += TutorialShopMorningPart3;
+            FindFirstObjectByType<QuestBoard>().LoadQuestBoard();
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
         }
 
-        private void TutorialShopMorningPart2()
+        private void TutorialShopMorningPart3()
         {
-            scriptableEvent.OnEvent -= TutorialShopMorningPart2;
+            scriptableEvent.OnEvent -= TutorialShopMorningPart3;
             _tutorialSaveInfo.tutorialShopMorningDone = true;
+            _outlineToActivate[1].GetComponentInParent<PickUpTool>().canToolPickedUp = true;
+            _outlineToActivate[1].SetActive(true);
         }
 
         private void TutorialHub()
