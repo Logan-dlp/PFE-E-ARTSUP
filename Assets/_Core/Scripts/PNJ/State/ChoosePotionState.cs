@@ -1,4 +1,5 @@
 ﻿using MoonlitMixes.Dialogue;
+using MoonlitMixes.Inputs;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 
         public void EnterState(PNJData data)
         {
+            InputManager.Instance.SwitchActionMap("UI");
+
             _potionChoice = Object.FindFirstObjectByType<PotionChoiceController>();
 
             if (_potionChoice != null)
