@@ -23,7 +23,6 @@ namespace MoonlitMixes.AI.PNJ
                 OnShopToggled?.Invoke(true);
                 CustomerSpawner.RequestSpawning();
                 OnShopUIShouldDeactivate?.Invoke();
-                _dayNightCycleInfo.ActualTimePhase++;
                 _scriptableintEvent.SendEvent(_dayNightCycleInfo.ActualTimePhase);
             }
         }

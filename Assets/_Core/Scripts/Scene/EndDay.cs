@@ -1,5 +1,6 @@
-    using MoonlitMixes.DayNightCycle;
+using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Inputs;
+using MoonlitMixes.Quest;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,25 +14,19 @@ namespace MoonlitMixes.Scene
         {
             if (_dayNightCycleInfo.ActualTimePhase == (int)_requiredTimePhaseToSleep)
             {
-                InputManager.Instance.SwitchActionMap("ChangeDay");
-            }
-            else if (_dayNightCycleInfo.ActualTimePhase == 1 + (int)_requiredTimePhaseToSleep)
-            {
-                InputManager.Instance.SwitchActionMap("ChangeDay");
+                ChangeDay();
             }
         }
 
-        public void ChangeDay(InputAction.CallbackContext callbackContext)
+        public void ChangeDay()
         {
-            if (callbackContext.started)
-            {
-                _dayNightCycleInfo.ActualDay++;
-                _dayNightCycleInfo.ActualTimePhase = 0;
-                _scriptableIntEventTimePhase.SendEvent(_dayNightCycleInfo.ActualTimePhase);
-                _scriptableIntEventDay.SendEvent(_dayNightCycleInfo.ActualDay);
-                
-                InputManager.Instance.SwitchActionMap("Player");
-            }
+            QuestBoard._hasQuestBeenSendToday = false;
+            _dayNightCycleInfo.ActualDay++;
+            _dayNightCycleInfo.ActualTimePhase = 0;
+            _scriptableIntEventTimePhase.SendEvent(_dayNightCycleInfo.ActualTimePhase);
+            _scriptableIntEventDay.SendEvent(_dayNightCycleInfo.ActualDay);
+
+            FindFirstObjectByType<QuestBoard>().LoadQuestBoard();
         }
     }
 }
