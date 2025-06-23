@@ -1,5 +1,7 @@
 using FMODUnity;
 using MoonlitMixes.AI.PNJ.Spawner;
+using MoonlitMixes.AI.PNJ.StateMachine.States;
+using MoonlitMixes.Dialogue;
 using System;
 using UnityEngine;
 
@@ -31,12 +33,18 @@ public class PlayerShopAudioEvents : MonoBehaviour
 
     private void OnEnable()
     {
-       CustomerSpawner.OnClientBellRequested += PlayClientBellSound;
+        CustomerSpawner.OnClientBellRequested += PlayClientBellSound;
+        DialogueController.OnDialogueClosed += PlayDialogCloseSound;
+        DialogueController.OnDialogueSkipped += PlayDialogSkipSound;
+        ChoosePotionState.OnPotionSelectedSoundRequested += PlaySelectPotionSound;
     }
 
     private void OnDisable()
     {
         CustomerSpawner.OnClientBellRequested -= PlayClientBellSound;
+        DialogueController.OnDialogueClosed -= PlayDialogCloseSound;
+        DialogueController.OnDialogueSkipped -= PlayDialogSkipSound;
+        ChoosePotionState.OnPotionSelectedSoundRequested -= PlaySelectPotionSound;
     }
 
     public void PlayClientBellSound() => PlaySound(_clientBellSound);
