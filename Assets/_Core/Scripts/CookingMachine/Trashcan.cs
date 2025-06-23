@@ -73,7 +73,7 @@ namespace MoonlitMixes.CookingMachine
             if (other.gameObject.layer != 10) return;
 
             PlayerInteraction player = other.GetComponent<PlayerInteraction>();
-            if (player == _playerInside)
+            if (_playerInside!=null&& player == _playerInside)
             {
                 _playerInside = null;
                 player.ClearCurrentTrashcan(this);
