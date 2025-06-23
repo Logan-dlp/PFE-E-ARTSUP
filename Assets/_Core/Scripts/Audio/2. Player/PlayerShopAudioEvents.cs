@@ -1,4 +1,6 @@
 using FMODUnity;
+using MoonlitMixes.AI.PNJ.Spawner;
+using System;
 using UnityEngine;
 
 public class PlayerShopAudioEvents : MonoBehaviour
@@ -9,8 +11,7 @@ public class PlayerShopAudioEvents : MonoBehaviour
     [Header("Audio Events")]
     [SerializeField] private AudioEventScriptableObject _clientBellSound;
     [SerializeField] private AudioEventScriptableObject _doorOpenSound;
-    [SerializeField] private AudioEventScriptableObject _saleSuccessSound;
-    [SerializeField] private AudioEventScriptableObject _saleFailedSound;
+    [SerializeField] private AudioEventScriptableObject _saleSound;
     [SerializeField] private AudioEventScriptableObject _dialogCloseSound;
     [SerializeField] private AudioEventScriptableObject _dialogSkipSound;
     [SerializeField] private AudioEventScriptableObject _selectPotionSound;
@@ -28,10 +29,19 @@ public class PlayerShopAudioEvents : MonoBehaviour
         instance.release();
     }
 
+    private void OnEnable()
+    {
+       CustomerSpawner.OnClientBellRequested += PlayClientBellSound;
+    }
+
+    private void OnDisable()
+    {
+        CustomerSpawner.OnClientBellRequested -= PlayClientBellSound;
+    }
+
     public void PlayClientBellSound() => PlaySound(_clientBellSound);
     public void PlayDoorOpenSound() => PlaySound(_doorOpenSound);
-    public void PlaySaleSuccessSound() => PlaySound(_saleSuccessSound);
-    public void PlaySaleFailedSound() => PlaySound(_saleFailedSound);
+    public void PlaySaleSuccessSound() => PlaySound(_saleSound);
     public void PlayDialogCloseSound() => PlaySound(_dialogCloseSound);
     public void PlayDialogSkipSound() => PlaySound(_dialogSkipSound);
     public void PlaySelectPotionSound() => PlaySound(_selectPotionSound);

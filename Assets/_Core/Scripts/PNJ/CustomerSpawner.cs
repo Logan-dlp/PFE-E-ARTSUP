@@ -9,6 +9,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
 {
     public class CustomerSpawner : MonoBehaviour
     {
+        public static event Action OnClientBellRequested;
         public static event Action OnStartSpawningRequested;
 
         [SerializeField] private List<GameObject> _pnjPrefabs;
@@ -28,6 +29,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
                 _currentPNJIndex = 0;
                 _playerMovement.BlockMovement(true);
 
+
                 SpawnNextPNJ();
             }
         }
@@ -36,20 +38,28 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         {
             if (_currentPNJIndex < _pnjPrefabs.Count)
             {
-                GameObject pnjInstance = _pnjPrefabs[_currentPNJIndex];
-                pnjInstance.transform.position = _spawnPoint.position;
-                pnjInstance.SetActive(true);
-
-                PNJStateMachine pnjStateMachine = pnjInstance.GetComponent<PNJStateMachine>();
-                if (pnjStateMachine != null)
-                {
-                    pnjStateMachine.Initialize();
-                    pnjStateMachine.SetState(new SpawnState());
-                    pnjStateMachine.OnDespawn += OnPNJDespawned;
-                }
-
-                _currentPNJIndex++;
+                StartCoroutine(PlayBellAndSpawn());
             }
+        }
+
+        private IEnumerator<WaitForSeconds> PlayBellAndSpawn()
+        {
+            OnClientBellRequested?.Invoke();
+            yield return new WaitForSeconds(0.5f);
+
+            GameObject pnjInstance = _pnjPrefabs[_currentPNJIndex];
+            pnjInstance.transform.position = _spawnPoint.position;
+            pnjInstance.SetActive(true);
+
+            PNJStateMachine pnjStateMachine = pnjInstance.GetComponent<PNJStateMachine>();
+            if (pnjStateMachine != null)
+            {
+                pnjStateMachine.Initialize();
+                pnjStateMachine.SetState(new SpawnState());
+                pnjStateMachine.OnDespawn += OnPNJDespawned;
+            }
+
+            _currentPNJIndex++;
         }
 
         private void OnEnable()
