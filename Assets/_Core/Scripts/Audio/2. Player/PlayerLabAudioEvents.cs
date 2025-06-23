@@ -10,6 +10,10 @@ namespace MoonlitMixes.Audio
         [Range(0f, 1f)]
         [SerializeField] private float _sfxVolume = 1f;
 
+        [Header("Volume spécifique")]
+        [Range(0f, 1f)]
+        [SerializeField] private float _crushVolume = 1f;
+
         [Header("Lab Audio Events")]
         [SerializeField] private AudioEventScriptableObject _crushSound;
         [SerializeField] private AudioEventScriptableObject _cutSound;
@@ -45,7 +49,8 @@ namespace MoonlitMixes.Audio
 
             _crushInstance = RuntimeManager.CreateInstance(_crushSound.EventReference);
             _crushInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-            _crushInstance.setVolume(_sfxVolume);
+
+            _crushInstance.setParameterByName("CrushVolume", _crushVolume);
             _crushInstance.start();
         }
 
@@ -56,6 +61,15 @@ namespace MoonlitMixes.Audio
                 _crushInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _crushInstance.release();
                 _crushInstance.clearHandle();
+            }
+        }
+
+        public void UpdateCrushVolume(float newVolume)
+        {
+            _crushVolume = Mathf.Clamp01(newVolume);
+            if (_crushInstance.isValid())
+            {
+                _crushInstance.setParameterByName("CrushVolume", _crushVolume);
             }
         }
 
