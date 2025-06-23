@@ -32,6 +32,14 @@ namespace MoonlitMixes.Audio
         private EventInstance _crushInstance;
         private EventInstance _cutInstance;
 
+        private void Update()
+        {
+            if (_crushInstance.isValid())
+            {
+                _crushInstance.setVolume(_crushVolume);
+            }
+        }
+
         private void PlaySound(AudioEventScriptableObject audioEvent)
         {
             if (audioEvent == null || AudioManager.Instance == null) return;
