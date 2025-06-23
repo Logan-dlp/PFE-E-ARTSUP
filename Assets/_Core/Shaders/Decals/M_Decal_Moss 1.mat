@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Decal_Grass
+  m_Name: M_Decal_Moss 1
   m_Shader: {fileID: -6465566751694194690, guid: 299206a4939b71d4a9f7a732653ad9f6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,19 +29,27 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2001
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Base_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Normal_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Map:
-        m_Texture: {fileID: 2800000, guid: 744c044d26fd7924381ab0f5362d23e6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 42f266ce20a3b1449829255cafd6844e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 2800000, guid: b57ee67c818315849bfe08d433ebb9af, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5eef92b4ec907fb43a0cf562505dd26b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_465044e06b1c43f9b5f5d4a432d95bfe_Texture_1_Texture2D:
@@ -62,12 +70,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Normal_Blend: 0.5
     - _DecalMeshBiasType: 0
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0
-    - _DrawOrder: 1
-    - _Luminosity: 1
+    - _DrawOrder: 0
+    - _Float: 0
+    - _Luminosity: 0.65
     - _Tiling: 4
+    - _normal_blend: -0.48
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
