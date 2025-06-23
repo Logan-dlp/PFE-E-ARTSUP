@@ -175,7 +175,7 @@ namespace MoonlitMixes.Player
         }
         private bool TableIsFull()
         {
-            for (int i = 0; i < _waitingTable.ItemGameObjectArray.Length - 1; i++)
+            for (int i = 0; i <= _waitingTable.ItemGameObjectArray.Length - 1; i++)
             {
                 if (_waitingTable.ItemGameObjectArray[i] == null) return false;
             }
