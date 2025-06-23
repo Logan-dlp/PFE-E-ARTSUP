@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+using MoonlitMixes.Animation;
+using MoonlitMixes.Audio;
 using MoonlitMixes.Events;
 using MoonlitMixes.Events.Inputs;
 using MoonlitMixes.Player;
-using MoonlitMixes.Animation;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoonlitMixes.CookingMachine
 {
@@ -14,7 +15,7 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] private ScriptableButtonEvent _scriptableSelectEvent;
         [SerializeField] private ScriptableButtonEvent _scriptableCancelEvent;
         [SerializeField] private ScriptableItemEvent _scriptableItemEvent;
-
+        [SerializeField] private PlayerLabAudioEvents _playerLabAudioEvents;
         private GameObject[] _itemGameObjectArray = new GameObject[10];
         private Light[] _lightArray = new Light[10];
         private AnimationPotionManager _animationPotionManager;
@@ -38,6 +39,8 @@ namespace MoonlitMixes.CookingMachine
 
         private void Awake()
         {
+            _playerLabAudioEvents = FindFirstObjectByType<PlayerLabAudioEvents>();
+
             for (int i = 0; i < _pivotWaitingItemsArray.Length; i++)
             {
                 _lightArray[i] = _pivotWaitingItemsArray[i].GetComponent<Light>();
@@ -79,6 +82,7 @@ namespace MoonlitMixes.CookingMachine
 
             if(_itemGameObjectArray[_indexSelectedItem] == null) return;
 
+            _playerLabAudioEvents?.PlayIngredientSelectTableSound();
             _scriptableItemEvent.SendObject(_itemGameObjectArray[_indexSelectedItem]);
             Destroy(_itemGameObjectArray[_indexSelectedItem]);
             QuitWaitingTable(true);

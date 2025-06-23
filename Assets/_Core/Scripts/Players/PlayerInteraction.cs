@@ -6,6 +6,7 @@ using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
 using MoonlitMixes.Potion;
 using MoonlitMixes.Scene;
+using MoonlitMixes.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +31,7 @@ namespace MoonlitMixes.Player
         private Animator _animator;
         private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
+        private PlayerLabAudioEvents _labAudioEvents;
 
         private void Awake()
         {
@@ -38,6 +40,7 @@ namespace MoonlitMixes.Player
             _animator = GetComponent<Animator>();
             _animationPotionManager = GetComponent<AnimationPotionManager>();
             _inventoryStoragePotion = FindFirstObjectByType<InventoryStoragePotion>();
+            _labAudioEvents = GetComponent<PlayerLabAudioEvents>();
         }
 
         private void Update()
@@ -167,6 +170,8 @@ namespace MoonlitMixes.Player
                             else
                                 _animationPotionManager.QuitInteractWithItem();
 
+                            _labAudioEvents?.PlayIngredientPlaceTableSound(); // Son de placement
+
                             return;
                         }
 
@@ -176,9 +181,15 @@ namespace MoonlitMixes.Player
                             _animationPotionManager.QuitInteractWithoutItem();
 
                             if (ItemInHand.Usage == ItemUsage.Cut)
+                            {
                                 _animationPotionManager.InteractCut();
+                                _labAudioEvents?.PlayCutSound(); // Son de découpe
+                            }
                             else if (ItemInHand.Usage == ItemUsage.Crush)
+                            {
                                 _animationPotionManager.InteractCrush();
+                                _labAudioEvents?.PlayCrushSound(); // Son d’écrasement
+                            }
 
                             _currentCookingMachine.ConvertItem(ItemInHand, this);
                             return;
@@ -188,6 +199,7 @@ namespace MoonlitMixes.Player
                             if (ItemInHand.Usage == ItemUsage.Whole && _currentCauldron.NeedItem)
                             {
                                 _currentCauldron.AddIngredient(ItemInHand);
+                                _labAudioEvents?.PlayDropInCauldronSound(); // Son de dépôt dans le chaudron
                                 PlayerHoldItem.RemoveItem();
                                 _animationPotionManager.InteractCauldronWithoutStir();
                                 return;
@@ -200,6 +212,7 @@ namespace MoonlitMixes.Player
                         _currentTrashcan.DiscardItem();
                         PlayerHoldItem.RemoveItem();
                         _animationPotionManager.TrashItem();
+                        _labAudioEvents?.PlayDiscardSound(); // Son de poubelle
                         return;
                     }
                 }
@@ -207,12 +220,12 @@ namespace MoonlitMixes.Player
                 {
                     if (Physics.Raycast(transform.position, transform.forward + new Vector3(0, 1, 0), out RaycastHit hit, _interactionDistance, _layerHitable))
                     {
-                        Debug.Log("");
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
                             _animationPotionManager.OpenInventory();
+                            _labAudioEvents?.PlayCellarOpenSound(); // Son d’ouverture du cellier
                             return;
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
@@ -224,6 +237,7 @@ namespace MoonlitMixes.Player
                         else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                         {
                             doorSceneChange.OpenCanvas();
+                            _labAudioEvents?.PlayTrapdoorUseSound(); // Son de trappe
                             return;
                         }
                     }
@@ -239,6 +253,10 @@ namespace MoonlitMixes.Player
             _animationPotionManager.FinishedInteractCut();
             _animationPotionManager.FinishedInteractCrush();
             _animationPotionManager.FinishedInteractStir();
+
+            // Stop Sounds
+            _labAudioEvents?.StopCrushSound();
+            _labAudioEvents?.StopCutSound();
         }
     }
 }

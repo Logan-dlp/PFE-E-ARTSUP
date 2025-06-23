@@ -1,5 +1,7 @@
+using FMODUnity;
 using MoonlitMixes.Player;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAudioEvents : MonoBehaviour
 {
@@ -35,6 +37,14 @@ public class PlayerAudioEvents : MonoBehaviour
         var instance = FMODUnity.RuntimeManager.CreateInstance(_footstepsSound.EventReference);
         instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         instance.setVolume(_footstepsVolume);
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName == "S_Labo")
+        {
+            RuntimeManager.StudioSystem.setParameterByName("FootstepsLocalisation", 1f);
+        }
+
         instance.start();
         instance.release();
     }

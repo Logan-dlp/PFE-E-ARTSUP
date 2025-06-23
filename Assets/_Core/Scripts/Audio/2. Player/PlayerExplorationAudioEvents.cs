@@ -4,6 +4,7 @@ using MoonlitMixes.Inventory;
 using MoonlitMixes.Player;
 using System.Collections;
 using UnityEngine;
+using FMOD.Studio;
 
 public class PlayerExplorationAudioEvents : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class PlayerExplorationAudioEvents : MonoBehaviour
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;
 
-    private FMOD.Studio.EventInstance _lowStaminaInstance;
+    private EventInstance _lowStaminaInstance;
     private Coroutine _lowHealthCoroutine;
     private Coroutine _lowStaminaCoroutine;
 
