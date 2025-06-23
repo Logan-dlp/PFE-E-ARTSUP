@@ -55,7 +55,7 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             {
                 data.FailedAttempt++;
                 _potionPriceCalculated?.CalculatePotionPrice(potionPrice, data.FailedAttempt);
-                OnSaleSuccessSoundRequested?.Invoke();
+                OnSaleFailureSoundRequested?.Invoke();
                 DialogueController.Instance.StartDialogue(data.FailureDialogueData);
             }
         }

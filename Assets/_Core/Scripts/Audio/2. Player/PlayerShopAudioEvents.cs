@@ -18,8 +18,8 @@ public class PlayerShopAudioEvents : MonoBehaviour
     [SerializeField] private AudioEventScriptableObject _dialogCloseSound;
     [SerializeField] private AudioEventScriptableObject _dialogSkipSound;
     [SerializeField] private AudioEventScriptableObject _selectPotionSound;
-    [SerializeField] private AudioEventScriptableObject _npcMaleVoiceSound;
-    [SerializeField] private AudioEventScriptableObject _npcFemaleVoiceSound;
+    //[SerializeField] private AudioEventScriptableObject _npcMaleVoiceSound;
+    //[SerializeField] private AudioEventScriptableObject _npcFemaleVoiceSound;
 
 
     private void PlaySound(AudioEventScriptableObject audioEvent)
@@ -60,8 +60,8 @@ public class PlayerShopAudioEvents : MonoBehaviour
     public void PlayDialogCloseSound() => PlaySound(_dialogCloseSound);
     public void PlayDialogSkipSound() => PlaySound(_dialogSkipSound);
     public void PlaySelectPotionSound() => PlaySound(_selectPotionSound);
-    public void PlayNpcMaleVoiceSound() => PlaySound(_npcMaleVoiceSound);
-    public void PlayNpcFemaleVoiceSound() => PlaySound(_npcFemaleVoiceSound);
+    //public void PlayNpcMaleVoiceSound() => PlaySound(_npcMaleVoiceSound);
+    //public void PlayNpcFemaleVoiceSound() => PlaySound(_npcFemaleVoiceSound);
 
     public void SetSFXVolume(float value) => _sfxVolume = Mathf.Clamp01(value);
 }
