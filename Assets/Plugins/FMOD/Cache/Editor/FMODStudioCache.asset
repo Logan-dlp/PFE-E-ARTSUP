@@ -362,10 +362,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638860137941564082
+  lastModified: 638861216006287864
   FileSizes:
   - Name: Desktop
-    Value: 4818
+    Value: 4940
   Exists: 1
 --- !u!114 &-6593667209205996532
 MonoBehaviour:
@@ -463,7 +463,7 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638859482482998687
+  lastModified: 638859464368976444
   FileSizes:
   - Name: Desktop
     Value: 1303648
@@ -862,10 +862,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638860137942816360
+  lastModified: 638861216008100893
   FileSizes:
   - Name: Desktop
-    Value: 18202720
+    Value: 21391808
   Exists: 1
 --- !u!114 &-3468074436128642910
 MonoBehaviour:
@@ -1329,6 +1329,9 @@ MonoBehaviour:
   - {fileID: -7930410394530255612}
   - {fileID: -870968489286228453}
   - {fileID: 6683988216390072930}
+  - {fileID: 7444775683196290779}
+  - {fileID: 8231811250214909786}
+  - {fileID: 1796719435272961351}
   EditorParameters:
   - {fileID: -8657656229530395680}
   - {fileID: -7017961827621887704}
@@ -1339,7 +1342,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -6649857338615542980}
   cacheVersion: 131847
-  cacheTime: 638860137942816360
+  cacheTime: 638861216008100893
   SerializableEventsDict:
   - key: snapshot:/GamePaused
     index: 0
@@ -1473,6 +1476,12 @@ MonoBehaviour:
     index: 64
   - key: event:/SFX/Ennemies/EnnemiesDeathBig
     index: 65
+  - key: event:/SFX/Ennemies/EnnemiesHitSlime
+    index: 66
+  - key: event:/Enviro/Campfire
+    index: 67
+  - key: event:/SFX/Ennemies/EnnemiesHitGolem
+    index: 68
 --- !u!114 &169832279758131242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1657,6 +1666,33 @@ MonoBehaviour:
   - Angry
   - Happy
   Exists: 1
+--- !u!114 &1796719435272961351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ennemies/EnnemiesHitGolem
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ennemies/EnnemiesHitGolem
+  Guid:
+    Data1: -592115776
+    Data2: 1209507402
+    Data3: 1996196258
+    Data4: -1850969918
+  Banks:
+  - {fileID: -3654338523826832625}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &1839961420052055593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1862,7 +1898,7 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638859482483129887
+  lastModified: 638859464369001938
   FileSizes:
   - Name: Desktop
     Value: 4510
@@ -2346,7 +2382,7 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638859482514861200
+  lastModified: 638859464369882703
   FileSizes:
   - Name: Desktop
     Value: 9401824
@@ -2432,6 +2468,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &7444775683196290779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ennemies/EnnemiesHitSlime
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ennemies/EnnemiesHitSlime
+  Guid:
+    Data1: 1567297026
+    Data2: 1229906810
+    Data3: -453528960
+    Data4: -527426298
+  Banks:
+  - {fileID: -3654338523826832625}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &7847795388061353069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2486,6 +2549,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &8231811250214909786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enviro/Campfire
+  m_EditorClassIdentifier: 
+  Path: event:/Enviro/Campfire
+  Guid:
+    Data1: -1072157120
+    Data2: 1219355651
+    Data3: 1851223475
+    Data4: 632756633
+  Banks:
+  - {fileID: -3654338523826832625}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 173697
 --- !u!114 &8860877010616343493
 MonoBehaviour:
   m_ObjectHideFlags: 0
