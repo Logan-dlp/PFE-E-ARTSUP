@@ -2,6 +2,9 @@ using FMODUnity;
 using MoonlitMixes.AI.PNJ.Spawner;
 using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.Dialogue;
+using MoonlitMixes.Interactions.Objects;
+using MoonlitMixes.Scene;
+using MoonlitMixes.UI;
 using System;
 using UnityEngine;
 
@@ -37,6 +40,7 @@ public class PlayerShopAudioEvents : MonoBehaviour
         DialogueController.OnDialogueClosed += PlayDialogCloseSound;
         DialogueController.OnDialogueSkipped += PlayDialogSkipSound;
         ChoosePotionState.OnPotionSelectedSoundRequested += PlaySelectPotionSound;
+        ChangeSceneUI.OnSceneDoorOpen += PlayDoorOpenSound;
     }
 
     private void OnDisable()
@@ -45,6 +49,7 @@ public class PlayerShopAudioEvents : MonoBehaviour
         DialogueController.OnDialogueClosed -= PlayDialogCloseSound;
         DialogueController.OnDialogueSkipped -= PlayDialogSkipSound;
         ChoosePotionState.OnPotionSelectedSoundRequested -= PlaySelectPotionSound;
+        ChangeSceneUI.OnSceneDoorOpen -= PlayDoorOpenSound;
     }
 
     public void PlayClientBellSound() => PlaySound(_clientBellSound);
@@ -55,6 +60,6 @@ public class PlayerShopAudioEvents : MonoBehaviour
     public void PlaySelectPotionSound() => PlaySound(_selectPotionSound);
     public void PlayNpcMaleVoiceSound() => PlaySound(_npcMaleVoiceSound);
     public void PlayNpcFemaleVoiceSound() => PlaySound(_npcFemaleVoiceSound);
-
+    
     public void SetSFXVolume(float value) => _sfxVolume = Mathf.Clamp01(value);
 }
