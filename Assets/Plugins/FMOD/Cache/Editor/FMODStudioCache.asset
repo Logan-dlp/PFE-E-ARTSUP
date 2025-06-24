@@ -362,10 +362,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638863727467812826
+  lastModified: 638863837175708164
   FileSizes:
   - Name: Desktop
-    Value: 5024
+    Value: 4900
   Exists: 1
 --- !u!114 &-6593667209205996532
 MonoBehaviour:
@@ -487,10 +487,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638863727467802801
+  lastModified: 638863837175698159
   FileSizes:
   - Name: Desktop
-    Value: 1303776
+    Value: 1360928
   Exists: 1
 --- !u!114 &-5874760184294858751
 MonoBehaviour:
@@ -568,7 +568,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -860,10 +860,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638863727469122344
+  lastModified: 638863837177114118
   FileSizes:
   - Name: Desktop
-    Value: 21395200
+    Value: 21392992
   Exists: 1
 --- !u!114 &-3468074436128642910
 MonoBehaviour:
@@ -1107,6 +1107,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2070131838424010642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Dialogue/DialogueSpeed
+  m_EditorClassIdentifier: 
+  Name: DialogueSpeed
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 4064295432
+    data2: 671634517
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-1535388348292058985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,6 +1435,7 @@ MonoBehaviour:
   - {fileID: 65910991494149737}
   - {fileID: 2883079749412794182}
   - {fileID: 8165007614904080858}
+  - {fileID: 2492399054915169426}
   EditorParameters:
   - {fileID: -8657656229530395680}
   - {fileID: -7017961827621887704}
@@ -1426,7 +1451,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -6649857338615542980}
   cacheVersion: 131847
-  cacheTime: 638863727469122344
+  cacheTime: 638863837177114118
   SerializableEventsDict:
   - key: snapshot:/GamePaused
     index: 0
@@ -1618,7 +1643,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1889,6 +1914,34 @@ MonoBehaviour:
   - Success
   - Fail
   Exists: 1
+--- !u!114 &2492399054915169426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Dialogue/Dialogue
+  m_EditorClassIdentifier: 
+  Path: event:/Dialogue/Dialogue
+  Guid:
+    Data1: -1277938160
+    Data2: 1154862796
+    Data3: 963643041
+    Data4: 298327759
+  Banks:
+  - {fileID: -5960817557863870863}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -2070131838424010642}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &2587198057199933880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1910,7 +1963,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -2066,7 +2119,7 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638863727467812826
+  lastModified: 638863817844332821
   FileSizes:
   - Name: Desktop
     Value: 5368
@@ -2333,7 +2386,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -2576,7 +2629,7 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638860145277657568
+  lastModified: 638859482514861200
   FileSizes:
   - Name: Desktop
     Value: 9401824
@@ -2602,7 +2655,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 1
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
