@@ -34,9 +34,13 @@ namespace MoonlitMixes.Dialogue
         private bool _isSkipText = false;
         private bool _isEffectRunning = false;
         private bool _hasSkippedEffect = false;
+        private bool _isLastDialogue = false;
+        public bool IsLastDialogue { set { _isLastDialogue = value; } }
 
         private PlayerInput _playerInput;
         private InputActionAsset _inputActionAsset;
+        private InputActionMap _originalActionMap;
+        private EndGameDialogue _endGameDialogue;
 
         private void Awake()
         {
@@ -48,6 +52,7 @@ namespace MoonlitMixes.Dialogue
             _instance = this;
 
             _playerInput = FindFirstObjectByType<PlayerInput>();
+            _endGameDialogue = gameObject.GetComponent<EndGameDialogue>();
             _inputActionAsset = _playerInput?.actions;
 
             if (_playerInput == null || _inputActionAsset == null)
@@ -268,6 +273,7 @@ namespace MoonlitMixes.Dialogue
 
             OnDialogueFinished?.Invoke();
             OnDialogueClosed?.Invoke();
+            if (_isLastDialogue) _endGameDialogue.EndGame();
         }
 
         public void OnNextDialoguePressed(InputAction.CallbackContext ctx)
