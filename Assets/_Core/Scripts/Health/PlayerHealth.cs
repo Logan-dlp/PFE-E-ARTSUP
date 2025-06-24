@@ -80,7 +80,7 @@ namespace MoonlitMixes.Health
         {
             _currentHealth -= damage;
             _currentHealth = Mathf.Max(_currentHealth, 0);
-            _animationExplorationManager.Hit();
+            if(_currentHealth > 0) _animationExplorationManager.Hit();
 
             EnterFightMode();
             CheckHealth();
@@ -129,10 +129,11 @@ namespace MoonlitMixes.Health
         }
         private IEnumerator DeathAnimation()
         {
+            _animationExplorationManager.StandUp(true);
+
             _canAnimate = false;
             yield return new WaitForSeconds(_animationDeathTime);
             _deathAnimation.SetActive(true);
-            _animationExplorationManager.StandUp(true);
             OnPlayerRespawnInScene?.Invoke();
 
             yield return new WaitForSeconds(_animationRespawnTime);
