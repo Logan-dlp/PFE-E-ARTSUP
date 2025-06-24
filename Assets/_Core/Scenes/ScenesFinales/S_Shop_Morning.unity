@@ -11065,6 +11065,71 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1266167604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1266167605}
+  - component: {fileID: 1266167607}
+  - component: {fileID: 1266167606}
+  m_Layer: 0
+  m_Name: Music persistante
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1266167605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266167604}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 74.90304, y: 117.06521, z: 38.360455}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2022159314}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1266167606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266167604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d7504a863e0ce498d9383bbf013929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shopMusicEvent: {fileID: 11400000, guid: 51cff2b21013a9e48b17a082f4c4ccf9, type: 2}
+  _shopMusicVolume: 1
+  _defaultMusicEvent: {fileID: 11400000, guid: 791d7210bab6c08458bf63f07476b390, type: 2}
+  _defaultMusicVolume: 0.7
+--- !u!114 &1266167607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266167604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223339c1a4d58dd41a3023a044807019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ambienceEvent: {fileID: 11400000, guid: 8d0c3a778f7553c42a1da39010569fbd, type: 2}
+  _ambienceVolume: 1
+  _musicEvent: {fileID: 11400000, guid: 791d7210bab6c08458bf63f07476b390, type: 2}
+  _musicVolume: 0.7
 --- !u!1 &1285843395
 GameObject:
   m_ObjectHideFlags: 0
@@ -17444,6 +17509,38 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &2022159313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2022159314}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2022159314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022159313}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -76.02626, y: -113.161354, z: -21.957373}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1266167605}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2034086242
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20511,6 +20608,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2824536140871129811, guid: 30c03d20070123c45a67fe940ee26005, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7855766532908294457}
+    - targetCorrespondingSourceObject: {fileID: 2824536140871129811, guid: 30c03d20070123c45a67fe940ee26005, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7855766532908294458}
+    - targetCorrespondingSourceObject: {fileID: 2824536140871129811, guid: 30c03d20070123c45a67fe940ee26005, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7855766532908294459}
     - targetCorrespondingSourceObject: {fileID: 4746397292009708633, guid: 30c03d20070123c45a67fe940ee26005, type: 3}
       insertIndex: -1
       addedObject: {fileID: 960058821}
@@ -21292,6 +21395,40 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 14336
   _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+--- !u!114 &7855766532908294458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660481022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c970d9c4b9eb1445bc1ebdc7a506dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _footstepsVolume: 1
+  _footstepsSound: {fileID: 11400000, guid: 21611e1aa7d558f479c41d0b80bffabd, type: 2}
+--- !u!114 &7855766532908294459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660481022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d3a53f7b8e78840b14132fed006650, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxVolume: 1
+  _clientBellSound: {fileID: 11400000, guid: 9eec7383548460042951b03ec690e649, type: 2}
+  _doorOpenSound: {fileID: 11400000, guid: 614c7d9802f2f9a45a03e3414912d0bb, type: 2}
+  _saleSuccessSound: {fileID: 11400000, guid: 63722b87bd5e87f449325cba33b4184d, type: 2}
+  _saleFailureSound: {fileID: 11400000, guid: 03fed9e534cef8f4ab099232ca9184ed, type: 2}
+  _dialogCloseSound: {fileID: 11400000, guid: cbdbe29826c548e42877927a04d8a91f, type: 2}
+  _dialogSkipSound: {fileID: 11400000, guid: a3a0a4e90a7e0424fa0a0d26eb147ff0, type: 2}
+  _selectPotionSound: {fileID: 11400000, guid: 1f6dd20cae248c042a16a6545bcf4426, type: 2}
 --- !u!4 &8376114654158131905 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8568970606381992331, guid: dec4333b21fc7e1488e7ec81bfc2a929, type: 3}
@@ -21596,6 +21733,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1894773789}
   - {fileID: 884713464}
+  - {fileID: 2022159314}
   - {fileID: 2125207405}
   - {fileID: 55915884}
   - {fileID: 714433920}
