@@ -69,8 +69,8 @@ namespace MoonlitMixes.Dialogue
             if (_inputActionAsset == null) return;
 
             _panelDialogue.SetActive(true);
-            InputManager.Instance.SwitchActionMap("Dialogue");
-
+            StartCoroutine(DelayInputChange());
+            
             _currentDialogue = dialogue;
             if (_currentDialogue?.Lines == null || _currentDialogue.Lines.Length == 0)
             {
@@ -303,5 +303,12 @@ namespace MoonlitMixes.Dialogue
 
             DisplayNextDialogue();
         }
+        private IEnumerator DelayInputChange()
+        {
+            yield return new WaitForSeconds(.1f);
+            InputManager.Instance.SwitchActionMap("Dialogue");
+        }
     }
+
+
 }
