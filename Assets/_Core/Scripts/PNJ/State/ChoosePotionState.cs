@@ -1,4 +1,5 @@
 ﻿using MoonlitMixes.Dialogue;
+using MoonlitMixes.Inputs;
 using MoonlitMixes.Potion;
 using UnityEngine;
 
@@ -6,12 +7,16 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
 {
     public class ChoosePotionState : IPNJState
     {
+        public static event System.Action OnPotionSelectedSoundRequested;
+
         private PotionChoiceController _potionChoice;
         private bool _isWaitingForChoice = true;
         private PotionResult _potionResultSelected;
 
         public void EnterState(PNJData data)
         {
+            InputManager.Instance.SwitchActionMap("UI");
+
             _potionChoice = Object.FindFirstObjectByType<PotionChoiceController>();
 
             if (_potionChoice != null)
@@ -50,6 +55,8 @@ namespace MoonlitMixes.AI.PNJ.StateMachine.States
             _isWaitingForChoice = false;
 
             Debug.Log($"[ChoosePotionState] Potion choisie par le joueur : {potionResult?.Recipe?.RecipeName ?? "null"}");
+
+            OnPotionSelectedSoundRequested?.Invoke();
         }
     }
 }

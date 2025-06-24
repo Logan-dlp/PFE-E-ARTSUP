@@ -15,6 +15,8 @@ namespace MoonlitMixes.Dialogue
         public static DialogueController Instance => _instance;
 
         public static event System.Action OnDialogueFinished;
+        public static event System.Action OnDialogueClosed;
+        public static event System.Action OnDialogueSkipped;
 
         [SerializeField] private GameObject _panelDialogue;
         [SerializeField] private float _letterDelay;
@@ -64,7 +66,6 @@ namespace MoonlitMixes.Dialogue
             if (_inputActionAsset == null) return;
 
             _panelDialogue.SetActive(true);
-
             InputManager.Instance.SwitchActionMap("Dialogue");
 
             _currentDialogue = dialogue;
@@ -81,10 +82,7 @@ namespace MoonlitMixes.Dialogue
 
         public void DisplayNextDialogue()
         {
-            if (_isEffectRunning)
-            {
-                return;
-            }
+            if (_isEffectRunning) return;
 
             if (_dialogueIndex >= _currentDialogue.Lines.Length)
             {
@@ -110,14 +108,13 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // Met à jour les sprites visibles
+            // Affichage des sprites du speaker
             for (int i = 0; i < _imageSpeakers.Length; i++)
             {
                 if (i == speakerIndex)
                 {
                     if (line.SpeakerSprite != null)
                     {
-                        // Change seulement si différent du sprite actuel
                         if (_imageSpeakers[i].sprite != line.SpeakerSprite)
                         {
                             _imageSpeakers[i].sprite = line.SpeakerSprite;
@@ -126,22 +123,18 @@ namespace MoonlitMixes.Dialogue
                     }
                     else if (_imageSpeakers[i].sprite != null)
                     {
-                        // Garde l’ancien sprite
                         _imageSpeakers[i].enabled = true;
                     }
                 }
             }
 
-            // Dim les autres speakers
+            // Dim des autres
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
             {
                 if (i == speakerIndex) continue;
 
-                var otherSprite = _spriteSpeakerEffects[i];
-                var otherText = _textSpeakerEffects[i];
-
-                otherSprite?.DimEffect();
-                otherText?.DimEffect();
+                _spriteSpeakerEffects[i]?.DimEffect();
+                _textSpeakerEffects[i]?.DimEffect();
             }
 
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
@@ -228,7 +221,6 @@ namespace MoonlitMixes.Dialogue
         public void EndDialogue()
         {
             _panelDialogue.SetActive(false);
-
             InputManager.Instance.SwitchActionMap("PlayerMovement");
 
             foreach (TMP_Text textBox in _textBoxes)
@@ -250,6 +242,7 @@ namespace MoonlitMixes.Dialogue
             }
 
             OnDialogueFinished?.Invoke();
+            OnDialogueClosed?.Invoke();
         }
 
         public void OnNextDialoguePressed(InputAction.CallbackContext ctx)
@@ -259,6 +252,8 @@ namespace MoonlitMixes.Dialogue
             if (_isEffectRunning && !_hasSkippedEffect)
             {
                 _hasSkippedEffect = true;
+
+                OnDialogueSkipped?.Invoke();
 
                 foreach (SpeakerEffect effect in _spriteSpeakerEffects)
                 {

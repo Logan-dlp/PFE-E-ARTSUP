@@ -44,6 +44,10 @@ public class PlayerAudioEvents : MonoBehaviour
         {
             RuntimeManager.StudioSystem.setParameterByName("FootstepsLocalisation", 1f);
         }
+        else if (currentSceneName == "S_Shop")
+        {
+            RuntimeManager.StudioSystem.setParameterByName("FootstepsLocalisation", 2f);
+        }
 
         instance.start();
         instance.release();
