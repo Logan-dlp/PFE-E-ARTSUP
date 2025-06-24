@@ -12531,6 +12531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1722168782}
+  - component: {fileID: 1722168783}
   m_Layer: 0
   m_Name: outline
   m_TagString: Untagged
@@ -12561,6 +12562,24 @@ Transform:
   - {fileID: 1906835282}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1722168783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722168781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57140274dc5e2474cb557f745de6594c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlinesToActivate:
+  - {fileID: 7828711497360848925}
+  - {fileID: 3174442204998213564}
+  - {fileID: 158863259773675635}
+  dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  playerHoldItem: {fileID: 0}
 --- !u!4 &1744048727 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7999932393286497833, guid: 801171dd78b7b8843a698772a375922b, type: 3}
@@ -14861,6 +14880,10 @@ PrefabInstance:
       propertyPath: _actionMapPlayer
       value: PlayerMovement
       objectReference: {fileID: 0}
+    - target: {fileID: -1342683468536346142, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
+      propertyPath: outlineActivator
+      value: 
+      objectReference: {fileID: 1722168783}
     - target: {fileID: 1407151154963017103, guid: 74799ff41b658a949a4d4e35ef1e281f, type: 3}
       propertyPath: m_IsTrigger
       value: 1

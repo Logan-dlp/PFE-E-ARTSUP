@@ -32,6 +32,12 @@ namespace MoonlitMixes.Player
         private AnimationPotionManager _animationPotionManager;
         private Trashcan _currentTrashcan;
         private PlayerLabAudioEvents _labAudioEvents;
+        private bool _canInteract = false;
+        public bool CanInteract
+        {
+            get => _canInteract;
+            set => _canInteract = value;
+        }
 
         private void Awake()
         {
@@ -45,6 +51,8 @@ namespace MoonlitMixes.Player
 
         private void Update()
         {
+            if (!_canInteract) return;
+
             if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, _interactionDistance, _layerHitable))
             {
                 if (ItemInHand != null)
@@ -135,6 +143,8 @@ namespace MoonlitMixes.Player
 
         public void Interact(InputAction.CallbackContext ctx)
         {
+            if (!_canInteract) return;
+
             if (ctx.started)
             {
                 if (ItemInHand != null)
