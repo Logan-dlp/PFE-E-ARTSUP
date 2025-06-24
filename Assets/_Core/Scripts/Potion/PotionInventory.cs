@@ -166,6 +166,7 @@ namespace MoonlitMixes.Potion
             potionButton.interactable = true;
             confirmationPanel.SetActive(false);
             TogglePotionButtons(true);
+            potionButton.Select();
         }
 
         private void RemovePotionFromList(string potionName)
