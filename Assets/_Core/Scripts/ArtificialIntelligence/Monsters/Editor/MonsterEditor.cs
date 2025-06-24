@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 using UnityEditor;
+using UnityEngine;
 
 namespace MoonlitMixes.AI.Editor
 {
@@ -20,6 +21,17 @@ namespace MoonlitMixes.AI.Editor
         private SerializedProperty _attackForceProperty;
         private SerializedProperty _attackDurationProperty;
 
+        private SerializedProperty _soundAttackBat;
+        private SerializedProperty _soundMoveBat;
+        private SerializedProperty _soundAttackGolem;
+        private SerializedProperty _soundMoveGolem;
+        private SerializedProperty _soundAttackSlime;
+        private SerializedProperty _soundMoveSlime;
+        private SerializedProperty _soundAttackWillowraith;
+        private SerializedProperty _soundMoveWillowraith;
+        private SerializedProperty _soundDeathSmallEnemy;
+        private SerializedProperty _soundDeathBigEnemy;
+
         private bool _isViewDetailsOpened = false;
 
         private void OnEnable()
@@ -36,6 +48,17 @@ namespace MoonlitMixes.AI.Editor
             _attackDamageProperty = serializedObject.FindProperty("_attackDamage");
             _attackForceProperty = serializedObject.FindProperty("_attackForce");
             _attackDurationProperty = serializedObject.FindProperty("_attackDuration");
+
+            _soundAttackBat = serializedObject.FindProperty("_soundAttackBat");
+            _soundMoveBat = serializedObject.FindProperty("_soundMoveBat");
+            _soundAttackGolem = serializedObject.FindProperty("_soundAttackGolem");
+            _soundMoveGolem = serializedObject.FindProperty("_soundMoveGolem");
+            _soundAttackSlime = serializedObject.FindProperty("_soundAttackSlime");
+            _soundMoveSlime = serializedObject.FindProperty("_soundMoveSlime");
+            _soundAttackWillowraith = serializedObject.FindProperty("_soundAttackWillowraith");
+            _soundMoveWillowraith = serializedObject.FindProperty("_soundMoveWillowraith");
+            _soundDeathSmallEnemy = serializedObject.FindProperty("_soundDeathSmallEnemy");
+            _soundDeathBigEnemy = serializedObject.FindProperty("_soundDeathBigEnemy");
         }
 
         public override void OnInspectorGUI()
@@ -77,6 +100,30 @@ namespace MoonlitMixes.AI.Editor
             }
 
             serializedObject.ApplyModifiedProperties();
+
+            EditorGUILayout.Space(12);
+            EditorGUILayout.LabelField("FMOD Audio Events", EditorStyles.boldLabel);
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("Bat", EditorStyles.miniBoldLabel);
+            EditorGUILayout.PropertyField(_soundAttackBat, new GUIContent("Attack"));
+            EditorGUILayout.PropertyField(_soundMoveBat, new GUIContent("Move"));
+
+            EditorGUILayout.LabelField("Golem", EditorStyles.miniBoldLabel);
+            EditorGUILayout.PropertyField(_soundAttackGolem, new GUIContent("Attack"));
+            EditorGUILayout.PropertyField(_soundMoveGolem, new GUIContent("Move"));
+
+            EditorGUILayout.LabelField("Slime", EditorStyles.miniBoldLabel);
+            EditorGUILayout.PropertyField(_soundAttackSlime, new GUIContent("Attack"));
+            EditorGUILayout.PropertyField(_soundMoveSlime, new GUIContent("Move"));
+
+            EditorGUILayout.LabelField("Willowraith", EditorStyles.miniBoldLabel);
+            EditorGUILayout.PropertyField(_soundAttackWillowraith, new GUIContent("Attack"));
+            EditorGUILayout.PropertyField(_soundMoveWillowraith, new GUIContent("Move"));
+
+            EditorGUILayout.LabelField("Death", EditorStyles.miniBoldLabel);
+            EditorGUILayout.PropertyField(_soundDeathSmallEnemy, new GUIContent("Small Enemy Death"));
+            EditorGUILayout.PropertyField(_soundDeathBigEnemy, new GUIContent("Big Enemy Death"));
         }
     }
 }

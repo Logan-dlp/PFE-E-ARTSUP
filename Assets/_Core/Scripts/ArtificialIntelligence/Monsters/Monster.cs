@@ -1,7 +1,9 @@
 using System.Collections;
-using MoonlitMixes.Item;
 using UnityEngine;
 using UnityEngine.AI;
+using MoonlitMixes.Item;
+using FMODUnity;
+using FMOD.Studio;
 
 namespace MoonlitMixes.AI
 {
@@ -11,15 +13,28 @@ namespace MoonlitMixes.AI
 
     public class Monster : MonoBehaviour
     {
+        [Header("Comportement")]
         [SerializeField] private MonsterComportement _comportement;
+
+        [Header("Combat Settings")]
         [SerializeField] private float _speedAttack;
         [SerializeField] private float _stopDistanceToAttack;
         [SerializeField] private float _attackRadius;
         [SerializeField] private float _detectionStop;
-
         [SerializeField] private int _attackDamage;
         [SerializeField] private float _attackForce = 2;
         [SerializeField] private float _attackDuration = .45f;
+
+        [SerializeField] private EventReference _soundAttackBat;
+        [SerializeField] private EventReference _soundMoveBat;
+        [SerializeField] private EventReference _soundAttackGolem;
+        [SerializeField] private EventReference _soundMoveGolem;
+        [SerializeField] private EventReference _soundAttackSlime;
+        [SerializeField] private EventReference _soundMoveSlime;
+        [SerializeField] private EventReference _soundAttackWillowraith;
+        [SerializeField] private EventReference _soundMoveWillowraith;
+        [SerializeField] private EventReference _soundDeathSmallEnemy;
+        [SerializeField] private EventReference _soundDeathBigEnemy;
 
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
@@ -33,27 +48,14 @@ namespace MoonlitMixes.AI
         {
             _animator = GetComponent<Animator>();
             _enemyHealth = GetComponent<EnemyHealth>();
-            if (_enemyHealth == null)
-            {
-                Debug.LogError("EnemyHealth non trouv� sur " + gameObject.name);
-            }
-
             _rigidbody = GetComponent<Rigidbody>();
-            if (_rigidbody == null)
-            {
-                Debug.LogError("Rigidbody non trouv� sur " + gameObject.name);
-            }
 
             _playerReference = FindFirstObjectByType<PlayerHealth>()?.gameObject;
-            if (_playerReference == null)
-            {
-                Debug.LogError("PlayerHealth non trouv� dans la sc�ne.");
-            }
 
             _monsterData = new MonsterData()
             {
                 MonsterGameObject = gameObject,
-                Animator = GetComponent<Animator>(),
+                Animator = _animator,
                 NavMeshAgent = GetComponent<NavMeshAgent>(),
                 PlayerReference = _playerReference,
                 InitialPosition = transform.position,
@@ -92,27 +94,15 @@ namespace MoonlitMixes.AI
 
         private void OnDrawGizmos()
         {
-            if (_monsterData != null)
-            {
-                Gizmos.color = new Color(255, 0, 0, .5f);
-                Gizmos.DrawSphere(_monsterData.InitialPosition, _detectionStop);
+            Vector3 center = _monsterData != null ? _monsterData.InitialPosition : transform.position;
 
-                if (_comportement == MonsterComportement.Aggressive)
-                {
-                    Gizmos.color = new Color(0, 0, 255, .5f);
-                    Gizmos.DrawSphere(_monsterData.InitialPosition, _attackRadius);
-                }
-            }
-            else
-            {
-                Gizmos.color = new Color(255, 0, 0, .5f);
-                Gizmos.DrawSphere(transform.position, _detectionStop);
+            Gizmos.color = new Color(255, 0, 0, .5f);
+            Gizmos.DrawSphere(center, _detectionStop);
 
-                if (_comportement == MonsterComportement.Aggressive)
-                {
-                    Gizmos.color = new Color(0, 0, 255, .5f);
-                    Gizmos.DrawSphere(transform.position, _attackRadius);
-                }
+            if (_comportement == MonsterComportement.Aggressive)
+            {
+                Gizmos.color = new Color(0, 0, 255, .5f);
+                Gizmos.DrawSphere(center, _attackRadius);
             }
         }
 
@@ -137,17 +127,13 @@ namespace MoonlitMixes.AI
             FindFirstObjectByType<PlayerHealth>().EnterFightMode();
 
             if (_comportement == MonsterComportement.Passive)
-            {
                 _monsterData.PlayerReference = player;
-            }
 
             _enemyHealth.TakeDamage(damage);
-
             StartCoroutine(Knockback(direction, force));
 
             if (_enemyHealth._currentHealth <= 0)
             {
-                Debug.Log("test");
                 _animator.SetTrigger("Death");
                 player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
             }
@@ -157,7 +143,6 @@ namespace MoonlitMixes.AI
         {
             _monsterData.NavMeshAgent.enabled = false;
             _rigidbody.isKinematic = false;
-
             _rigidbody.linearVelocity = direction * force;
 
             yield return new WaitForSeconds(.5f);
@@ -169,6 +154,23 @@ namespace MoonlitMixes.AI
         private void Death()
         {
             Destroy(gameObject);
+        }
+
+        public void PlaySound_Attack_Bat() => PlayFMOD(_soundAttackBat);
+        public void PlaySound_Move_Bat() => PlayFMOD(_soundMoveBat);
+        public void PlaySound_Attack_Golem() => PlayFMOD(_soundAttackGolem);
+        public void PlaySound_Move_Golem() => PlayFMOD(_soundMoveGolem);
+        public void PlaySound_Attack_Slime() => PlayFMOD(_soundAttackSlime);
+        public void PlaySound_Move_Slime() => PlayFMOD(_soundMoveSlime);
+        public void PlaySound_Attack_Willowraith() => PlayFMOD(_soundAttackWillowraith);
+        public void PlaySound_Move_Willowraith() => PlayFMOD(_soundMoveWillowraith);
+        public void PlaySound_Death_SmallEnemy() => PlayFMOD(_soundDeathSmallEnemy);
+        public void PlaySound_Death_BigEnemy() => PlayFMOD(_soundDeathBigEnemy);
+
+        private void PlayFMOD(EventReference sound)
+        {
+            if (sound.IsNull) return;
+            RuntimeManager.PlayOneShot(sound, transform.position);
         }
     }
 }
