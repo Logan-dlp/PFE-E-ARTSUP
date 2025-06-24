@@ -26,7 +26,6 @@ namespace MoonlitMixes.ExplorationTools
 
             if (toolAcquired.toolAcquiredArray.Contains(tool))
             {
-                Debug.Log("");
                 gameObject.SetActive(false);
                 return;
             }

@@ -21,6 +21,7 @@ public class RouletteSelectionTools : MonoBehaviour
     }
 
     [SerializeField] private ToolAcquired _toolAcquired;
+    [SerializeField] private GameObject _toolPivot;
 
     private int _currentToolIndex = 0;
     private List<ToolData> _tools;
@@ -40,9 +41,11 @@ public class RouletteSelectionTools : MonoBehaviour
 
     public void AddTool(ToolData newTool, GameObject toolPrefab)
     {
-        _tools.Add(newTool);
-        _toolGameObjects.Add(toolPrefab);
+        GameObject tool = Instantiate(toolPrefab, _toolPivot.transform);
 
+        _tools.Add(newTool);
+        _toolGameObjects.Add(tool);
+        
         toolPrefab.SetActive(false);
 
         CurrentToolType = _tools[_currentToolIndex].ToolType;
