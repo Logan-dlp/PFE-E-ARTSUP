@@ -4,11 +4,11 @@
 [LOG] SystemI::setOutputInternal               : Setting output to 'FMOD WASAPI Output'
 [LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=2, nSamplesPerSec=48000, nAvgBytesPerSec=384000, nBlockAlign=8, wBitsPerSample=32, cbSize=22.
 [LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEXTENSIBLE): wValidBitsPerSample=32, dwChannelMask=0x00000003, SubFormat=00000003-0000-0010-8000-00AA00389B71.
-[LOG] OutputWASAPI::init                       : Output buffer size: 2048 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 512 * 4
+[LOG] OutputWASAPI::init                       : Output buffer size: 2048 samples, latency: 0.00ms, period: 10.67ms, DSP buffer: 512 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 0
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000027F319224B8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000014099D6F308 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -22,15 +22,118 @@
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
 [LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
 [LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
-[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
-[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
-[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
-[WRN] OutputWASAPI::mixerThread                : GetCurrentPadding returned 0x88890004. Device was unplugged.
-[WRN] OutputWASAPI::mixerThread                : GetCurrentPadding returned 0x88890004. Device was unplugged.
+[LOG] SystemI::createSound                     : filename = Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] Thread::initThread                       : Init FMOD nonblocking thread (0). Affinity: 0x4000000000000003, Priority: 0xFFFF7FFC, Stack Size: 114688, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0000013FBDA3FAE8, queue head = 0000013FBDA421B8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000013FBDA3FAE8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 21214080
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 177728
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0000013EEB5F5268
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='QP04 0444 River gentle very distant', format=5, channels=2, frequency=48000, lengthbytes=848640, lengthpcm=3265178, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.037609.
+[LOG] Thread::initThread                       :     Init FMOD file thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFC, Stack Size: 65536, Semaphore: No, Sleep Time: 10, Looping: Yes.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000013FBDA3FAE8
+[LOG] SystemI::createSound                     : filename = Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0000013FBDA41258, queue head = 0000013FBDA421B8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000013FBDA41258
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0000013FBDA41708, queue head = 0000013FBDA421B8, queue count = 0
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 21214080
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 177728
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000140994D5C18
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384', format=5, channels=2, frequency=48000, lengthbytes=937504, lengthpcm=3448320, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.688503.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000013FBDA41258
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000013FBDA41708
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 21214080
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 177728
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0000013DE06FEF58
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Water, Waterfall, Steady, Perspective SND0047', format=5, channels=2, frequency=48000, lengthbytes=1111232, lengthpcm=4081920, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.121005.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000013FBDA41708
+[LOG] SoundI::release                          : Water, Waterfall, Steady, Perspective SND0047 (0000013FBDA41708)
+[LOG] SoundI::release                          :     Water, Waterfall, Steady, Perspective SND0047 (0000013EE78D0698)
+[LOG] SoundI::release                          :     Water, Waterfall, Steady, Perspective SND0047 (000001406D39C108)
+[LOG] SoundI::release                          : Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384 (0000013FBDA41258)
+[LOG] SoundI::release                          :     Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384 (0000013EE78CF018)
+[LOG] SoundI::release                          :     Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384 (000001406D39AFD8)
+[LOG] SystemI::createSound                     : filename = Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0000013F2047B408, queue head = 0000013FBDA421B8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank : mode 02010082
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000013F2047B408
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank', mode=0x02010082
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0000013F20477A38, queue head = 0000013FBDA421B8, queue count = 0
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 21214080
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 177728
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001406E011F78
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384', format=5, channels=2, frequency=48000, lengthbytes=937504, lengthpcm=3448320, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.688503.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000013F2047B408
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000013F20477A38
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 21214080
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 177728
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001406E012398
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Water, Waterfall, Steady, Perspective SND0047', format=5, channels=2, frequency=48000, lengthbytes=1111232, lengthpcm=4081920, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.121005.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000013F20477A38
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001406D399B88
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001406D399B88
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001406D399D18
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001406D399D18
+[LOG] SoundI::release                          : Water, Waterfall, Steady, Perspective SND0047 (0000013F20477A38)
+[LOG] SoundI::release                          :     Water, Waterfall, Steady, Perspective SND0047 (0000013EE78D0698)
+[LOG] SoundI::release                          :     Water, Waterfall, Steady, Perspective SND0047 (000001406D399D18)
+[LOG] SoundI::release                          : Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384 (0000013F2047B408)
+[LOG] SoundI::release                          :     Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384 (0000013EE78D0998)
+[LOG] SoundI::release                          :     Water, Flow, Brook, Small, Close, Distant Waterfall 01 SND3384 (000001406D399B88)
+[LOG] SoundI::release                          : QP04 0444 River gentle very distant (0000013FBDA3FAE8)
+[LOG] SoundI::release                          :     QP04 0444 River gentle very distant (0000013EE78CF498)
+[LOG] SoundI::release                          :     QP04 0444 River gentle very distant (000001406D39AE48)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=2, nSamplesPerSec=48000, nAvgBytesPerSec=384000, nBlockAlign=8, wBitsPerSample=32, cbSize=22.
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEXTENSIBLE): wValidBitsPerSample=32, dwChannelMask=0x00000003, SubFormat=00000003-0000-0010-8000-00AA00389B71.
-[LOG] OutputWASAPI::init                       : Output buffer size: 2048 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 512 * 4
-[LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::closeInternal                   : Closed.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] SystemI::closeInternal                   : Closed.
+[LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
+[LOG] Thread::callback                         : FMOD file thread finished.
