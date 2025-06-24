@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 1049896642}
   - component: {fileID: 1049896644}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Cinematique Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab7baa969e44db84e84e88408a2029ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 11400000, guid: 6880fddfd6bdf014198841ee022b0d47, type: 2}
+  dialogueData: {fileID: 11400000, guid: caad1677367ea4a468c830bad9af6b46, type: 2}
 --- !u!4 &1049896643
 Transform:
   m_ObjectHideFlags: 0
@@ -475,16 +475,8 @@ MonoBehaviour:
     m_ActionName: 'UI/Discard Object[/XInputControllerWindows/buttonWest,/Keyboard/t]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: e6f246a9-c28b-42cf-9a91-9d2d542859fc
-    m_ActionName: 'Menu/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: d53f41a5-b2bd-4e75-a0de-dddad7a43124
     m_ActionName: 'Menu/Submit[/XInputControllerWindows/buttonSouth,/Keyboard/e]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0199fa42-5012-45f4-9ebb-bfabf0e1f60d
-    m_ActionName: 'Menu/Cancel[/XInputControllerWindows/buttonEast,/Keyboard/q]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c3dc5756-3dbc-410f-bde2-0b58057b6698
@@ -525,6 +517,34 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b0ae578a-f3d1-45fc-bec8-768089fe53a6
     m_ActionName: 'Recipe/CloseRecipe[/XInputControllerWindows/select,/Keyboard/tab]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc18061b-c84a-4e2b-b387-37033a54b3ae
+    m_ActionName: Menu/Navigate
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6f44c90a-50f1-4071-9114-cf93a41e3c32
+    m_ActionName: Menu/Cancel
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e6ee0933-8340-4f5f-a903-a020fd8b5c05
+    m_ActionName: 'ChangeDay/Submit[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 702d06aa-246c-438d-ab6e-05cf3bdc38a9
+    m_ActionName: 'ChangeDay/Cancel[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 58b04988-3fa5-4ea4-a25a-bc2a1a8a8211
+    m_ActionName: Volume/Navigate
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c459c1d1-aed3-4d04-afe1-ef9e10c00baa
+    m_ActionName: Volume/IncreaseDecrease
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c45800cf-5745-47b1-ac11-f117453b6d96
+    m_ActionName: Volume/Quit
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Dialogue
@@ -622,6 +642,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1497375294 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 562292228227326695, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+  m_PrefabInstance: {fileID: 1972440356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1731241552
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,10 +784,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1729315129539562470, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 488
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729315129539562470, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 323
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956713845947666180, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2422721348937825392, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
       propertyPath: m_Name
       value: CanvasDialogue
       objectReference: {fileID: 0}
+    - target: {fileID: 2823036641182800929, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: _gameObjectA
+      value: 
+      objectReference: {fileID: 1497375294}
+    - target: {fileID: 2823036641182800929, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: _gameObjectB
+      value: 
+      objectReference: {fileID: 2125311398}
     - target: {fileID: 2823036641182800929, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
       propertyPath: _textBoxes.Array.size
       value: 4
@@ -811,6 +856,22 @@ PrefabInstance:
       propertyPath: '_spriteSpeakerEffects.Array.data[3]'
       value: 
       objectReference: {fileID: 202210319}
+    - target: {fileID: 3772081711365527026, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.85280734
+      objectReference: {fileID: 0}
+    - target: {fileID: 3772081711365527026, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8785621
+      objectReference: {fileID: 0}
+    - target: {fileID: 3772081711365527026, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.85280734
+      objectReference: {fileID: 0}
+    - target: {fileID: 3772081711365527026, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 382
+      objectReference: {fileID: 0}
     - target: {fileID: 5003805729565243411, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -106
@@ -955,6 +1016,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2125311398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1956713845947666180, guid: 565af1e03d9efbf4c9027c655fd2e7c0, type: 3}
+  m_PrefabInstance: {fileID: 1972440356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
