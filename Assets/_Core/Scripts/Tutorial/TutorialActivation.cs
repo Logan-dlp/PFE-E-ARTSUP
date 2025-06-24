@@ -69,15 +69,16 @@ namespace MoonlitMixes.Tutorial
 
         private void TutorialForestPart1()
         {
-            _outlineToActivate[1].SetActive(true);
+            _outlineToActivate[0].SetActive(true);
             scriptableEvent2.OnEvent += TutorialForestPart2;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
-            _outlineToActivate[1].GetComponentInParent<PickUpTool>().canToolPickedUp = true;
         }
 
         private void TutorialForestPart2()
         {
-            _outlineToActivate[1].SetActive(false);
+            _outlineToActivate[0].SetActive(false);
+            _outlineToActivate[1].SetActive(true);
+            _outlineToActivate[1].GetComponentInParent<PickUpTool>().canToolPickedUp = true;
             scriptableEvent2.OnEvent -= TutorialForestPart2;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
         }
