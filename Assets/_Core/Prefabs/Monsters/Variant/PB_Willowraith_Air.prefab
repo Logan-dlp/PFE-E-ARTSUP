@@ -1325,7 +1325,9 @@ Transform:
   m_LocalPosition: {x: -0.10097995, y: -0.07959199, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6823715602097270439}
+  - {fileID: 7780882332807239616}
   m_Father: {fileID: 3865397629618902873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8713612033751616307
@@ -1589,3 +1591,155 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 30
   healthBarScriptableInt: {fileID: 11400000, guid: 38177138b79a1194f99da6c69f9113bd, type: 2}
+  _hitMaterial: {fileID: 2100000, guid: 71b93f1f4d387eb4ca793fee48609d2b, type: 2}
+  _timeHitVFX: 0.5
+  _dieVFX: {fileID: 0}
+  _timeDieVFX: 0
+--- !u!1001 &5452864917233168715
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6607757631217308628}
+    m_Modifications:
+    - target: {fileID: 2113465112532461597, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_Name
+      value: Decal_MonstersDamage_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1875782
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.47697443
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.023000717
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.5701354
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5653506
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.4197201
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.4232723
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 179.517
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -16.819
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561257875429084089, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_Offset.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561257875429084089, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_FadeFactor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561257875429084089, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_DecalLayerMask
+      value: 4294967295
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+--- !u!4 &7780882332807239616 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+  m_PrefabInstance: {fileID: 5452864917233168715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9143993544066041900
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6607757631217308628}
+    m_Modifications:
+    - target: {fileID: 2113465112532461597, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_Name
+      value: Decal_MonstersDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.16057822
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.47597447
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.061000824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.42029727
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.4167701
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5675289
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5723319
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 179.517
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 17.416
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561257875429084089, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_Offset.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561257875429084089, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_FadeFactor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561257875429084089, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+      propertyPath: m_DecalLayerMask
+      value: 4294967295
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+--- !u!4 &6823715602097270439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2330411054595171979, guid: 8c0cf010616a1a24a9015d0b5c51d02c, type: 3}
+  m_PrefabInstance: {fileID: 9143993544066041900}
+  m_PrefabAsset: {fileID: 0}
