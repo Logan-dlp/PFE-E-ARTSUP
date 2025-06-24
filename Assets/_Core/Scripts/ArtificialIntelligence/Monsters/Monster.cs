@@ -169,7 +169,8 @@ namespace MoonlitMixes.AI
 
         private void PlayFMOD(EventReference sound)
         {
-            if (sound.IsNull) return;
+            if (sound.IsNull) { Debug.LogWarning("son = null"); return; }
+            Debug.Log("play the sound"+sound);
             RuntimeManager.PlayOneShot(sound, transform.position);
         }
     }
