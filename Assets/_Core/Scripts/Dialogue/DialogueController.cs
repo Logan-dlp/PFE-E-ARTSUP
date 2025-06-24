@@ -23,6 +23,9 @@ namespace MoonlitMixes.Dialogue
         [SerializeField] private SpeakerEffect[] _textSpeakerEffects;
         [SerializeField] private SpeakerEffect[] _spriteSpeakerEffects;
 
+        [SerializeField] private GameObject _gameObjectA; // Nouveau GameObject A
+        [SerializeField] private GameObject _gameObjectB; // Nouveau GameObject B
+
         private DialogueData _currentDialogue;
         private int _dialogueIndex = 0;
         private bool _isTyping = false;
@@ -95,6 +98,24 @@ namespace MoonlitMixes.Dialogue
             DialogueLineData line = _currentDialogue.Lines[_dialogueIndex];
             int speakerIndex = line.SpeakerIndex;
 
+            // --- Gestion activation/désactivation des GameObjects selon speakerIndex ---
+            if (speakerIndex == 0 || speakerIndex == 2)
+            {
+                _gameObjectA.SetActive(true);
+                _gameObjectB.SetActive(false);
+            }
+            else if (speakerIndex == 1 || speakerIndex == 3)
+            {
+                _gameObjectA.SetActive(false);
+                _gameObjectB.SetActive(true);
+            }
+            else
+            {
+                _gameObjectA.SetActive(false);
+                _gameObjectB.SetActive(false);
+            }
+            // ---------------------------------------------------------------------------
+
             if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
             {
                 Debug.LogWarning($"SpeakerIndex {speakerIndex} is out of bounds!");
@@ -117,7 +138,6 @@ namespace MoonlitMixes.Dialogue
                 {
                     if (line.SpeakerSprite != null)
                     {
-                        // Change seulement si différent du sprite actuel
                         if (_imageSpeakers[i].sprite != line.SpeakerSprite)
                         {
                             _imageSpeakers[i].sprite = line.SpeakerSprite;
@@ -126,7 +146,6 @@ namespace MoonlitMixes.Dialogue
                     }
                     else if (_imageSpeakers[i].sprite != null)
                     {
-                        // Garde l’ancien sprite
                         _imageSpeakers[i].enabled = true;
                     }
                 }
@@ -248,6 +267,10 @@ namespace MoonlitMixes.Dialogue
                     image.enabled = false;
                 }
             }
+
+            // Désactivation des GameObjects à la fin du dialogue
+            _gameObjectA.SetActive(false);
+            _gameObjectB.SetActive(false);
 
             OnDialogueFinished?.Invoke();
         }
