@@ -9,14 +9,14 @@ namespace MoonlitMixes.UI
         [SerializeField] private GameObject _bottomArrow;
 
         private ScrollRect _scrollRect;
-        private ScrollRectAutoScroll _autoScroll;
+        private ScrollRectAutoScrollLabo _autoScroll;
 
         private void Awake()
         {
             _scrollRect = GetComponentInParent<ScrollRect>();
             _scrollRect.verticalScrollbar.onValueChanged.AddListener(UpdateArrowVisibility);
 
-            _autoScroll = GetComponent<ScrollRectAutoScroll>();
+            _autoScroll = GetComponent<ScrollRectAutoScrollLabo>();
 
             _topArrow.SetActive(false);
             _bottomArrow.SetActive(false);

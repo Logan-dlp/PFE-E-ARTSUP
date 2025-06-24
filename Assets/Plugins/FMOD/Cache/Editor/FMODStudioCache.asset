@@ -47,7 +47,7 @@ MonoBehaviour:
     data1: 4259285915
     data2: 1673433258
   Type: 2
-  IsGlobal: 0
+  IsGlobal: 1
   Labels:
   - Neutral
   - Stressed
@@ -208,7 +208,7 @@ MonoBehaviour:
     data1: 2812323575
     data2: 3097580678
   Type: 2
-  IsGlobal: 0
+  IsGlobal: 1
   Labels:
   - Success
   - Fail
@@ -267,33 +267,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-7927011168320387998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/GolemIdle 2
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/GolemIdle 2
-  Guid:
-    Data1: -1116883501
-    Data2: 1141159754
-    Data3: 561796484
-    Data4: 140866674
-  Banks:
-  - {fileID: -3654338523826832625}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-7807266375696672895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +288,7 @@ MonoBehaviour:
     data1: 561229424
     data2: 3431562315
   Type: 2
-  IsGlobal: 0
+  IsGlobal: 1
   Labels:
   - Neutral
   - Angry
@@ -389,10 +362,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638863714905570443
+  lastModified: 638863727467812826
   FileSizes:
   - Name: Desktop
-    Value: 5026
+    Value: 5024
   Exists: 1
 --- !u!114 &-6593667209205996532
 MonoBehaviour:
@@ -448,6 +421,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-6418876101560558951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/DialogueSpeed
+  m_EditorClassIdentifier: 
+  Name: DialogueSpeed
+  StudioPath: parameter:/DialogueSpeed
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 4064295432
+    data2: 671634517
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-6039255988507576534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,10 +487,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638863713526885569
+  lastModified: 638863727467802801
   FileSizes:
   - Name: Desktop
-    Value: 1303648
+    Value: 1303776
   Exists: 1
 --- !u!114 &-5874760184294858751
 MonoBehaviour:
@@ -781,19 +778,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/Actions/Cut
   Guid:
-    Data1: 129114775
-    Data2: 1237726726
-    Data3: 1840182452
-    Data4: -1133367012
+    Data1: -1044310898
+    Data2: 1102849483
+    Data3: 1272001470
+    Data4: -194076427
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 261
+  Length: 62
 --- !u!114 &-4039272952934710621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,32 +818,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 52311
---- !u!114 &-3795012143754135576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Selling/Selling
-  m_EditorClassIdentifier: 
-  Name: Selling
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 2302576845
-    data2: 3176160488
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - Success
-  - Fail
-  Exists: 1
 --- !u!114 &-3721226312005830800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,10 +860,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638863714910418199
+  lastModified: 638863727469122344
   FileSizes:
   - Name: Desktop
-    Value: 21398080
+    Value: 21395200
   Exists: 1
 --- !u!114 &-3468074436128642910
 MonoBehaviour:
@@ -1056,6 +1027,32 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-2432517482217577216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/WolfEmoteChange
+  m_EditorClassIdentifier: 
+  Name: WolfEmoteChange
+  StudioPath: parameter:/WolfEmoteChange
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 4259285915
+    data2: 1673433258
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Neutral
+  - Stressed
+  Exists: 1
 --- !u!114 &-2170538732779741789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1298,6 +1295,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-144801144412971225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/QTE
+  m_EditorClassIdentifier: 
+  Name: QTE
+  StudioPath: parameter:/QTE
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2812323575
+    data2: 3097580678
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Success
+  - Fail
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,19 +1409,24 @@ MonoBehaviour:
   - {fileID: -3271879545664930784}
   - {fileID: 6666733062701094246}
   - {fileID: 65910991494149737}
-  - {fileID: 5605327332508249323}
-  - {fileID: -7927011168320387998}
+  - {fileID: 2883079749412794182}
+  - {fileID: 8165007614904080858}
   EditorParameters:
   - {fileID: -8657656229530395680}
   - {fileID: -7017961827621887704}
   - {fileID: -1535388348292058985}
   - {fileID: 6254898803329325478}
+  - {fileID: -144801144412971225}
+  - {fileID: 196023938265948697}
+  - {fileID: -2432517482217577216}
+  - {fileID: -6418876101560558951}
+  - {fileID: 2368237144096725634}
   MasterBanks:
   - {fileID: 3025598215809829410}
   StringsBanks:
   - {fileID: -6649857338615542980}
   cacheVersion: 131847
-  cacheTime: 638863714910418199
+  cacheTime: 638863727469122344
   SerializableEventsDict:
   - key: snapshot:/GamePaused
     index: 0
@@ -1538,9 +1566,9 @@ MonoBehaviour:
     index: 67
   - key: event:/SFX/Ennemies/EnnemiesHitGolem
     index: 68
-  - key: event:/SFX/GolemIdle 3
+  - key: event:/SFX/SellingFail
     index: 69
-  - key: event:/SFX/GolemIdle 2
+  - key: event:/SFX/SellingSuccess
     index: 70
 --- !u!114 &65910991494149737
 MonoBehaviour:
@@ -1596,6 +1624,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &196023938265948697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Dialogue
+  m_EditorClassIdentifier: 
+  Name: Dialogue
+  StudioPath: parameter:/Dialogue
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 561229424
+    data2: 3431562315
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Neutral
+  - Angry
+  - Happy
+  Exists: 1
 --- !u!114 &204049650777227455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1643,7 +1698,7 @@ MonoBehaviour:
     data1: 4064295432
     data2: 671634517
   Type: 0
-  IsGlobal: 0
+  IsGlobal: 1
   Labels: []
   Exists: 1
 --- !u!114 &976121682271320629
@@ -1747,7 +1802,7 @@ MonoBehaviour:
     data1: 561229424
     data2: 3431562315
   Type: 2
-  IsGlobal: 0
+  IsGlobal: 1
   Labels:
   - Neutral
   - Angry
@@ -1808,6 +1863,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &2368237144096725634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Selling
+  m_EditorClassIdentifier: 
+  Name: Selling
+  StudioPath: parameter:/Selling
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 628071475
+    data2: 3545798605
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Success
+  - Fail
+  Exists: 1
 --- !u!114 &2587198057199933880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,6 +1970,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &2883079749412794182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SellingFail
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SellingFail
+  Guid:
+    Data1: 1594099607
+    Data2: 1295945424
+    Data3: -1394670717
+    Data4: -854447415
+  Banks:
+  - {fileID: -3654338523826832625}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &2914830806000628907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1958,10 +2066,10 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638863714905560356
+  lastModified: 638863727467812826
   FileSizes:
   - Name: Desktop
-    Value: 4510
+    Value: 5368
   Exists: 1
 --- !u!114 &3231853355132046550
 MonoBehaviour:
@@ -1990,6 +2098,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &3292491463147396142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Selling/Selling
+  m_EditorClassIdentifier: 
+  Name: Selling
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 628071475
+    data2: 3545798605
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Success
+  - Fail
+  Exists: 1
 --- !u!114 &3356338655260253366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,7 +2145,7 @@ MonoBehaviour:
     data1: 4064295432
     data2: 671634517
   Type: 0
-  IsGlobal: 0
+  IsGlobal: 1
   Labels: []
   Exists: 1
 --- !u!114 &3699838659275787673
@@ -2262,33 +2396,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &5605327332508249323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/GolemIdle 3
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/GolemIdle 3
-  Guid:
-    Data1: -989835840
-    Data2: 1298955856
-    Data3: 1262292137
-    Data4: -1856072336
-  Banks:
-  - {fileID: -3654338523826832625}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &5929083688511654894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2358,20 +2465,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/Selling
   Guid:
-    Data1: -667744023
-    Data2: 1229199137
-    Data3: 293849745
-    Data4: 1138248962
+    Data1: 1128216887
+    Data2: 1318570047
+    Data3: 1456978359
+    Data4: 340807615
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -3795012143754135576}
+  - {fileID: 3292491463147396142}
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 2000
 --- !u!114 &6254898803329325478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2469,7 +2576,7 @@ MonoBehaviour:
   Path: Assets/_Core/Sounds/MoonlitMixes_AudioSystem/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638863713583056977
+  lastModified: 638860145277657568
   FileSizes:
   - Name: Desktop
     Value: 9401824
@@ -2603,6 +2710,33 @@ MonoBehaviour:
   Banks:
   - {fileID: -3654338523826832625}
   IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8165007614904080858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SellingSuccess
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SellingSuccess
+  Guid:
+    Data1: -129667146
+    Data2: 1085422278
+    Data3: -848302455
+    Data4: -1499789164
+  Banks:
+  - {fileID: -3654338523826832625}
+  IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters: []

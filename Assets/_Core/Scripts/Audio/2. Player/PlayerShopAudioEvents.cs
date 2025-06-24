@@ -1,0 +1,67 @@
+using FMODUnity;
+using MoonlitMixes.AI.PNJ.Spawner;
+using MoonlitMixes.AI.PNJ.StateMachine.States;
+using MoonlitMixes.Dialogue;
+using System;
+using UnityEngine;
+
+public class PlayerShopAudioEvents : MonoBehaviour
+{
+    [Header("Volume Settings")]
+    [Range(0f, 1f)][SerializeField] private float _sfxVolume = 1f;
+
+    [Header("Audio Events")]
+    [SerializeField] private AudioEventScriptableObject _clientBellSound;
+    [SerializeField] private AudioEventScriptableObject _doorOpenSound;
+    [SerializeField] private AudioEventScriptableObject _saleSuccessSound;
+    [SerializeField] private AudioEventScriptableObject _saleFailureSound;
+    [SerializeField] private AudioEventScriptableObject _dialogCloseSound;
+    [SerializeField] private AudioEventScriptableObject _dialogSkipSound;
+    [SerializeField] private AudioEventScriptableObject _selectPotionSound;
+    //[SerializeField] private AudioEventScriptableObject _npcMaleVoiceSound;
+    //[SerializeField] private AudioEventScriptableObject _npcFemaleVoiceSound;
+
+
+    private void PlaySound(AudioEventScriptableObject audioEvent)
+    {
+        if (audioEvent == null || AudioManager.Instance == null) return;
+
+        var instance = RuntimeManager.CreateInstance(audioEvent.EventReference);
+        instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        instance.setVolume(_sfxVolume);
+        instance.start();
+        instance.release();
+    }
+
+    private void OnEnable()
+    {
+        CustomerSpawner.OnClientBellRequested += PlayClientBellSound;
+        DialogueController.OnDialogueClosed += PlayDialogCloseSound;
+        DialogueController.OnDialogueSkipped += PlayDialogSkipSound;
+        ChoosePotionState.OnPotionSelectedSoundRequested += PlaySelectPotionSound;
+        ChoiceDialogueState.OnSaleSuccessSoundRequested += PlaySaleSuccessSound;
+        ChoiceDialogueState.OnSaleFailureSoundRequested += PlaySaleFailureSound;
+    }
+
+    private void OnDisable()
+    {
+        CustomerSpawner.OnClientBellRequested -= PlayClientBellSound;
+        DialogueController.OnDialogueClosed -= PlayDialogCloseSound;
+        DialogueController.OnDialogueSkipped -= PlayDialogSkipSound;
+        ChoosePotionState.OnPotionSelectedSoundRequested -= PlaySelectPotionSound;
+        ChoiceDialogueState.OnSaleSuccessSoundRequested -= PlaySaleSuccessSound;
+        ChoiceDialogueState.OnSaleFailureSoundRequested -= PlaySaleFailureSound;
+    }
+
+    public void PlayClientBellSound() => PlaySound(_clientBellSound);
+    public void PlayDoorOpenSound() => PlaySound(_doorOpenSound);
+    public void PlaySaleFailureSound() => PlaySound(_saleFailureSound);
+    public void PlaySaleSuccessSound() => PlaySound(_saleSuccessSound);
+    public void PlayDialogCloseSound() => PlaySound(_dialogCloseSound);
+    public void PlayDialogSkipSound() => PlaySound(_dialogSkipSound);
+    public void PlaySelectPotionSound() => PlaySound(_selectPotionSound);
+    //public void PlayNpcMaleVoiceSound() => PlaySound(_npcMaleVoiceSound);
+    //public void PlayNpcFemaleVoiceSound() => PlaySound(_npcFemaleVoiceSound);
+
+    public void SetSFXVolume(float value) => _sfxVolume = Mathf.Clamp01(value);
+}

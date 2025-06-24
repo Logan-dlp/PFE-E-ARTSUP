@@ -7,6 +7,7 @@ namespace MoonlitMixes.DayNightCycle
     {
         [SerializeField] internal Texture2D[] _lightingMapDir;
         [SerializeField] internal Texture2D[] _lightingMapColor;
+        [SerializeField] internal GameObject _lightingGameObject;
 
         internal LightmapData[] _lightMapArray;
     }

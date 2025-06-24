@@ -2,6 +2,7 @@
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Item;
 using MoonlitMixes.Scene;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ namespace MoonlitMixes.UI
 {
     public class ChangeSceneUI : MonoBehaviour, IUIActivationControl
     {
+        public static Action OnSceneDoorOpen;
+
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _panel;
         [SerializeField] private GameObject _panelNoChestItem; // facultatif selon la scène
@@ -58,6 +61,8 @@ namespace MoonlitMixes.UI
         {
             if (callbackContext.started && !_isLoading)
             {
+                OnSceneDoorOpen?.Invoke();
+
                 Debug.Log(_increaseTimePhase);
                 Debug.Log("ChangeScene triggered for: " + _sceneName);
 
@@ -82,6 +87,7 @@ namespace MoonlitMixes.UI
                             }
                             else
                             {
+                                Debug.Log("increase " + _increaseTimePhase);
                                 if (_panelNoChestItem != null && SceneManager.GetActiveScene().name == "S_Forest")
                                 {
                                     Debug.Log("No items to send, showing popup for S_Forest.");
@@ -95,7 +101,6 @@ namespace MoonlitMixes.UI
                                     _isLoading = true;
                                     if (_increaseTimePhase)
                                     {
-                                        Debug.Log("ChangeScene2");
                                         _dayNightCycleInfo.ActualTimePhase++;
                                     }
                                     SceneLoader.LoadAsyncScene(_sceneName, _animator);
