@@ -35,7 +35,7 @@ namespace MoonlitMixes.AI
         [SerializeField] private EventReference _soundMoveWillowraith;
         [SerializeField] private EventReference _soundDeathSmallEnemy;
         [SerializeField] private EventReference _soundDeathBigEnemy;
-
+        
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
         private MonsterData _monsterData;
@@ -43,6 +43,8 @@ namespace MoonlitMixes.AI
         private Rigidbody _rigidbody;
         private Vector3 _attackRayOffset = new(0, .5f, 0);
         private Animator _animator;
+        private bool _havePlayer = true;
+
 
         private void Start()
         {
@@ -66,7 +68,6 @@ namespace MoonlitMixes.AI
                 BaseSpeed = GetComponent<NavMeshAgent>().speed,
                 AttackSpeed = _speedAttack,
             };
-
             TransitionTo(new MonsterStateIdle());
         }
 
@@ -83,8 +84,10 @@ namespace MoonlitMixes.AI
             {
                 TransitionTo(nextMonsterState);
             }
+            if (Vector3.Distance(this.transform.position, _playerReference.transform.position) < 13) _havePlayer = true;
+            else _havePlayer = false;
         }
-
+        
         private void TransitionTo(IMonsterState nextMonsterState)
         {
             _currentMonsterState?.Exit(_monsterData);
@@ -116,7 +119,6 @@ namespace MoonlitMixes.AI
                 }
             }
         }
-
         public void FinishAnimationAttack()
         {
             _monsterData.FinishedAttacking = true;
@@ -169,9 +171,12 @@ namespace MoonlitMixes.AI
 
         private void PlayFMOD(EventReference sound)
         {
-            if (sound.IsNull) { Debug.LogWarning("son = null"); return; }
-            Debug.Log("play the sound"+sound);
-            RuntimeManager.PlayOneShot(sound, transform.position);
+            if (_havePlayer)
+            {
+                if (sound.IsNull) { Debug.LogWarning("son = null"); return; }
+                Debug.Log("play the sound" + sound);
+                RuntimeManager.PlayOneShot(sound, transform.position);
+            }
         }
     }
 }
