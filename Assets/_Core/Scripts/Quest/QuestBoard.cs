@@ -30,7 +30,6 @@ namespace MoonlitMixes.Quest
             {
                 _UIIntegration.SetActive(false);
                 scriptableQuestEvent.QuestInfo = questInfosArray[dayNightCycleInfo.ActualDay];
-                _hasQuestBeenSendToday = true;
                 _3DModelOutline.SetActive(false);
                 scriptableBoolEventMenu.SendBool(true);
                 _UItrigger.enabled = false;
