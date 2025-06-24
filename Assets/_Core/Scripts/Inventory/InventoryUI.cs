@@ -34,12 +34,15 @@ namespace MoonlitMixes.Inventory
         {
             foreach (InventoryData inventoryData in _inventoryExtensionList)
             {
-                foreach (ItemData itemData in inventoryData.Items)
+                if (inventoryData.Items != null && inventoryData.Items.Count != 0)
                 {
-                    if (itemData.name != "Empty")
+                    foreach (ItemData itemData in inventoryData.Items)
                     {
-                        _inventory.Items.Add(itemData);
-                        inventoryData.Items.Remove(itemData);
+                        if (itemData.name != "Empty")
+                        {
+                            _inventory.Items.Add(itemData);
+                            inventoryData.Items.Remove(itemData);
+                        }
                     }
                 }
             }
