@@ -23,6 +23,8 @@ namespace MoonlitMixes.Events
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField, Range(.1f, 1f)] private float _delayRatioFailure;
         [SerializeField, Range(.1f, 1)] private float _pressedSpriteTime = .1f;
+        [SerializeField] private Color _colorFailure;
+        [SerializeField] private Color _colorSuccess;
 
         private int _currentIndex;
         private int _currentPressCount = 0;
@@ -175,7 +177,7 @@ namespace MoonlitMixes.Events
                         _progressBarUI.fillAmount = 1;
                         _progressBarComplete = true;
                         _qteSuccess = true;
-                        _qteSlot.color = Color.green;
+                        _qteSlot.color = _colorSuccess;
                         StartCoroutine(DisplaySuccessForDuration());
                     }
                 }
@@ -233,7 +235,7 @@ namespace MoonlitMixes.Events
             FindFirstObjectByType<PlayerInteraction>().QuitInteraction();
             if (!_qteSuccess)
             {
-                _qteSlot.color = Color.red;
+                _qteSlot.color = _colorFailure;
             }
         }
 
@@ -246,7 +248,7 @@ namespace MoonlitMixes.Events
             else
             {
                 _qteSuccess = false;
-                _qteSlot.color = Color.red;
+                _qteSlot.color = _colorFailure;
                 _progressBarComplete = false;
                 _progressBarUI.fillAmount = 0;
                 StartCoroutine(DisplayFailureForDuration());
@@ -321,7 +323,7 @@ namespace MoonlitMixes.Events
             {
                 _turnCount = 0;
                 _qteSuccess = true;
-                _qteSlot.color = Color.green;
+                _qteSlot.color = _colorSuccess;
                 _rightStick.performed -= CheckStickRotation;
                 _progressBarComplete = true;
                 _progressBarUI.fillAmount = 1;
