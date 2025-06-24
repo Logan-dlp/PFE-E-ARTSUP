@@ -23,6 +23,8 @@ namespace MoonlitMixes.CookingMachine
         [SerializeField] protected Image _imageQTE;
         [SerializeField] protected Image _imageProgressBar;
 
+        [SerializeField] protected ParticleSystem _vfx;
+
         protected PlayerInteraction _playerInteraction;
 
         private ItemData _itemData;
@@ -37,6 +39,7 @@ namespace MoonlitMixes.CookingMachine
         protected void Desactivate()
         {
             _scriptableBoolEvent.BoolAction -= CheckItem;
+            _vfx.Stop();
         }
 
         public virtual void CheckItem(bool boolValue)
@@ -53,6 +56,7 @@ namespace MoonlitMixes.CookingMachine
 
         public virtual void ConvertItem(ItemData item, PlayerInteraction player)
         {
+            _vfx.Play();
             Activate();
             _itemData = item;
             _scriptableQTEConfig.ScriptableBoolEvent = _scriptableBoolEvent;
