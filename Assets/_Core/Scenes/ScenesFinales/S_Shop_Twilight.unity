@@ -3345,6 +3345,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalPriceText: {fileID: 821399426}
+  _isLoanRefunded: 0
+  _loanPrice: 600
+  _day1NeededMoney: 120
+  _day2NeededMoney: 220
+  _day3NeededMoney: 415
 --- !u!1 &367902605
 GameObject:
   m_ObjectHideFlags: 0
@@ -6639,7 +6644,8 @@ MonoBehaviour:
   _timeBetweenSpawns: 2
   _maxCustomers: 3
   _playerMovement: {fileID: 7855766532908294441}
-  _dayNightCycleInfo: {fileID: 0}
+  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
+  _endGameDialogue: {fileID: 1874206143}
 --- !u!4 &814347454
 Transform:
   m_ObjectHideFlags: 0
@@ -16128,6 +16134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1874206141}
   - component: {fileID: 1874206142}
+  - component: {fileID: 1874206143}
   m_Layer: 5
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -16180,6 +16187,27 @@ MonoBehaviour:
   _spriteSpeakerEffects:
   - {fileID: 309927957}
   - {fileID: 1462320358}
+  _gameObjectA: {fileID: 897944185}
+  _gameObjectB: {fileID: 1334013626}
+--- !u!114 &1874206143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874206140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45e6674dfe147845a5c4ec8197c7672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _potionPriceCalculate: {fileID: 354707295}
+  _dailyLoseDialogue: {fileID: 11400000, guid: e9f9838b245a2944aa8fa650c5aa0e79, type: 2}
+  _dailyWinDialogue: {fileID: 11400000, guid: ff85d14141c6eca49b62fcb94b996265, type: 2}
+  _loseDialogue: {fileID: 11400000, guid: 6880fddfd6bdf014198841ee022b0d47, type: 2}
+  _winDialogue: {fileID: 11400000, guid: caad1677367ea4a468c830bad9af6b46, type: 2}
+  _endImage: {fileID: 0}
+  _dayNightCycleInfo: {fileID: 11400000, guid: 51f631fcb88537044928d007237a09a5, type: 2}
 --- !u!1 &1876273383
 GameObject:
   m_ObjectHideFlags: 0
