@@ -1,6 +1,8 @@
 using MoonlitMixes.AI.PNJ.StateMachine;
 using MoonlitMixes.AI.PNJ.StateMachine.States;
 using MoonlitMixes.Datas;
+using MoonlitMixes.DayNightCycle;
+using MoonlitMixes.Events;
 using MoonlitMixes.Player;
 using System;
 using System.Collections;
@@ -22,9 +24,9 @@ namespace MoonlitMixes.AI.PNJ.Spawner
 
         private readonly Dictionary<int, List<int>> _dayToPNJIndices = new Dictionary<int, List<int>>
         {
-            { 0, new List<int> { 0, 1 } },
-            { 1, new List<int> { 2, 3, 4 } },
-            { 2, new List<int> { 5, 6, 7, 8 } }
+            { 0, new List<int> { 0, 1 } },         
+            { 1, new List<int> { 2, 3, 4 } },       
+            { 2, new List<int> { 5, 6, 7, 8 } }   
         };
 
         private List<int> _currentDayPNJIndices;
@@ -106,8 +108,8 @@ namespace MoonlitMixes.AI.PNJ.Spawner
 
         private void NotifyAllCustomersGone()
         {
-            _dayNightCycleInfo.ActualTimePhase++;
             _playerMovement.BlockMovement(false);
+            FindFirstObjectByType<ChangeUITimePhase>().IncreaseTimePhase();
             _isSpawning = false;
         }
 
