@@ -27,11 +27,14 @@ namespace MoonlitMixes.Tutorial
                 case EnumScene.ShopMorning:
                     if (!_tutorialSaveInfo.tutorialHubDone && _lastSceneNameData.sceneName == "S_TitleScreen")
                     {
-                        Debug.Log("Tuto");
                         TutorialShopMorningPart1();
                     }
                     break;
                 case EnumScene.Forest:
+                    if (!_tutorialSaveInfo.tutorialHubDone)
+                    {
+                        TutorialForestPart1();
+                    }
                     break;
                 case EnumScene.Labo:
                     break;
@@ -64,14 +67,19 @@ namespace MoonlitMixes.Tutorial
             _tutorialSaveInfo.tutorialShopMorningDone = true;
         }
 
-        private void TutorialHub()
+        private void TutorialForestPart1()
         {
-
+            _outlineToActivate[1].SetActive(true);
+            scriptableEvent2.OnEvent += TutorialForestPart2;
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
+            _outlineToActivate[1].GetComponentInParent<PickUpTool>().canToolPickedUp = true;
         }
 
-        private void TutorialForest()
+        private void TutorialForestPart2()
         {
-
+            _outlineToActivate[1].SetActive(false);
+            scriptableEvent2.OnEvent -= TutorialForestPart2;
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
         }
 
         private void TutorialLabo()

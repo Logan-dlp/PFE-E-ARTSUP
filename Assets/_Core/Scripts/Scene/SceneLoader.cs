@@ -32,7 +32,7 @@ namespace MoonlitMixes.Scene
                     _sceneToLoad.allowSceneActivation = true;
                 }
 
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
 
