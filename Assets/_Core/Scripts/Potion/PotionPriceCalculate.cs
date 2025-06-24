@@ -8,7 +8,10 @@ namespace MoonlitMixes.Potion
         public int SelectedPotionPrice { get; private set; }
 
         [SerializeField] private TextMeshProUGUI totalPriceText;
+        [SerializeField] private GameObject activateOnFirstDisplay;  // GameObject à activer la première fois que le prix s'affiche
+
         private int totalPotionPrice = 0;
+        private bool hasDisplayedPrice = false; // Pour savoir si on a déjà affiché le prix une première fois
 
         public void SetSelectedPotionPrice(int price)
         {
@@ -41,7 +44,16 @@ namespace MoonlitMixes.Potion
         {
             if (totalPriceText != null)
             {
-                totalPriceText.text = $"Total: {totalPotionPrice}";
+                totalPriceText.text = $"{totalPotionPrice}";
+
+                if (!hasDisplayedPrice)
+                {
+                    hasDisplayedPrice = true;
+                    if (activateOnFirstDisplay != null)
+                    {
+                        activateOnFirstDisplay.SetActive(true);
+                    }
+                }
             }
         }
 
