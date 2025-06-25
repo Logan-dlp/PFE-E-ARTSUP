@@ -24,6 +24,7 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
+        [SerializeField] private InventoryData _inventoryDataCellier;
 
         private void OnEnable()
         {
@@ -112,14 +113,18 @@ namespace MoonlitMixes.Inventory
 
             FirstSelected = currentItemList.FirstOrDefault();
 
-            while (_inventory.Items.Count < _inventory.MaxSlots)
-            {
-                _inventory.Items.Add(_emptyItem);
-            }
+            
 
             if (_inventory.name == "Inventory Cellar")
             {
                 StartCoroutine(SelectedButton());
+            }
+            else
+            {
+                while (_inventory.Items.Count < _inventory.MaxSlots)
+                {
+                    _inventory.Items.Add(_emptyItem);
+                }
             }
         }
 
@@ -129,10 +134,19 @@ namespace MoonlitMixes.Inventory
             int totalSlots = inventory.Items.Count;
             inventory.Items.Clear();
             inventory.Items.AddRange(compacted);
-            while (inventory.Items.Count < totalSlots)
+            if(inventory.Mode != InventoryMode.InventoryCellar)
             {
-                inventory.Items.Add(_emptyItem);
+                
             }
+            if (_inventory.name != "Inventory Cellar")
+            {while (inventory.Items.Count < totalSlots)
+                {
+                    inventory.Items.Add(_emptyItem);
+                }
+            }
+
+
+
         }
 
         public IEnumerator SelectedButton()
