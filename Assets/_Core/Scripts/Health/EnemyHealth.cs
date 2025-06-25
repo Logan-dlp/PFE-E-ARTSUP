@@ -1,3 +1,4 @@
+using MoonlitMixes.AI;
 using NaughtyAttributes;
 using System.Collections;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace MoonlitMixes.Health
         [SerializeField] float _timeHitVFX;
         [SerializeField] GameObject _dieVFX;
         [SerializeField] float _timeDieVFX;
+        [SerializeField] private GameObject _itemDrop;
+
         private bool _hit = false;
         private float _time = 1;
         public override void TakeDamage(float damage)
@@ -56,7 +59,9 @@ namespace MoonlitMixes.Health
             if(_currentHealth <= 0)
             {
                 Debug.Log("EnemyDead");
-                if(_dieVFX!=null) _dieVFX.SetActive(true);
+                GetComponent<Monster>().DropItem(_itemDrop);
+
+                if (_dieVFX!=null) _dieVFX.SetActive(true);
             }
             
             healthBarScriptableInt.SendHealthAmount(_currentHealth / _maxHealth);

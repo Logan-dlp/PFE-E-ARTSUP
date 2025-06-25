@@ -22,7 +22,13 @@ public class UseTools : MonoBehaviour
     [SerializeField] private LayerMask _layerHitable;
     [SerializeField] private Vector3 _raycastOffset;
     [SerializeField] private float _septerInvokeDelay = 0.5f;
+    [SerializeField] private GameObject _bagIsFull;
 
+    public GameObject BagIsFull
+    {
+        get { return _bagIsFull; }
+        set { _bagIsFull = value; }
+    }
     private int _brokenRock = 0;
     private RouletteSelectionTools _rouletteSelection;
     private ToolType _currentTool;
@@ -74,8 +80,9 @@ public class UseTools : MonoBehaviour
             if (itemList.Items.Count > 0)
             {
                 ItemData item = itemList.Items[0];
-
-                if (_inventory != null)
+                _inventory.RefreshInventory();
+                Debug.Log(_inventory.EmptySlot);
+                if (_inventory != null&&_inventory.EmptySlot>0)
                 {
                     _inventory.AddItem(item);
                 }
@@ -212,8 +219,9 @@ public class UseTools : MonoBehaviour
         if (Physics.Raycast(transform.position + _raycastOffset, transform.forward, out hit, 2f, _layerHitable))
         {
             ItemListData itemList = hit.collider.GetComponent<ItemListSource>()?.GetItemList();
-
-            if (itemList != null && itemList.ToolType == ToolType.Hand)
+            _inventory.RefreshInventory();
+            Debug.Log(_inventory.EmptySlot);
+            if (itemList != null && itemList.ToolType == ToolType.Hand && _inventory.EmptySlot > 0)
             {
                 if (itemList.Items.Count > 0)
                 {
@@ -235,8 +243,8 @@ public class UseTools : MonoBehaviour
     {
         if (itemListSource == null)
             return;
-        
-        if (itemListSource.GetItemList() != null && itemListSource.GetItemList().Items.Count > 0)
+        _inventory.RefreshInventory();
+        if (itemListSource.GetItemList() != null && itemListSource.GetItemList().Items.Count > 0&&_inventory.EmptySlot>0)
         {
             OnUsedHand?.Invoke();
 
@@ -247,5 +255,8 @@ public class UseTools : MonoBehaviour
             }
             Destroy(itemListSource.gameObject);
         }
+        if (_inventory.EmptySlot <= 0) _bagIsFull.SetActive(true);
+        else _bagIsFull.SetActive(false);
+
     }
 }
