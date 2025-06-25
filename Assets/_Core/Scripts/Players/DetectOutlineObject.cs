@@ -16,28 +16,24 @@ public class DetectOutlineObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!_playerInteraction.CanInteract) return;
-
         if (other.CompareTag("OutlineObj"))
         {
-            Debug.Log("enter : " + other.name);
-
-            if (other.TryGetComponent<CauldronMixing>(out CauldronMixing cauldronMixing))
+            if (_playerInteraction.CanInteract && other.TryGetComponent<CauldronMixing>(out CauldronMixing cauldronMixing))
             {
                 int i = (int)char.GetNumericValue(other.name, other.name.Length - 1);
                 if (i == 1) _playerHoldItem.ActivateOutline(OutlineName.Cauldron1);
                 else if (i == 2) _playerHoldItem.ActivateOutline(OutlineName.Cauldron2);
                 else if (i == 3) _playerHoldItem.ActivateOutline(OutlineName.Cauldron3);
             }
-            else if (other.TryGetComponent<KitchenMortar>(out KitchenMortar kitchenMortar))
+            else if (_playerInteraction.CanInteract && other.TryGetComponent<KitchenMortar>(out KitchenMortar kitchenMortar))
             {
                 _playerHoldItem.ActivateOutline(OutlineName.Mortar);
             }
-            else if (other.TryGetComponent<CuttingBoard>(out CuttingBoard cuttingBoard))
+            else if (_playerInteraction.CanInteract && other.TryGetComponent<CuttingBoard>(out CuttingBoard cuttingBoard))
             {
                 _playerHoldItem.ActivateOutline(OutlineName.CuttingTable);
             }
-            else if (other.TryGetComponent<WaitingTable>(out WaitingTable waitingTable))
+            else if (_playerInteraction.CanInteract && other.TryGetComponent<WaitingTable>(out WaitingTable waitingTable))
             {
                 _playerHoldItem.ActivateOutline(OutlineName.WaitingTable);
             }
@@ -54,12 +50,8 @@ public class DetectOutlineObject : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!_playerInteraction.CanInteract) return;
-
         if (other.CompareTag("OutlineObj"))
         {
-            Debug.Log("exit : " + other.name);
-
             if (other.TryGetComponent<CauldronMixing>(out CauldronMixing cauldronMixing))
             {
                 int i = (int)char.GetNumericValue(other.name, other.name.Length - 1);

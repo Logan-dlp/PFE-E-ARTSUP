@@ -9,6 +9,8 @@ using MoonlitMixes.Scene;
 using MoonlitMixes.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 namespace MoonlitMixes.Player
 {
@@ -21,9 +23,13 @@ namespace MoonlitMixes.Player
         [SerializeField] private float _interactionDistance;
         [SerializeField] private LayerMask _layerHitable;
         [SerializeField] private string _actionMapPlayer;
+        [SerializeField] private string _actionMapChangeScene;
         [SerializeField] private string _actionMapQTE;
         [SerializeField] private string _actionMapWaitingTable;
         [SerializeField] private string _actionMapUI;
+        [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
+        [SerializeField] private InputSystemUIInputModule newInputUI;
+        [SerializeField] private GameObject _verificationChangePhase;
 
         private InventoryStoragePotion _inventoryStoragePotion;
         private ACookingMachine _currentCookingMachine;
@@ -47,6 +53,9 @@ namespace MoonlitMixes.Player
             _animationPotionManager = GetComponent<AnimationPotionManager>();
             _inventoryStoragePotion = FindFirstObjectByType<InventoryStoragePotion>();
             _labAudioEvents = GetComponent<PlayerLabAudioEvents>();
+            newInputUI = new InputSystemUIInputModule();
+            //inputSystemUIInputModule.scrollWheel = inputSystemUIInputModule.submit;
+            newInputUI.submit = inputSystemUIInputModule.submit;
         }
 
         private void Update()
@@ -143,8 +152,6 @@ namespace MoonlitMixes.Player
 
         public void Interact(InputAction.CallbackContext ctx)
         {
-            if (!_canInteract) return;
-
             if (ctx.started)
             {
                 if (ItemInHand != null)
@@ -232,6 +239,15 @@ namespace MoonlitMixes.Player
                     {
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
+                            if(!_canInteract)
+                            {
+                                inputSystemUIInputModule.submit = null;
+
+                            }
+                            else
+                            {
+                                inputSystemUIInputModule.submit = newInputUI.submit;
+                            }
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
                             _animationPotionManager.OpenInventory();
@@ -246,8 +262,27 @@ namespace MoonlitMixes.Player
                         }
                         else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                         {
+                            inputSystemUIInputModule.submit = newInputUI.submit;
                             doorSceneChange.OpenCanvas();
+                            InputManager.Instance.SwitchActionMap(_actionMapChangeScene);
+
                             _labAudioEvents?.PlayTrapdoorUseSound(); // Son de trappe
+                            return;
+                        }
+                        else if (hit.transform.TryGetComponent(out CauldronMixing cauldronMixing))
+                        {
+                            if (!_canInteract)
+                            {
+                                _verificationChangePhase.SetActive(true);
+                                InputManager.Instance.SwitchActionMap(_actionMapUI);
+                                inputSystemUIInputModule.submit = newInputUI.submit;
+
+                            }
+                            else
+                            {
+                                inputSystemUIInputModule.submit = newInputUI.submit;
+
+                            }
                             return;
                         }
                     }
@@ -267,6 +302,10 @@ namespace MoonlitMixes.Player
             // Stop Sounds
             _labAudioEvents?.StopCrushSound();
             _labAudioEvents?.StopCutSound();
+        }
+        public void ActivateInput()
+        {
+            InputManager.Instance.SwitchActionMap(_actionMapPlayer);
         }
     }
 }
