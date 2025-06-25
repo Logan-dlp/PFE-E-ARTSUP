@@ -1,4 +1,5 @@
 using MoonlitMixes.Datas;
+using MoonlitMixes.Item;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryUI _inventoryChestUI;
         [SerializeField] private GameObject _validationDiscard;
         private bool _canDiscard = false;
+        public bool CanDiscard => _canDiscard;
         public InventoryUI InventoryUI { get { return _inventoryUI; } }
 
         public void DiscardBag()
@@ -50,9 +52,12 @@ namespace MoonlitMixes.Inventory
         }
         public void Submit()
         {
-            _canDiscard = true;
-            _validationDiscard.SetActive(true);
-            EventSystem.current.sendNavigationEvents = false;
+            if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<ItemDataHolder>().name=="Empty")
+            {
+                _canDiscard = true;
+                _validationDiscard.SetActive(true);
+                EventSystem.current.sendNavigationEvents = false;
+            }
         }
         public void Cancel()
         {

@@ -34,8 +34,12 @@ namespace MoonlitMixes.Inventory
             }
             else if (_canvaInventory.activeInHierarchy || _canvaChestInventory.activeInHierarchy) _inputManager.SwitchActionMap("PlayerMovement");
             _canvaInventory.SetActive(state);
-            _canvaChestInventory.SetActive(false);
-            _canvaChestFullText.SetActive(false);
+            if (!GetComponent<DiscardInventory>().CanDiscard)
+            {
+                _canvaChestInventory.SetActive(false);
+                _canvaChestFullText.SetActive(false);
+            }
+            
             _discardInventory.Cancel();
         }
         public void Discard(InputAction.CallbackContext context)

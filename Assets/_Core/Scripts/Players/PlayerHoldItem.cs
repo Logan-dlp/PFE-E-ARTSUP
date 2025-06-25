@@ -84,8 +84,6 @@ namespace MoonlitMixes.Player
         }
         public void ActivateOutline(OutlineName outlineName)
         {
-            Debug.Log("Activate : " + outlineName);
-            Debug.Log(!TableIsFull());
             switch (outlineName)
             {
                 case OutlineName.Cauldron1:
