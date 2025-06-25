@@ -16,6 +16,9 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private GameObject _validationDiscard;
         private bool _canDiscard = false;
         public bool CanDiscard => _canDiscard;
+
+        private int selected;
+        
         public InventoryUI InventoryUI { get { return _inventoryUI; } }
 
         public void DiscardBag()
@@ -24,10 +27,9 @@ namespace MoonlitMixes.Inventory
             {
                 string name = EventSystem.current.currentSelectedGameObject.name;
                 bool result = char.IsDigit(name[name.Length - 1]);
-                int selected = 0;
                 if (char.IsDigit(name[name.Length - 2]) && result)
                 {
-
+                    selected = 0;
                     int i = 0, y = 0;
                     i = (int)char.GetNumericValue(name, name.Length - 1);
                     y = (int)char.GetNumericValue(name, name.Length - 2);
