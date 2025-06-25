@@ -9,6 +9,8 @@ namespace MoonlitMixes.Scene
     public class EndDay : OpenCanvasSceneChange
     {
         [SerializeField] private EnumDayPhase _requiredTimePhaseToSleep;
+        [SerializeField] private string _sceneToLoad;
+        [SerializeField] private Animator _animator;
 
         public override void OpenCanvas()
         {
@@ -23,6 +25,7 @@ namespace MoonlitMixes.Scene
             QuestBoard._hasQuestBeenSendToday = false;
             _dayNightCycleInfo.ActualDay++;
             _dayNightCycleInfo.ActualTimePhase = 0;
+            SceneLoader.LoadAsyncScene(_sceneToLoad, _animator);
             _scriptableIntEventTimePhase.SendEvent(_dayNightCycleInfo.ActualTimePhase);
             _scriptableIntEventDay.SendEvent(_dayNightCycleInfo.ActualDay);
 
