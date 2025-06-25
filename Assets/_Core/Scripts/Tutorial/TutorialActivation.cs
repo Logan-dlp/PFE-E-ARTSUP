@@ -6,6 +6,7 @@ using MoonlitMixes.Dialogue;
 using MoonlitMixes.Events;
 using MoonlitMixes.ExplorationTools;
 using MoonlitMixes.Quest;
+using MoonlitMixes.Scene;
 using UnityEngine;
 
 namespace MoonlitMixes.Tutorial
@@ -31,16 +32,24 @@ namespace MoonlitMixes.Tutorial
                     if (!_tutorialSaveInfo.tutorialShopMorningDone && _lastSceneNameData.sceneName == "S_TitleScreen")
                     {
                         TutorialShopMorningDay1Part1();
+                        return;
                     }
                     else if (!_tutorialSaveInfo.tutorialShopMorningPostForestDone && _dayNightCycleInfo.ActualTimePhase == (int)EnumDayPhase.Afternoon)
                     {
                         TutorialShopMorningDay1Part4();
+                        return;
+                    }
+                    else if (!_tutorialSaveInfo.tutorialPreCaveDone && _dayNightCycleInfo.ActualDay == 1)
+                    {
+                        TutorialPreCavePart1();
+                        return;
                     }
                     break;
                 case EnumScene.Forest:
                     if (!_tutorialSaveInfo.tutorialForestDone)
                     {
                         TutorialForestPart1();
+                        return;
                     }
                     break;
                 case EnumScene.Labo:
@@ -58,6 +67,7 @@ namespace MoonlitMixes.Tutorial
 
         private void TutorialShopMorningDay1Part1()
         {
+            _outlineToActivate[0].transform.parent.gameObject.SetActive(true);
             _outlineToActivate[0].SetActive(true);
             scriptableEvent1.OnEvent += TutorialShopMorningDay1Part2;
             FindFirstObjectByType<QuestBoard>().LoadQuestBoard();
@@ -104,6 +114,12 @@ namespace MoonlitMixes.Tutorial
             scriptableEvent2.OnEvent -= TutorialForestPart2;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
             _tutorialSaveInfo.tutorialForestDone = true;
+        }
+
+        private void TutorialPreCavePart1()
+        {
+            _tutorialSaveInfo.tutorialPreCaveDone = true;
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[4]);
         }
 
         private void TutorialLabo()
