@@ -12,19 +12,19 @@ namespace MoonlitMixes.Inventory
     public class InventoryUI : MonoBehaviour
     {
         public GameObject FirstSelected { get; private set; }
-        
+
         [SerializeField] private ItemData _emptyItem;
         public ItemData EmptyData => _emptyItem;
-        
+
         private int _emptySlot;
         public int EmptySlot => _emptySlot;
-        
+
         [SerializeField] private InventoryData _inventory;
         [SerializeField] private List<InventoryData> _inventoryExtensionList;
         [SerializeField] private InventoryData _inventoryReceives;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Vector3 _scaleItem;
-        
+
         private void OnEnable()
         {
             RefreshInventory();
@@ -36,12 +36,13 @@ namespace MoonlitMixes.Inventory
             {
                 if (inventoryData.Items != null && inventoryData.Items.Count != 0)
                 {
-                    foreach (ItemData itemData in inventoryData.Items)
+                    for (int i = inventoryData.Items.Count - 1; i >= 0; i--)
                     {
+                        ItemData itemData = inventoryData.Items[i];
                         if (itemData.name != "Empty")
                         {
                             _inventory.Items.Add(itemData);
-                            inventoryData.Items.Remove(itemData);
+                            inventoryData.Items.RemoveAt(i);
                         }
                     }
                 }
@@ -50,16 +51,19 @@ namespace MoonlitMixes.Inventory
 
         public void RefreshInventory()
         {
+            CompactInventory(_inventory);
+            foreach (var extension in _inventoryExtensionList)
+            {
+                CompactInventory(extension);
+            }
+
             InventoryData allInventory = ScriptableObject.CreateInstance<InventoryData>();
 
             foreach (InventoryData inventoryData in _inventoryExtensionList)
             {
                 foreach (ItemData itemData in inventoryData.Items)
                 {
-                    if (itemData.name != "Empty")
-                    {
-                        allInventory.Items.Add(itemData);
-                    }
+                    allInventory.Items.Add(itemData);
                 }
             }
 
@@ -68,37 +72,32 @@ namespace MoonlitMixes.Inventory
                 allInventory.Items.Add(itemData);
             }
 
-            allInventory = SortInventory(allInventory);
-            
             _emptySlot = 0;
-            if (_inventory.name != "Inventory Cellar")
+            for (int i = 0; i < _inventory.Items.Count; i++)
             {
-                for (int i = 0; i < _inventory.Items.Count; i++)
+                if (_inventory.Items[i] == null || _inventory.Items[i].name == "Empty")
                 {
-                    if (_inventory.Items[i] == null) _inventory.Items[i] = _emptyItem;
-                    else if (_inventory.Items[i].name == "Empty")
-                    {
-                        _emptySlot++;
-                    }
+                    _emptySlot++;
                 }
             }
-            
+
             foreach (Transform childTransform in transform)
             {
                 Destroy(childTransform.gameObject);
             }
-            
+
             List<GameObject> currentItemList = new();
-            
-            foreach (ItemData currentItemData in allInventory.Items)
+
+            for (int i = 0; i < allInventory.Items.Count; i++)
             {
+                ItemData currentItemData = allInventory.Items[i];
                 GameObject itemCase = Instantiate(_slotPrefab, transform);
                 currentItemList.Add(itemCase);
-                itemCase.name = $"Slot_{currentItemList.IndexOf(itemCase)}";
+                itemCase.name = $"Slot_{i}";
 
                 GameObject item = new GameObject("Item");
                 item.transform.SetParent(itemCase.transform);
-                
+
                 item.transform.localPosition = Vector3.zero;
                 item.transform.localScale = _scaleItem;
                 item.transform.localRotation = Quaternion.identity;
@@ -112,64 +111,73 @@ namespace MoonlitMixes.Inventory
             }
 
             FirstSelected = currentItemList.FirstOrDefault();
-            if (_inventory.name != "Inventory Cellar")
+
+            while (_inventory.Items.Count < _inventory.MaxSlots)
             {
-                while (_inventory.Items.Count < _inventory.MaxSlots)
-                {
-                    _inventory.Items.Add(_emptyItem);
-                }
-                /*EventSystem.current.SetSelectedGameObject(FirstSelected);
-                EventSystem.current.firstSelectedGameObject = FirstSelected;*/
+                _inventory.Items.Add(_emptyItem);
             }
-            else StartCoroutine(SelectedButton());
+
+            if (_inventory.name == "Inventory Cellar")
+            {
+                StartCoroutine(SelectedButton());
+            }
         }
-        
+
+        private void CompactInventory(InventoryData inventory)
+        {
+            List<ItemData> compacted = inventory.Items.Where(i => i.name != "Empty").ToList();
+            int totalSlots = inventory.Items.Count;
+            inventory.Items.Clear();
+            inventory.Items.AddRange(compacted);
+            while (inventory.Items.Count < totalSlots)
+            {
+                inventory.Items.Add(_emptyItem);
+            }
+        }
+
         public IEnumerator SelectedButton()
         {
             yield return new WaitForSeconds(0.1f);
             EventSystem.current.SetSelectedGameObject(FirstSelected);
             EventSystem.current.firstSelectedGameObject = FirstSelected;
         }
-        
+
         public void AddItem(ItemData item)
         {
             if (item == null)
             {
-                Debug.LogWarning("L'item � ajouter est nul !");
+                Debug.LogWarning("L'item à ajouter est nul !");
                 return;
             }
 
-            for(int i = 0; i < _inventory.Items.Count; i++)
+            for (int i = 0; i < _inventory.Items.Count; i++)
             {
-                if (item.name == "Empty")
-                {
-                    break;
-                }
-                
-                if (_inventory.Items[i].name == "Empty" )
+                if (item.name == "Empty") break;
+                if (_inventory.Items[i].name == "Empty")
                 {
                     _inventory.Items[i] = item;
                     break;
                 }
             }
-            
+
             RefreshInventory();
-            Debug.Log($"{item.name} ajout� avec succ�s !");
+            Debug.Log($"{item.name} ajouté avec succès !");
         }
 
         public void RemoveItem(ItemData item)
         {
             if (item == null)
             {
-                Debug.LogWarning("L'item � supprimer est nul !");
+                Debug.LogWarning("L'item à supprimer est nul !");
                 return;
             }
 
             if (_inventory.Items.Contains(item))
             {
-                _inventory.Items.Remove(item);
+                int index = _inventory.Items.IndexOf(item);
+                _inventory.Items[index] = _emptyItem;
                 RefreshInventory();
-                Debug.Log($"{item.name} d�truit avec succ�s !");
+                Debug.Log($"{item.name} détruit avec succès !");
             }
             else
             {
@@ -180,9 +188,8 @@ namespace MoonlitMixes.Inventory
         private InventoryData SortInventory(InventoryData inventory)
         {
             inventory.Items = inventory.Items.OrderBy(item => item.Type)
-                                                    .ThenBy(item => item.Rarity)
-                                                    .ToList();
-
+                                             .ThenBy(item => item.Rarity)
+                                             .ToList();
             return inventory;
         }
 
@@ -200,15 +207,9 @@ namespace MoonlitMixes.Inventory
                 for (int i = _inventory.Items.Count - 1; i >= 0; i--)
                 {
                     ItemData item = _inventory.Items[i];
-                    int emptyInventoryR = 0;
-                    for (int j = 0; j < _inventoryReceives.Items.Count; j++)
-                    {
-                        if (_inventoryReceives.Items[j].name == "Empty")
-                        {
-                            emptyInventoryR++;
-                        }
-                    }
-                    if (emptyInventoryR>= _inventory.Items.Count - _emptySlot)
+                    int emptyInventoryR = _inventoryReceives.Items.Count(it => it.name == "Empty");
+
+                    if (emptyInventoryR >= _inventory.Items.Count - _emptySlot)
                     {
                         if (item.name != "Empty")
                         {
@@ -222,16 +223,12 @@ namespace MoonlitMixes.Inventory
                                 }
                             }
                             RefreshInventory();
-
-                            Debug.Log("Envoie des items dans l'inventaire destin�");
+                            Debug.Log("Envoie des items dans l'inventaire destiné");
                         }
-                        
                     }
                     else
                     {
-                        Debug.Log(emptyInventoryR);
-                        Debug.Log(_inventory.Items.Count - _emptySlot);
-                        Debug.LogWarning("L'inventaire destin� est plein");
+                        Debug.LogWarning("L'inventaire destiné est plein");
                         break;
                     }
                 }
@@ -240,6 +237,7 @@ namespace MoonlitMixes.Inventory
             {
                 Debug.LogError($"Error SendItems in InventoryUI : {error.Message}");
             }
+
             RefreshInventory();
         }
     }
