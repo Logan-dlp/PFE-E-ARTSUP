@@ -61,6 +61,10 @@ namespace MoonlitMixes.Tutorial
                     }
                     break;
                 default:
+                    if (!_tutorialSaveInfo.tutorialCaveDone)
+                    {
+                        TutorialCavePart1();
+                    }
                     break;
             }
         }
@@ -160,6 +164,21 @@ namespace MoonlitMixes.Tutorial
                 DialogueController.Instance.StartDialogue(dialogueDatasArray[2]);
             }
 
+        }
+
+        private void TutorialCavePart1()
+        {
+            scriptableEvent1.OnEvent += TutorialCavePart2;
+            _outlineToActivate[0].SetActive(true);
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
+            _outlineToActivate[0].GetComponentInParent<PickUpTool>().canToolPickedUp = true;
+        }
+
+        private void TutorialCavePart2()
+        {
+            scriptableEvent1.OnEvent -= TutorialCavePart2;
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
+            _tutorialSaveInfo.tutorialCaveDone = true;
         }
     }
 }
