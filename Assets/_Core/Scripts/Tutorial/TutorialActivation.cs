@@ -1,4 +1,5 @@
 using System;
+using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Datas;
 using MoonlitMixes.Dialogue;
 using MoonlitMixes.Events;
@@ -19,6 +20,7 @@ namespace MoonlitMixes.Tutorial
 
         [SerializeField] private DialogueData[] dialogueDatasArray;
         [SerializeField] private GameObject[] _outlineToActivate;
+        [SerializeField] private MoneyData _moneyData;
 
         private void Start()
         {
@@ -27,7 +29,7 @@ namespace MoonlitMixes.Tutorial
                 case EnumScene.ShopMorning:
                     if (!_tutorialSaveInfo.tutorialHubDone && _lastSceneNameData.sceneName == "S_TitleScreen")
                     {
-                        TutorialShopMorningPart1();
+                        TutorialShopMorningDay1Part1();
                     }
                     break;
                 case EnumScene.Forest:
@@ -38,30 +40,36 @@ namespace MoonlitMixes.Tutorial
                     break;
                 case EnumScene.Labo:
                     break;
+                case EnumScene.ShopTwilight:
+                    if (!_tutorialSaveInfo.tutorialShopNightDone)
+                    {
+                        TutorialShopTwilightPart1();
+                    }
+                    break;
                 default:
                     break;
             }
         }
 
-        private void TutorialShopMorningPart1()
+        private void TutorialShopMorningDay1Part1()
         {
-            scriptableEvent1.OnEvent += TutorialShopMorningPart2;
+            scriptableEvent1.OnEvent += TutorialShopMorningDay1Part2;
             FindFirstObjectByType<QuestBoard>().LoadQuestBoard();
             DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
         }
 
-        private void TutorialShopMorningPart2()
+        private void TutorialShopMorningDay1Part2()
         {
-            scriptableEvent1.OnEvent -= TutorialShopMorningPart2;
-            scriptableEvent2.OnEvent += TutorialShopMorningPart3;
+            scriptableEvent1.OnEvent -= TutorialShopMorningDay1Part2;
+            scriptableEvent2.OnEvent += TutorialShopMorningDay1Part3;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
             _outlineToActivate[1].GetComponentInParent<PickUpTool>().canToolPickedUp = true;
             _outlineToActivate[1].SetActive(true);
         }
 
-        private void TutorialShopMorningPart3()
+        private void TutorialShopMorningDay1Part3()
         {
-            scriptableEvent2.OnEvent -= TutorialShopMorningPart3;
+            scriptableEvent2.OnEvent -= TutorialShopMorningDay1Part3;
             QuestBoard._hasQuestBeenSendToday = true;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[2]);
             _tutorialSaveInfo.tutorialShopMorningDone = true;
@@ -88,10 +96,40 @@ namespace MoonlitMixes.Tutorial
         {
 
         }
-        
-        private void TutorialShopTwilight()
+
+        private void TutorialShopTwilightPart1()
         {
-            
+            _outlineToActivate[0].SetActive(true);
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
+        }
+
+        public void TutorialShopTwilightPart2()
+        {
+            _tutorialSaveInfo.tutorialShopNightDone = true;
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
+            scriptableEvent1.OnEvent += TutorialShopTwilightPart3;
+        }
+
+        private void TutorialShopTwilightPart3()
+        {
+            _outlineToActivate[0].SetActive(false);
+            scriptableEvent1.OnEvent -= TutorialShopTwilightPart3;
+            FindFirstObjectByType<CloseOrOpenShop>().OnToggleShop();
+        }
+
+        public void TutorialShopTwilightPart4()
+        {
+            _outlineToActivate[1].SetActive(true);
+
+            if (_moneyData.money < 120)
+            {
+                DialogueController.Instance.StartDialogue(dialogueDatasArray[3]);
+            }
+            else
+            {
+                DialogueController.Instance.StartDialogue(dialogueDatasArray[2]);
+            }
+
         }
     }
 }
