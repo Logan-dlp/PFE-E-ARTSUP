@@ -7,7 +7,7 @@ namespace MoonlitMixes.Tutorial
     {
         public bool tutorialShopMorningDone;
         public bool tutorialShopMorningPostForestDone;
-        public bool tutorialHubDone;
+        public bool tutorialCaveDone;
         public bool tutorialForestDone;
         public bool tutorialPreCaveDone;
         public bool tutorialLabDone;
