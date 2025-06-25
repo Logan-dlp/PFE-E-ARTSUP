@@ -52,7 +52,8 @@ namespace MoonlitMixes.Inventory
         }
         public void Submit()
         {
-            if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<ItemDataHolder>().name=="Empty")
+            Debug.Log("Empty");
+            if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<ItemDataHolder>().ItemData.ObjectName!="Empty")
             {
                 _canDiscard = true;
                 _validationDiscard.SetActive(true);

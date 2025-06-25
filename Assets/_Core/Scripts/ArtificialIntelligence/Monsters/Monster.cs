@@ -173,8 +173,7 @@ namespace MoonlitMixes.AI
         {
             if (_havePlayer)
             {
-                if (sound.IsNull) { Debug.LogWarning("son = null"); return; }
-                Debug.Log("play the sound" + sound);
+                if (sound.IsNull) {  return; }
                 RuntimeManager.PlayOneShot(sound, transform.position);
             }
         }
