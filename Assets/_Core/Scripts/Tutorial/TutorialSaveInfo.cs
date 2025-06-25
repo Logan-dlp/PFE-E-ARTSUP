@@ -6,6 +6,7 @@ namespace MoonlitMixes.Tutorial
     public class TutorialSaveInfo : ScriptableObject
     {
         public bool tutorialShopMorningDone;
+        public bool tutorialShopMorningPostForestDone;
         public bool tutorialHubDone;
         public bool tutorialForestDone;
         public bool tutorialLabDone;

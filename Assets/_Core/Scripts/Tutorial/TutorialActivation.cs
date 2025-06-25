@@ -1,6 +1,7 @@
 using System;
 using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Datas;
+using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Dialogue;
 using MoonlitMixes.Events;
 using MoonlitMixes.ExplorationTools;
@@ -27,13 +28,17 @@ namespace MoonlitMixes.Tutorial
             switch (enumScene)
             {
                 case EnumScene.ShopMorning:
-                    if (!_tutorialSaveInfo.tutorialHubDone && _lastSceneNameData.sceneName == "S_TitleScreen")
+                    if (!_tutorialSaveInfo.tutorialShopMorningDone && _lastSceneNameData.sceneName == "S_TitleScreen")
                     {
                         TutorialShopMorningDay1Part1();
                     }
+                    else if (!_tutorialSaveInfo.tutorialShopMorningPostForestDone && _dayNightCycleInfo.ActualTimePhase == (int)EnumDayPhase.Afternoon)
+                    {
+                        TutorialShopMorningDay1Part4();
+                    }
                     break;
                 case EnumScene.Forest:
-                    if (!_tutorialSaveInfo.tutorialHubDone)
+                    if (!_tutorialSaveInfo.tutorialForestDone)
                     {
                         TutorialForestPart1();
                     }
@@ -53,6 +58,7 @@ namespace MoonlitMixes.Tutorial
 
         private void TutorialShopMorningDay1Part1()
         {
+            _outlineToActivate[0].SetActive(true);
             scriptableEvent1.OnEvent += TutorialShopMorningDay1Part2;
             FindFirstObjectByType<QuestBoard>().LoadQuestBoard();
             DialogueController.Instance.StartDialogue(dialogueDatasArray[0]);
@@ -60,6 +66,7 @@ namespace MoonlitMixes.Tutorial
 
         private void TutorialShopMorningDay1Part2()
         {
+            _outlineToActivate[0].SetActive(false);
             scriptableEvent1.OnEvent -= TutorialShopMorningDay1Part2;
             scriptableEvent2.OnEvent += TutorialShopMorningDay1Part3;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[1]);
@@ -73,6 +80,13 @@ namespace MoonlitMixes.Tutorial
             QuestBoard._hasQuestBeenSendToday = true;
             DialogueController.Instance.StartDialogue(dialogueDatasArray[2]);
             _tutorialSaveInfo.tutorialShopMorningDone = true;
+        }
+
+        private void TutorialShopMorningDay1Part4()
+        {
+            _outlineToActivate[2].SetActive(true);
+            DialogueController.Instance.StartDialogue(dialogueDatasArray[3]);
+            _tutorialSaveInfo.tutorialShopMorningPostForestDone = true;
         }
 
         private void TutorialForestPart1()

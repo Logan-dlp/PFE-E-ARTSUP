@@ -35,6 +35,8 @@ namespace MoonlitMixes.AI
         [SerializeField] private EventReference _soundMoveWillowraith;
         [SerializeField] private EventReference _soundDeathSmallEnemy;
         [SerializeField] private EventReference _soundDeathBigEnemy;
+
+        //[SerializeField] private GameObject _itemDrop;
         
         private GameObject _playerReference;
         private IMonsterState _currentMonsterState;
@@ -87,7 +89,10 @@ namespace MoonlitMixes.AI
             if (Vector3.Distance(this.transform.position, _playerReference.transform.position) < 13) _havePlayer = true;
             else _havePlayer = false;
         }
-        
+        public void DropItem(GameObject item)
+        {
+            Instantiate(item, this.transform.position, Quaternion.identity);
+        }
         private void TransitionTo(IMonsterState nextMonsterState)
         {
             _currentMonsterState?.Exit(_monsterData);
@@ -137,7 +142,8 @@ namespace MoonlitMixes.AI
             if (_enemyHealth._currentHealth <= 0)
             {
                 _animator.SetTrigger("Death");
-                player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
+                //Instantiate(_itemDrop,this.transform.position,Quaternion.identity);
+                //player.GetComponent<UseTools>().CollectItems(GetComponent<ItemListSource>());
             }
         }
 
