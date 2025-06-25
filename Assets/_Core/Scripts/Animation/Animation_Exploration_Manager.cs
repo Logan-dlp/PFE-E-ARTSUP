@@ -32,7 +32,7 @@ namespace MoonlitMixes.Animation
         }
         public void SetWalk(bool value)
         {
-            _animator.SetBool("Walk", value);
+            _animator.SetBool("Run", value);
         }
         public void SetRun(bool value)
         {
