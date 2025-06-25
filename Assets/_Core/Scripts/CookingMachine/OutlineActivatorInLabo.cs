@@ -29,6 +29,28 @@ namespace MoonlitMixes.DayNightCycle
                 }
             }
         }
+
+        private void Update()
+        {
+            if (_verificationChangePhase.activeInHierarchy)
+            {
+                if (_textTuto.activeInHierarchy)
+                    _textTuto.SetActive(false);
+            }
+            else
+            {
+                foreach (GameObject outline in outlinesToActivate)
+                {
+                    if (outline != null && outline.activeInHierarchy)
+                    {
+                        if (!_textTuto.activeInHierarchy)
+                            _textTuto.SetActive(true);
+                        break;
+                    }
+                }
+            }
+        }
+
         [Button]
         private void ActivateOutlines()
         {
@@ -37,6 +59,9 @@ namespace MoonlitMixes.DayNightCycle
                 if (outline != null)
                     outline.SetActive(true);
             }
+
+            if (_textTuto != null)
+                _textTuto.SetActive(true);
         }
 
         public void DeactivateOutlines()
@@ -46,7 +71,11 @@ namespace MoonlitMixes.DayNightCycle
                 if (outline != null)
                     outline.SetActive(false);
             }
+
+            if (_textTuto != null)
+                _textTuto.SetActive(false);
         }
+
         public void ActivateCauldrons()
         {
             if (_verificationChangePhase.activeInHierarchy)
@@ -58,8 +87,8 @@ namespace MoonlitMixes.DayNightCycle
                 _textTuto.SetActive(false);
                 DeactivateOutlines();
             }
-                
         }
+
         public void CancelCauldrons()
         {
             if (_verificationChangePhase.activeInHierarchy)
@@ -67,7 +96,7 @@ namespace MoonlitMixes.DayNightCycle
                 _verificationChangePhase.SetActive(false);
                 _playerInteraction.ActivateInput();
             }
-            else if(_changeScene.activeInHierarchy)
+            else if (_changeScene.activeInHierarchy)
             {
                 _changeScene.SetActive(false);
                 _playerInteraction.ActivateInput();
