@@ -12,33 +12,56 @@ namespace MoonlitMixes.Inventory
         [SerializeField] private InventoryData _chestInventory;
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private InventoryUI _inventoryChestUI;
+        [SerializeField] private GameObject _validationDiscard;
+        private bool _canDiscard = false;
         public InventoryUI InventoryUI { get { return _inventoryUI; } }
 
         public void DiscardBag()
         {
-            string name = EventSystem.current.currentSelectedGameObject.name;
-            bool result = char.IsDigit(name[name.Length - 1]);
-            int selected = 0;
-            if (char.IsDigit(name[name.Length - 2]) && result)
+            if( _canDiscard )
             {
+                string name = EventSystem.current.currentSelectedGameObject.name;
+                bool result = char.IsDigit(name[name.Length - 1]);
+                int selected = 0;
+                if (char.IsDigit(name[name.Length - 2]) && result)
+                {
 
-                int i = 0, y = 0;
-                i = (int)char.GetNumericValue(name, name.Length - 1);
-                y = (int)char.GetNumericValue(name, name.Length - 2);
-                y = y * 10 + i;
-                _playerInventory.Items[y] = _inventoryUI.EmptyData;
-                selected = y;
+                    int i = 0, y = 0;
+                    i = (int)char.GetNumericValue(name, name.Length - 1);
+                    y = (int)char.GetNumericValue(name, name.Length - 2);
+                    y = y * 10 + i;
+                    _playerInventory.Items[y] = _inventoryUI.EmptyData;
+                    selected = y;
+                }
+                else if (result)
+                {
+                    int i = 0;
+                    i = (int)char.GetNumericValue(name, name.Length - 1);
+                    _playerInventory.Items[i] = _inventoryUI.EmptyData;
+                    selected = i;
+                }
+                _inventoryUI.RefreshInventory();
+                StartCoroutine(SetSelectedButtonBag(selected));
+                _canDiscard = false;
+                _validationDiscard.SetActive(false);
+                EventSystem.current.sendNavigationEvents = true;
+
             }
-            else if (result) 
+        }
+        public void Submit()
+        {
+            _canDiscard = true;
+            _validationDiscard.SetActive(true);
+            EventSystem.current.sendNavigationEvents = false;
+        }
+        public void Cancel()
+        {
+            if (_canDiscard)
             {
-                int i = 0;
-                i = (int)char.GetNumericValue(name, name.Length - 1);
-                _playerInventory.Items[i] = _inventoryUI.EmptyData;
-                selected = i;
+                _canDiscard = false;
+                EventSystem.current.sendNavigationEvents = true;
+                _validationDiscard.SetActive(false);
             }
-            _inventoryUI.RefreshInventory();
-            StartCoroutine(SetSelectedButtonBag(selected));
-
         }
         private IEnumerator SetSelectedButtonBag(int i)
         {
@@ -48,27 +71,35 @@ namespace MoonlitMixes.Inventory
         }
         public void DiscardChest()
         {
-            string name = EventSystem.current.currentSelectedGameObject.name;
-            Boolean result = char.IsDigit(name[name.Length - 1]);
-            int selected = 0;
-            if (char.IsDigit(name[name.Length - 2]) && result)
+            if (_canDiscard) 
             {
-                int i = 0, y = 0;
-                i = (int)char.GetNumericValue(name, name.Length - 1);
-                y = (int)char.GetNumericValue(name, name.Length - 2);
-                y = y * 10 + i;
-                _chestInventory.Items[y] = _inventoryChestUI.EmptyData;
-                selected = y;
+                string name = EventSystem.current.currentSelectedGameObject.name;
+                Boolean result = char.IsDigit(name[name.Length - 1]);
+                int selected = 0;
+                if (char.IsDigit(name[name.Length - 2]) && result)
+                {
+                    int i = 0, y = 0;
+                    i = (int)char.GetNumericValue(name, name.Length - 1);
+                    y = (int)char.GetNumericValue(name, name.Length - 2);
+                    y = y * 10 + i;
+                    _chestInventory.Items[y] = _inventoryChestUI.EmptyData;
+                    selected = y;
+                }
+                else if (result)
+                {
+                    int i = 0;
+                    i = (int)char.GetNumericValue(name, name.Length - 1);
+                    _chestInventory.Items[i] = _inventoryChestUI.EmptyData;
+                    selected = i;
+                }
+                _inventoryChestUI.RefreshInventory();
+                StartCoroutine(SetSelectedButtonChest(selected));
+                _canDiscard = false;
+                _validationDiscard.SetActive(false);
+                EventSystem.current.sendNavigationEvents = true;
+
             }
-            else if (result) 
-            {
-                int i = 0;
-                i = (int)char.GetNumericValue(name, name.Length - 1);
-                _chestInventory.Items[i] = _inventoryChestUI.EmptyData;
-                selected = i;
-            }
-            _inventoryChestUI.RefreshInventory();
-            StartCoroutine(SetSelectedButtonChest(selected));
+
         }
         private IEnumerator SetSelectedButtonChest(int i)
         {

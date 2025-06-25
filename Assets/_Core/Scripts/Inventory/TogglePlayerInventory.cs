@@ -36,6 +36,7 @@ namespace MoonlitMixes.Inventory
             _canvaInventory.SetActive(state);
             _canvaChestInventory.SetActive(false);
             _canvaChestFullText.SetActive(false);
+            _discardInventory.Cancel();
         }
         public void Discard(InputAction.CallbackContext context)
         {
@@ -43,6 +44,13 @@ namespace MoonlitMixes.Inventory
             {
                 if (_canvaInventory.activeInHierarchy) _discardInventory.DiscardBag();
                 else _discardInventory.DiscardChest();
+            }
+        }
+        public void Submit(InputAction.CallbackContext context)
+        {
+            if (context.canceled)
+            {
+               _discardInventory.Submit();
             }
         }
     }
