@@ -12,7 +12,6 @@ namespace MoonlitMixes.Quest
         [SerializeField] private DayNightCycleInfo dayNightCycleInfo;
         [SerializeField] private QuestInfo[] questInfosArray;
         [SerializeField] private ScriptableQuestHolder scriptableQuestEvent;
-        [SerializeField] private GameObject _3DModelOutline;
         [SerializeField] private GameObject _UIIntegration;
         [SerializeField] private Collider _UItrigger;
         [SerializeField] private ScriptableBoolEvent scriptableBoolEventMenu;
@@ -20,7 +19,6 @@ namespace MoonlitMixes.Quest
         public void LoadQuestBoard()
         {
             scriptableQuestEvent.QuestInfo = null;          
-            _3DModelOutline.SetActive(true);
             _UItrigger.enabled = true;
         } 
 
@@ -30,7 +28,6 @@ namespace MoonlitMixes.Quest
             {
                 _UIIntegration.SetActive(false);
                 scriptableQuestEvent.QuestInfo = questInfosArray[dayNightCycleInfo.ActualDay];
-                _3DModelOutline.SetActive(false);
                 scriptableBoolEventMenu.SendBool(true);
                 _UItrigger.enabled = false;
             }

@@ -112,14 +112,14 @@ namespace MoonlitMixes.Tutorial
 
         private void TutorialShopTwilightPart3()
         {
+            _outlineToActivate[0].SetActive(false);
             scriptableEvent1.OnEvent -= TutorialShopTwilightPart3;
-            scriptableEvent2.OnEvent += TutorialShopTwilightPart4;
             FindFirstObjectByType<CloseOrOpenShop>().OnToggleShop();
         }
 
         public void TutorialShopTwilightPart4()
         {
-            scriptableEvent2.OnEvent -= TutorialShopTwilightPart4;
+            _outlineToActivate[1].SetActive(true);
 
             if (_moneyData.money < 120)
             {
@@ -130,7 +130,6 @@ namespace MoonlitMixes.Tutorial
                 DialogueController.Instance.StartDialogue(dialogueDatasArray[2]);
             }
 
-            _outlineToActivate[1].SetActive(false);
         }
     }
 }
