@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using MoonlitMixes.Animation;
 using NaughtyAttributes;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,6 +52,7 @@ namespace MoonlitMixes.Player
 
         private bool _isMoving = false;
         private float _footstepTimer = 0f;
+        [SerializeField] private AnimationExplorationManager _animationExplorationManager;
 
         private void Awake()
         {
@@ -89,7 +91,8 @@ namespace MoonlitMixes.Player
 
                 float currentFootstepRate = (_currentSpeed == _sprintSpeed) ? _sprintFootstepRate : _walkFootstepRate;
                 float stepInterval = 1f / currentFootstepRate;
-
+                _animationExplorationManager.SetWalk(true);
+                _animationExplorationManager.SetIdle(false);
                 if (_footstepTimer >= stepInterval)
                 {
                     _footstepTimer = 0f;
@@ -98,6 +101,8 @@ namespace MoonlitMixes.Player
             }
             else
             {
+                _animationExplorationManager.SetRun(false);
+                _animationExplorationManager.SetIdle(true);
                 _isMoving = false;
                 _footstepTimer = 0f;
             }
