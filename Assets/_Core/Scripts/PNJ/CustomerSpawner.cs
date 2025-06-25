@@ -4,6 +4,7 @@ using MoonlitMixes.Datas;
 using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Events;
 using MoonlitMixes.Player;
+using MoonlitMixes.Tutorial;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,12 +22,13 @@ namespace MoonlitMixes.AI.PNJ.Spawner
         [SerializeField] private float _timeBetweenSpawns = 2f;
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
+        [SerializeField] private ScriptableEvent _scriptableEventTuto;
 
         private readonly Dictionary<int, List<int>> _dayToPNJIndices = new Dictionary<int, List<int>>
         {
-            { 0, new List<int> { 0, 1 } },         
-            { 1, new List<int> { 2, 3, 4 } },       
-            { 2, new List<int> { 5, 6, 7, 8 } }   
+            { 0, new List<int> { 0, 1 } },
+            { 1, new List<int> { 2, 3, 4 } },
+            { 2, new List<int> { 5, 6, 7, 8 } }
         };
 
         private List<int> _currentDayPNJIndices;
@@ -48,7 +50,7 @@ namespace MoonlitMixes.AI.PNJ.Spawner
             }
             else
             {
-                Debug.LogWarning($"Aucun PNJ assigné pour le jour {currentDay}");
+                Debug.LogWarning($"Aucun PNJ assignï¿½ pour le jour {currentDay}");
                 NotifyAllCustomersGone();
             }
         }
@@ -108,6 +110,11 @@ namespace MoonlitMixes.AI.PNJ.Spawner
 
         private void NotifyAllCustomersGone()
         {
+            if (_scriptableEventTuto != null)
+            {
+                FindFirstObjectByType<TutorialActivation>().TutorialShopTwilightPart4();
+            }
+
             _playerMovement.BlockMovement(false);
             FindFirstObjectByType<ChangeUITimePhase>().IncreaseTimePhase();
             _isSpawning = false;

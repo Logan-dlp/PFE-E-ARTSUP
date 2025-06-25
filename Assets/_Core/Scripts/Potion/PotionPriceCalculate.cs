@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using MoonlitMixes.Datas;
 
 namespace MoonlitMixes.Potion
 {
@@ -15,6 +16,9 @@ namespace MoonlitMixes.Potion
         [SerializeField] private int _day1NeededMoney = 120;
         [SerializeField] private int _day2NeededMoney = 220;
         [SerializeField] private int _day3NeededMoney = 415;
+
+        [SerializeField] private MoneyData _moneyData;
+
         private int _day1Money;
         private int _day2Money;
         private int _day3Money;
@@ -51,6 +55,7 @@ namespace MoonlitMixes.Potion
                 Debug.Log($"Prix calcul� avec multiplicateur {multiplier}: {calculatedPrice}, Total accumul�: {totalPotionPrice}");
             }
 
+            _moneyData.money = totalPotionPrice;
             // Toujours mettre � jour l'UI, m�me si basePrice est 0
             UpdateTotalPriceUI();
             _isLoanRefunded = VerficationLoan();
