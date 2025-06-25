@@ -6,5 +6,6 @@ namespace MoonlitMixes.Tutorial
         Forest,
         Labo,
         ShopTwilight,
+        Cave,
     }
 }
