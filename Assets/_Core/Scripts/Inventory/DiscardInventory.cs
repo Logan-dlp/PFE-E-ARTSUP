@@ -38,7 +38,7 @@ namespace MoonlitMixes.Inventory
             }
             _inventoryUI.RefreshInventory();
             StartCoroutine(SetSelectedButtonBag(selected));
-
+            if(GetComponent<UseTools>().BagIsFull.activeInHierarchy) GetComponent<UseTools>().BagIsFull.SetActive(false);
         }
         private IEnumerator SetSelectedButtonBag(int i)
         {
