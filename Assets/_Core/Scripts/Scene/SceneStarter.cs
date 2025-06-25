@@ -11,9 +11,16 @@ namespace MoonlitMixes.Scene
         [SerializeField] private Image _transitionBG;
         [SerializeField] private Image _transitionGIF;
         [SerializeField] private LastSceneNameData _lastSceneNameData;
+        [SerializeField] private Button _sceneChangeButton;
+
+        private bool _isChangingScene = false;
 
         public void ChangeScene(string sceneName)
         {
+            if (_isChangingScene) return;
+            _isChangingScene = true;
+            _sceneChangeButton.interactable = false;
+            Debug.Log("Scene change requested to: " + sceneName);
             _lastSceneNameData.sceneName = SceneManager.GetActiveScene().name;
             SceneLoader.LoadAsyncScene(sceneName, _animator);
         }
