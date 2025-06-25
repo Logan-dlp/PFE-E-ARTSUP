@@ -40,7 +40,7 @@ namespace MoonlitMixes.DayNightCycle
         }
 
         [ContextMenu("IncreaseTimePhase")]
-        private void IncreaseTimePhase()
+        public void IncreaseTimePhase()
         {
             if (_dayNightCycleInfo.ActualTimePhase == 3)
             {
@@ -54,7 +54,7 @@ namespace MoonlitMixes.DayNightCycle
         }
 
         [ContextMenu("IncreaseDay")]
-        private void IncreaseDay()
+        public void IncreaseDay()
         {
             _dayNightCycleInfo.ActualTimePhase = 0;
             _dayNightCycleInfo.ActualDay++;

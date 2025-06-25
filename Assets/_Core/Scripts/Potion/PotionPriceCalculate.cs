@@ -8,6 +8,7 @@ namespace MoonlitMixes.Potion
         public int SelectedPotionPrice { get; private set; }
 
         [SerializeField] private TextMeshProUGUI totalPriceText;
+        [SerializeField] private GameObject activateOnFirstDisplay;
         [SerializeField] private int totalPotionPrice = 0;
         [SerializeField] private bool _isLoanRefunded = false;
         [SerializeField] private int _loanPrice = 600;
@@ -25,11 +26,12 @@ namespace MoonlitMixes.Potion
         public int Day2Money => _day2Money;
         public int Day3Money => _day3Money;
         public bool IsLoanRefunded =>_isLoanRefunded;
+        private bool hasDisplayedPrice = false;
 
         public void SetSelectedPotionPrice(int price)
         {
             SelectedPotionPrice = price;
-            Debug.Log($"SelectedPotionPrice mis à jour: {SelectedPotionPrice}");
+            Debug.Log($"SelectedPotionPrice mis ï¿½ jour: {SelectedPotionPrice}");
         }
 
         public void CalculatePotionPrice(int basePrice, int failedAttempts)
@@ -38,7 +40,7 @@ namespace MoonlitMixes.Potion
 
             if (basePrice <= 0)
             {
-                Debug.Log("Aucune potion ou prix. Le prix est à 0.");
+                Debug.Log("Aucune potion ou prix. Le prix est ï¿½ 0.");
             }
             else
             {
@@ -46,10 +48,10 @@ namespace MoonlitMixes.Potion
                 calculatedPrice = Mathf.FloorToInt(basePrice * multiplier);
                 totalPotionPrice += calculatedPrice;
 
-                Debug.Log($"Prix calculé avec multiplicateur {multiplier}: {calculatedPrice}, Total accumulé: {totalPotionPrice}");
+                Debug.Log($"Prix calculï¿½ avec multiplicateur {multiplier}: {calculatedPrice}, Total accumulï¿½: {totalPotionPrice}");
             }
 
-            // Toujours mettre à jour l'UI, même si basePrice est 0
+            // Toujours mettre ï¿½ jour l'UI, mï¿½me si basePrice est 0
             UpdateTotalPriceUI();
             _isLoanRefunded = VerficationLoan();
         }
@@ -69,7 +71,7 @@ namespace MoonlitMixes.Potion
                     _day3Money = totalPotionPrice - (_day1Money+_day2Money);
                     break;
                 default:
-                    Debug.LogWarning("Mauvaise valeure de jour envoyé");
+                    Debug.LogWarning("Mauvaise valeure de jour envoyï¿½");
                     break; 
             }
         }
@@ -78,6 +80,15 @@ namespace MoonlitMixes.Potion
             if (totalPriceText != null)
             {
                 totalPriceText.text = $"Total: {totalPotionPrice} / {_loanPrice}";
+
+                if (!hasDisplayedPrice)
+                {
+                    hasDisplayedPrice = true;
+                    if (activateOnFirstDisplay != null)
+                    {
+                        activateOnFirstDisplay.SetActive(true);
+                    }
+                }
             }
         }
         private float GetMultiplier(int failedAttempts)
