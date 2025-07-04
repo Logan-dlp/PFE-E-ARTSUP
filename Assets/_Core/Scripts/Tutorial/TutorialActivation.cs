@@ -1,4 +1,3 @@
-using System;
 using MoonlitMixes.AI.PNJ;
 using MoonlitMixes.Datas;
 using MoonlitMixes.DayNightCycle;
@@ -6,8 +5,8 @@ using MoonlitMixes.Dialogue;
 using MoonlitMixes.Events;
 using MoonlitMixes.ExplorationTools;
 using MoonlitMixes.Quest;
-using MoonlitMixes.Scene;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MoonlitMixes.Tutorial
 {
@@ -26,6 +25,11 @@ namespace MoonlitMixes.Tutorial
 
         private void Start()
         {
+            if (_lastSceneNameData.sceneName == "S_TitleScreen")
+            {
+                ResetTutorialSaveInfo();
+            }
+
             switch (enumScene)
             {
                 case EnumScene.ShopMorning:
@@ -67,6 +71,17 @@ namespace MoonlitMixes.Tutorial
                     }
                     break;
             }
+        }
+
+        private void ResetTutorialSaveInfo()
+        {
+            _tutorialSaveInfo.tutorialShopMorningDone = false;
+            _tutorialSaveInfo.tutorialShopMorningPostForestDone = false;
+            _tutorialSaveInfo.tutorialCaveDone = false;
+            _tutorialSaveInfo.tutorialForestDone = false;
+            _tutorialSaveInfo.tutorialPreCaveDone = false;
+            _tutorialSaveInfo.tutorialLabDone = false;
+            _tutorialSaveInfo.tutorialShopNightDone = false;
         }
 
         private void TutorialShopMorningDay1Part1()
@@ -163,7 +178,6 @@ namespace MoonlitMixes.Tutorial
             {
                 DialogueController.Instance.StartDialogue(dialogueDatasArray[2]);
             }
-
         }
 
         private void TutorialCavePart1()
