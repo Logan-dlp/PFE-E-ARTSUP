@@ -1,8 +1,9 @@
 using UnityEngine;
+using System;
 
 namespace MoonlitMixes.ExplorationTools
 {
-    public class TreeHealth : MonoBehaviour
+    public class TreeHealth : MonoBehaviour, IDamageable
     {
         [Header("Number of times the bark can be recovered")]
         [SerializeField] private int _maxHits = 2;
@@ -11,24 +12,24 @@ namespace MoonlitMixes.ExplorationTools
         [Header("Object to deactivate when the tree is cut")]
         [SerializeField] private GameObject _desativeObject;
 
-        public bool CanChop()
-        {
-            return _currentHits < _maxHits;
-        }
+        public event Action OnBecameUnusable;
+
+        public bool CanChop() => _currentHits < _maxHits;
+
+        public bool CanInteract() => CanChop();
 
         public void Chop()
         {
-            if (CanChop())
-            {
-                _currentHits++;
+            if (!CanChop()) return;
 
-                if (_currentHits >= _maxHits)
-                {
-                    if (_desativeObject != null)
-                    {
-                        _desativeObject.SetActive(false);
-                    }
-                }
+            _currentHits++;
+
+            if (_currentHits >= _maxHits)
+            {
+                if (_desativeObject != null)
+                    _desativeObject.SetActive(false);
+
+                OnBecameUnusable?.Invoke();
             }
         }
     }
