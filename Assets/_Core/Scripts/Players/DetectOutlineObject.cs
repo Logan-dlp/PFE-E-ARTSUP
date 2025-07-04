@@ -1,4 +1,5 @@
 ﻿using MoonlitMixes.CookingMachine;
+using MoonlitMixes.DayNightCycle;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Player;
 using MoonlitMixes.Scene;
@@ -52,7 +53,7 @@ public class DetectOutlineObject : MonoBehaviour
     {
         if (other.CompareTag("OutlineObj"))
         {
-            if (other.TryGetComponent<CauldronMixing>(out CauldronMixing cauldronMixing))
+            if (other.TryGetComponent<CauldronMixing>(out CauldronMixing cauldronMixing) /*&& OutlineActivatorInLabo.hasActivatedInLabo*/)
             {
                 int i = (int)char.GetNumericValue(other.name, other.name.Length - 1);
                 _playerHoldItem.DeactivateOutline(_playerHoldItem.CauldronsOutline[i - 1]);

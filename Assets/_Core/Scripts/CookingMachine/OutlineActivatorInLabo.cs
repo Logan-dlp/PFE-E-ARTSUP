@@ -16,7 +16,7 @@ namespace MoonlitMixes.DayNightCycle
         [SerializeField] private PlayerInteraction _playerInteraction;
         [SerializeField] private GameObject _changeScene;
 
-        private static bool hasActivatedInLabo = false;
+        public static bool hasActivatedInLabo = false;
 
         private void Start()
         {

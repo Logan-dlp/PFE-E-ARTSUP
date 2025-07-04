@@ -25,7 +25,7 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapQTE;
         [SerializeField] private string _actionMapWaitingTable;
         [SerializeField] private string _actionMapUI;
-        [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
+        //[SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
         [SerializeField] private GameObject _verificationChangePhase;
 
         private InventoryStoragePotion _inventoryStoragePotion;
@@ -50,7 +50,6 @@ namespace MoonlitMixes.Player
             _animationPotionManager = GetComponent<AnimationPotionManager>();
             _inventoryStoragePotion = FindFirstObjectByType<InventoryStoragePotion>();
             _labAudioEvents = GetComponent<PlayerLabAudioEvents>();
-            inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
         }
 
         private void Update()
@@ -234,35 +233,22 @@ namespace MoonlitMixes.Player
                     {
                         if (hit.transform.TryGetComponent(out InventoryStoragePotion inventory))
                         {
-                            if(!_canInteract)
-                            {
-                                inputSystemUIInputModule.submit = null;
-
-                            }
-                            else
-                            {
-                                inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
-                            }
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
                             _animationPotionManager.OpenInventory();
                             _labAudioEvents?.PlayCellarOpenSound(); // Son d’ouverture du cellier
-                            return;
                         }
                         else if (hit.transform.TryGetComponent(out WaitingTable waitingTable))
                         {
                             InputManager.Instance.SwitchActionMap(_actionMapWaitingTable);
                             waitingTable.StartHighlight();
-                            return;
                         }
                         else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                         {
-                            inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
                             doorSceneChange.OpenCanvas();
                             InputManager.Instance.SwitchActionMap(_actionMapChangeScene);
 
                             _labAudioEvents?.PlayTrapdoorUseSound(); // Son de trappe
-                            return;
                         }
                         else if (hit.transform.TryGetComponent(out CauldronMixing cauldronMixing))
                         {
@@ -270,15 +256,7 @@ namespace MoonlitMixes.Player
                             {
                                 _verificationChangePhase.SetActive(true);
                                 InputManager.Instance.SwitchActionMap(_actionMapUI);
-                                inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
-
                             }
-                            else
-                            {
-                                inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
-
-                            }
-                            return;
                         }
                     }
                 }

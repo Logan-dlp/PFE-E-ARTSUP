@@ -39,7 +39,7 @@ namespace MoonlitMixes.CookingMachine
         protected void Desactivate()
         {
             _scriptableBoolEvent.BoolAction -= CheckItem;
-            _vfx.Stop();
+            if(_vfx != null) _vfx.Stop();
         }
 
         public virtual void CheckItem(bool boolValue)
@@ -56,7 +56,7 @@ namespace MoonlitMixes.CookingMachine
 
         public virtual void ConvertItem(ItemData item, PlayerInteraction player)
         {
-            _vfx.Play();
+            if(_vfx != null) _vfx.Play();
             Activate();
             _itemData = item;
             _scriptableQTEConfig.ScriptableBoolEvent = _scriptableBoolEvent;
