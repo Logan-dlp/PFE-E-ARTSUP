@@ -1,6 +1,5 @@
 ﻿using MoonlitMixes.Animation;
 using MoonlitMixes.CookingMachine;
-using MoonlitMixes.Datas;
 using MoonlitMixes.Inputs;
 using MoonlitMixes.Inventory;
 using MoonlitMixes.Item;
@@ -9,7 +8,6 @@ using MoonlitMixes.Scene;
 using MoonlitMixes.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 
 namespace MoonlitMixes.Player
@@ -28,7 +26,6 @@ namespace MoonlitMixes.Player
         [SerializeField] private string _actionMapWaitingTable;
         [SerializeField] private string _actionMapUI;
         [SerializeField] private InputSystemUIInputModule inputSystemUIInputModule;
-        [SerializeField] private InputSystemUIInputModule newInputUI;
         [SerializeField] private GameObject _verificationChangePhase;
 
         private InventoryStoragePotion _inventoryStoragePotion;
@@ -53,9 +50,7 @@ namespace MoonlitMixes.Player
             _animationPotionManager = GetComponent<AnimationPotionManager>();
             _inventoryStoragePotion = FindFirstObjectByType<InventoryStoragePotion>();
             _labAudioEvents = GetComponent<PlayerLabAudioEvents>();
-            newInputUI = new InputSystemUIInputModule();
-            //inputSystemUIInputModule.scrollWheel = inputSystemUIInputModule.submit;
-            newInputUI.submit = inputSystemUIInputModule.submit;
+            inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
         }
 
         private void Update()
@@ -246,7 +241,7 @@ namespace MoonlitMixes.Player
                             }
                             else
                             {
-                                inputSystemUIInputModule.submit = newInputUI.submit;
+                                inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
                             }
                             InputManager.Instance.SwitchActionMap(_actionMapUI);
                             inventory.OpenInventory();
@@ -262,7 +257,7 @@ namespace MoonlitMixes.Player
                         }
                         else if (hit.transform.TryGetComponent(out DoorSceneChange doorSceneChange))
                         {
-                            inputSystemUIInputModule.submit = newInputUI.submit;
+                            inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
                             doorSceneChange.OpenCanvas();
                             InputManager.Instance.SwitchActionMap(_actionMapChangeScene);
 
@@ -275,12 +270,12 @@ namespace MoonlitMixes.Player
                             {
                                 _verificationChangePhase.SetActive(true);
                                 InputManager.Instance.SwitchActionMap(_actionMapUI);
-                                inputSystemUIInputModule.submit = newInputUI.submit;
+                                inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
 
                             }
                             else
                             {
-                                inputSystemUIInputModule.submit = newInputUI.submit;
+                                inputSystemUIInputModule.submit = inputSystemUIInputModule.submit;
 
                             }
                             return;

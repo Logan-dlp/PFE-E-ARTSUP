@@ -42,5 +42,20 @@ namespace MoonlitMixes.Animation
         {
             _animator.SetTrigger("Default");
         }
+
+        public void SetIdle(bool value)
+        {
+            _animator.SetBool("Idle", value);
+        }
+
+        public void SetWalk(bool value)
+        {
+            _animator.SetBool("Run", value);
+        }
+        
+        public void SetRun(bool value)
+        {
+            _animator.SetBool("Sprint", value);
+        }
     }
 }

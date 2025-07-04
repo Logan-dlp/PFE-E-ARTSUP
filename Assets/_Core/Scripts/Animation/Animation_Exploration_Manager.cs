@@ -26,18 +26,7 @@ namespace MoonlitMixes.Animation
                 _otherRestrictingAnim = false;
             }
         }
-        public void SetIdle(bool value)
-        {
-            _animator.SetBool("Idle",value);
-        }
-        public void SetWalk(bool value)
-        {
-            _animator.SetBool("Run", value);
-        }
-        public void SetRun(bool value)
-        {
-            _animator.SetBool("Sprint", value);
-        }
+        
         public void UsePickaxe()
         {
             _animator.SetTrigger("UsePickaxe");

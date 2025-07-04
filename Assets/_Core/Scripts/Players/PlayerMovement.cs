@@ -52,7 +52,7 @@ namespace MoonlitMixes.Player
 
         private bool _isMoving = false;
         private float _footstepTimer = 0f;
-        [SerializeField] private AnimationExplorationManager _animationExplorationManager;
+        [SerializeField] private AAnimationManager _animationExplorationManager;
 
         private void Awake()
         {
@@ -101,7 +101,11 @@ namespace MoonlitMixes.Player
             }
             else
             {
-                _animationExplorationManager.SetRun(false);
+                if (_canSprint)
+                {
+                    _animationExplorationManager.SetRun(false);
+                }
+                
                 _animationExplorationManager.SetIdle(true);
                 _isMoving = false;
                 _footstepTimer = 0f;
