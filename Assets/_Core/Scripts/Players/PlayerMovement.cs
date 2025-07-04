@@ -91,7 +91,6 @@ namespace MoonlitMixes.Player
 
                 float currentFootstepRate = (_currentSpeed == _sprintSpeed) ? _sprintFootstepRate : _walkFootstepRate;
                 float stepInterval = 1f / currentFootstepRate;
-                _animationExplorationManager.SetWalk(true);
                 _animationExplorationManager.SetIdle(false);
                 if (_footstepTimer >= stepInterval)
                 {
@@ -101,11 +100,6 @@ namespace MoonlitMixes.Player
             }
             else
             {
-                if (_canSprint)
-                {
-                    _animationExplorationManager.SetRun(false);
-                }
-                
                 _animationExplorationManager.SetIdle(true);
                 _isMoving = false;
                 _footstepTimer = 0f;
