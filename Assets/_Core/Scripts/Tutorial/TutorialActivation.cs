@@ -15,6 +15,7 @@ namespace MoonlitMixes.Tutorial
         [SerializeField] private LastSceneNameData _lastSceneNameData;
         [SerializeField] private DayNightCycleInfo _dayNightCycleInfo;
         [SerializeField] private TutorialSaveInfo _tutorialSaveInfo;
+        [SerializeField] private ToolAcquired _toolAcquired;
         [SerializeField] private EnumScene enumScene;
         [SerializeField] private ScriptableEvent scriptableEvent1;
         [SerializeField] private ScriptableEvent scriptableEvent2;
@@ -82,6 +83,8 @@ namespace MoonlitMixes.Tutorial
             _tutorialSaveInfo.tutorialPreCaveDone = false;
             _tutorialSaveInfo.tutorialLabDone = false;
             _tutorialSaveInfo.tutorialShopNightDone = false;
+
+            _toolAcquired.toolAcquiredArray.Clear();
         }
 
         private void TutorialShopMorningDay1Part1()

@@ -309109,13 +309109,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009832170}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 24.92, y: 0.96199995, z: -2.578001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 264668502}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1010454940
 GameObject:
   m_ObjectHideFlags: 0
@@ -547694,6 +547694,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Hub
       objectReference: {fileID: 0}
+    - target: {fileID: 7855766533216230340, guid: 47518d021d40184439028a69d8902db2, type: 3}
+      propertyPath: _animationExplorationManager
+      value: 
+      objectReference: {fileID: 1763847098}
     - target: {fileID: 8171506437572305494, guid: 47518d021d40184439028a69d8902db2, type: 3}
       propertyPath: m_ActionEvents.Array.data[24].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -547712,6 +547716,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6682728787243280857, guid: 47518d021d40184439028a69d8902db2, type: 3}
   m_PrefabInstance: {fileID: 1763847093}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1763847098 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7117041296449598508, guid: 47518d021d40184439028a69d8902db2, type: 3}
+  m_PrefabInstance: {fileID: 1763847093}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763847094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d3824d2aeb40847bf8fb776e592931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1763954115
 GameObject:
   m_ObjectHideFlags: 0
@@ -561383,6 +561398,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1763847094}
     - target: {fileID: 5821363631031860477, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
+      propertyPath: _spawnPositionsArray.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821363631031860477, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
       propertyPath: _spawnPositionsArray.Array.data[0].transform
       value: 
       objectReference: {fileID: 1843664578}
@@ -561391,12 +561410,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1009832171}
     - target: {fileID: 5821363631031860477, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
+      propertyPath: _spawnPositionsArray.Array.data[2].transform
+      value: 
+      objectReference: {fileID: 1009832171}
+    - target: {fileID: 5821363631031860477, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
       propertyPath: _spawnPositionsArray.Array.data[0].sceneNameLinked
       value: S_Forest
       objectReference: {fileID: 0}
     - target: {fileID: 5821363631031860477, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
       propertyPath: _spawnPositionsArray.Array.data[1].sceneNameLinked
-      value: S_Shop
+      value: S_Shop_Morning
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821363631031860477, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
+      propertyPath: _spawnPositionsArray.Array.data[2].sceneNameLinked
+      value: S_Shop_Twilight
       objectReference: {fileID: 0}
     - target: {fileID: 8602448135224740562, guid: 2ddf0cbd5b319f1468a8908baa845cd0, type: 3}
       propertyPath: m_Name
@@ -573704,13 +573731,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843664577}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.8870109, z: 0, w: 0.46174863}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 264668502}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 125, z: 0}
 --- !u!1 &1843779087
 GameObject:
   m_ObjectHideFlags: 0
