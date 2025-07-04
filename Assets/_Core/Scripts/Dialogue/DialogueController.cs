@@ -101,7 +101,8 @@ namespace MoonlitMixes.Dialogue
             DialogueLineData line = _currentDialogue.Lines[_dialogueIndex];
             int speakerIndex = line.SpeakerIndex;
 
-            // --- Gestion activation/désactivation des GameObjects selon speakerIndex ---
+            #region Gestion activation/désactivation des GameObjects selon speakerIndex
+
             if (speakerIndex == 0 || speakerIndex == 2)
             {
                 _gameObjectA.SetActive(true);
@@ -117,7 +118,7 @@ namespace MoonlitMixes.Dialogue
                 _gameObjectA.SetActive(false);
                 _gameObjectB.SetActive(false);
             }
-            // ---------------------------------------------------------------------------
+            #endregion
 
             if (speakerIndex < 0 || speakerIndex >= _textBoxes.Length)
             {
@@ -134,7 +135,7 @@ namespace MoonlitMixes.Dialogue
                 return;
             }
 
-            // Affichage des sprites du speaker
+            #region Affichage des sprites du speaker
             for (int i = 0; i < _imageSpeakers.Length; i++)
             {
                 if (i == speakerIndex)
@@ -153,6 +154,7 @@ namespace MoonlitMixes.Dialogue
                     }
                 }
             }
+            #endregion
 
             // Dim des autres
             for (int i = 0; i < _spriteSpeakerEffects.Length; i++)
