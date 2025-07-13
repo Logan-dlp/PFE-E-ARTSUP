@@ -25,7 +25,6 @@ namespace MoonlitMixes.DayNightCycle
                 if (dayNightCycleInfo.ActualTimePhase == 1)
                 {
                     ActivateOutlines();
-                    hasActivatedInLabo = true;
                 }
             }
         }
@@ -86,6 +85,7 @@ namespace MoonlitMixes.DayNightCycle
                 _playerInteraction.ActivateInput();
                 _textTuto.SetActive(false);
                 DeactivateOutlines();
+                hasActivatedInLabo = true;
             }
         }
 
