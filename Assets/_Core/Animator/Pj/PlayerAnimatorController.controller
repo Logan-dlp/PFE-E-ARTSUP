@@ -66,6 +66,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Idle
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Crush
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 70027100307994291}
   m_Solo: 0
@@ -446,6 +449,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Idle
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: HoldingIdle
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 70027100307994291}
   m_Solo: 0
@@ -477,7 +483,7 @@ AnimatorStateMachine:
     m_Position: {x: -300, y: 840, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3700758518402084857}
-    m_Position: {x: -1020, y: 520, z: 0}
+    m_Position: {x: -1180, y: 600, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1840052836154297675}
     m_Position: {x: 810, y: 550, z: 0}
@@ -489,13 +495,13 @@ AnimatorStateMachine:
     m_Position: {x: -420, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9151597551041398585}
-    m_Position: {x: -870, y: 970, z: 0}
+    m_Position: {x: -1010, y: 1020, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7152052825732732929}
     m_Position: {x: -320, y: 1200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5206924035332941572}
-    m_Position: {x: -780, y: 270, z: 0}
+    m_Position: {x: -980, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5403038075095353191}
     m_Position: {x: 810, y: 970, z: 0}
@@ -802,6 +808,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Idle
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: LongIdle
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 70027100307994291}
@@ -1281,6 +1290,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Idle
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Cut
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 70027100307994291}
