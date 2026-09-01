@@ -12,7 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -48,6 +49,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 56621272fa290104cbfd905eeab33147, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -66,6 +71,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Intensity: 1
+    - _Blend: 1
+    - _Emissive_Intensity: 0
+    - _Luminosity: 3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _grass_fade: 0.444
@@ -74,6 +83,7 @@ Material:
     - _tiling: 0.2
     m_Colors:
     - _Adjust: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
+    - _Emissive_Color: {r: 0, g: 0, b: 0, a: 0}
     - _grass_test: {r: 0.30452567, g: 0.8943396, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
@@ -89,4 +99,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 9
+  version: 10
